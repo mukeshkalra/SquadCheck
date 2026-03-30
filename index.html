@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SquadCheck — How Well Do You REALLY Know Your Team?</title>
+<meta name="description" content="The ultimate World Cup 2026 companion. 48 teams. Data-backed rankings. Quizzes. Predictions. Know every team before a ball is kicked.">
+<meta property="og:title" content="SquadCheck — World Cup 2026 Intelligence">
+<meta property="og:description" content="48 teams. Data-backed rankings. Daily quizzes. How well do you REALLY know your team?">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://squadcheck.club">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #CCFF00;
+    --lime-dim: #99CC00;
+    --dark: #0A0A0C;
+    --dark-2: #111114;
+    --dark-3: #1A1A1F;
+    --dark-4: #252530;
+    --white: #F0F0F2;
+    --gray: #8A8A96;
+    --coral: #FF6B4A;
+    --blue: #4A9EFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999;
+  }
+
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(204,255,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(204,255,0,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .glow-orb {
+    position: fixed; width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(204,255,0,0.06) 0%, transparent 70%);
+    top: -200px; right: -200px; pointer-events: none; z-index: 0;
+  }
+  .glow-orb-2 {
+    position: fixed; width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,158,255,0.04) 0%, transparent 70%);
+    bottom: -150px; left: -150px; pointer-events: none; z-index: 0;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,12,0.8);
+    border-bottom: 1px solid rgba(204,255,0,0.08);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 38px; width: auto; }
+  .logo-text { font-weight: 800; font-size: 18px; color: var(--white); letter-spacing: -0.3px; }
+  .logo-text span { color: var(--lime); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    color: var(--gray); text-decoration: none; font-size: 13px;
+    font-weight: 500; transition: color 0.2s; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .nav-links a:hover { color: var(--lime); }
+  .nav-cta {
+    background: var(--lime) !important; color: var(--dark) !important;
+    padding: 10px 22px; border-radius: 8px; font-weight: 700 !important;
+    font-size: 12px !important; letter-spacing: 1px !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(204,255,0,0.3); color: var(--dark) !important; }
+
+  .hero {
+    position: relative; z-index: 1;
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    padding: 140px 24px 80px;
+  }
+  .hero-logo {
+    width: 160px; height: auto; margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+    filter: drop-shadow(0 0 40px rgba(204,255,0,0.15));
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--dark-3); border: 1px solid var(--dark-4);
+    padding: 8px 20px; border-radius: 100px;
+    font-size: 13px; font-weight: 500; color: var(--gray);
+    margin-bottom: 32px; animation: fadeUp 0.8s ease 0.1s both;
+  }
+  .badge-dot {
+    width: 8px; height: 8px; background: var(--lime);
+    border-radius: 50%; animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, 7vw, 88px); font-weight: 900;
+    line-height: 0.95; letter-spacing: -3px; max-width: 880px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .hero h1 .highlight { color: var(--lime); }
+  .hero p {
+    font-size: clamp(16px, 2vw, 20px); color: var(--gray);
+    max-width: 540px; margin: 24px auto 0; line-height: 1.6; font-weight: 300;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .countdown-section { margin-top: 48px; animation: fadeUp 0.8s ease 0.4s both; }
+  .countdown-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
+    color: var(--gray); margin-bottom: 16px; font-weight: 500;
+  }
+  .countdown { display: flex; gap: 12px; justify-content: center; }
+  .countdown-item {
+    background: var(--dark-2); border: 1px solid var(--dark-4);
+    border-radius: 12px; padding: 18px 20px; min-width: 84px;
+    transition: border-color 0.3s;
+  }
+  .countdown-item:hover { border-color: rgba(204,255,0,0.2); }
+  .countdown-number {
+    font-family: 'DM Mono', monospace; font-size: 32px;
+    font-weight: 500; color: var(--white); line-height: 1;
+  }
+  .countdown-unit {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--gray); margin-top: 6px;
+  }
+
+  .cta-row {
+    margin-top: 44px; display: flex; gap: 14px; align-items: center;
+    flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+  .btn-primary {
+    background: var(--lime); color: var(--dark);
+    padding: 15px 32px; border-radius: 10px; font-weight: 700;
+    font-size: 14px; text-decoration: none; letter-spacing: 0.5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(204,255,0,0.25); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 15px 32px; border-radius: 10px; font-weight: 600;
+    font-size: 14px; text-decoration: none;
+    border: 1px solid var(--dark-4);
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--gray); background: var(--dark-2); }
+
+  .stats-bar {
+    position: relative; z-index: 1;
+    display: flex; justify-content: center; gap: 48px;
+    padding: 40px 24px;
+    border-top: 1px solid var(--dark-3);
+    border-bottom: 1px solid var(--dark-3);
+  }
+  .stat { text-align: center; }
+  .stat-number { font-size: 36px; font-weight: 800; color: var(--lime); letter-spacing: -1px; }
+  .stat-label { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+
+  .index-preview {
+    position: relative; z-index: 1;
+    padding: 80px 40px; max-width: 800px; margin: 0 auto;
+  }
+  .index-table {
+    width: 100%; border-collapse: collapse;
+    background: var(--dark-2); border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--dark-4);
+  }
+  .index-table thead th {
+    padding: 16px 20px; text-align: left; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 2px; color: var(--gray);
+    border-bottom: 1px solid var(--dark-4); font-weight: 600;
+  }
+  .index-table thead th:last-child { text-align: right; }
+  .index-table tbody td {
+    padding: 14px 20px; font-size: 15px; border-bottom: 1px solid var(--dark-3);
+  }
+  .index-table tbody td:last-child { text-align: right; }
+  .index-table tbody tr:last-child td { border-bottom: none; }
+  .index-table tbody tr { transition: background 0.2s; }
+  .index-table tbody tr:hover { background: var(--dark-3); }
+  .rank { color: var(--gray); font-family: 'DM Mono', monospace; font-size: 13px; }
+  .team-name { font-weight: 600; }
+  .score { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--lime); font-size: 16px; }
+  .score-bar {
+    display: inline-block; height: 4px; border-radius: 2px;
+    background: var(--lime); margin-right: 10px; vertical-align: middle; opacity: 0.5;
+  }
+  .coming-soon-row td {
+    text-align: center !important; color: var(--gray); font-size: 13px;
+    font-style: italic; padding: 20px;
+  }
+
+  .features {
+    position: relative; z-index: 1;
+    padding: 100px 40px; max-width: 1100px; margin: 0 auto;
+  }
+  .section-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
+    color: var(--lime); font-weight: 600; margin-bottom: 12px; text-align: center;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 44px); font-weight: 800; text-align: center;
+    letter-spacing: -2px; margin-bottom: 56px; line-height: 1.1;
+  }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;
+  }
+  .feature-card {
+    background: var(--dark-2); border: 1px solid var(--dark-4);
+    border-radius: 16px; padding: 32px 28px;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .feature-card:hover { border-color: rgba(204,255,0,0.15); transform: translateY(-3px); }
+  .feature-emoji { font-size: 28px; margin-bottom: 16px; display: block; }
+  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .feature-card p { font-size: 14px; color: var(--gray); line-height: 1.6; font-weight: 300; }
+
+  .ticker-section {
+    position: relative; z-index: 1; padding: 48px 0; overflow: hidden;
+    border-top: 1px solid var(--dark-3); border-bottom: 1px solid var(--dark-3);
+  }
+  .ticker-track {
+    display: flex; gap: 40px;
+    animation: tickerScroll 45s linear infinite; width: max-content;
+  }
+  .ticker-item {
+    font-size: 16px; font-weight: 600; color: var(--dark-4);
+    white-space: nowrap; letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .ticker-item:hover { color: var(--gray); }
+  @keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .email-section {
+    position: relative; z-index: 1; padding: 100px 40px; text-align: center;
+  }
+  .email-box {
+    max-width: 520px; margin: 0 auto;
+    background: var(--dark-2); border: 1px solid var(--dark-4);
+    border-radius: 20px; padding: 48px 40px;
+  }
+  .email-box h2 { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; }
+  .email-box p { color: var(--gray); font-size: 14px; margin-bottom: 28px; line-height: 1.6; font-weight: 300; }
+  .email-form { display: flex; gap: 10px; }
+  .email-form input {
+    flex: 1; padding: 14px 18px; background: var(--dark-3);
+    border: 1px solid var(--dark-4); border-radius: 10px;
+    color: var(--white); font-family: 'Outfit'; font-size: 14px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .email-form input::placeholder { color: var(--gray); opacity: 0.5; }
+  .email-form input:focus { border-color: var(--lime); }
+  .email-form button {
+    background: var(--lime); color: var(--dark); border: none;
+    padding: 14px 24px; border-radius: 10px; font-family: 'Outfit';
+    font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .email-form button:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(204,255,0,0.3); }
+  .email-note { font-size: 11px; color: var(--gray); opacity: 0.4; margin-top: 14px; }
+  .success-msg { display: none; color: var(--lime); font-weight: 600; font-size: 15px; margin-top: 16px; }
+
+  footer {
+    position: relative; z-index: 1; padding: 32px 40px;
+    text-align: center; border-top: 1px solid var(--dark-3);
+  }
+  .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
+  .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 16px; }
+  .footer-links a { color: var(--gray); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--lime); }
+  .footer-copy { font-size: 12px; color: var(--gray); opacity: 0.35; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 20px 60px; }
+    .hero-logo { width: 120px; }
+    .hero h1 { letter-spacing: -2px; }
+    .countdown { gap: 8px; }
+    .countdown-item { padding: 14px 12px; min-width: 68px; }
+    .countdown-number { font-size: 26px; }
+    .stats-bar { flex-wrap: wrap; gap: 24px; }
+    .features { padding: 60px 20px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .index-preview { padding: 40px 20px; }
+    .email-box { padding: 36px 24px; }
+    .email-form { flex-direction: column; }
+    .cta-row { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="glow-orb"></div>
+<div class="glow-orb-2"></div>
+
+<nav>
+  <a class="logo" href="#">
+    <img src="logo.png" alt="SquadCheck">
+    <div class="logo-text">Squad<span>Check</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#index">Index</a>
+    <a href="#features">Features</a>
+    <a href="https://instagram.com/squadcheck.club" target="_blank">Instagram</a>
+    <a href="#notify" class="nav-cta">Get Notified</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <img src="logo.png" alt="SquadCheck" class="hero-logo">
+  <div class="badge">
+    <span class="badge-dot"></span>
+    World Cup 2026 — Coming Soon
+  </div>
+  <h1>How well do you<br><span class="highlight">REALLY</span> know<br>your team?</h1>
+  <p>48 teams. Data-backed rankings. Daily quizzes. The scoring engine that rates every nation's World Cup chances — and lets you argue about it.</p>
+
+  <div class="countdown-section">
+    <div class="countdown-label">Kickoff in</div>
+    <div class="countdown" id="countdown">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">--</div>
+        <div class="countdown-unit">Days</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">--</div>
+        <div class="countdown-unit">Hours</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="mins">--</div>
+        <div class="countdown-unit">Mins</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="secs">--</div>
+        <div class="countdown-unit">Secs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="https://instagram.com/squadcheck.club" target="_blank" class="btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      Follow @squadcheck.club
+    </a>
+    <a href="#notify" class="btn-secondary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notify me at launch
+    </a>
+  </div>
+</section>
+
+<div class="stats-bar fade-in">
+  <div class="stat"><div class="stat-number">48</div><div class="stat-label">Teams Ranked</div></div>
+  <div class="stat"><div class="stat-number">100+</div><div class="stat-label">Data Points</div></div>
+  <div class="stat"><div class="stat-number">6</div><div class="stat-label">Score Factors</div></div>
+  <div class="stat"><div class="stat-number" id="stat-days">73</div><div class="stat-label">Days to Kickoff</div></div>
+</div>
+
+<section class="index-preview fade-in" id="index">
+  <div class="section-label">The Readiness Index</div>
+  <h2 class="section-title" style="margin-bottom: 32px;">Which teams are<br><span style="color:var(--lime)">World Cup ready?</span></h2>
+  <table class="index-table">
+    <thead><tr><th>#</th><th>Team</th><th style="text-align:right">Score</th></tr></thead>
+    <tbody>
+      <tr><td class="rank">1</td><td class="team-name">Argentina</td><td><span class="score-bar" style="width:88px"></span><span class="score">88</span></td></tr>
+      <tr><td class="rank">2</td><td class="team-name">France</td><td><span class="score-bar" style="width:85px"></span><span class="score">85</span></td></tr>
+      <tr><td class="rank">3</td><td class="team-name">England</td><td><span class="score-bar" style="width:82px"></span><span class="score">82</span></td></tr>
+      <tr><td class="rank">4</td><td class="team-name">Brazil</td><td><span class="score-bar" style="width:80px"></span><span class="score">80</span></td></tr>
+      <tr><td class="rank">5</td><td class="team-name">Spain</td><td><span class="score-bar" style="width:79px"></span><span class="score">79</span></td></tr>
+      <tr class="coming-soon-row"><td colspan="3">Full rankings for all 48 teams coming soon...</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="features" id="features">
+  <div class="section-label fade-in">What's coming</div>
+  <h2 class="section-title fade-in">Everything you need to<br>own the World Cup</h2>
+  <div class="features-grid">
+    <div class="feature-card fade-in"><span class="feature-emoji">📊</span><h3>Readiness Index</h3><p>Every team scored 0-100 based on real player performance, squad depth, form, and pedigree. Transparent. Debatable. Updated weekly.</p></div>
+    <div class="feature-card fade-in"><span class="feature-emoji">🧠</span><h3>Daily Quizzes</h3><p>Guess the goal. Name the player. Test your World Cup IQ. Shareable score cards that make your friends jealous.</p></div>
+    <div class="feature-card fade-in"><span class="feature-emoji">🌍</span><h3>48 Team Deep Dives</h3><p>Every team gets equal coverage. History, playstyle, rising stars, qualification journey. No team left behind.</p></div>
+    <div class="feature-card fade-in"><span class="feature-emoji">🔥</span><h3>Hot Takes & Debates</h3><p>France is only #4. Japan's midfield is better than England's. Data-backed opinions designed to start arguments.</p></div>
+    <div class="feature-card fade-in"><span class="feature-emoji">🏆</span><h3>Prediction Leagues</h3><p>Create a league with your friends. Predict group winners, the bracket, golden boot. Compete on the global leaderboard.</p></div>
+    <div class="feature-card fade-in"><span class="feature-emoji">📈</span><h3>Live Tournament Mode</h3><p>Once the World Cup starts, the Index updates after every match. See which teams rise and crash in real time.</p></div>
+  </div>
+</section>
+
+<section class="ticker-section">
+  <div class="ticker-track">
+    <span class="ticker-item">Argentina</span><span class="ticker-item">France</span><span class="ticker-item">Brazil</span><span class="ticker-item">England</span><span class="ticker-item">Germany</span><span class="ticker-item">Spain</span><span class="ticker-item">Portugal</span><span class="ticker-item">Netherlands</span><span class="ticker-item">Japan</span><span class="ticker-item">South Korea</span><span class="ticker-item">USA</span><span class="ticker-item">Mexico</span><span class="ticker-item">Canada</span><span class="ticker-item">Morocco</span><span class="ticker-item">Senegal</span><span class="ticker-item">Australia</span><span class="ticker-item">Colombia</span><span class="ticker-item">Uruguay</span><span class="ticker-item">Croatia</span><span class="ticker-item">Serbia</span><span class="ticker-item">Saudi Arabia</span><span class="ticker-item">Iran</span><span class="ticker-item">Nigeria</span><span class="ticker-item">Ecuador</span>
+    <span class="ticker-item">Argentina</span><span class="ticker-item">France</span><span class="ticker-item">Brazil</span><span class="ticker-item">England</span><span class="ticker-item">Germany</span><span class="ticker-item">Spain</span><span class="ticker-item">Portugal</span><span class="ticker-item">Netherlands</span><span class="ticker-item">Japan</span><span class="ticker-item">South Korea</span><span class="ticker-item">USA</span><span class="ticker-item">Mexico</span><span class="ticker-item">Canada</span><span class="ticker-item">Morocco</span><span class="ticker-item">Senegal</span><span class="ticker-item">Australia</span><span class="ticker-item">Colombia</span><span class="ticker-item">Uruguay</span><span class="ticker-item">Croatia</span><span class="ticker-item">Serbia</span><span class="ticker-item">Saudi Arabia</span><span class="ticker-item">Iran</span><span class="ticker-item">Nigeria</span><span class="ticker-item">Ecuador</span>
+  </div>
+</section>
+
+<section class="email-section" id="notify">
+  <div class="email-box fade-in">
+    <h2>Don't miss kickoff</h2>
+    <p>Get early access to the Readiness Index, quizzes, and prediction leagues. One email when we launch — no spam.</p>
+    <div class="email-form" id="emailForm">
+      <input type="email" id="emailInput" placeholder="your@email.com" required>
+      <button onclick="handleSubmit()">Notify me</button>
+    </div>
+    <div class="success-msg" id="successMsg">You're in! We'll notify you at launch.</div>
+    <div class="email-note">Join the squad. Unsubscribe anytime.</div>
+  </div>
+</section>
+
+<footer>
+  <img src="logo.png" alt="SquadCheck" class="footer-logo">
+  <div class="footer-links">
+    <a href="https://instagram.com/squadcheck.club" target="_blank">Instagram</a>
+    <a href="#index">Index</a>
+    <a href="#features">Features</a>
+    <a href="#notify">Get Notified</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 SquadCheck. 48 teams. One obsession.</div>
+</footer>
+
+<script>
+  const kickoff = new Date('2026-06-11T00:00:00Z').getTime();
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const diff = kickoff - now;
+    if (diff <= 0) return;
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const s = Math.floor((diff % (1000*60)) / 1000);
+    document.getElementById('days').textContent = String(d).padStart(2,'0');
+    document.getElementById('hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('secs').textContent = String(s).padStart(2,'0');
+    document.getElementById('stat-days').textContent = d;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  function handleSubmit() {
+    const input = document.getElementById('emailInput');
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) { input.style.borderColor = '#FF6B4A'; return; }
+    const emails = JSON.parse(localStorage.getItem('squadcheck_emails') || '[]');
+    emails.push({ email, date: new Date().toISOString() });
+    localStorage.setItem('squadcheck_emails', JSON.stringify(emails));
+    document.getElementById('emailForm').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+  document.getElementById('emailInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') handleSubmit();
+  });
+</script>
+
+</body>
+</html>
