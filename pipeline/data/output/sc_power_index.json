@@ -1,0 +1,4678 @@
+[
+  {
+    "team": "Spain",
+    "confederation": "UEFA",
+    "group": "H",
+    "flag": "🇪🇸",
+    "sci": 68.75,
+    "squad_quality": 75.09,
+    "xfactor": 77.32,
+    "squad_depth": 60.56,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "David Raya",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 72.97,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Pau Cubarsí",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 76.09,
+        "market_value_eur": 80000000
+      },
+      {
+        "name": "Marc Cucurella",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 72.44,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Pedro Porro",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 70.93,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Robin Le Normand",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 66.6,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Pedri",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 80.28,
+        "market_value_eur": 150000000
+      },
+      {
+        "name": "Dani Olmo",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 78.92,
+        "market_value_eur": 60000000
+      },
+      {
+        "name": "Martín Zubimendi",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 76.68,
+        "market_value_eur": 80000000
+      },
+      {
+        "name": "Lamine Yamal",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 88.3,
+        "market_value_eur": 200000000
+      },
+      {
+        "name": "Ferran Torres",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 77.77,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Nico Williams",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 64.96,
+        "market_value_eur": 50000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Lamine Yamal",
+        "position": "Forward",
+        "age": 18.9,
+        "rating": 88.3
+      },
+      {
+        "name": "Pau Cubarsí",
+        "position": "Defender",
+        "age": 19.4,
+        "rating": 76.09
+      }
+    ],
+    "rank": 1
+  },
+  {
+    "team": "France",
+    "confederation": "UEFA",
+    "group": "I",
+    "flag": "🇫🇷",
+    "sci": 67.92,
+    "squad_quality": 76.24,
+    "xfactor": 62.69,
+    "squad_depth": 64.49,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Mike Maignan",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 71.27,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "William Saliba",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 79.41,
+        "market_value_eur": 90000000
+      },
+      {
+        "name": "Dayot Upamecano",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 76.1,
+        "market_value_eur": 70000000
+      },
+      {
+        "name": "Jules Koundé",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 74.23,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Ibrahima Konaté",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 72.33,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Aurélien Tchouaméni",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 68.17,
+        "market_value_eur": 75000000
+      },
+      {
+        "name": "Adrien Rabiot",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 66.29,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Warren Zaïre-Emery",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 64.48,
+        "market_value_eur": 60000000
+      },
+      {
+        "name": "Kylian Mbappé",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 92.29,
+        "market_value_eur": 200000000
+      },
+      {
+        "name": "Michael Olise",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 90.2,
+        "market_value_eur": 140000000
+      },
+      {
+        "name": "Ousmane Dembélé",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 83.89,
+        "market_value_eur": 100000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Warren Zaïre-Emery",
+        "position": "Midfielder",
+        "age": 20.3,
+        "rating": 64.48
+      }
+    ],
+    "rank": 2
+  },
+  {
+    "team": "England",
+    "confederation": "UEFA",
+    "group": "K",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "sci": 67.59,
+    "squad_quality": 73.4,
+    "xfactor": 72.64,
+    "squad_depth": 62.46,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Jordan Pickford",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 67.64,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Trent Alexander-Arnold",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 74.25,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Marc Guéhi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 74.03,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "John Stones",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.09,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Ben Chilwell",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.73,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Phil Foden",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 79.02,
+        "market_value_eur": 80000000
+      },
+      {
+        "name": "Jude Bellingham",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 74.16,
+        "market_value_eur": 140000000
+      },
+      {
+        "name": "Declan Rice",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 73.18,
+        "market_value_eur": 120000000
+      },
+      {
+        "name": "Harry Kane",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 83.89,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Bukayo Saka",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 82.46,
+        "market_value_eur": 120000000
+      },
+      {
+        "name": "Jarrod Bowen",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 74.93,
+        "market_value_eur": 35000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Jude Bellingham",
+        "position": "Midfielder",
+        "age": 23.0,
+        "rating": 74.16
+      },
+      {
+        "name": "Adam Wharton",
+        "position": "Midfielder",
+        "age": 22.3,
+        "rating": 65.39
+      },
+      {
+        "name": "Kobbie Mainoo",
+        "position": "Midfielder",
+        "age": 21.1,
+        "rating": 63.65
+      }
+    ],
+    "rank": 3
+  },
+  {
+    "team": "Portugal",
+    "confederation": "UEFA",
+    "group": "J",
+    "flag": "🇵🇹",
+    "sci": 67.58,
+    "squad_quality": 74.93,
+    "xfactor": 71.41,
+    "squad_depth": 59.52,
+    "recent_form": 50.0,
+    "squad_size": 27,
+    "best_xi": [
+      {
+        "name": "Diogo Costa",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 75.67,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Nuno Mendes",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 76.92,
+        "market_value_eur": 75000000
+      },
+      {
+        "name": "Rúben Dias",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 73.14,
+        "market_value_eur": 60000000
+      },
+      {
+        "name": "Gonçalo Inácio",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 70.68,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Diogo Dalot",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 68.46,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Vitinha",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 78.87,
+        "market_value_eur": 110000000
+      },
+      {
+        "name": "Bruno Fernandes",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 78.65,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "João Neves",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 77.81,
+        "market_value_eur": 110000000
+      },
+      {
+        "name": "Rafael Leão",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 77.58,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Pedro Neto",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 76.65,
+        "market_value_eur": 60000000
+      },
+      {
+        "name": "Gonçalo Ramos",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 69.8,
+        "market_value_eur": 35000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "João Neves",
+        "position": "Midfielder",
+        "age": 21.7,
+        "rating": 77.81
+      },
+      {
+        "name": "António Silva",
+        "position": "Defender",
+        "age": 22.6,
+        "rating": 66.88
+      }
+    ],
+    "rank": 4
+  },
+  {
+    "team": "Brazil",
+    "confederation": "CONMEBOL",
+    "group": "C",
+    "flag": "🇧🇷",
+    "sci": 63.49,
+    "squad_quality": 68.9,
+    "xfactor": 66.78,
+    "squad_depth": 57.61,
+    "recent_form": 50.0,
+    "squad_size": 27,
+    "best_xi": [
+      {
+        "name": "Alisson",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 68.79,
+        "market_value_eur": 17000000
+      },
+      {
+        "name": "Bremer",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 69.76,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Marquinhos",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 67.73,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Éder Militão",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 66.8,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Yan Couto",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 64.59,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Bruno Guimarães",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 80.78,
+        "market_value_eur": 75000000
+      },
+      {
+        "name": "Lucas Paquetá",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 62.07,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "André",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 58.44,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Raphinha",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 81.61,
+        "market_value_eur": 80000000
+      },
+      {
+        "name": "Richarlison",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 70.62,
+        "market_value_eur": 28000000
+      },
+      {
+        "name": "Estevão",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 66.69,
+        "market_value_eur": 80000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Estevão",
+        "position": "Forward",
+        "age": 19.1,
+        "rating": 66.69
+      },
+      {
+        "name": "Savinho",
+        "position": "Forward",
+        "age": 22.2,
+        "rating": 62.56
+      },
+      {
+        "name": "Vinícius Jr.",
+        "position": "Forward",
+        "age": 18.7,
+        "rating": 48.86
+      }
+    ],
+    "rank": 5
+  },
+  {
+    "team": "Germany",
+    "confederation": "UEFA",
+    "group": "E",
+    "flag": "🇩🇪",
+    "sci": 62.4,
+    "squad_quality": 68.23,
+    "xfactor": 64.34,
+    "squad_depth": 55.65,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Alexander Nübel",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 66.33,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Nico Schlotterbeck",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 72.89,
+        "market_value_eur": 55000000
+      },
+      {
+        "name": "Joshua Kimmich",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 70.48,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Jonathan Tah",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 68.16,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Maximilian Mittelstädt",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 63.58,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Jamal Musiala",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 72.51,
+        "market_value_eur": 120000000
+      },
+      {
+        "name": "Aleksandar Pavlovic",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 67.24,
+        "market_value_eur": 75000000
+      },
+      {
+        "name": "Leroy Sané",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 57.5,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Deniz Undav",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 74.91,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Florian Wirtz",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 71.55,
+        "market_value_eur": 110000000
+      },
+      {
+        "name": "Kai Havertz",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 65.36,
+        "market_value_eur": 50000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Aleksandar Pavlovic",
+        "position": "Midfielder",
+        "age": 22.1,
+        "rating": 67.24
+      }
+    ],
+    "rank": 6
+  },
+  {
+    "team": "Argentina",
+    "confederation": "CONMEBOL",
+    "group": "L",
+    "flag": "🇦🇷",
+    "sci": 62.16,
+    "squad_quality": 69.48,
+    "xfactor": 61.49,
+    "squad_depth": 53.51,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Emiliano Martínez",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 67.19,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Cristian Romero",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 72.43,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Lisandro Martínez",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 71.02,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Nahuel Molina",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.87,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Gonzalo Montiel",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.81,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Enzo Fernández",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 79.86,
+        "market_value_eur": 90000000
+      },
+      {
+        "name": "Alexis Mac Allister",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 69.19,
+        "market_value_eur": 80000000
+      },
+      {
+        "name": "Thiago Almada",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 56.49,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Lautaro Martínez",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 84.14,
+        "market_value_eur": 85000000
+      },
+      {
+        "name": "Julián Álvarez",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 80.33,
+        "market_value_eur": 90000000
+      },
+      {
+        "name": "Nicolás González",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 63.91,
+        "market_value_eur": 45000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Alejandro Garnacho",
+        "position": "Forward",
+        "age": 21.9,
+        "rating": 62.48
+      }
+    ],
+    "rank": 7
+  },
+  {
+    "team": "Belgium",
+    "confederation": "UEFA",
+    "group": "G",
+    "flag": "🇧🇪",
+    "sci": 60.94,
+    "squad_quality": 63.86,
+    "xfactor": 67.33,
+    "squad_depth": 57.06,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Koen Casteels",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 59.26,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Zeno Debast",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 67.59,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Alexis Saelemaekers",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 66.73,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Maxim De Cuyper",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 65.57,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Arthur Theate",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 64.84,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Amadou Onana",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 63.83,
+        "market_value_eur": 45000000
+      },
+      {
+        "name": "Youri Tielemans",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 62.02,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Charles De Ketelaere",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 61.86,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Jérémy Doku",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 67.21,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Lois Openda",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 61.78,
+        "market_value_eur": 32000000
+      },
+      {
+        "name": "Loïs Openda",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 61.78,
+        "market_value_eur": 32000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Zeno Debast",
+        "position": "Defender",
+        "age": 22.6,
+        "rating": 67.59
+      },
+      {
+        "name": "Arthur Vermeeren",
+        "position": "Midfielder",
+        "age": 21.3,
+        "rating": 56.52
+      },
+      {
+        "name": "Julien Duranville",
+        "position": "Forward",
+        "age": 20.1,
+        "rating": 52.55
+      }
+    ],
+    "rank": 8
+  },
+  {
+    "team": "Türkiye",
+    "confederation": "UEFA",
+    "group": "D",
+    "flag": "🇹🇷",
+    "sci": 60.09,
+    "squad_quality": 64.34,
+    "xfactor": 72.69,
+    "squad_depth": 47.59,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Altay Bayındır",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 63.53,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Ferdi Kadıoğlu",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 68.39,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Merih Demiral",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.44,
+        "market_value_eur": 14000000
+      },
+      {
+        "name": "Zeki Çelik",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.75,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Ozan Kabak",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 60.97,
+        "market_value_eur": 10000000
+      },
+      {
+        "name": "Hakan Çalhanoğlu",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 64.96,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Baris Alper Yilmaz",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 59.08,
+        "market_value_eur": 26000000
+      },
+      {
+        "name": "Orkun Kökçü",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 58.51,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Kenan Yıldız",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 79.84,
+        "market_value_eur": 75000000
+      },
+      {
+        "name": "Arda Güler",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 69.13,
+        "market_value_eur": 90000000
+      },
+      {
+        "name": "Kerem Aktürkoglu",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 59.18,
+        "market_value_eur": 22000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Kenan Yıldız",
+        "position": "Forward",
+        "age": 21.1,
+        "rating": 79.84
+      },
+      {
+        "name": "Arda Güler",
+        "position": "Forward",
+        "age": 21.3,
+        "rating": 69.13
+      }
+    ],
+    "rank": 9
+  },
+  {
+    "team": "Netherlands",
+    "confederation": "UEFA",
+    "group": "F",
+    "flag": "🇳🇱",
+    "sci": 59.33,
+    "squad_quality": 72.67,
+    "xfactor": 20.0,
+    "squad_depth": 62.49,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Bart Verbruggen",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 75.26,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Jurriën Timber",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 75.77,
+        "market_value_eur": 70000000
+      },
+      {
+        "name": "Micky van de Ven",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 73.93,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Matthijs de Ligt",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 70.94,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Jeremie Frimpong",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 69.65,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Joey Veerman",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 75.46,
+        "market_value_eur": 27000000
+      },
+      {
+        "name": "Tijjani Reijnders",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 73.92,
+        "market_value_eur": 60000000
+      },
+      {
+        "name": "Ryan Gravenberch",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 69.69,
+        "market_value_eur": 90000000
+      },
+      {
+        "name": "Cody Gakpo",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 77.59,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Donyell Malen",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 70.1,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Brian Brobbey",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 67.08,
+        "market_value_eur": 25000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 10
+  },
+  {
+    "team": "Norway",
+    "confederation": "UEFA",
+    "group": "I",
+    "flag": "🇳🇴",
+    "sci": 57.18,
+    "squad_quality": 62.86,
+    "xfactor": 59.75,
+    "squad_depth": 46.42,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Kristoffer Klaesson",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 49.32,
+        "market_value_eur": 800000
+      },
+      {
+        "name": "Kristoffer Ajer",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 63.76,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Leo Østigård",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.01,
+        "market_value_eur": 10000000
+      },
+      {
+        "name": "Andreas Hanche-Olsen",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.02,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Fredrik Bjørkan",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 55.2,
+        "market_value_eur": 3500000
+      },
+      {
+        "name": "Martin Ødegaard",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 67.27,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Antonio Nusa",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 59.59,
+        "market_value_eur": 32000000
+      },
+      {
+        "name": "Sander Berge",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 58.78,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Erling Haaland",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 92.09,
+        "market_value_eur": 200000000
+      },
+      {
+        "name": "Alexander Sørloth",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 67.94,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Aron Dønnum",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 60.49,
+        "market_value_eur": 5000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Antonio Nusa",
+        "position": "Midfielder",
+        "age": 21.1,
+        "rating": 59.59
+      }
+    ],
+    "rank": 11
+  },
+  {
+    "team": "Senegal",
+    "confederation": "CAF",
+    "group": "H",
+    "flag": "🇸🇳",
+    "sci": 56.64,
+    "squad_quality": 61.9,
+    "xfactor": 60.71,
+    "squad_depth": 45.4,
+    "recent_form": 50.0,
+    "squad_size": 23,
+    "best_xi": [
+      {
+        "name": "Edouard Mendy",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 59.98,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Ismaïla Sarr",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 69.92,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Pape Matar Sarr",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 68.76,
+        "market_value_eur": 32000000
+      },
+      {
+        "name": "Abdou Diallo",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.62,
+        "market_value_eur": 9000000
+      },
+      {
+        "name": "Kalidou Koulibaly",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 55.8,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Nicolas Jackson",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 63.0,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Lamine Camara",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 61.19,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Moussa Niakhaté",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 55.48,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Iliman Ndiaye",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 75.27,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Habib Diallo",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 57.52,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Boulaye Dia",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 54.35,
+        "market_value_eur": 7000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Lamine Camara",
+        "position": "Midfielder",
+        "age": 22.4,
+        "rating": 61.19
+      }
+    ],
+    "rank": 12
+  },
+  {
+    "team": "Morocco",
+    "confederation": "CAF",
+    "group": "C",
+    "flag": "🇲🇦",
+    "sci": 56.23,
+    "squad_quality": 59.99,
+    "xfactor": 59.94,
+    "squad_depth": 48.69,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Yassine Bounou",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 57.7,
+        "market_value_eur": 3500000
+      },
+      {
+        "name": "Achraf Hakimi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 78.55,
+        "market_value_eur": 80000000
+      },
+      {
+        "name": "Noussair Mazraoui",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 64.99,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Nayef Aguerd",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 64.72,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Romain Saïss",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 53.54,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Brahim Díaz",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 62.06,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Bilal El Khannouss",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 59.9,
+        "market_value_eur": 32000000
+      },
+      {
+        "name": "Sofyan Amrabat",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 53.5,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Youssef En-Nesyri",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 58.19,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Anass Zaroury",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 54.83,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Ayoub El Kaabi",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 51.93,
+        "market_value_eur": 5000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Bilal El Khannouss",
+        "position": "Midfielder",
+        "age": 22.1,
+        "rating": 59.9
+      }
+    ],
+    "rank": 13
+  },
+  {
+    "team": "Austria",
+    "confederation": "UEFA",
+    "group": "I",
+    "flag": "🇦🇹",
+    "sci": 56.22,
+    "squad_quality": 59.05,
+    "xfactor": 61.67,
+    "squad_depth": 49.71,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Daniel Bachmann",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 57.78,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Kevin Danso",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 65.05,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Leopold Querfeld",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.78,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Philipp Lienhart",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.65,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Stefan Posch",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 57.8,
+        "market_value_eur": 5500000
+      },
+      {
+        "name": "Christoph Baumgartner",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 74.43,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Konrad Laimer",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 60.87,
+        "market_value_eur": 32000000
+      },
+      {
+        "name": "Nicolas Seiwald",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 57.54,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Patrick Wimmer",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 57.18,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Sasa Kalajdzic",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 47.68,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Marko Arnautović",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 46.83,
+        "market_value_eur": 2500000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Leopold Querfeld",
+        "position": "Defender",
+        "age": 22.5,
+        "rating": 62.78
+      }
+    ],
+    "rank": 14
+  },
+  {
+    "team": "Colombia",
+    "confederation": "CONMEBOL",
+    "group": "J",
+    "flag": "🇨🇴",
+    "sci": 55.49,
+    "squad_quality": 61.42,
+    "xfactor": 59.42,
+    "squad_depth": 41.85,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Kevin Mier",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 62.62,
+        "market_value_eur": 6500000
+      },
+      {
+        "name": "Daniel Muñoz",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 67.23,
+        "market_value_eur": 27000000
+      },
+      {
+        "name": "Davinson Sánchez",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 63.45,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Carlos Cuesta",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.18,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Yerry Mina",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 53.49,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Luis Díaz",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 83.54,
+        "market_value_eur": 70000000
+      },
+      {
+        "name": "Jhon Arias",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 54.62,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Jefferson Lerma",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 50.1,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Cucho Hernández",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 67.68,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Jhon Durán",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 59.03,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Jhon Córdoba",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 54.7,
+        "market_value_eur": 10000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Jhon Durán",
+        "position": "Forward",
+        "age": 22.5,
+        "rating": 59.03
+      }
+    ],
+    "rank": 15
+  },
+  {
+    "team": "United States",
+    "confederation": "CONCACAF",
+    "group": "D",
+    "flag": "🇺🇸",
+    "sci": 54.05,
+    "squad_quality": 65.13,
+    "xfactor": 20.0,
+    "squad_depth": 54.91,
+    "recent_form": 50.0,
+    "squad_size": 27,
+    "best_xi": [
+      {
+        "name": "Patrick Schulte",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 59.19,
+        "market_value_eur": 3500000
+      },
+      {
+        "name": "Antonee Robinson",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 66.72,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Chris Richards",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 66.64,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Cameron Carter-Vickers",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.12,
+        "market_value_eur": 10000000
+      },
+      {
+        "name": "Joe Scally",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 58.59,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Weston McKennie",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 65.04,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Malik Tillman",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 64.57,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Tyler Adams",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 58.75,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Christian Pulisic",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 75.45,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Folarin Balogun",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 71.01,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Ricardo Pepi",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 69.34,
+        "market_value_eur": 25000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 16
+  },
+  {
+    "team": "Ghana",
+    "confederation": "CAF",
+    "group": "K",
+    "flag": "🇬🇭",
+    "sci": 53.63,
+    "squad_quality": 58.47,
+    "xfactor": 57.4,
+    "squad_depth": 41.41,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Lawrence Ati-Zigi",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 53.74,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Alidu Seidu",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 58.2,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Tariq Lamptey",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 57.27,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Daniel Amartey",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.92,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Alexander Djiku",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 55.5,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Mohammed Kudus",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 65.43,
+        "market_value_eur": 55000000
+      },
+      {
+        "name": "Kamaldeen Sulemana",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 55.4,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Elisha Owusu",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 46.85,
+        "market_value_eur": 3500000
+      },
+      {
+        "name": "Antoine Semenyo",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 83.11,
+        "market_value_eur": 75000000
+      },
+      {
+        "name": "Ernest Nuamah",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 55.67,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Inaki Williams",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 55.03,
+        "market_value_eur": 10000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Ernest Nuamah",
+        "position": "Forward",
+        "age": 22.6,
+        "rating": 55.67
+      }
+    ],
+    "rank": 17
+  },
+  {
+    "team": "Paraguay",
+    "confederation": "CONMEBOL",
+    "group": "D",
+    "flag": "🇵🇾",
+    "sci": 52.57,
+    "squad_quality": 53.9,
+    "xfactor": 68.78,
+    "squad_depth": 39.0,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Antony Silva",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 71.8,
+        "market_value_eur": 28000000
+      },
+      {
+        "name": "Mathías Villasanti",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.02,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Gustavo Gómez",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 55.12,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Santiago Arzamendia",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 52.97,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Junior Alonso",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 50.76,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Rodrigo Rojas",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 53.89,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Miguel Almirón",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 50.78,
+        "market_value_eur": 9000000
+      },
+      {
+        "name": "Richard Sánchez",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 45.78,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Julio Enciso",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 58.19,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Alejandro Romero",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 48.93,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Rodrigo Aguirre",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 48.68,
+        "market_value_eur": 2500000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Antony Silva",
+        "position": "Goalkeeper",
+        "age": 22.6,
+        "rating": 71.8
+      },
+      {
+        "name": "Julio Enciso",
+        "position": "Forward",
+        "age": 22.4,
+        "rating": 58.19
+      },
+      {
+        "name": "Rodrigo Rojas",
+        "position": "Midfielder",
+        "age": 22.9,
+        "rating": 53.89
+      }
+    ],
+    "rank": 18
+  },
+  {
+    "team": "Switzerland",
+    "confederation": "UEFA",
+    "group": "B",
+    "flag": "🇨🇭",
+    "sci": 51.48,
+    "squad_quality": 61.4,
+    "xfactor": 20.0,
+    "squad_depth": 51.4,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Gregor Kobel",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 75.74,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Manuel Akanji",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 63.3,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Nico Elvedi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.67,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Cedric Zesiger",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 57.55,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Fabian Schär",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.87,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Ardon Jashari",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 59.53,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Denis Zakaria",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 58.57,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Fabian Rieder",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 57.83,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Breel Embolo",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 66.41,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Dan Ndoye",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 62.38,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Noah Okafor",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 57.54,
+        "market_value_eur": 18000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 19
+  },
+  {
+    "team": "Japan",
+    "confederation": "AFC",
+    "group": "F",
+    "flag": "🇯🇵",
+    "sci": 51.02,
+    "squad_quality": 60.98,
+    "xfactor": 20.0,
+    "squad_depth": 50.17,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Zion Suzuki",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 70.2,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Hiroki Ito",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 63.67,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Ayase Ueda",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.88,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Ko Itakura",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 60.97,
+        "market_value_eur": 10000000
+      },
+      {
+        "name": "Takehiro Tomiyasu",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.9,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Ritsu Doan",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 64.35,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Takefusa Kubo",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 59.7,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Daichi Kamada",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 53.49,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Kaoru Mitoma",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 59.86,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Koki Ogawa",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 59.25,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Daizen Maeda",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 56.53,
+        "market_value_eur": 12000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 20
+  },
+  {
+    "team": "Uruguay",
+    "confederation": "CONMEBOL",
+    "group": "L",
+    "flag": "🇺🇾",
+    "sci": 50.82,
+    "squad_quality": 60.51,
+    "xfactor": 20.0,
+    "squad_depth": 50.35,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Santiago Mele",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 56.37,
+        "market_value_eur": 2200000
+      },
+      {
+        "name": "Ronald Araújo",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 64.99,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Joaquín Piquerez",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.95,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Nahitan Nández",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.64,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Matías Viña",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.15,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Federico Valverde",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 73.24,
+        "market_value_eur": 120000000
+      },
+      {
+        "name": "Manuel Ugarte",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 59.72,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Rodrigo Bentancur",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 57.74,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Luis Suárez",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 60.02,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Darwin Núñez",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 59.9,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Agustín Canobbio",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 58.86,
+        "market_value_eur": 6000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 21
+  },
+  {
+    "team": "Croatia",
+    "confederation": "UEFA",
+    "group": "K",
+    "flag": "🇭🇷",
+    "sci": 50.58,
+    "squad_quality": 60.49,
+    "xfactor": 20.0,
+    "squad_depth": 49.16,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Dominik Livaković",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 60.02,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Joško Gvardiol",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 75.7,
+        "market_value_eur": 70000000
+      },
+      {
+        "name": "Josip Stanišić",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 69.74,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Borna Sosa",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.19,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Martin Erlić",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.19,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Nikola Vlašić",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 61.57,
+        "market_value_eur": 9000000
+      },
+      {
+        "name": "Mario Pašalić",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 54.58,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Mateo Kovačić",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 52.97,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Ante Budimir",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 61.51,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Andrej Kramarić",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 61.48,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Ivan Perišić",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 55.46,
+        "market_value_eur": 1300000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 22
+  },
+  {
+    "team": "Canada",
+    "confederation": "CONCACAF",
+    "group": "B",
+    "flag": "🇨🇦",
+    "sci": 49.62,
+    "squad_quality": 60.28,
+    "xfactor": 20.0,
+    "squad_depth": 44.88,
+    "recent_form": 50.0,
+    "squad_size": 23,
+    "best_xi": [
+      {
+        "name": "James McGill",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 68.07,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Alphonso Davies",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 71.53,
+        "market_value_eur": 45000000
+      },
+      {
+        "name": "Alistair Johnston",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.91,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Moise Bombito",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.72,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Derek Cornelius",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 54.11,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Jonathan David",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 72.01,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Ismaël Koné",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 61.35,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Stephen Eustáquio",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 49.93,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Tajon Buchanan",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 64.05,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Jacob Shaffelburg",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 51.64,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Cyle Larin",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 50.76,
+        "market_value_eur": 3500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 23
+  },
+  {
+    "team": "Ivory Coast",
+    "confederation": "CAF",
+    "group": "E",
+    "flag": "🇨🇮",
+    "sci": 49.47,
+    "squad_quality": 59.16,
+    "xfactor": 20.0,
+    "squad_depth": 46.95,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Yahia Fofana",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 61.76,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Wilfried Singo",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 66.55,
+        "market_value_eur": 25000000
+      },
+      {
+        "name": "Odilon Kossounou",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 63.46,
+        "market_value_eur": 18000000
+      },
+      {
+        "name": "Serge Aurier",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 54.31,
+        "market_value_eur": 3700000
+      },
+      {
+        "name": "Ghislain Konan",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 53.79,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Ibrahim Sangaré",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 57.82,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Franck Kessié",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 53.55,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Ismael Bennacer",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 51.59,
+        "market_value_eur": 9000000
+      },
+      {
+        "name": "Amad Diallo",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 64.96,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Nicolas Pépé",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 63.39,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Simon Adingra",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 59.59,
+        "market_value_eur": 25000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 24
+  },
+  {
+    "team": "Scotland",
+    "confederation": "UEFA",
+    "group": "C",
+    "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "sci": 48.37,
+    "squad_quality": 57.99,
+    "xfactor": 20.0,
+    "squad_depth": 44.4,
+    "recent_form": 50.0,
+    "squad_size": 27,
+    "best_xi": [
+      {
+        "name": "Angus Gunn",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 53.6,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Aaron Hickey",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.77,
+        "market_value_eur": 16000000
+      },
+      {
+        "name": "Andrew Robertson",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 60.32,
+        "market_value_eur": 10000000
+      },
+      {
+        "name": "Kieran Tierney",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.78,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Scott McKenna",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 55.99,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Scott McTominay",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 73.97,
+        "market_value_eur": 45000000
+      },
+      {
+        "name": "Billy Gilmour",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 56.48,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "John McGinn",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 54.05,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Che Adams",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 62.72,
+        "market_value_eur": 8500000
+      },
+      {
+        "name": "Lawrence Shankland",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 49.74,
+        "market_value_eur": 2800000
+      },
+      {
+        "name": "Lyndon Dykes",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 48.44,
+        "market_value_eur": 2500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 25
+  },
+  {
+    "team": "Australia",
+    "confederation": "AFC",
+    "group": "D",
+    "flag": "🇦🇺",
+    "sci": 48.3,
+    "squad_quality": 48.61,
+    "xfactor": 55.19,
+    "squad_depth": 41.07,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Mat Ryan",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 54.41,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Harry Souttar",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 58.4,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Connor Metcalfe",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 51.79,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Kye Rowles",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 49.21,
+        "market_value_eur": 1200000
+      },
+      {
+        "name": "Jason Geria",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 46.55,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Riley McGree",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.62,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Jackson Irvine",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 42.31,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Lewis Miller",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 40.54,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Nestory Irankunda",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 51.98,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Jamie Maclaren",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 46.77,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Awer Mabil",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 45.14,
+        "market_value_eur": 1300000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Nestory Irankunda",
+        "position": "Forward",
+        "age": 20.3,
+        "rating": 51.98
+      },
+      {
+        "name": "Garang Kuol",
+        "position": "Forward",
+        "age": 21.7,
+        "rating": 40.77
+      }
+    ],
+    "rank": 26
+  },
+  {
+    "team": "Sweden",
+    "confederation": "UEFA",
+    "group": "F",
+    "flag": "🇸🇪",
+    "sci": 47.65,
+    "squad_quality": 59.1,
+    "xfactor": 20.0,
+    "squad_depth": 38.01,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Robin Olsen",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 45.34,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Isak Hien",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 65.81,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Emil Holm",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.09,
+        "market_value_eur": 13000000
+      },
+      {
+        "name": "Victor Lindelöf",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 57.68,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Joakim Nilsson",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 54.32,
+        "market_value_eur": 3500000
+      },
+      {
+        "name": "Viktor Gyökeres",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 77.33,
+        "market_value_eur": 65000000
+      },
+      {
+        "name": "Dejan Kulusevski",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 61.97,
+        "market_value_eur": 35000000
+      },
+      {
+        "name": "Jesper Karlsson",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.65,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Alexander Isak",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 71.41,
+        "market_value_eur": 100000000
+      },
+      {
+        "name": "Anthony Elanga",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 63.18,
+        "market_value_eur": 40000000
+      },
+      {
+        "name": "Zlatan Ibrahimović",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 43.33,
+        "market_value_eur": 2000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 27
+  },
+  {
+    "team": "Ecuador",
+    "confederation": "CONMEBOL",
+    "group": "E",
+    "flag": "🇪🇨",
+    "sci": 47.5,
+    "squad_quality": 57.46,
+    "xfactor": 20.0,
+    "squad_depth": 41.36,
+    "recent_form": 50.0,
+    "squad_size": 23,
+    "best_xi": [
+      {
+        "name": "Moisés Ramírez",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 49.34,
+        "market_value_eur": 800000
+      },
+      {
+        "name": "Willian Pacho",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 75.73,
+        "market_value_eur": 70000000
+      },
+      {
+        "name": "Piero Hincapié",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 72.0,
+        "market_value_eur": 50000000
+      },
+      {
+        "name": "Pervis Estupiñán",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 62.42,
+        "market_value_eur": 14000000
+      },
+      {
+        "name": "Diego Palacios",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.12,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Moisés Caicedo",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 71.15,
+        "market_value_eur": 110000000
+      },
+      {
+        "name": "Gonzalo Plata",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 50.49,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Kendry Páez",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 49.0,
+        "market_value_eur": 9000000
+      },
+      {
+        "name": "Kevin Rodríguez",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 52.8,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Leonardo Campana",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 49.12,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Enner Valencia",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 43.87,
+        "market_value_eur": 1500000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Kendry Páez",
+        "position": "Midfielder",
+        "age": 19.1,
+        "rating": 49.0
+      }
+    ],
+    "rank": 28
+  },
+  {
+    "team": "Czechia",
+    "confederation": "UEFA",
+    "group": "A",
+    "flag": "🇨🇿",
+    "sci": 46.76,
+    "squad_quality": 55.61,
+    "xfactor": 20.0,
+    "squad_depth": 42.29,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Matěj Kovář",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 63.32,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Tomáš Souček",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.39,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "David Zima",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 58.97,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Ondřej Duda",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 54.2,
+        "market_value_eur": 3200000
+      },
+      {
+        "name": "Lukáš Holeš",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 53.42,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Lukáš Provod",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 50.52,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "David Jurásek",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 48.79,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Ondřej Lingr",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 46.9,
+        "market_value_eur": 3500000
+      },
+      {
+        "name": "Patrik Schick",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 67.96,
+        "market_value_eur": 20000000
+      },
+      {
+        "name": "Adam Hložek",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 56.09,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Tomáš Chorý",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 50.12,
+        "market_value_eur": 3000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 29
+  },
+  {
+    "team": "Algeria",
+    "confederation": "CAF",
+    "group": "I",
+    "flag": "🇩🇿",
+    "sci": 43.22,
+    "squad_quality": 50.66,
+    "xfactor": 20.0,
+    "squad_depth": 36.93,
+    "recent_form": 50.0,
+    "squad_size": 23,
+    "best_xi": [
+      {
+        "name": "Alexis Guendouz",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 41.48,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Hichem Boudaoui",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 61.81,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Ramy Bensebaini",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 58.73,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Youcef Atal",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.01,
+        "market_value_eur": 4300000
+      },
+      {
+        "name": "Zinedine Ferhat",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 51.29,
+        "market_value_eur": 2300000
+      },
+      {
+        "name": "Farès Chaïbi",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 54.09,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Ismael Bennacer",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 51.59,
+        "market_value_eur": 9000000
+      },
+      {
+        "name": "Saïd Benrahma",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 51.21,
+        "market_value_eur": 9000000
+      },
+      {
+        "name": "Sofiane Boufal",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 46.81,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Andy Delort",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 44.58,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Rachid Ghezzal",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 39.71,
+        "market_value_eur": 700000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 30
+  },
+  {
+    "team": "Egypt",
+    "confederation": "CAF",
+    "group": "G",
+    "flag": "🇪🇬",
+    "sci": 43.22,
+    "squad_quality": 50.32,
+    "xfactor": 20.0,
+    "squad_depth": 37.76,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Ahmed El-Shenawy",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 40.08,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Mohamed Abdelmonem",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 54.12,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Ahmed Hegazi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 45.77,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Karim Hafez",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.22,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Akram Tawfik",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.36,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Zizo",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 48.16,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Trézéguet",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.13,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Ibrahim Adel",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 46.2,
+        "market_value_eur": 3200000
+      },
+      {
+        "name": "Mohamed Salah",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 70.0,
+        "market_value_eur": 30000000
+      },
+      {
+        "name": "Omar Marmoush",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 66.79,
+        "market_value_eur": 60000000
+      },
+      {
+        "name": "Mostafa Mohamed",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 51.74,
+        "market_value_eur": 4000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 31
+  },
+  {
+    "team": "Tunisia",
+    "confederation": "CAF",
+    "group": "F",
+    "flag": "🇹🇳",
+    "sci": 42.23,
+    "squad_quality": 48.1,
+    "xfactor": 20.0,
+    "squad_depth": 38.42,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Mouez Hassen",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 46.29,
+        "market_value_eur": 550000
+      },
+      {
+        "name": "Montassar Talbi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 59.27,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Yassine Meriah",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 50.38,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Nader Ghandri",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 45.32,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Mohamed Drager",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 45.11,
+        "market_value_eur": 700000
+      },
+      {
+        "name": "Ellyes Skhiri",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 49.15,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Aïssa Laïdouni",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 48.93,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Naïm Sliti",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 46.48,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Saif-Eddine Khaoui",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 47.29,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Hamza Rafia",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 46.59,
+        "market_value_eur": 1700000
+      },
+      {
+        "name": "Ferjani Sassi",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 44.24,
+        "market_value_eur": 1500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 32
+  },
+  {
+    "team": "Bosnia and Herzegovina",
+    "confederation": "UEFA",
+    "group": "B",
+    "flag": "🇧🇦",
+    "sci": 41.57,
+    "squad_quality": 48.31,
+    "xfactor": 20.0,
+    "squad_depth": 34.55,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Ibrahim Šehić",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 49.94,
+        "market_value_eur": 1200000
+      },
+      {
+        "name": "Ajdin Hasić",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 52.57,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Darko Todorović",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 50.15,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Dario Šarić",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 45.26,
+        "market_value_eur": 700000
+      },
+      {
+        "name": "Adnan Kovačević",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 36.96,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Ermedin Demirović",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 67.87,
+        "market_value_eur": 22000000
+      },
+      {
+        "name": "Anel Ahmedhodžić",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 53.7,
+        "market_value_eur": 12000000
+      },
+      {
+        "name": "Benjamin Tahirović",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.6,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Tarik Tissoudali",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 52.67,
+        "market_value_eur": 6500000
+      },
+      {
+        "name": "Branimir Kalaica",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 40.46,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Kenan Kodro",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 34.23,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 33
+  },
+  {
+    "team": "Iran",
+    "confederation": "AFC",
+    "group": "K",
+    "flag": "🇮🇷",
+    "sci": 41.57,
+    "squad_quality": 47.49,
+    "xfactor": 20.0,
+    "squad_depth": 36.63,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Amir Abedzadeh",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 52.86,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Mohammad Mohebi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 53.53,
+        "market_value_eur": 2800000
+      },
+      {
+        "name": "Saman Ghoddos",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 50.43,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Milad Mohammadi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 48.21,
+        "market_value_eur": 1300000
+      },
+      {
+        "name": "Majid Hosseini",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 45.71,
+        "market_value_eur": 800000
+      },
+      {
+        "name": "Omid Noorafkan",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 40.62,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Mehdi Torabi",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 39.61,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Saeid Ezatolahi",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 39.03,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Sardar Azmoun",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 54.0,
+        "market_value_eur": 8000000
+      },
+      {
+        "name": "Allahyar Sayyadmanesh",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 50.35,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Mehdi Taremi",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 48.02,
+        "market_value_eur": 2500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 34
+  },
+  {
+    "team": "Saudi Arabia",
+    "confederation": "AFC",
+    "group": "G",
+    "flag": "🇸🇦",
+    "sci": 41.11,
+    "squad_quality": 47.12,
+    "xfactor": 20.0,
+    "squad_depth": 35.25,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Nawaf Al-Aqidi",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 48.51,
+        "market_value_eur": 700000
+      },
+      {
+        "name": "Saud Abdulhamid",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 57.42,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Hassan Al-Tambakti",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 51.09,
+        "market_value_eur": 1800000
+      },
+      {
+        "name": "Sultan Al-Ghannam",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 50.34,
+        "market_value_eur": 1800000
+      },
+      {
+        "name": "Abdulelah Al-Amri",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 47.44,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Firas Al-Buraikan",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.43,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Khalid Al-Ghannam",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 39.51,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Mohamed Kanno",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 39.1,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Feras Al-Buraikan",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 51.58,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Salem Al-Dawsari",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 43.9,
+        "market_value_eur": 1300000
+      },
+      {
+        "name": "Nasser Al-Dawsari",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 41.95,
+        "market_value_eur": 800000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 35
+  },
+  {
+    "team": "South Korea",
+    "confederation": "AFC",
+    "group": "A",
+    "flag": "🇰🇷",
+    "sci": 40.27,
+    "squad_quality": 42.26,
+    "xfactor": 20.0,
+    "squad_depth": 43.21,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Jo Hyeon-woo",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 48.38,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Kim Min-jae",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.67,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Cho Yu-min",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.67,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Kim Jin-su",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.67,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Seol Young-woo",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.67,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Lee Kang-in",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 38.32,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Park Seung-ho",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 38.32,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Paik Seung-ho",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 38.32,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Son Heung-min",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 40.94,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Hwang Hee-chan",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 40.94,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Cho Gue-sung",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 40.94,
+        "market_value_eur": 1000000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 36
+  },
+  {
+    "team": "Cape Verde",
+    "confederation": "CAF",
+    "group": "G",
+    "flag": "🇨🇻",
+    "sci": 40.11,
+    "squad_quality": 45.58,
+    "xfactor": 20.0,
+    "squad_depth": 34.11,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Vozinha",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 78.9,
+        "market_value_eur": 110000000
+      },
+      {
+        "name": "Roberto Lopes",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 47.44,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Jordan Neto",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.43,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Diney",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 41.26,
+        "market_value_eur": 750000
+      },
+      {
+        "name": "Kevin Pina",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.78,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Jamiro Monteiro",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 38.01,
+        "market_value_eur": 750000
+      },
+      {
+        "name": "Patrick Andrade",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 37.0,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Ryan Mendes",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 36.35,
+        "market_value_eur": 700000
+      },
+      {
+        "name": "Sydney Tavares",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 47.42,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Bebé",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 45.86,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Bryan Teixeira",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 44.96,
+        "market_value_eur": 1200000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 37
+  },
+  {
+    "team": "DR Congo",
+    "confederation": "CAF",
+    "group": "J",
+    "flag": "🇨🇩",
+    "sci": 39.78,
+    "squad_quality": 45.6,
+    "xfactor": 20.0,
+    "squad_depth": 32.42,
+    "recent_form": 50.0,
+    "squad_size": 23,
+    "best_xi": [
+      {
+        "name": "Lionel Mpasi",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 65.24,
+        "market_value_eur": 15000000
+      },
+      {
+        "name": "Chancel Mbemba",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 52.24,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Arthur Masuaku",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 52.01,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Sandy Walsh",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 48.65,
+        "market_value_eur": 1300000
+      },
+      {
+        "name": "Cédric Bakambu",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 48.04,
+        "market_value_eur": 1400000
+      },
+      {
+        "name": "Théo Bongonda",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.24,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "Ndombe Mubele",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 30.87,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Jean-Pierre Nseki",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 28.09,
+        "market_value_eur": 450000
+      },
+      {
+        "name": "Meschack Elia",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 47.69,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Paul-José Mpoku",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 41.19,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Anthony Limbombe",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 40.37,
+        "market_value_eur": 700000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 38
+  },
+  {
+    "team": "South Africa",
+    "confederation": "CAF",
+    "group": "A",
+    "flag": "🇿🇦",
+    "sci": 38.7,
+    "squad_quality": 42.1,
+    "xfactor": 20.0,
+    "squad_depth": 35.77,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Ronwen Williams",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 40.33,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Teboho Mokoena",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.23,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Nkosinathi Sibisi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.01,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Aubrey Modiba",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 38.98,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Khuliso Mudau",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 38.92,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Bongokuhle Hlongwane",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 46.69,
+        "market_value_eur": 3500000
+      },
+      {
+        "name": "Keagan Dolly",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 41.38,
+        "market_value_eur": 1400000
+      },
+      {
+        "name": "Thabiso Kutumela",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 32.29,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Lyle Foster",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 55.55,
+        "market_value_eur": 10000000
+      },
+      {
+        "name": "Lebo Mothiba",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 45.83,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Percy Tau",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 44.9,
+        "market_value_eur": 1500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 39
+  },
+  {
+    "team": "Uzbekistan",
+    "confederation": "AFC",
+    "group": "J",
+    "flag": "🇺🇿",
+    "sci": 38.33,
+    "squad_quality": 41.42,
+    "xfactor": 20.0,
+    "squad_depth": 35.6,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Eldor Shomurodov",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 63.07,
+        "market_value_eur": 7000000
+      },
+      {
+        "name": "Azizbek Turgunboev",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.23,
+        "market_value_eur": 700000
+      },
+      {
+        "name": "Khojimat Erkinov",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 43.72,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Odil Akhmedov",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 43.3,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Islom Tukhtahujaev",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 37.1,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Jaloliddin Masharipov",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 42.4,
+        "market_value_eur": 1700000
+      },
+      {
+        "name": "Sherzod Nasrullayev",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 33.35,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Jasur Yakhshiboev",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 30.87,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Oston Urunov",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 43.12,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Dostonbek Khamdamov",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 40.69,
+        "market_value_eur": 750000
+      },
+      {
+        "name": "Jamshid Iskanderov",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 33.78,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 40
+  },
+  {
+    "team": "Curaçao",
+    "confederation": "CONCACAF",
+    "group": "E",
+    "flag": "🇨🇼",
+    "sci": 38.25,
+    "squad_quality": 43.43,
+    "xfactor": 20.0,
+    "squad_depth": 30.17,
+    "recent_form": 50.0,
+    "squad_size": 22,
+    "best_xi": [
+      {
+        "name": "Timon Wellenreuther",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 62.17,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Etienne Vaessen",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 52.51,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Rangelo Janga",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.96,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Darryl Lachman",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 37.62,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Jurickson Profar",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 36.96,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Frenkie de Jong",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 64.04,
+        "market_value_eur": 45000000
+      },
+      {
+        "name": "Sheraldo Becker",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 42.89,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Jair Leal",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 39.79,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Curacao Gorré",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Dion Doesburg",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Rúben Afonso",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 41
+  },
+  {
+    "team": "New Zealand",
+    "confederation": "AFC",
+    "group": "H",
+    "flag": "🇳🇿",
+    "sci": 37.97,
+    "squad_quality": 42.53,
+    "xfactor": 20.0,
+    "squad_depth": 31.03,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Stefan Marinović",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 44.72,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Liberato Cacace",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 53.41,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Winston Reid",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 41.72,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Dane Ingham",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.84,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Clayton Lewis",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.74,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Joe Bell",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 45.89,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Marko Stamenic",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 45.54,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Ryan Thomas",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 38.0,
+        "market_value_eur": 700000
+      },
+      {
+        "name": "Chris Wood",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 52.31,
+        "market_value_eur": 6000000
+      },
+      {
+        "name": "Ben Waine",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 34.4,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Shane Smeltz",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Stefan Marinović",
+        "position": "Goalkeeper",
+        "age": 18.7,
+        "rating": 44.72
+      }
+    ],
+    "rank": 42
+  },
+  {
+    "team": "Panama",
+    "confederation": "CONCACAF",
+    "group": "L",
+    "flag": "🇵🇦",
+    "sci": 37.18,
+    "squad_quality": 40.11,
+    "xfactor": 20.0,
+    "squad_depth": 33.15,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Orlando Mosquera",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 47.74,
+        "market_value_eur": 650000
+      },
+      {
+        "name": "Cesar Yanis",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.07,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Fidel Escobar",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 38.84,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Éric Davis",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 37.62,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Andrés Andrade",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 37.34,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Adalberto Carrasquilla",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.61,
+        "market_value_eur": 4000000
+      },
+      {
+        "name": "César Yanis",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 32.97,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Édgar Bárcenas",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 30.87,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "José Luis Rodríguez",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 49.38,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Ismael Díaz",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 46.77,
+        "market_value_eur": 1800000
+      },
+      {
+        "name": "Cecilio Waterman",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.95,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 43
+  },
+  {
+    "team": "Mexico",
+    "confederation": "CONCACAF",
+    "group": "A",
+    "flag": "🇲🇽",
+    "sci": 37.17,
+    "squad_quality": 42.86,
+    "xfactor": 20.0,
+    "squad_depth": 26.17,
+    "recent_form": 50.0,
+    "squad_size": 25,
+    "best_xi": [
+      {
+        "name": "Malagón",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 37.88,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Montes",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 56.98,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Vásquez",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 46.75,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Sanchez",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 45.59,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "J. Araujo",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 44.67,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Rodriguez",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 39.09,
+        "market_value_eur": 800000
+      },
+      {
+        "name": "Alvarez",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 38.32,
+        "market_value_eur": 1000000
+      },
+      {
+        "name": "Romo",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 24.99,
+        "market_value_eur": 450000
+      },
+      {
+        "name": "Martin",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 48.93,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Lozano",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 47.36,
+        "market_value_eur": 2000000
+      },
+      {
+        "name": "Giménez",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 40.94,
+        "market_value_eur": 1000000
+      }
+    ],
+    "u23_stars": [
+      {
+        "name": "Sanchez",
+        "position": "Defender",
+        "age": 20.1,
+        "rating": 45.59
+      }
+    ],
+    "rank": 44
+  },
+  {
+    "team": "Iraq",
+    "confederation": "AFC",
+    "group": "L",
+    "flag": "🇮🇶",
+    "sci": 37.07,
+    "squad_quality": 39.69,
+    "xfactor": 20.0,
+    "squad_depth": 33.61,
+    "recent_form": 50.0,
+    "squad_size": 26,
+    "best_xi": [
+      {
+        "name": "Dhurgham Ismaeel",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 46.81,
+        "market_value_eur": 600000
+      },
+      {
+        "name": "Saad Abdul Amir",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 57.42,
+        "market_value_eur": 5000000
+      },
+      {
+        "name": "Amjad Attwan",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.25,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Hussein Ali",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.21,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Rebin Sulaka",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 38.0,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Bashar Resan",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 33.12,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Amjad Kalaf",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 31.37,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Humam Tariq",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 30.87,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Akram Afif",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 51.69,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Mohanad Lateef",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 34.44,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Aymen Hussein",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 34.41,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 45
+  },
+  {
+    "team": "Qatar",
+    "confederation": "AFC",
+    "group": "B",
+    "flag": "🇶🇦",
+    "sci": 36.67,
+    "squad_quality": 38.47,
+    "xfactor": 20.0,
+    "squad_depth": 34.66,
+    "recent_form": 50.0,
+    "squad_size": 23,
+    "best_xi": [
+      {
+        "name": "Meshaal Barsham",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 41.82,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Abdulkarim Hassan",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 43.48,
+        "market_value_eur": 650000
+      },
+      {
+        "name": "Abdelkarim Hassan",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 43.48,
+        "market_value_eur": 650000
+      },
+      {
+        "name": "Homam Ahmed",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.4,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Bassam Al-Rawi",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.38,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Akram Afif",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 47.58,
+        "market_value_eur": 4500000
+      },
+      {
+        "name": "Abdullah Al-Ahrak",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 33.19,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Almoez Ali",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 33.07,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Yusuf Abdurisag",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 34.63,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Ahmed Al-Rawi",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 33.62,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Ahmed Alaaeldin",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 33.57,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 46
+  },
+  {
+    "team": "Haiti",
+    "confederation": "CONCACAF",
+    "group": "C",
+    "flag": "🇭🇹",
+    "sci": 36.12,
+    "squad_quality": 39.6,
+    "xfactor": 20.0,
+    "squad_depth": 29.1,
+    "recent_form": 50.0,
+    "squad_size": 22,
+    "best_xi": [
+      {
+        "name": "Duckens Nazon",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 54.15,
+        "market_value_eur": 1600000
+      },
+      {
+        "name": "Andrew Guerrier",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 36.96,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Stéphane Lambèse",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 36.96,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Jean-Eudes Maurice",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 36.96,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Ronald Mathurin",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 36.96,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Frantzdy Pierrot",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 44.54,
+        "market_value_eur": 2500000
+      },
+      {
+        "name": "Shaq Moore",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 43.22,
+        "market_value_eur": 1500000
+      },
+      {
+        "name": "Gerschom Dessources",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 30.87,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Léo Léonce",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 50.39,
+        "market_value_eur": 3000000
+      },
+      {
+        "name": "Nicolas Lunéus",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Kevin Fortune",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 47
+  },
+  {
+    "team": "Jordan",
+    "confederation": "AFC",
+    "group": "H",
+    "flag": "🇯🇴",
+    "sci": 35.23,
+    "squad_quality": 35.69,
+    "xfactor": 20.0,
+    "squad_depth": 34.4,
+    "recent_form": 50.0,
+    "squad_size": 24,
+    "best_xi": [
+      {
+        "name": "Yazeed Abulaila",
+        "position": "Goalkeeper",
+        "pos_short": "GK",
+        "rating": 40.65,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Musa Al-Taamari",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.26,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Ahmad Saleh",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 39.14,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Sanad Natiq",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 38.59,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Baha Faisal",
+        "position": "Defender",
+        "pos_short": "DF",
+        "rating": 36.96,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Yazan Al-Arab",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 39.42,
+        "market_value_eur": 900000
+      },
+      {
+        "name": "Ahmad Zreiqat",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 30.87,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Musab Al-Rsan",
+        "position": "Midfielder",
+        "pos_short": "MF",
+        "rating": 30.87,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Mousa Al-Taamari",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Ahmad Al-Ghassani",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      },
+      {
+        "name": "Zaid Al-Hussain",
+        "position": "Forward",
+        "pos_short": "FW",
+        "rating": 32.28,
+        "market_value_eur": 500000
+      }
+    ],
+    "u23_stars": [],
+    "rank": 48
+  }
+]

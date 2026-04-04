@@ -1,0 +1,14 @@
+{
+  "A": {"teams": ["Mexico", "South Korea", "South Africa", "Czechia"], "venues": ["Mexico City", "Guadalajara", "Atlanta", "Monterrey"]},
+  "B": {"teams": ["Canada", "Bosnia and Herzegovina", "Qatar", "Switzerland"], "venues": ["Toronto", "Santa Clara"]},
+  "C": {"teams": ["Brazil", "Morocco", "Haiti", "Scotland"], "venues": ["Houston", "Philadelphia"]},
+  "D": {"teams": ["United States", "Paraguay", "Australia", "Türkiye"], "venues": ["Los Angeles", "Vancouver", "Seattle"]},
+  "E": {"teams": ["Germany", "Curaçao", "Ivory Coast", "Ecuador"], "venues": ["Houston", "Philadelphia", "Toronto"]},
+  "F": {"teams": ["Netherlands", "Japan", "Sweden", "Tunisia"], "venues": ["Miami", "Kansas City"]},
+  "G": {"teams": ["Belgium", "Egypt", "Cape Verde", "Saudi Arabia"], "venues": ["Atlanta", "Nashville"]},
+  "H": {"teams": ["Spain", "New Zealand", "Senegal", "Jordan"], "venues": ["Dallas", "Miami"]},
+  "I": {"teams": ["France", "Norway", "Algeria", "Austria"], "venues": ["New Jersey", "Philadelphia", "Kansas City"]},
+  "J": {"teams": ["Portugal", "DR Congo", "Uzbekistan", "Colombia"], "venues": ["Dallas", "Nashville"]},
+  "K": {"teams": ["England", "Croatia", "Iran", "Ghana"], "venues": ["New Jersey", "Seattle"]},
+  "L": {"teams": ["Argentina", "Uruguay", "Panama", "Iraq"], "venues": ["Miami", "Houston", "Dallas"]}
+}
