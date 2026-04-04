@@ -113,10 +113,10 @@ def build_u23_rows(u23_stars: List[Dict[str, Any]]) -> str:
 
 def build_breakdown_col(entry: Dict[str, Any]) -> str:
     sq  = float(entry.get("squad_quality", 0) or 0)
-    xf  = float(entry.get("x_factor",     0) or 0)
+    xf  = float(entry.get("xfactor",      0) or 0)
     sd  = float(entry.get("squad_depth",  0) or 0)
     rf  = float(entry.get("recent_form",  50) or 50)
-    sci = float(entry.get("sc_power_index", 0) or 0)
+    sci = float(entry.get("sci",            0) or 0)
     sz  = entry.get("squad_size", 0) or 0
 
     def row(label: str, val: float, pct: float) -> str:
