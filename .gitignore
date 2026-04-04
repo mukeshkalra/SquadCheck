@@ -1,0 +1,13 @@
+# Python
+pipeline/venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Pipeline cache & secrets
+pipeline/data/cache/
+pipeline/data/raw/
+pipeline/.env
+
+# OS
+.DS_Store
