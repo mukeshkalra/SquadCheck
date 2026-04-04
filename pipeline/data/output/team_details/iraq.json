@@ -1,0 +1,380 @@
+{
+  "team": "Iraq",
+  "confederation": "AFC",
+  "group": "L",
+  "flag": "🇮🇶",
+  "sci": 37.07,
+  "squad_quality": 39.69,
+  "xfactor": 20.0,
+  "squad_depth": 33.61,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Dhurgham Ismaeel",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 46.81,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Saad Abdul Amir",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 57.42,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Amjad Attwan",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.25,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Hussein Ali",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.21,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Rebin Sulaka",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 38.0,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Bashar Resan",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 33.12,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Amjad Kalaf",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 31.37,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Humam Tariq",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 30.87,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Akram Afif",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 51.69,
+      "market_value_eur": 4500000
+    },
+    {
+      "name": "Mohanad Lateef",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 34.44,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Aymen Hussein",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 34.41,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Saad Abdul Amir",
+      "position": "Defender",
+      "rating": 57.42,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Akram Afif",
+      "position": "Forward",
+      "rating": 51.69,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dhurgham Ismaeel",
+      "position": "Goalkeeper",
+      "rating": 46.81,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jalal Hassan",
+      "position": "Goalkeeper",
+      "rating": 40.08,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amjad Attwan",
+      "position": "Defender",
+      "rating": 39.25,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hussein Ali",
+      "position": "Defender",
+      "rating": 39.21,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rebin Sulaka",
+      "position": "Defender",
+      "rating": 38.0,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Ibrahim",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hamza Al-Dakhil",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yaser Kasim",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohanad Lateef",
+      "position": "Forward",
+      "rating": 34.44,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aymen Hussein",
+      "position": "Forward",
+      "rating": 34.41,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Saad Natiq",
+      "position": "Forward",
+      "rating": 33.91,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bashar Resan",
+      "position": "Midfielder",
+      "rating": 33.12,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohammed Hameed",
+      "position": "Goalkeeper",
+      "rating": 32.73,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Karar Jassim",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jasim Mohammed",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hikmat Hameed",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amjad Kalaf",
+      "position": "Midfielder",
+      "rating": 31.37,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 19.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Humam Tariq",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alaa Abdul Zahra",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Safaa Hadi",
+      "position": "Midfielder",
+      "rating": 29.55,
+      "market_value_eur": 475000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ali Adnan",
+      "position": "Defender",
+      "rating": 28.45,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohanad Ali",
+      "position": "Midfielder",
+      "rating": 26.8,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Yasin",
+      "position": "Midfielder",
+      "rating": 24.9,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alaa Abboud",
+      "position": "Forward",
+      "rating": 24.36,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

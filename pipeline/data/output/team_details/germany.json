@@ -1,0 +1,365 @@
+{
+  "team": "Germany",
+  "confederation": "UEFA",
+  "group": "E",
+  "flag": "🇩🇪",
+  "sci": 62.4,
+  "squad_quality": 68.23,
+  "xfactor": 64.34,
+  "squad_depth": 55.65,
+  "recent_form": 50.0,
+  "squad_size": 24,
+  "best_xi": [
+    {
+      "name": "Alexander Nübel",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 66.33,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Nico Schlotterbeck",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 72.89,
+      "market_value_eur": 55000000
+    },
+    {
+      "name": "Joshua Kimmich",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 70.48,
+      "market_value_eur": 40000000
+    },
+    {
+      "name": "Jonathan Tah",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 68.16,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Maximilian Mittelstädt",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 63.58,
+      "market_value_eur": 18000000
+    },
+    {
+      "name": "Jamal Musiala",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 72.51,
+      "market_value_eur": 120000000
+    },
+    {
+      "name": "Aleksandar Pavlovic",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 67.24,
+      "market_value_eur": 75000000
+    },
+    {
+      "name": "Leroy Sané",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 57.5,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Deniz Undav",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 74.91,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Florian Wirtz",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 71.55,
+      "market_value_eur": 110000000
+    },
+    {
+      "name": "Kai Havertz",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 65.36,
+      "market_value_eur": 50000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Aleksandar Pavlovic",
+      "position": "Midfielder",
+      "age": 22.1,
+      "rating": 67.24
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Deniz Undav",
+      "position": "Forward",
+      "rating": 74.91,
+      "market_value_eur": 22000000,
+      "goals": 18,
+      "assists": 5,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nico Schlotterbeck",
+      "position": "Defender",
+      "rating": 72.89,
+      "market_value_eur": 55000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jamal Musiala",
+      "position": "Midfielder",
+      "rating": 72.51,
+      "market_value_eur": 120000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Florian Wirtz",
+      "position": "Forward",
+      "rating": 71.55,
+      "market_value_eur": 110000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joshua Kimmich",
+      "position": "Defender",
+      "rating": 70.48,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jonathan Tah",
+      "position": "Defender",
+      "rating": 68.16,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aleksandar Pavlovic",
+      "position": "Midfielder",
+      "rating": 67.24,
+      "market_value_eur": 75000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexander Nübel",
+      "position": "Goalkeeper",
+      "rating": 66.33,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kai Havertz",
+      "position": "Forward",
+      "rating": 65.36,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Maximilian Mittelstädt",
+      "position": "Defender",
+      "rating": 63.58,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Waldemar Anton",
+      "position": "Defender",
+      "rating": 63.47,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Robin Koch",
+      "position": "Defender",
+      "rating": 62.59,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Benjamin Henrichs",
+      "position": "Defender",
+      "rating": 60.25,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Antonio Rüdiger",
+      "position": "Defender",
+      "rating": 59.29,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marc-André ter Stegen",
+      "position": "Goalkeeper",
+      "rating": 59.2,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Leroy Sané",
+      "position": "Midfielder",
+      "rating": 57.5,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Oliver Baumann",
+      "position": "Goalkeeper",
+      "rating": 56.42,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tim Kleindienst",
+      "position": "Forward",
+      "rating": 55.36,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Leon Goretzka",
+      "position": "Midfielder",
+      "rating": 54.14,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Niclas Füllkrug",
+      "position": "Forward",
+      "rating": 51.82,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Thomas Müller",
+      "position": "Forward",
+      "rating": 50.61,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Robert Andrich",
+      "position": "Midfielder",
+      "rating": 49.46,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pascal Groß",
+      "position": "Midfielder",
+      "rating": 45.18,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ilkay Gündogan",
+      "position": "Midfielder",
+      "rating": 43.11,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.6,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

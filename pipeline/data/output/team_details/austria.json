@@ -1,0 +1,387 @@
+{
+  "team": "Austria",
+  "confederation": "UEFA",
+  "group": "I",
+  "flag": "🇦🇹",
+  "sci": 56.22,
+  "squad_quality": 59.05,
+  "xfactor": 61.67,
+  "squad_depth": 49.71,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Daniel Bachmann",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 57.78,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Kevin Danso",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 65.05,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Leopold Querfeld",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 62.78,
+      "market_value_eur": 18000000
+    },
+    {
+      "name": "Philipp Lienhart",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 61.65,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Stefan Posch",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 57.8,
+      "market_value_eur": 5500000
+    },
+    {
+      "name": "Christoph Baumgartner",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 74.43,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Konrad Laimer",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 60.87,
+      "market_value_eur": 32000000
+    },
+    {
+      "name": "Nicolas Seiwald",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 57.54,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Patrick Wimmer",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 57.18,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Sasa Kalajdzic",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 47.68,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Marko Arnautović",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 46.83,
+      "market_value_eur": 2500000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Leopold Querfeld",
+      "position": "Defender",
+      "age": 22.5,
+      "rating": 62.78
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Christoph Baumgartner",
+      "position": "Midfielder",
+      "rating": 74.43,
+      "market_value_eur": 30000000,
+      "goals": 12,
+      "assists": 6,
+      "age": 26.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kevin Danso",
+      "position": "Defender",
+      "rating": 65.05,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Leopold Querfeld",
+      "position": "Defender",
+      "rating": 62.78,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Philipp Lienhart",
+      "position": "Defender",
+      "rating": 61.65,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Konrad Laimer",
+      "position": "Midfielder",
+      "rating": 60.87,
+      "market_value_eur": 32000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Stefan Posch",
+      "position": "Defender",
+      "rating": 57.8,
+      "market_value_eur": 5500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Daniel Bachmann",
+      "position": "Goalkeeper",
+      "rating": 57.78,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nicolas Seiwald",
+      "position": "Midfielder",
+      "rating": 57.54,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Patrick Wimmer",
+      "position": "Forward",
+      "rating": 57.18,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexander Schlager",
+      "position": "Goalkeeper",
+      "rating": 56.86,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Patrick Pentz",
+      "position": "Goalkeeper",
+      "rating": 56.26,
+      "market_value_eur": 2200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Romano Schmid",
+      "position": "Midfielder",
+      "rating": 54.54,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Maximilian Wöber",
+      "position": "Defender",
+      "rating": 54.14,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "David Alaba",
+      "position": "Defender",
+      "rating": 53.84,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gernot Trauner",
+      "position": "Defender",
+      "rating": 50.48,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Philipp Mwene",
+      "position": "Defender",
+      "rating": 49.42,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcel Sabitzer",
+      "position": "Midfielder",
+      "rating": 49.31,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sasa Kalajdzic",
+      "position": "Forward",
+      "rating": 47.68,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marko Arnautović",
+      "position": "Forward",
+      "rating": 46.83,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Michael Gregoritsch",
+      "position": "Forward",
+      "rating": 45.38,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Florian Grillitsch",
+      "position": "Midfielder",
+      "rating": 43.96,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ercan Kara",
+      "position": "Forward",
+      "rating": 42.24,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Florian Kainz",
+      "position": "Midfielder",
+      "rating": 40.03,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Karim Onisiwo",
+      "position": "Forward",
+      "rating": 33.79,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Christoph Gregoritsch",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andreas Weimann",
+      "position": "Forward",
+      "rating": 27.17,
+      "market_value_eur": 450000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.9,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

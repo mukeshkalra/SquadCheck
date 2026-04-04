@@ -1,0 +1,358 @@
+{
+  "team": "Cape Verde",
+  "confederation": "CAF",
+  "group": "G",
+  "flag": "🇨🇻",
+  "sci": 40.11,
+  "squad_quality": 45.58,
+  "xfactor": 20.0,
+  "squad_depth": 34.11,
+  "recent_form": 50.0,
+  "squad_size": 24,
+  "best_xi": [
+    {
+      "name": "Vozinha",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 78.9,
+      "market_value_eur": 110000000
+    },
+    {
+      "name": "Roberto Lopes",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 47.44,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Jordan Neto",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.43,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Diney",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 41.26,
+      "market_value_eur": 750000
+    },
+    {
+      "name": "Kevin Pina",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.78,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Jamiro Monteiro",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 38.01,
+      "market_value_eur": 750000
+    },
+    {
+      "name": "Patrick Andrade",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 37.0,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Ryan Mendes",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 36.35,
+      "market_value_eur": 700000
+    },
+    {
+      "name": "Sydney Tavares",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 47.42,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Bebé",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 45.86,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Bryan Teixeira",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 44.96,
+      "market_value_eur": 1200000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Vozinha",
+      "position": "Goalkeeper",
+      "rating": 78.9,
+      "market_value_eur": 110000000,
+      "goals": 6,
+      "assists": 1,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcelo",
+      "position": "Goalkeeper",
+      "rating": 52.44,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Roberto Lopes",
+      "position": "Defender",
+      "rating": 47.44,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sydney Tavares",
+      "position": "Forward",
+      "rating": 47.42,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bebé",
+      "position": "Forward",
+      "rating": 45.86,
+      "market_value_eur": 600000,
+      "goals": 6,
+      "assists": 1,
+      "age": 35.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bryan Teixeira",
+      "position": "Forward",
+      "rating": 44.96,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hélio Varela",
+      "position": "Forward",
+      "rating": 44.75,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jordan Neto",
+      "position": "Defender",
+      "rating": 44.43,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Diney",
+      "position": "Defender",
+      "rating": 41.26,
+      "market_value_eur": 750000,
+      "goals": 0,
+      "assists": 0,
+      "age": 42.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cláudio Winck",
+      "position": "Forward",
+      "rating": 41.17,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kevin Pina",
+      "position": "Defender",
+      "rating": 39.78,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jamiro Monteiro",
+      "position": "Midfielder",
+      "rating": 38.01,
+      "market_value_eur": 750000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Patrick Andrade",
+      "position": "Midfielder",
+      "rating": 37.0,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dylan Tavares",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ryan Mendes",
+      "position": "Midfielder",
+      "rating": 36.35,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Edy Semedo",
+      "position": "Goalkeeper",
+      "rating": 35.17,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rúben Soares Semedo",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Steven Fortes",
+      "position": "Defender",
+      "rating": 32.13,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kenny Rocha",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcos Rochinha",
+      "position": "Defender",
+      "rating": 27.86,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Stopira",
+      "position": "Defender",
+      "rating": 26.92,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Garry Rodrigues",
+      "position": "Midfielder",
+      "rating": 25.22,
+      "market_value_eur": 325000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nilton Varela",
+      "position": "Midfielder",
+      "rating": 23.5,
+      "market_value_eur": 125000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nuno Borges",
+      "position": "Midfielder",
+      "rating": 20.39,
+      "market_value_eur": 50000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.2,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

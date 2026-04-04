@@ -1,0 +1,358 @@
+{
+  "team": "Bosnia and Herzegovina",
+  "confederation": "UEFA",
+  "group": "B",
+  "flag": "🇧🇦",
+  "sci": 41.57,
+  "squad_quality": 48.31,
+  "xfactor": 20.0,
+  "squad_depth": 34.55,
+  "recent_form": 50.0,
+  "squad_size": 24,
+  "best_xi": [
+    {
+      "name": "Ibrahim Šehić",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 49.94,
+      "market_value_eur": 1200000
+    },
+    {
+      "name": "Ajdin Hasić",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 52.57,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Darko Todorović",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 50.15,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Dario Šarić",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 45.26,
+      "market_value_eur": 700000
+    },
+    {
+      "name": "Adnan Kovačević",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 36.96,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Ermedin Demirović",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 67.87,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Anel Ahmedhodžić",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 53.7,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Benjamin Tahirović",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.6,
+      "market_value_eur": 4500000
+    },
+    {
+      "name": "Tarik Tissoudali",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 52.67,
+      "market_value_eur": 6500000
+    },
+    {
+      "name": "Branimir Kalaica",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 40.46,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Kenan Kodro",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 34.23,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Ermedin Demirović",
+      "position": "Midfielder",
+      "rating": 67.87,
+      "market_value_eur": 22000000,
+      "goals": 9,
+      "assists": 2,
+      "age": 28.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Anel Ahmedhodžić",
+      "position": "Midfielder",
+      "rating": 53.7,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tarik Tissoudali",
+      "position": "Forward",
+      "rating": 52.67,
+      "market_value_eur": 6500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ajdin Hasić",
+      "position": "Defender",
+      "rating": 52.57,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Darko Todorović",
+      "position": "Defender",
+      "rating": 50.15,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ibrahim Šehić",
+      "position": "Goalkeeper",
+      "rating": 49.94,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Benjamin Tahirović",
+      "position": "Midfielder",
+      "rating": 47.6,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kenan Pirić",
+      "position": "Goalkeeper",
+      "rating": 46.85,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dario Šarić",
+      "position": "Defender",
+      "rating": 45.26,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Edin Džeko",
+      "position": "Midfielder",
+      "rating": 41.65,
+      "market_value_eur": 2700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Branimir Kalaica",
+      "position": "Forward",
+      "rating": 40.46,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Vedran Kjosevski",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Adnan Kovačević",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dino Muharemović",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kenan Kodro",
+      "position": "Forward",
+      "rating": 34.23,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amer Gojak",
+      "position": "Defender",
+      "rating": 33.37,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mirko Šarić",
+      "position": "Midfielder",
+      "rating": 33.35,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luka Menalo",
+      "position": "Midfielder",
+      "rating": 33.05,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nikola Bilbija",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hamza Čataković",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amer Ordagić",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Enis Bičakčić",
+      "position": "Defender",
+      "rating": 30.82,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nikola Radeljić",
+      "position": "Defender",
+      "rating": 23.8,
+      "market_value_eur": 150000,
+      "goals": 0,
+      "assists": 0,
+      "age": 43.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Deni Milošević",
+      "position": "Forward",
+      "rating": 23.46,
+      "market_value_eur": 150000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

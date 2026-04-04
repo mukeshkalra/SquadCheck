@@ -1,0 +1,380 @@
+{
+  "team": "Tunisia",
+  "confederation": "CAF",
+  "group": "F",
+  "flag": "🇹🇳",
+  "sci": 42.23,
+  "squad_quality": 48.1,
+  "xfactor": 20.0,
+  "squad_depth": 38.42,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Mouez Hassen",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 46.29,
+      "market_value_eur": 550000
+    },
+    {
+      "name": "Montassar Talbi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 59.27,
+      "market_value_eur": 7000000
+    },
+    {
+      "name": "Yassine Meriah",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 50.38,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Nader Ghandri",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 45.32,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Mohamed Drager",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 45.11,
+      "market_value_eur": 700000
+    },
+    {
+      "name": "Ellyes Skhiri",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 49.15,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Aïssa Laïdouni",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 48.93,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Naïm Sliti",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 46.48,
+      "market_value_eur": 4500000
+    },
+    {
+      "name": "Saif-Eddine Khaoui",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 47.29,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Hamza Rafia",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 46.59,
+      "market_value_eur": 1700000
+    },
+    {
+      "name": "Ferjani Sassi",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 44.24,
+      "market_value_eur": 1500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Montassar Talbi",
+      "position": "Defender",
+      "rating": 59.27,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yassine Meriah",
+      "position": "Defender",
+      "rating": 50.38,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ellyes Skhiri",
+      "position": "Midfielder",
+      "rating": 49.15,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aïssa Laïdouni",
+      "position": "Midfielder",
+      "rating": 48.93,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Saif-Eddine Khaoui",
+      "position": "Forward",
+      "rating": 47.29,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hamza Rafia",
+      "position": "Forward",
+      "rating": 46.59,
+      "market_value_eur": 1700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Naïm Sliti",
+      "position": "Midfielder",
+      "rating": 46.48,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mouez Hassen",
+      "position": "Goalkeeper",
+      "rating": 46.29,
+      "market_value_eur": 550000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nader Ghandri",
+      "position": "Defender",
+      "rating": 45.32,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Drager",
+      "position": "Defender",
+      "rating": 45.11,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Wajdi Kechrida",
+      "position": "Defender",
+      "rating": 45.0,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ferjani Sassi",
+      "position": "Forward",
+      "rating": 44.24,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aymen Dahmen",
+      "position": "Goalkeeper",
+      "rating": 41.65,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dylan Bronn",
+      "position": "Forward",
+      "rating": 41.52,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youssef Msakni",
+      "position": "Forward",
+      "rating": 40.65,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Farouk Ben Mustapha",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ghaylane Chaalali",
+      "position": "Midfielder",
+      "rating": 38.93,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ali Maâloul",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Ben Romdhane",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hamza Mathlouthi",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Wahbi Khazri",
+      "position": "Midfielder",
+      "rating": 36.3,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Seifeddine Jaziri",
+      "position": "Forward",
+      "rating": 33.58,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Ali Ben Romdhane",
+      "position": "Midfielder",
+      "rating": 33.21,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Taha Yassine Khenissi",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hannibal Mejbri",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Issam Jebali",
+      "position": "Forward",
+      "rating": 23.59,
+      "market_value_eur": 225000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.5,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

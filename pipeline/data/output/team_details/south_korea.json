@@ -1,0 +1,369 @@
+{
+  "team": "South Korea",
+  "confederation": "AFC",
+  "group": "A",
+  "flag": "🇰🇷",
+  "sci": 40.27,
+  "squad_quality": 42.26,
+  "xfactor": 20.0,
+  "squad_depth": 43.21,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Jo Hyeon-woo",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 48.38,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Kim Min-jae",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.67,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Cho Yu-min",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.67,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Kim Jin-su",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.67,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Seol Young-woo",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.67,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Lee Kang-in",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 38.32,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Park Seung-ho",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 38.32,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Paik Seung-ho",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 38.32,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Son Heung-min",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 40.94,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Hwang Hee-chan",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 40.94,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Cho Gue-sung",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 40.94,
+      "market_value_eur": 1000000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Jo Hyeon-woo",
+      "position": "Goalkeeper",
+      "rating": 48.38,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Song Bum-keun",
+      "position": "Goalkeeper",
+      "rating": 48.38,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hwang In-beom",
+      "position": "Goalkeeper",
+      "rating": 48.38,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kim Min-jae",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cho Yu-min",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kim Jin-su",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Seol Young-woo",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kim Young-gwon",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jung Seung-hyun",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kwon Kyung-won",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lee Myung-jae",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Son Heung-min",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hwang Hee-chan",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cho Gue-sung",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Oh Hyeon-gyu",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joo Min-kyu",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yang Hyun-jun",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bae Jun-ho",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Um Won-sang",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lee Kang-in",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Park Seung-ho",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Paik Seung-ho",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hong Hyun-seok",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lee Jae-sung",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jeong Woo-yeong",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

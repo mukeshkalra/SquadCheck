@@ -1,0 +1,358 @@
+{
+  "team": "Iran",
+  "confederation": "AFC",
+  "group": "K",
+  "flag": "🇮🇷",
+  "sci": 41.57,
+  "squad_quality": 47.49,
+  "xfactor": 20.0,
+  "squad_depth": 36.63,
+  "recent_form": 50.0,
+  "squad_size": 24,
+  "best_xi": [
+    {
+      "name": "Amir Abedzadeh",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 52.86,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Mohammad Mohebi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 53.53,
+      "market_value_eur": 2800000
+    },
+    {
+      "name": "Saman Ghoddos",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 50.43,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Milad Mohammadi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 48.21,
+      "market_value_eur": 1300000
+    },
+    {
+      "name": "Majid Hosseini",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 45.71,
+      "market_value_eur": 800000
+    },
+    {
+      "name": "Omid Noorafkan",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 40.62,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Mehdi Torabi",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 39.61,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Saeid Ezatolahi",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 39.03,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Sardar Azmoun",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 54.0,
+      "market_value_eur": 8000000
+    },
+    {
+      "name": "Allahyar Sayyadmanesh",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 50.35,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Mehdi Taremi",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 48.02,
+      "market_value_eur": 2500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Sardar Azmoun",
+      "position": "Forward",
+      "rating": 54.0,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohammad Mohebi",
+      "position": "Defender",
+      "rating": 53.53,
+      "market_value_eur": 2800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amir Abedzadeh",
+      "position": "Goalkeeper",
+      "rating": 52.86,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alireza Beiranvand",
+      "position": "Goalkeeper",
+      "rating": 50.93,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Saman Ghoddos",
+      "position": "Defender",
+      "rating": 50.43,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Allahyar Sayyadmanesh",
+      "position": "Forward",
+      "rating": 50.35,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Milad Mohammadi",
+      "position": "Defender",
+      "rating": 48.21,
+      "market_value_eur": 1300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Payam Niazmand",
+      "position": "Goalkeeper",
+      "rating": 48.07,
+      "market_value_eur": 750000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mehdi Taremi",
+      "position": "Forward",
+      "rating": 48.02,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Majid Hosseini",
+      "position": "Defender",
+      "rating": 45.71,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Morteza Pouraliganji",
+      "position": "Defender",
+      "rating": 43.48,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Omid Noorafkan",
+      "position": "Midfielder",
+      "rating": 40.62,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mehdi Torabi",
+      "position": "Midfielder",
+      "rating": 39.61,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abolfazl Jalali",
+      "position": "Defender",
+      "rating": 39.46,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Saeid Ezatolahi",
+      "position": "Midfielder",
+      "rating": 39.03,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rouzbeh Cheshmi",
+      "position": "Defender",
+      "rating": 38.4,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ali Karimi",
+      "position": "Midfielder",
+      "rating": 38.3,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alireza Jahanbakhsh",
+      "position": "Midfielder",
+      "rating": 37.15,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Shoja Khalilzadeh",
+      "position": "Forward",
+      "rating": 32.25,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmad Noorollahi",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ehsan Hajsafi",
+      "position": "Defender",
+      "rating": 29.1,
+      "market_value_eur": 275000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Karim Ansarifard",
+      "position": "Forward",
+      "rating": 26.68,
+      "market_value_eur": 450000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Reza Ghoochannejhad",
+      "position": "Forward",
+      "rating": 24.82,
+      "market_value_eur": 375000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Vahid Amiri",
+      "position": "Midfielder",
+      "rating": 22.81,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.2,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

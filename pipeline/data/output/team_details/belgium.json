@@ -1,0 +1,399 @@
+{
+  "team": "Belgium",
+  "confederation": "UEFA",
+  "group": "G",
+  "flag": "🇧🇪",
+  "sci": 60.94,
+  "squad_quality": 63.86,
+  "xfactor": 67.33,
+  "squad_depth": 57.06,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Koen Casteels",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 59.26,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Zeno Debast",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 67.59,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Alexis Saelemaekers",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 66.73,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Maxim De Cuyper",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 65.57,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Arthur Theate",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 64.84,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Amadou Onana",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 63.83,
+      "market_value_eur": 45000000
+    },
+    {
+      "name": "Youri Tielemans",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 62.02,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Charles De Ketelaere",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 61.86,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Jérémy Doku",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 67.21,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "Lois Openda",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 61.78,
+      "market_value_eur": 32000000
+    },
+    {
+      "name": "Loïs Openda",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 61.78,
+      "market_value_eur": 32000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Zeno Debast",
+      "position": "Defender",
+      "age": 22.6,
+      "rating": 67.59
+    },
+    {
+      "name": "Arthur Vermeeren",
+      "position": "Midfielder",
+      "age": 21.3,
+      "rating": 56.52
+    },
+    {
+      "name": "Julien Duranville",
+      "position": "Forward",
+      "age": 20.1,
+      "rating": 52.55
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Zeno Debast",
+      "position": "Defender",
+      "rating": 67.59,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jérémy Doku",
+      "position": "Forward",
+      "rating": 67.21,
+      "market_value_eur": 65000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexis Saelemaekers",
+      "position": "Defender",
+      "rating": 66.73,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Maxim De Cuyper",
+      "position": "Defender",
+      "rating": 65.57,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Arthur Theate",
+      "position": "Defender",
+      "rating": 64.84,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amadou Onana",
+      "position": "Midfielder",
+      "rating": 63.83,
+      "market_value_eur": 45000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youri Tielemans",
+      "position": "Midfielder",
+      "rating": 62.02,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Charles De Ketelaere",
+      "position": "Midfielder",
+      "rating": 61.86,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lois Openda",
+      "position": "Forward",
+      "rating": 61.78,
+      "market_value_eur": 32000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Loïs Openda",
+      "position": "Forward",
+      "rating": 61.78,
+      "market_value_eur": 32000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Wout Faes",
+      "position": "Defender",
+      "rating": 61.16,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Timothy Castagne",
+      "position": "Defender",
+      "rating": 60.77,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Koen Casteels",
+      "position": "Goalkeeper",
+      "rating": 59.26,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Matz Sels",
+      "position": "Goalkeeper",
+      "rating": 59.14,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Johan Bakayoko",
+      "position": "Forward",
+      "rating": 58.44,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dodi Lukebakio",
+      "position": "Forward",
+      "rating": 58.24,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Thomas Kaminski",
+      "position": "Goalkeeper",
+      "rating": 57.27,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Arthur Vermeeren",
+      "position": "Midfielder",
+      "rating": 56.52,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 21.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Leandro Trossard",
+      "position": "Midfielder",
+      "rating": 56.19,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kevin De Bruyne",
+      "position": "Midfielder",
+      "rating": 56.1,
+      "market_value_eur": 10000000,
+      "goals": 4,
+      "assists": 0,
+      "age": 35.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Romelu Lukaku",
+      "position": "Forward",
+      "rating": 55.51,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Orel Mangala",
+      "position": "Midfielder",
+      "rating": 52.81,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Julien Duranville",
+      "position": "Forward",
+      "rating": 52.55,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 20.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Thomas Meunier",
+      "position": "Defender",
+      "rating": 49.5,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Thorgan Hazard",
+      "position": "Forward",
+      "rating": 48.23,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jan Vertonghen",
+      "position": "Defender",
+      "rating": 44.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.1,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

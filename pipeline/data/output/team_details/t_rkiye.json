@@ -1,0 +1,393 @@
+{
+  "team": "Türkiye",
+  "confederation": "UEFA",
+  "group": "D",
+  "flag": "🇹🇷",
+  "sci": 60.09,
+  "squad_quality": 64.34,
+  "xfactor": 72.69,
+  "squad_depth": 47.59,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Altay Bayındır",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 63.53,
+      "market_value_eur": 7000000
+    },
+    {
+      "name": "Ferdi Kadıoğlu",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 68.39,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Merih Demiral",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 62.44,
+      "market_value_eur": 14000000
+    },
+    {
+      "name": "Zeki Çelik",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 61.75,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Ozan Kabak",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 60.97,
+      "market_value_eur": 10000000
+    },
+    {
+      "name": "Hakan Çalhanoğlu",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 64.96,
+      "market_value_eur": 18000000
+    },
+    {
+      "name": "Baris Alper Yilmaz",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 59.08,
+      "market_value_eur": 26000000
+    },
+    {
+      "name": "Orkun Kökçü",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 58.51,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Kenan Yıldız",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 79.84,
+      "market_value_eur": 75000000
+    },
+    {
+      "name": "Arda Güler",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 69.13,
+      "market_value_eur": 90000000
+    },
+    {
+      "name": "Kerem Aktürkoglu",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 59.18,
+      "market_value_eur": 22000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Kenan Yıldız",
+      "position": "Forward",
+      "age": 21.1,
+      "rating": 79.84
+    },
+    {
+      "name": "Arda Güler",
+      "position": "Forward",
+      "age": 21.3,
+      "rating": 69.13
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Kenan Yıldız",
+      "position": "Forward",
+      "rating": 79.84,
+      "market_value_eur": 75000000,
+      "goals": 10,
+      "assists": 6,
+      "age": 21.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Arda Güler",
+      "position": "Forward",
+      "rating": 69.13,
+      "market_value_eur": 90000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 21.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ferdi Kadıoğlu",
+      "position": "Defender",
+      "rating": 68.39,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hakan Çalhanoğlu",
+      "position": "Midfielder",
+      "rating": 64.96,
+      "market_value_eur": 18000000,
+      "goals": 8,
+      "assists": 2,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Altay Bayındır",
+      "position": "Goalkeeper",
+      "rating": 63.53,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Merih Demiral",
+      "position": "Defender",
+      "rating": 62.44,
+      "market_value_eur": 14000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Zeki Çelik",
+      "position": "Defender",
+      "rating": 61.75,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ozan Kabak",
+      "position": "Defender",
+      "rating": 60.97,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mert Müldür",
+      "position": "Defender",
+      "rating": 59.18,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kerem Aktürkoglu",
+      "position": "Forward",
+      "rating": 59.18,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Baris Alper Yilmaz",
+      "position": "Midfielder",
+      "rating": 59.08,
+      "market_value_eur": 26000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Orkun Kökçü",
+      "position": "Midfielder",
+      "rating": 58.51,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yunus Akgün",
+      "position": "Midfielder",
+      "rating": 55.6,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmet Kutucu",
+      "position": "Defender",
+      "rating": 55.01,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Doğan Alemdar",
+      "position": "Goalkeeper",
+      "rating": 53.37,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yusuf Yazıcı",
+      "position": "Forward",
+      "rating": 51.6,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kaan Ayhan",
+      "position": "Defender",
+      "rating": 51.29,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Samet Akaydin",
+      "position": "Defender",
+      "rating": 48.34,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Salih Özcan",
+      "position": "Midfielder",
+      "rating": 46.88,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mert Günok",
+      "position": "Goalkeeper",
+      "rating": 39.76,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Taylan Antalyali",
+      "position": "Midfielder",
+      "rating": 38.57,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Baris Yilmaz",
+      "position": "Forward",
+      "rating": 37.96,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cenk Tosun",
+      "position": "Forward",
+      "rating": 33.51,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Serdar Dursun",
+      "position": "Forward",
+      "rating": 25.08,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Burak Yılmaz",
+      "position": "Forward",
+      "rating": 24.31,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kaan Kökçü",
+      "position": "Midfielder",
+      "rating": 23.72,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

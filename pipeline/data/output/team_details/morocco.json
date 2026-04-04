@@ -1,0 +1,387 @@
+{
+  "team": "Morocco",
+  "confederation": "CAF",
+  "group": "C",
+  "flag": "🇲🇦",
+  "sci": 56.23,
+  "squad_quality": 59.99,
+  "xfactor": 59.94,
+  "squad_depth": 48.69,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Yassine Bounou",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 57.7,
+      "market_value_eur": 3500000
+    },
+    {
+      "name": "Achraf Hakimi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 78.55,
+      "market_value_eur": 80000000
+    },
+    {
+      "name": "Noussair Mazraoui",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 64.99,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Nayef Aguerd",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 64.72,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Romain Saïss",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 53.54,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Brahim Díaz",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 62.06,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Bilal El Khannouss",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 59.9,
+      "market_value_eur": 32000000
+    },
+    {
+      "name": "Sofyan Amrabat",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 53.5,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Youssef En-Nesyri",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 58.19,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Anass Zaroury",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 54.83,
+      "market_value_eur": 8000000
+    },
+    {
+      "name": "Ayoub El Kaabi",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 51.93,
+      "market_value_eur": 5000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Bilal El Khannouss",
+      "position": "Midfielder",
+      "age": 22.1,
+      "rating": 59.9
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Achraf Hakimi",
+      "position": "Defender",
+      "rating": 78.55,
+      "market_value_eur": 80000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Noussair Mazraoui",
+      "position": "Defender",
+      "rating": 64.99,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nayef Aguerd",
+      "position": "Defender",
+      "rating": 64.72,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Brahim Díaz",
+      "position": "Midfielder",
+      "rating": 62.06,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bilal El Khannouss",
+      "position": "Midfielder",
+      "rating": 59.9,
+      "market_value_eur": 32000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youssef En-Nesyri",
+      "position": "Forward",
+      "rating": 58.19,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yassine Bounou",
+      "position": "Goalkeeper",
+      "rating": 57.7,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Anass Zaroury",
+      "position": "Forward",
+      "rating": 54.83,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Romain Saïss",
+      "position": "Defender",
+      "rating": 53.54,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sofyan Amrabat",
+      "position": "Midfielder",
+      "rating": 53.5,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Azzedine Ounahi",
+      "position": "Midfielder",
+      "rating": 52.62,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ayoub El Kaabi",
+      "position": "Forward",
+      "rating": 51.93,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ilias Chair",
+      "position": "Forward",
+      "rating": 51.49,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jawad El Yamiq",
+      "position": "Defender",
+      "rating": 50.46,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hakim Ziyech",
+      "position": "Forward",
+      "rating": 49.57,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Achraf Dari",
+      "position": "Defender",
+      "rating": 49.1,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Munir El Haddadi",
+      "position": "Forward",
+      "rating": 48.92,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amine Harit",
+      "position": "Midfielder",
+      "rating": 48.9,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yahia Attiat-Allah",
+      "position": "Defender",
+      "rating": 48.63,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Reda Tagnaouti",
+      "position": "Goalkeeper",
+      "rating": 48.38,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Munir El Kajoui",
+      "position": "Goalkeeper",
+      "rating": 48.34,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Badr Benoun",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Selim Amallah",
+      "position": "Midfielder",
+      "rating": 43.23,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Soufiane Rahimi",
+      "position": "Forward",
+      "rating": 43.1,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youssef Azmoun",
+      "position": "Forward",
+      "rating": 27.42,
+      "market_value_eur": 375000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yahya Jabrane",
+      "position": "Midfielder",
+      "rating": 27.32,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

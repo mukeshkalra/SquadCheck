@@ -1,0 +1,376 @@
+{
+  "team": "Norway",
+  "confederation": "UEFA",
+  "group": "I",
+  "flag": "🇳🇴",
+  "sci": 57.18,
+  "squad_quality": 62.86,
+  "xfactor": 59.75,
+  "squad_depth": 46.42,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Kristoffer Klaesson",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 49.32,
+      "market_value_eur": 800000
+    },
+    {
+      "name": "Kristoffer Ajer",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 63.76,
+      "market_value_eur": 18000000
+    },
+    {
+      "name": "Leo Østigård",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 61.01,
+      "market_value_eur": 10000000
+    },
+    {
+      "name": "Andreas Hanche-Olsen",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.02,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Fredrik Bjørkan",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 55.2,
+      "market_value_eur": 3500000
+    },
+    {
+      "name": "Martin Ødegaard",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 67.27,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "Antonio Nusa",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 59.59,
+      "market_value_eur": 32000000
+    },
+    {
+      "name": "Sander Berge",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 58.78,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Erling Haaland",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 92.09,
+      "market_value_eur": 200000000
+    },
+    {
+      "name": "Alexander Sørloth",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 67.94,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Aron Dønnum",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 60.49,
+      "market_value_eur": 5000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Antonio Nusa",
+      "position": "Midfielder",
+      "age": 21.1,
+      "rating": 59.59
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Erling Haaland",
+      "position": "Forward",
+      "rating": 92.09,
+      "market_value_eur": 200000000,
+      "goals": 22,
+      "assists": 7,
+      "age": 25.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexander Sørloth",
+      "position": "Forward",
+      "rating": 67.94,
+      "market_value_eur": 20000000,
+      "goals": 10,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Martin Ødegaard",
+      "position": "Midfielder",
+      "rating": 67.27,
+      "market_value_eur": 65000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kristoffer Ajer",
+      "position": "Defender",
+      "rating": 63.76,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Leo Østigård",
+      "position": "Defender",
+      "rating": 61.01,
+      "market_value_eur": 10000000,
+      "goals": 5,
+      "assists": 0,
+      "age": 26.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aron Dønnum",
+      "position": "Forward",
+      "rating": 60.49,
+      "market_value_eur": 5000000,
+      "goals": 4,
+      "assists": 3,
+      "age": 28.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Antonio Nusa",
+      "position": "Midfielder",
+      "rating": 59.59,
+      "market_value_eur": 32000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 21.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sander Berge",
+      "position": "Midfielder",
+      "rating": 58.78,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andreas Hanche-Olsen",
+      "position": "Defender",
+      "rating": 56.02,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fredrik Bjørkan",
+      "position": "Defender",
+      "rating": 55.2,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fredrik Aursnes",
+      "position": "Midfielder",
+      "rating": 54.95,
+      "market_value_eur": 17000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mathias Normann",
+      "position": "Defender",
+      "rating": 53.86,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kristian Thorstvedt",
+      "position": "Midfielder",
+      "rating": 52.76,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Elyounoussi",
+      "position": "Forward",
+      "rating": 51.69,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Stian Gregersen",
+      "position": "Defender",
+      "rating": 50.65,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Birger Meling",
+      "position": "Defender",
+      "rating": 49.69,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kristoffer Klaesson",
+      "position": "Goalkeeper",
+      "rating": 49.32,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ørjan Nyland",
+      "position": "Goalkeeper",
+      "rating": 48.08,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ola Solbakken",
+      "position": "Forward",
+      "rating": 46.92,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rune Almenning Jarstein",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fredrik Midtsjø",
+      "position": "Midfielder",
+      "rating": 38.76,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sondre Bjørk",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Daouda Bah",
+      "position": "Forward",
+      "rating": 33.3,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 21.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lars-Jørgen Salvesen",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcus Pedersen",
+      "position": "Forward",
+      "rating": 21.3,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.0,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

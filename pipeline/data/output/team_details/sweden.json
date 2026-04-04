@@ -1,0 +1,369 @@
+{
+  "team": "Sweden",
+  "confederation": "UEFA",
+  "group": "F",
+  "flag": "🇸🇪",
+  "sci": 47.65,
+  "squad_quality": 59.1,
+  "xfactor": 20.0,
+  "squad_depth": 38.01,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Robin Olsen",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 45.34,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Isak Hien",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 65.81,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Emil Holm",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 62.09,
+      "market_value_eur": 13000000
+    },
+    {
+      "name": "Victor Lindelöf",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 57.68,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Joakim Nilsson",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 54.32,
+      "market_value_eur": 3500000
+    },
+    {
+      "name": "Viktor Gyökeres",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 77.33,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "Dejan Kulusevski",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 61.97,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Jesper Karlsson",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.65,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Alexander Isak",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 71.41,
+      "market_value_eur": 100000000
+    },
+    {
+      "name": "Anthony Elanga",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 63.18,
+      "market_value_eur": 40000000
+    },
+    {
+      "name": "Zlatan Ibrahimović",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 43.33,
+      "market_value_eur": 2000000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Viktor Gyökeres",
+      "position": "Midfielder",
+      "rating": 77.33,
+      "market_value_eur": 65000000,
+      "goals": 11,
+      "assists": 0,
+      "age": 28.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexander Isak",
+      "position": "Forward",
+      "rating": 71.41,
+      "market_value_eur": 100000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Isak Hien",
+      "position": "Defender",
+      "rating": 65.81,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Anthony Elanga",
+      "position": "Forward",
+      "rating": 63.18,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Emil Holm",
+      "position": "Defender",
+      "rating": 62.09,
+      "market_value_eur": 13000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dejan Kulusevski",
+      "position": "Midfielder",
+      "rating": 61.97,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Victor Lindelöf",
+      "position": "Defender",
+      "rating": 57.68,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joakim Nilsson",
+      "position": "Defender",
+      "rating": 54.32,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ludwig Augustinsson",
+      "position": "Defender",
+      "rating": 51.12,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jesper Karlsson",
+      "position": "Midfielder",
+      "rating": 47.65,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Emil Krafth",
+      "position": "Defender",
+      "rating": 46.91,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Robin Olsen",
+      "position": "Goalkeeper",
+      "rating": 45.34,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Samuel Gustafson",
+      "position": "Midfielder",
+      "rating": 43.81,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Emil Forsberg",
+      "position": "Midfielder",
+      "rating": 43.47,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Zlatan Ibrahimović",
+      "position": "Forward",
+      "rating": 43.33,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 44.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Robin Quaison",
+      "position": "Forward",
+      "rating": 41.02,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "John Guidetti",
+      "position": "Forward",
+      "rating": 39.01,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pontus Jansson",
+      "position": "Midfielder",
+      "rating": 36.76,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcus Danielson",
+      "position": "Forward",
+      "rating": 32.71,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Elis Melkersen",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jens-Lys Cajuste",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andreas Linde",
+      "position": "Goalkeeper",
+      "rating": 29.64,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mikael Lustig",
+      "position": "Defender",
+      "rating": 28.54,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Karl-Johan Johnsson",
+      "position": "Goalkeeper",
+      "rating": 28.44,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kristoffer Nordfeldt",
+      "position": "Defender",
+      "rating": 26.21,
+      "market_value_eur": 175000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.0,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

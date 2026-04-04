@@ -1,0 +1,387 @@
+{
+  "team": "Ghana",
+  "confederation": "CAF",
+  "group": "K",
+  "flag": "🇬🇭",
+  "sci": 53.63,
+  "squad_quality": 58.47,
+  "xfactor": 57.4,
+  "squad_depth": 41.41,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Lawrence Ati-Zigi",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 53.74,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Alidu Seidu",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 58.2,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Tariq Lamptey",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 57.27,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Daniel Amartey",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.92,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Alexander Djiku",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 55.5,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Mohammed Kudus",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 65.43,
+      "market_value_eur": 55000000
+    },
+    {
+      "name": "Kamaldeen Sulemana",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 55.4,
+      "market_value_eur": 18000000
+    },
+    {
+      "name": "Elisha Owusu",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 46.85,
+      "market_value_eur": 3500000
+    },
+    {
+      "name": "Antoine Semenyo",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 83.11,
+      "market_value_eur": 75000000
+    },
+    {
+      "name": "Ernest Nuamah",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 55.67,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Inaki Williams",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 55.03,
+      "market_value_eur": 10000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Ernest Nuamah",
+      "position": "Forward",
+      "age": 22.6,
+      "rating": 55.67
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Antoine Semenyo",
+      "position": "Forward",
+      "rating": 83.11,
+      "market_value_eur": 75000000,
+      "goals": 15,
+      "assists": 4,
+      "age": 26.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohammed Kudus",
+      "position": "Midfielder",
+      "rating": 65.43,
+      "market_value_eur": 55000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alidu Seidu",
+      "position": "Defender",
+      "rating": 58.2,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tariq Lamptey",
+      "position": "Defender",
+      "rating": 57.27,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Daniel Amartey",
+      "position": "Defender",
+      "rating": 56.92,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ernest Nuamah",
+      "position": "Forward",
+      "rating": 55.67,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexander Djiku",
+      "position": "Defender",
+      "rating": 55.5,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kamaldeen Sulemana",
+      "position": "Midfielder",
+      "rating": 55.4,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gideon Mensah",
+      "position": "Defender",
+      "rating": 55.21,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Inaki Williams",
+      "position": "Forward",
+      "rating": 55.03,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lawrence Ati-Zigi",
+      "position": "Goalkeeper",
+      "rating": 53.74,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Felix Afena-Gyan",
+      "position": "Forward",
+      "rating": 51.09,
+      "market_value_eur": 4200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Elisha Owusu",
+      "position": "Midfielder",
+      "rating": 46.85,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Osman Bukari",
+      "position": "Midfielder",
+      "rating": 45.93,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jordan Ayew",
+      "position": "Forward",
+      "rating": 45.27,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Iddrisu Baba",
+      "position": "Midfielder",
+      "rating": 44.37,
+      "market_value_eur": 2200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Thomas Partey",
+      "position": "Midfielder",
+      "rating": 44.01,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Danlad Ibrahim",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jonathan Mensah",
+      "position": "Defender",
+      "rating": 37.86,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Baba Rahman",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdul Fatawu Issahaku",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fatawu Issahaku",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Percival Asante",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jojo Wollacott",
+      "position": "Goalkeeper",
+      "rating": 29.92,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dennis Odoi",
+      "position": "Defender",
+      "rating": 26.48,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Daniel Kofi Kyereh",
+      "position": "Midfielder",
+      "rating": 24.11,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

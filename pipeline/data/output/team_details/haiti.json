@@ -1,0 +1,336 @@
+{
+  "team": "Haiti",
+  "confederation": "CONCACAF",
+  "group": "C",
+  "flag": "🇭🇹",
+  "sci": 36.12,
+  "squad_quality": 39.6,
+  "xfactor": 20.0,
+  "squad_depth": 29.1,
+  "recent_form": 50.0,
+  "squad_size": 22,
+  "best_xi": [
+    {
+      "name": "Duckens Nazon",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 54.15,
+      "market_value_eur": 1600000
+    },
+    {
+      "name": "Andrew Guerrier",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 36.96,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Stéphane Lambèse",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 36.96,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Jean-Eudes Maurice",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 36.96,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Ronald Mathurin",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 36.96,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Frantzdy Pierrot",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 44.54,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Shaq Moore",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 43.22,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Gerschom Dessources",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 30.87,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Léo Léonce",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 50.39,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Nicolas Lunéus",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 32.28,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Kevin Fortune",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 32.28,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Duckens Nazon",
+      "position": "Goalkeeper",
+      "rating": 54.15,
+      "market_value_eur": 1600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Léo Léonce",
+      "position": "Forward",
+      "rating": 50.39,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Frantzdy Pierrot",
+      "position": "Midfielder",
+      "rating": 44.54,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Shaq Moore",
+      "position": "Midfielder",
+      "rating": 43.22,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andrew Guerrier",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Stéphane Lambèse",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jean-Eudes Maurice",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ronald Mathurin",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Frantz Voltaire",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kervens Belfort",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nicolas Lunéus",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kevin Fortune",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Zachary Herivaux",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gerschom Dessources",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Carl Michäel Laban",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aldayr Pierre",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Réginald Goreux",
+      "position": "Defender",
+      "rating": 29.73,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Johny Placide",
+      "position": "Goalkeeper",
+      "rating": 27.66,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hervé Bazile",
+      "position": "Goalkeeper",
+      "rating": 25.57,
+      "market_value_eur": 75000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Wilde Donald Guerrier",
+      "position": "Defender",
+      "rating": 24.56,
+      "market_value_eur": 75000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Steeven Saba",
+      "position": "Forward",
+      "rating": 23.55,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Wilde-Donald Guerrier",
+      "position": "Midfielder",
+      "rating": 21.07,
+      "market_value_eur": 75000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.2,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

@@ -1,0 +1,380 @@
+{
+  "team": "Saudi Arabia",
+  "confederation": "AFC",
+  "group": "G",
+  "flag": "🇸🇦",
+  "sci": 41.11,
+  "squad_quality": 47.12,
+  "xfactor": 20.0,
+  "squad_depth": 35.25,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Nawaf Al-Aqidi",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 48.51,
+      "market_value_eur": 700000
+    },
+    {
+      "name": "Saud Abdulhamid",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 57.42,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Hassan Al-Tambakti",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 51.09,
+      "market_value_eur": 1800000
+    },
+    {
+      "name": "Sultan Al-Ghannam",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 50.34,
+      "market_value_eur": 1800000
+    },
+    {
+      "name": "Abdulelah Al-Amri",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 47.44,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Firas Al-Buraikan",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.43,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Khalid Al-Ghannam",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 39.51,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Mohamed Kanno",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 39.1,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Feras Al-Buraikan",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 51.58,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Salem Al-Dawsari",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 43.9,
+      "market_value_eur": 1300000
+    },
+    {
+      "name": "Nasser Al-Dawsari",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 41.95,
+      "market_value_eur": 800000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Saud Abdulhamid",
+      "position": "Defender",
+      "rating": 57.42,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Feras Al-Buraikan",
+      "position": "Forward",
+      "rating": 51.58,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hassan Al-Tambakti",
+      "position": "Defender",
+      "rating": 51.09,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sultan Al-Ghannam",
+      "position": "Defender",
+      "rating": 50.34,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nawaf Al-Aqidi",
+      "position": "Goalkeeper",
+      "rating": 48.51,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdulelah Al-Amri",
+      "position": "Defender",
+      "rating": 47.44,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Firas Al-Buraikan",
+      "position": "Midfielder",
+      "rating": 47.43,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Salem Al-Dawsari",
+      "position": "Forward",
+      "rating": 43.9,
+      "market_value_eur": 1300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yasser Al-Shahrani",
+      "position": "Defender",
+      "rating": 43.6,
+      "market_value_eur": 650000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nasser Al-Dawsari",
+      "position": "Forward",
+      "rating": 41.95,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fawaz Al-Qarni",
+      "position": "Goalkeeper",
+      "rating": 40.91,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohammed Al-Owais",
+      "position": "Goalkeeper",
+      "rating": 40.73,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Khalid Al-Ghannam",
+      "position": "Midfielder",
+      "rating": 39.51,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Saleh Al-Shehri",
+      "position": "Forward",
+      "rating": 39.17,
+      "market_value_eur": 550000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Kanno",
+      "position": "Midfielder",
+      "rating": 39.1,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdullah Madu",
+      "position": "Defender",
+      "rating": 38.89,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nawaf Al-Abid",
+      "position": "Defender",
+      "rating": 37.69,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdulelah Al-Malki",
+      "position": "Midfielder",
+      "rating": 33.17,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Al-Buraikan",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yazeed Al-Rajhi",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ali Al-Bulaihi",
+      "position": "Defender",
+      "rating": 29.0,
+      "market_value_eur": 275000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sami Al-Najei",
+      "position": "Midfielder",
+      "rating": 28.16,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdullah Al-Hamdan",
+      "position": "Forward",
+      "rating": 27.17,
+      "market_value_eur": 325000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohammed Al-Buraikan",
+      "position": "Midfielder",
+      "rating": 27.07,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Haitham Asiri",
+      "position": "Forward",
+      "rating": 25.07,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Salman Al-Faraj",
+      "position": "Midfielder",
+      "rating": 23.71,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.9,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

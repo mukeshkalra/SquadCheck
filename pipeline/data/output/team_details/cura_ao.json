@@ -1,0 +1,336 @@
+{
+  "team": "Curaçao",
+  "confederation": "CONCACAF",
+  "group": "E",
+  "flag": "🇨🇼",
+  "sci": 38.25,
+  "squad_quality": 43.43,
+  "xfactor": 20.0,
+  "squad_depth": 30.17,
+  "recent_form": 50.0,
+  "squad_size": 22,
+  "best_xi": [
+    {
+      "name": "Timon Wellenreuther",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 62.17,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Etienne Vaessen",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 52.51,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Rangelo Janga",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.96,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Darryl Lachman",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 37.62,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Jurickson Profar",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 36.96,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Frenkie de Jong",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 64.04,
+      "market_value_eur": 45000000
+    },
+    {
+      "name": "Sheraldo Becker",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 42.89,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Jair Leal",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 39.79,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Curacao Gorré",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 32.28,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Dion Doesburg",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 32.28,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Rúben Afonso",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 32.28,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Frenkie de Jong",
+      "position": "Midfielder",
+      "rating": 64.04,
+      "market_value_eur": 45000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Timon Wellenreuther",
+      "position": "Goalkeeper",
+      "rating": 62.17,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Etienne Vaessen",
+      "position": "Defender",
+      "rating": 52.51,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rangelo Janga",
+      "position": "Defender",
+      "rating": 44.96,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sheraldo Becker",
+      "position": "Midfielder",
+      "rating": 42.89,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jair Leal",
+      "position": "Midfielder",
+      "rating": 39.79,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Raphael Vanterpool",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Leandro Bacuna",
+      "position": "Midfielder",
+      "rating": 38.12,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Darryl Lachman",
+      "position": "Defender",
+      "rating": 37.62,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jurickson Profar",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Quentin Buur",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Roy Room",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Curacao Gorré",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dion Doesburg",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rúben Afonso",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Brandley Kuwas",
+      "position": "Defender",
+      "rating": 30.72,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cuco Martina",
+      "position": "Defender",
+      "rating": 28.16,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andrés Noppert",
+      "position": "Midfielder",
+      "rating": 26.7,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Eloy Room",
+      "position": "Goalkeeper",
+      "rating": 26.2,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jafar Arias",
+      "position": "Forward",
+      "rating": 23.54,
+      "market_value_eur": 150000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Charlton Vicario",
+      "position": "Midfielder",
+      "rating": 22.58,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Eljero Elia",
+      "position": "Forward",
+      "rating": 22.51,
+      "market_value_eur": 275000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

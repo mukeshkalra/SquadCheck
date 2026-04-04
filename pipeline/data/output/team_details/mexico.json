@@ -1,0 +1,376 @@
+{
+  "team": "Mexico",
+  "confederation": "CONCACAF",
+  "group": "A",
+  "flag": "🇲🇽",
+  "sci": 37.17,
+  "squad_quality": 42.86,
+  "xfactor": 20.0,
+  "squad_depth": 26.17,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Malagón",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 37.88,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Montes",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.98,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Vásquez",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 46.75,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Sanchez",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 45.59,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "J. Araujo",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.67,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Rodriguez",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 39.09,
+      "market_value_eur": 800000
+    },
+    {
+      "name": "Alvarez",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 38.32,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Romo",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 24.99,
+      "market_value_eur": 450000
+    },
+    {
+      "name": "Martin",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 48.93,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Lozano",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 47.36,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Giménez",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 40.94,
+      "market_value_eur": 1000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Sanchez",
+      "position": "Defender",
+      "age": 20.1,
+      "rating": 45.59
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Montes",
+      "position": "Defender",
+      "rating": 56.98,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Martin",
+      "position": "Forward",
+      "rating": 48.93,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lozano",
+      "position": "Forward",
+      "rating": 47.36,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Vásquez",
+      "position": "Defender",
+      "rating": 46.75,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sanchez",
+      "position": "Defender",
+      "rating": 45.59,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 20.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "J. Araujo",
+      "position": "Defender",
+      "rating": 44.67,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Giménez",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Quiñones",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rodriguez",
+      "position": "Midfielder",
+      "rating": 39.09,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Reyes",
+      "position": "Defender",
+      "rating": 38.64,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alvarez",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Malagón",
+      "position": "Goalkeeper",
+      "rating": 37.88,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 44.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Antuna",
+      "position": "Forward",
+      "rating": 30.05,
+      "market_value_eur": 100000,
+      "goals": 7,
+      "assists": 5,
+      "age": 39.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ochoa",
+      "position": "Goalkeeper",
+      "rating": 28.5,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 44.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "González",
+      "position": "Goalkeeper",
+      "rating": 25.23,
+      "market_value_eur": 50000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Romo",
+      "position": "Midfielder",
+      "rating": 24.99,
+      "market_value_eur": 450000,
+      "goals": 0,
+      "assists": 0,
+      "age": 41.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Guzman",
+      "position": "Defender",
+      "rating": 23.73,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Angulo",
+      "position": "Defender",
+      "rating": 22.48,
+      "market_value_eur": 50000,
+      "goals": 0,
+      "assists": 0,
+      "age": 45.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alvarado",
+      "position": "Forward",
+      "rating": 21.99,
+      "market_value_eur": 150000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Huerta",
+      "position": "Forward",
+      "rating": 21.3,
+      "market_value_eur": 75000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Chávez",
+      "position": "Midfielder",
+      "rating": 21.19,
+      "market_value_eur": 125000,
+      "goals": 0,
+      "assists": 0,
+      "age": 41.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mora",
+      "position": "Midfielder",
+      "rating": 19.99,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 43.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Beltrán",
+      "position": "Midfielder",
+      "rating": 19.99,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 42.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Vega",
+      "position": "Forward",
+      "rating": 19.85,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pineda",
+      "position": "Midfielder",
+      "rating": 18.87,
+      "market_value_eur": 50000,
+      "goals": 0,
+      "assists": 0,
+      "age": 45.2,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

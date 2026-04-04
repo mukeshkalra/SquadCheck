@@ -1,0 +1,5266 @@
+{
+  "groups": {
+    "A": [
+      "Mexico",
+      "South Korea",
+      "South Africa",
+      "Czechia"
+    ],
+    "B": [
+      "Canada",
+      "Bosnia and Herzegovina",
+      "Qatar",
+      "Switzerland"
+    ],
+    "C": [
+      "Brazil",
+      "Morocco",
+      "Haiti",
+      "Scotland"
+    ],
+    "D": [
+      "USA",
+      "Paraguay",
+      "Australia",
+      "Türkiye"
+    ],
+    "E": [
+      "Germany",
+      "Curaçao",
+      "Ivory Coast",
+      "Ecuador"
+    ],
+    "F": [
+      "Netherlands",
+      "Japan",
+      "Sweden",
+      "Tunisia"
+    ],
+    "G": [
+      "Belgium",
+      "Egypt",
+      "Cape Verde",
+      "Saudi Arabia"
+    ],
+    "H": [
+      "Spain",
+      "New Zealand",
+      "Senegal",
+      "Jordan"
+    ],
+    "I": [
+      "France",
+      "Norway",
+      "Algeria",
+      "Austria"
+    ],
+    "J": [
+      "Portugal",
+      "DR Congo",
+      "Uzbekistan",
+      "Colombia"
+    ],
+    "K": [
+      "England",
+      "Croatia",
+      "Iran",
+      "Ghana"
+    ],
+    "L": [
+      "Argentina",
+      "Uruguay",
+      "Panama",
+      "Iraq"
+    ]
+  },
+  "confederations": {
+    "USA": "CONCACAF",
+    "Mexico": "CONCACAF",
+    "Canada": "CONCACAF",
+    "Haiti": "CONCACAF",
+    "Panama": "CONCACAF",
+    "Curaçao": "CONCACAF",
+    "England": "UEFA",
+    "France": "UEFA",
+    "Spain": "UEFA",
+    "Germany": "UEFA",
+    "Portugal": "UEFA",
+    "Netherlands": "UEFA",
+    "Belgium": "UEFA",
+    "Croatia": "UEFA",
+    "Switzerland": "UEFA",
+    "Austria": "UEFA",
+    "Scotland": "UEFA",
+    "Norway": "UEFA",
+    "Bosnia and Herzegovina": "UEFA",
+    "Sweden": "UEFA",
+    "Türkiye": "UEFA",
+    "Czechia": "UEFA",
+    "Argentina": "CONMEBOL",
+    "Brazil": "CONMEBOL",
+    "Uruguay": "CONMEBOL",
+    "Colombia": "CONMEBOL",
+    "Ecuador": "CONMEBOL",
+    "Paraguay": "CONMEBOL",
+    "Japan": "AFC",
+    "South Korea": "AFC",
+    "Australia": "AFC",
+    "Saudi Arabia": "AFC",
+    "Iran": "AFC",
+    "Iraq": "AFC",
+    "Uzbekistan": "AFC",
+    "Jordan": "AFC",
+    "Qatar": "AFC",
+    "Morocco": "CAF",
+    "Senegal": "CAF",
+    "South Africa": "CAF",
+    "Egypt": "CAF",
+    "Algeria": "CAF",
+    "Ghana": "CAF",
+    "Ivory Coast": "CAF",
+    "Tunisia": "CAF",
+    "Cape Verde": "CAF",
+    "DR Congo": "CAF",
+    "New Zealand": "AFC"
+  },
+  "team_to_group": {
+    "Mexico": "A",
+    "South Korea": "A",
+    "South Africa": "A",
+    "Czechia": "A",
+    "Canada": "B",
+    "Bosnia and Herzegovina": "B",
+    "Qatar": "B",
+    "Switzerland": "B",
+    "Brazil": "C",
+    "Morocco": "C",
+    "Haiti": "C",
+    "Scotland": "C",
+    "USA": "D",
+    "Paraguay": "D",
+    "Australia": "D",
+    "Türkiye": "D",
+    "Germany": "E",
+    "Curaçao": "E",
+    "Ivory Coast": "E",
+    "Ecuador": "E",
+    "Netherlands": "F",
+    "Japan": "F",
+    "Sweden": "F",
+    "Tunisia": "F",
+    "Belgium": "G",
+    "Egypt": "G",
+    "Cape Verde": "G",
+    "Saudi Arabia": "G",
+    "Spain": "H",
+    "New Zealand": "H",
+    "Senegal": "H",
+    "Jordan": "H",
+    "France": "I",
+    "Norway": "I",
+    "Algeria": "I",
+    "Austria": "I",
+    "Portugal": "J",
+    "DR Congo": "J",
+    "Uzbekistan": "J",
+    "Colombia": "J",
+    "England": "K",
+    "Croatia": "K",
+    "Iran": "K",
+    "Ghana": "K",
+    "Argentina": "L",
+    "Uruguay": "L",
+    "Panama": "L",
+    "Iraq": "L"
+  },
+  "squads": {
+    "Mexico": [
+      {
+        "name": "Malagón",
+        "pos": "GK"
+      },
+      {
+        "name": "Ochoa",
+        "pos": "GK"
+      },
+      {
+        "name": "González",
+        "pos": "GK"
+      },
+      {
+        "name": "Montes",
+        "pos": "DF"
+      },
+      {
+        "name": "Vásquez",
+        "pos": "DF"
+      },
+      {
+        "name": "Sanchez",
+        "pos": "DF"
+      },
+      {
+        "name": "Angulo",
+        "pos": "DF"
+      },
+      {
+        "name": "J. Araujo",
+        "pos": "DF"
+      },
+      {
+        "name": "Guzman",
+        "pos": "DF"
+      },
+      {
+        "name": "Reyes",
+        "pos": "DF"
+      },
+      {
+        "name": "Alvarez",
+        "pos": "MF"
+      },
+      {
+        "name": "Chávez",
+        "pos": "MF"
+      },
+      {
+        "name": "Pineda",
+        "pos": "MF"
+      },
+      {
+        "name": "Romo",
+        "pos": "MF"
+      },
+      {
+        "name": "Rodriguez",
+        "pos": "MF"
+      },
+      {
+        "name": "Mora",
+        "pos": "MF"
+      },
+      {
+        "name": "Beltrán",
+        "pos": "MF"
+      },
+      {
+        "name": "Giménez",
+        "pos": "FW"
+      },
+      {
+        "name": "Quiñones",
+        "pos": "FW"
+      },
+      {
+        "name": "Lozano",
+        "pos": "FW"
+      },
+      {
+        "name": "Huerta",
+        "pos": "FW"
+      },
+      {
+        "name": "Antuna",
+        "pos": "FW"
+      },
+      {
+        "name": "Martin",
+        "pos": "FW"
+      },
+      {
+        "name": "Alvarado",
+        "pos": "FW"
+      },
+      {
+        "name": "Vega",
+        "pos": "FW"
+      }
+    ],
+    "South Korea": [
+      {
+        "name": "Jo Hyeon-woo",
+        "pos": "GK"
+      },
+      {
+        "name": "Song Bum-keun",
+        "pos": "GK"
+      },
+      {
+        "name": "Hwang In-beom",
+        "pos": "GK"
+      },
+      {
+        "name": "Kim Min-jae",
+        "pos": "DF"
+      },
+      {
+        "name": "Cho Yu-min",
+        "pos": "DF"
+      },
+      {
+        "name": "Kim Jin-su",
+        "pos": "DF"
+      },
+      {
+        "name": "Seol Young-woo",
+        "pos": "DF"
+      },
+      {
+        "name": "Kim Young-gwon",
+        "pos": "DF"
+      },
+      {
+        "name": "Jung Seung-hyun",
+        "pos": "DF"
+      },
+      {
+        "name": "Kwon Kyung-won",
+        "pos": "DF"
+      },
+      {
+        "name": "Lee Myung-jae",
+        "pos": "DF"
+      },
+      {
+        "name": "Hwang In-beom",
+        "pos": "MF"
+      },
+      {
+        "name": "Lee Kang-in",
+        "pos": "MF"
+      },
+      {
+        "name": "Park Seung-ho",
+        "pos": "MF"
+      },
+      {
+        "name": "Paik Seung-ho",
+        "pos": "MF"
+      },
+      {
+        "name": "Hong Hyun-seok",
+        "pos": "MF"
+      },
+      {
+        "name": "Lee Jae-sung",
+        "pos": "MF"
+      },
+      {
+        "name": "Jeong Woo-yeong",
+        "pos": "MF"
+      },
+      {
+        "name": "Son Heung-min",
+        "pos": "FW"
+      },
+      {
+        "name": "Hwang Hee-chan",
+        "pos": "FW"
+      },
+      {
+        "name": "Cho Gue-sung",
+        "pos": "FW"
+      },
+      {
+        "name": "Oh Hyeon-gyu",
+        "pos": "FW"
+      },
+      {
+        "name": "Joo Min-kyu",
+        "pos": "FW"
+      },
+      {
+        "name": "Yang Hyun-jun",
+        "pos": "FW"
+      },
+      {
+        "name": "Bae Jun-ho",
+        "pos": "FW"
+      },
+      {
+        "name": "Um Won-sang",
+        "pos": "FW"
+      }
+    ],
+    "South Africa": [
+      {
+        "name": "Ronwen Williams",
+        "pos": "GK"
+      },
+      {
+        "name": "Bruce Bvuma",
+        "pos": "GK"
+      },
+      {
+        "name": "Veli Mothwa",
+        "pos": "GK"
+      },
+      {
+        "name": "Nyiko Mobbie",
+        "pos": "DF"
+      },
+      {
+        "name": "Sifiso Hlanti",
+        "pos": "DF"
+      },
+      {
+        "name": "Teboho Mokoena",
+        "pos": "DF"
+      },
+      {
+        "name": "Mothobi Mvala",
+        "pos": "DF"
+      },
+      {
+        "name": "Nkosinathi Sibisi",
+        "pos": "DF"
+      },
+      {
+        "name": "Aubrey Modiba",
+        "pos": "DF"
+      },
+      {
+        "name": "Siyanda Xulu",
+        "pos": "DF"
+      },
+      {
+        "name": "Khuliso Mudau",
+        "pos": "DF"
+      },
+      {
+        "name": "Themba Zwane",
+        "pos": "MF"
+      },
+      {
+        "name": "Yusuf Maart",
+        "pos": "MF"
+      },
+      {
+        "name": "Ethan Bristow",
+        "pos": "MF"
+      },
+      {
+        "name": "Sphephelo Sithole",
+        "pos": "MF"
+      },
+      {
+        "name": "Keagan Dolly",
+        "pos": "MF"
+      },
+      {
+        "name": "Itumeleng Khune",
+        "pos": "MF"
+      },
+      {
+        "name": "Percy Tau",
+        "pos": "FW"
+      },
+      {
+        "name": "Lyle Foster",
+        "pos": "FW"
+      },
+      {
+        "name": "Evidence Makgopa",
+        "pos": "FW"
+      },
+      {
+        "name": "Terrence Mashego",
+        "pos": "FW"
+      },
+      {
+        "name": "Bongokuhle Hlongwane",
+        "pos": "FW"
+      },
+      {
+        "name": "Lebo Mothiba",
+        "pos": "FW"
+      },
+      {
+        "name": "Sipho Mbule",
+        "pos": "FW"
+      },
+      {
+        "name": "Oswin Appollis",
+        "pos": "FW"
+      },
+      {
+        "name": "Lerby Rayners",
+        "pos": "FW"
+      },
+      {
+        "name": "Kermit Erasmus",
+        "pos": "FW"
+      }
+    ],
+    "Czechia": [
+      {
+        "name": "Jindřich Staněk",
+        "pos": "GK"
+      },
+      {
+        "name": "Matěj Kovář",
+        "pos": "GK"
+      },
+      {
+        "name": "Jiří Laštůvka",
+        "pos": "GK"
+      },
+      {
+        "name": "Vladimír Coufal",
+        "pos": "DF"
+      },
+      {
+        "name": "Tomáš Holeš",
+        "pos": "DF"
+      },
+      {
+        "name": "Lukáš Hrádecký",
+        "pos": "DF"
+      },
+      {
+        "name": "David Jurásek",
+        "pos": "DF"
+      },
+      {
+        "name": "Martin Vitík",
+        "pos": "DF"
+      },
+      {
+        "name": "David Zima",
+        "pos": "DF"
+      },
+      {
+        "name": "Jan Bořil",
+        "pos": "DF"
+      },
+      {
+        "name": "Robin Hranáč",
+        "pos": "DF"
+      },
+      {
+        "name": "Tomáš Souček",
+        "pos": "MF"
+      },
+      {
+        "name": "Antonín Barák",
+        "pos": "MF"
+      },
+      {
+        "name": "Lukáš Provod",
+        "pos": "MF"
+      },
+      {
+        "name": "Matěj Jurásek",
+        "pos": "MF"
+      },
+      {
+        "name": "Ondřej Lingr",
+        "pos": "MF"
+      },
+      {
+        "name": "Michal Sadílek",
+        "pos": "MF"
+      },
+      {
+        "name": "Adam Hložek",
+        "pos": "MF"
+      },
+      {
+        "name": "Patrik Schick",
+        "pos": "FW"
+      },
+      {
+        "name": "Tomáš Chorý",
+        "pos": "FW"
+      },
+      {
+        "name": "Jan Kuchta",
+        "pos": "FW"
+      },
+      {
+        "name": "Mojmír Chytil",
+        "pos": "FW"
+      },
+      {
+        "name": "Ondřej Čvančara",
+        "pos": "FW"
+      },
+      {
+        "name": "Václav Jemelka",
+        "pos": "FW"
+      },
+      {
+        "name": "Jakub Pešek",
+        "pos": "FW"
+      },
+      {
+        "name": "Adam Hložek",
+        "pos": "FW"
+      }
+    ],
+    "Canada": [
+      {
+        "name": "Maxime Crépeau",
+        "pos": "GK"
+      },
+      {
+        "name": "Milan Borjan",
+        "pos": "GK"
+      },
+      {
+        "name": "Dayne St. Clair",
+        "pos": "GK"
+      },
+      {
+        "name": "Alistair Johnston",
+        "pos": "DF"
+      },
+      {
+        "name": "Kamal Miller",
+        "pos": "DF"
+      },
+      {
+        "name": "Derek Cornelius",
+        "pos": "DF"
+      },
+      {
+        "name": "Richie Laryea",
+        "pos": "DF"
+      },
+      {
+        "name": "Steven Vitória",
+        "pos": "DF"
+      },
+      {
+        "name": "Doneil Henry",
+        "pos": "DF"
+      },
+      {
+        "name": "Marcus Godinho",
+        "pos": "DF"
+      },
+      {
+        "name": "Samuel Adekugbe",
+        "pos": "DF"
+      },
+      {
+        "name": "Stephen Eustáquio",
+        "pos": "MF"
+      },
+      {
+        "name": "Ismaël Koné",
+        "pos": "MF"
+      },
+      {
+        "name": "Jonathan Osorio",
+        "pos": "MF"
+      },
+      {
+        "name": "Mathieu Choinière",
+        "pos": "MF"
+      },
+      {
+        "name": "Samuel Piette",
+        "pos": "MF"
+      },
+      {
+        "name": "Charles-Andreas Brym",
+        "pos": "MF"
+      },
+      {
+        "name": "Jonathan David",
+        "pos": "FW"
+      },
+      {
+        "name": "Tajon Buchanan",
+        "pos": "FW"
+      },
+      {
+        "name": "Jacob Shaffelburg",
+        "pos": "FW"
+      },
+      {
+        "name": "Cyle Larin",
+        "pos": "FW"
+      },
+      {
+        "name": "Liam Millar",
+        "pos": "FW"
+      },
+      {
+        "name": "Theo Bair",
+        "pos": "FW"
+      },
+      {
+        "name": "Jayden Nelson",
+        "pos": "FW"
+      },
+      {
+        "name": "Junior Hoilett",
+        "pos": "FW"
+      },
+      {
+        "name": "Antoine Semenyo",
+        "pos": "FW"
+      }
+    ],
+    "Bosnia and Herzegovina": [
+      {
+        "name": "Ibrahim Šehić",
+        "pos": "GK"
+      },
+      {
+        "name": "Nikola Vasilj",
+        "pos": "GK"
+      },
+      {
+        "name": "Jasmin Handžić",
+        "pos": "GK"
+      },
+      {
+        "name": "Ognjen Vranješ",
+        "pos": "DF"
+      },
+      {
+        "name": "Amar Dedić",
+        "pos": "DF"
+      },
+      {
+        "name": "Ermedin Demirović",
+        "pos": "DF"
+      },
+      {
+        "name": "Dario Šimić",
+        "pos": "DF"
+      },
+      {
+        "name": "Sead Kolašinac",
+        "pos": "DF"
+      },
+      {
+        "name": "Mergim Berisha",
+        "pos": "DF"
+      },
+      {
+        "name": "Saša Marković",
+        "pos": "DF"
+      },
+      {
+        "name": "Nikola Milenković",
+        "pos": "DF"
+      },
+      {
+        "name": "Smail Prevljak",
+        "pos": "MF"
+      },
+      {
+        "name": "Amer Gojak",
+        "pos": "MF"
+      },
+      {
+        "name": "Ermin Bičakčić",
+        "pos": "MF"
+      },
+      {
+        "name": "Haris Hajradinović",
+        "pos": "MF"
+      },
+      {
+        "name": "Dario Saric",
+        "pos": "MF"
+      },
+      {
+        "name": "Zajko Zeba",
+        "pos": "MF"
+      },
+      {
+        "name": "Kenan Pirić",
+        "pos": "MF"
+      },
+      {
+        "name": "Edin Džeko",
+        "pos": "FW"
+      },
+      {
+        "name": "Ermedin Demirović",
+        "pos": "FW"
+      },
+      {
+        "name": "Anel Ahmedhodžić",
+        "pos": "FW"
+      },
+      {
+        "name": "Tarik Đulović",
+        "pos": "FW"
+      },
+      {
+        "name": "Vedat Muriqi",
+        "pos": "FW"
+      },
+      {
+        "name": "Rijad Bajić",
+        "pos": "FW"
+      },
+      {
+        "name": "Darko Todorović",
+        "pos": "FW"
+      },
+      {
+        "name": "Tino-Sven Sušić",
+        "pos": "FW"
+      }
+    ],
+    "Qatar": [
+      {
+        "name": "Meshaal Barsham",
+        "pos": "GK"
+      },
+      {
+        "name": "Saad Al Sheeb",
+        "pos": "GK"
+      },
+      {
+        "name": "Yusuf Hassan",
+        "pos": "GK"
+      },
+      {
+        "name": "Pedro Miguel",
+        "pos": "DF"
+      },
+      {
+        "name": "Tarek Salman",
+        "pos": "DF"
+      },
+      {
+        "name": "Bassam Al-Rawi",
+        "pos": "DF"
+      },
+      {
+        "name": "Abdulkarim Hassan",
+        "pos": "DF"
+      },
+      {
+        "name": "Mohammed Waad",
+        "pos": "DF"
+      },
+      {
+        "name": "Khaled Narey",
+        "pos": "DF"
+      },
+      {
+        "name": "Karim Boudiaf",
+        "pos": "DF"
+      },
+      {
+        "name": "Musab Kheder",
+        "pos": "DF"
+      },
+      {
+        "name": "Akram Afif",
+        "pos": "MF"
+      },
+      {
+        "name": "Hassan Al-Haydos",
+        "pos": "MF"
+      },
+      {
+        "name": "Karim Boudiaf",
+        "pos": "MF"
+      },
+      {
+        "name": "Assim Madibo",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohammed Muntari",
+        "pos": "MF"
+      },
+      {
+        "name": "Ali Almoez",
+        "pos": "MF"
+      },
+      {
+        "name": "Ahmed Fatehi",
+        "pos": "MF"
+      },
+      {
+        "name": "Akram Afif",
+        "pos": "FW"
+      },
+      {
+        "name": "Mohammed Muntari",
+        "pos": "FW"
+      },
+      {
+        "name": "Almoez Ali",
+        "pos": "FW"
+      },
+      {
+        "name": "Hasan Al-Haydos",
+        "pos": "FW"
+      },
+      {
+        "name": "Ismaeel Mohammad",
+        "pos": "FW"
+      },
+      {
+        "name": "Abdulaziz Hatem",
+        "pos": "FW"
+      },
+      {
+        "name": "Hamdi Harbaoui",
+        "pos": "FW"
+      },
+      {
+        "name": "Ibrahim Alaaeldin",
+        "pos": "FW"
+      }
+    ],
+    "Switzerland": [
+      {
+        "name": "Yann Sommer",
+        "pos": "GK"
+      },
+      {
+        "name": "Gregor Kobel",
+        "pos": "GK"
+      },
+      {
+        "name": "Yvon Mvogo",
+        "pos": "GK"
+      },
+      {
+        "name": "Manuel Akanji",
+        "pos": "DF"
+      },
+      {
+        "name": "Fabian Schär",
+        "pos": "DF"
+      },
+      {
+        "name": "Ricardo Rodriguez",
+        "pos": "DF"
+      },
+      {
+        "name": "Silvan Widmer",
+        "pos": "DF"
+      },
+      {
+        "name": "Nico Elvedi",
+        "pos": "DF"
+      },
+      {
+        "name": "Cedric Zesiger",
+        "pos": "DF"
+      },
+      {
+        "name": "Leonidas Stergiou",
+        "pos": "DF"
+      },
+      {
+        "name": "Edimilson Fernandes",
+        "pos": "DF"
+      },
+      {
+        "name": "Granit Xhaka",
+        "pos": "MF"
+      },
+      {
+        "name": "Remo Freuler",
+        "pos": "MF"
+      },
+      {
+        "name": "Denis Zakaria",
+        "pos": "MF"
+      },
+      {
+        "name": "Michel Aebischer",
+        "pos": "MF"
+      },
+      {
+        "name": "Vincent Sierro",
+        "pos": "MF"
+      },
+      {
+        "name": "Ardon Jashari",
+        "pos": "MF"
+      },
+      {
+        "name": "Christian Fassnacht",
+        "pos": "MF"
+      },
+      {
+        "name": "Breel Embolo",
+        "pos": "FW"
+      },
+      {
+        "name": "Dan Ndoye",
+        "pos": "FW"
+      },
+      {
+        "name": "Noah Okafor",
+        "pos": "FW"
+      },
+      {
+        "name": "Zeki Amdouni",
+        "pos": "FW"
+      },
+      {
+        "name": "Renato Steffen",
+        "pos": "FW"
+      },
+      {
+        "name": "Andi Zeqiri",
+        "pos": "FW"
+      },
+      {
+        "name": "Kwadwo Duah",
+        "pos": "FW"
+      },
+      {
+        "name": "Ruben Vargas",
+        "pos": "FW"
+      }
+    ],
+    "Brazil": [
+      {
+        "name": "Alisson",
+        "pos": "GK"
+      },
+      {
+        "name": "Ederson",
+        "pos": "GK"
+      },
+      {
+        "name": "Bento",
+        "pos": "GK"
+      },
+      {
+        "name": "Marquinhos",
+        "pos": "DF"
+      },
+      {
+        "name": "Éder Militão",
+        "pos": "DF"
+      },
+      {
+        "name": "Gabriel Magalhães",
+        "pos": "DF"
+      },
+      {
+        "name": "Danilo",
+        "pos": "DF"
+      },
+      {
+        "name": "Wendell",
+        "pos": "DF"
+      },
+      {
+        "name": "Bremer",
+        "pos": "DF"
+      },
+      {
+        "name": "Yan Couto",
+        "pos": "DF"
+      },
+      {
+        "name": "Guilherme Arana",
+        "pos": "DF"
+      },
+      {
+        "name": "Bruno Guimarães",
+        "pos": "MF"
+      },
+      {
+        "name": "Lucas Paquetá",
+        "pos": "MF"
+      },
+      {
+        "name": "João Gomes",
+        "pos": "MF"
+      },
+      {
+        "name": "André",
+        "pos": "MF"
+      },
+      {
+        "name": "Douglas Luiz",
+        "pos": "MF"
+      },
+      {
+        "name": "Ederson Soares",
+        "pos": "MF"
+      },
+      {
+        "name": "Vinícius Júnior",
+        "pos": "FW"
+      },
+      {
+        "name": "Rodrygo",
+        "pos": "FW"
+      },
+      {
+        "name": "Endrick",
+        "pos": "FW"
+      },
+      {
+        "name": "Raphinha",
+        "pos": "FW"
+      },
+      {
+        "name": "Gabriel Jesus",
+        "pos": "FW"
+      },
+      {
+        "name": "Gabriel Martinelli",
+        "pos": "FW"
+      },
+      {
+        "name": "Savinho",
+        "pos": "FW"
+      },
+      {
+        "name": "Estêvão",
+        "pos": "FW"
+      },
+      {
+        "name": "Richarlison",
+        "pos": "FW"
+      }
+    ],
+    "Morocco": [
+      {
+        "name": "Yassine Bounou",
+        "pos": "GK"
+      },
+      {
+        "name": "Munir Mohamedi",
+        "pos": "GK"
+      },
+      {
+        "name": "Ahmed Reda Tagnaouti",
+        "pos": "GK"
+      },
+      {
+        "name": "Achraf Hakimi",
+        "pos": "DF"
+      },
+      {
+        "name": "Nayef Aguerd",
+        "pos": "DF"
+      },
+      {
+        "name": "Romain Saïss",
+        "pos": "DF"
+      },
+      {
+        "name": "Noussair Mazraoui",
+        "pos": "DF"
+      },
+      {
+        "name": "Jawad El Yamiq",
+        "pos": "DF"
+      },
+      {
+        "name": "Badr Benoun",
+        "pos": "DF"
+      },
+      {
+        "name": "Yahia Attiat-Allah",
+        "pos": "DF"
+      },
+      {
+        "name": "Samy Mmaee",
+        "pos": "DF"
+      },
+      {
+        "name": "Sofyan Amrabat",
+        "pos": "MF"
+      },
+      {
+        "name": "Azzedine Ounahi",
+        "pos": "MF"
+      },
+      {
+        "name": "Brahim Díaz",
+        "pos": "MF"
+      },
+      {
+        "name": "Selim Amallah",
+        "pos": "MF"
+      },
+      {
+        "name": "Bilal El Khannouss",
+        "pos": "MF"
+      },
+      {
+        "name": "Reda Tagnaouti",
+        "pos": "MF"
+      },
+      {
+        "name": "Abdessamad Ezzalzouli",
+        "pos": "MF"
+      },
+      {
+        "name": "Hakim Ziyech",
+        "pos": "FW"
+      },
+      {
+        "name": "Youssef En-Nesyri",
+        "pos": "FW"
+      },
+      {
+        "name": "Youssef Adli",
+        "pos": "FW"
+      },
+      {
+        "name": "Amir Richardson",
+        "pos": "FW"
+      },
+      {
+        "name": "Abde Ezzalzouli",
+        "pos": "FW"
+      },
+      {
+        "name": "Ilias Akhomach",
+        "pos": "FW"
+      },
+      {
+        "name": "Amine Harit",
+        "pos": "FW"
+      },
+      {
+        "name": "Soufiane Rahimi",
+        "pos": "FW"
+      }
+    ],
+    "Haiti": [
+      {
+        "name": "Romelys Noel",
+        "pos": "GK"
+      },
+      {
+        "name": "Heritier Cazeau",
+        "pos": "GK"
+      },
+      {
+        "name": "Johnny Placide",
+        "pos": "GK"
+      },
+      {
+        "name": "Derrick Etienne",
+        "pos": "DF"
+      },
+      {
+        "name": "Frantzdy Pierrot",
+        "pos": "DF"
+      },
+      {
+        "name": "Kevin Lafrance",
+        "pos": "DF"
+      },
+      {
+        "name": "Mechack Jérôme",
+        "pos": "DF"
+      },
+      {
+        "name": "Carlens Arcus",
+        "pos": "DF"
+      },
+      {
+        "name": "Steeven Mukiele",
+        "pos": "DF"
+      },
+      {
+        "name": "Bernadin Cidor",
+        "pos": "DF"
+      },
+      {
+        "name": "Wilfried Gu",
+        "pos": "DF"
+      },
+      {
+        "name": "Thomas Gilles",
+        "pos": "MF"
+      },
+      {
+        "name": "Duckens Nazon",
+        "pos": "MF"
+      },
+      {
+        "name": "Jonel Predba",
+        "pos": "MF"
+      },
+      {
+        "name": "Ronaldo Quiñones",
+        "pos": "MF"
+      },
+      {
+        "name": "Kevin Lafrance",
+        "pos": "MF"
+      },
+      {
+        "name": "Richardson Zephir",
+        "pos": "MF"
+      },
+      {
+        "name": "Carlo Gelin",
+        "pos": "MF"
+      },
+      {
+        "name": "Duckens Nazon",
+        "pos": "FW"
+      },
+      {
+        "name": "Frantzdy Pierrot",
+        "pos": "FW"
+      },
+      {
+        "name": "Kervens Belfort",
+        "pos": "FW"
+      },
+      {
+        "name": "Jonel Predba",
+        "pos": "FW"
+      },
+      {
+        "name": "Romain Mundle",
+        "pos": "FW"
+      },
+      {
+        "name": "Paul Geslin",
+        "pos": "FW"
+      },
+      {
+        "name": "Christopher Pinol",
+        "pos": "FW"
+      },
+      {
+        "name": "Maleik Fougère",
+        "pos": "FW"
+      }
+    ],
+    "Scotland": [
+      {
+        "name": "Angus Gunn",
+        "pos": "GK"
+      },
+      {
+        "name": "Craig Gordon",
+        "pos": "GK"
+      },
+      {
+        "name": "Liam Kelly",
+        "pos": "GK"
+      },
+      {
+        "name": "Andy Robertson",
+        "pos": "DF"
+      },
+      {
+        "name": "Kieran Tierney",
+        "pos": "DF"
+      },
+      {
+        "name": "John Souttar",
+        "pos": "DF"
+      },
+      {
+        "name": "Scott McKenna",
+        "pos": "DF"
+      },
+      {
+        "name": "Anthony Ralston",
+        "pos": "DF"
+      },
+      {
+        "name": "Grant Hanley",
+        "pos": "DF"
+      },
+      {
+        "name": "Jack Hendry",
+        "pos": "DF"
+      },
+      {
+        "name": "Nathan Patterson",
+        "pos": "DF"
+      },
+      {
+        "name": "Scott McTominay",
+        "pos": "MF"
+      },
+      {
+        "name": "John McGinn",
+        "pos": "MF"
+      },
+      {
+        "name": "Billy Gilmour",
+        "pos": "MF"
+      },
+      {
+        "name": "Callum McGregor",
+        "pos": "MF"
+      },
+      {
+        "name": "Ryan Christie",
+        "pos": "MF"
+      },
+      {
+        "name": "Kenny McLean",
+        "pos": "MF"
+      },
+      {
+        "name": "Stuart Armstrong",
+        "pos": "MF"
+      },
+      {
+        "name": "Ryan Jack",
+        "pos": "MF"
+      },
+      {
+        "name": "Lawrence Shankland",
+        "pos": "FW"
+      },
+      {
+        "name": "Che Adams",
+        "pos": "FW"
+      },
+      {
+        "name": "Lyndon Dykes",
+        "pos": "FW"
+      },
+      {
+        "name": "James Forrest",
+        "pos": "FW"
+      },
+      {
+        "name": "Ryan Fraser",
+        "pos": "FW"
+      },
+      {
+        "name": "Ryan Jack",
+        "pos": "FW"
+      },
+      {
+        "name": "Ben Doak",
+        "pos": "FW"
+      },
+      {
+        "name": "Lee Johnson",
+        "pos": "FW"
+      }
+    ],
+    "USA": [
+      {
+        "name": "Matt Turner",
+        "pos": "GK"
+      },
+      {
+        "name": "Ethan Horvath",
+        "pos": "GK"
+      },
+      {
+        "name": "Patrick Schulte",
+        "pos": "GK"
+      },
+      {
+        "name": "Chris Richards",
+        "pos": "DF"
+      },
+      {
+        "name": "Tim Ream",
+        "pos": "DF"
+      },
+      {
+        "name": "Antonee Robinson",
+        "pos": "DF"
+      },
+      {
+        "name": "Joe Scally",
+        "pos": "DF"
+      },
+      {
+        "name": "Cameron Carter-Vickers",
+        "pos": "DF"
+      },
+      {
+        "name": "Mark McKenzie",
+        "pos": "DF"
+      },
+      {
+        "name": "Sam Vines",
+        "pos": "DF"
+      },
+      {
+        "name": "Auston Trusty",
+        "pos": "DF"
+      },
+      {
+        "name": "Weston McKennie",
+        "pos": "MF"
+      },
+      {
+        "name": "Tyler Adams",
+        "pos": "MF"
+      },
+      {
+        "name": "Gio Reyna",
+        "pos": "MF"
+      },
+      {
+        "name": "Yunus Musah",
+        "pos": "MF"
+      },
+      {
+        "name": "Luca de la Torre",
+        "pos": "MF"
+      },
+      {
+        "name": "Malik Tillman",
+        "pos": "MF"
+      },
+      {
+        "name": "Johnny Cardoso",
+        "pos": "MF"
+      },
+      {
+        "name": "Gianluca Busio",
+        "pos": "MF"
+      },
+      {
+        "name": "Christian Pulisic",
+        "pos": "FW"
+      },
+      {
+        "name": "Folarin Balogun",
+        "pos": "FW"
+      },
+      {
+        "name": "Tim Weah",
+        "pos": "FW"
+      },
+      {
+        "name": "Caden Clark",
+        "pos": "FW"
+      },
+      {
+        "name": "Josh Sargent",
+        "pos": "FW"
+      },
+      {
+        "name": "Ricardo Pepi",
+        "pos": "FW"
+      },
+      {
+        "name": "Jesús Ferreira",
+        "pos": "FW"
+      },
+      {
+        "name": "Brandon Vazquez",
+        "pos": "FW"
+      }
+    ],
+    "Paraguay": [
+      {
+        "name": "Antony Silva",
+        "pos": "GK"
+      },
+      {
+        "name": "Alfredo Aguilar",
+        "pos": "GK"
+      },
+      {
+        "name": "Anthony Morinigo",
+        "pos": "GK"
+      },
+      {
+        "name": "Fabián Balbuena",
+        "pos": "DF"
+      },
+      {
+        "name": "Gustavo Gómez",
+        "pos": "DF"
+      },
+      {
+        "name": "Iván Piris",
+        "pos": "DF"
+      },
+      {
+        "name": "Santiago Arzamendia",
+        "pos": "DF"
+      },
+      {
+        "name": "Omar Alderete",
+        "pos": "DF"
+      },
+      {
+        "name": "Robert Rojas",
+        "pos": "DF"
+      },
+      {
+        "name": "Héctor Morales",
+        "pos": "DF"
+      },
+      {
+        "name": "Ernesto Caballero",
+        "pos": "DF"
+      },
+      {
+        "name": "Miguel Almirón",
+        "pos": "MF"
+      },
+      {
+        "name": "Mathías Villasanti",
+        "pos": "MF"
+      },
+      {
+        "name": "Ángel Cardozo",
+        "pos": "MF"
+      },
+      {
+        "name": "Gastón Giménez",
+        "pos": "MF"
+      },
+      {
+        "name": "Hernán Pérez",
+        "pos": "MF"
+      },
+      {
+        "name": "Édgar Benítez",
+        "pos": "MF"
+      },
+      {
+        "name": "Richard Sánchez",
+        "pos": "MF"
+      },
+      {
+        "name": "Miguel Almirón",
+        "pos": "FW"
+      },
+      {
+        "name": "Julio Enciso",
+        "pos": "FW"
+      },
+      {
+        "name": "Antonio Sanabria",
+        "pos": "FW"
+      },
+      {
+        "name": "Óscar Romero",
+        "pos": "FW"
+      },
+      {
+        "name": "Gabriel Ávalos",
+        "pos": "FW"
+      },
+      {
+        "name": "Roque Santa Cruz",
+        "pos": "FW"
+      },
+      {
+        "name": "Rodrigo Rojas",
+        "pos": "FW"
+      },
+      {
+        "name": "Federico Santander",
+        "pos": "FW"
+      }
+    ],
+    "Australia": [
+      {
+        "name": "Mat Ryan",
+        "pos": "GK"
+      },
+      {
+        "name": "Danny Vukovic",
+        "pos": "GK"
+      },
+      {
+        "name": "Joe Gauci",
+        "pos": "GK"
+      },
+      {
+        "name": "Harry Souttar",
+        "pos": "DF"
+      },
+      {
+        "name": "Kye Rowles",
+        "pos": "DF"
+      },
+      {
+        "name": "Nathaniel Atkinson",
+        "pos": "DF"
+      },
+      {
+        "name": "Aziz Behich",
+        "pos": "DF"
+      },
+      {
+        "name": "Joel King",
+        "pos": "DF"
+      },
+      {
+        "name": "Miloš Degenek",
+        "pos": "DF"
+      },
+      {
+        "name": "Thomas Deng",
+        "pos": "DF"
+      },
+      {
+        "name": "Ryan Strain",
+        "pos": "DF"
+      },
+      {
+        "name": "Jackson Irvine",
+        "pos": "MF"
+      },
+      {
+        "name": "Aaron Mooy",
+        "pos": "MF"
+      },
+      {
+        "name": "Ajdin Hrustic",
+        "pos": "MF"
+      },
+      {
+        "name": "Riley McGree",
+        "pos": "MF"
+      },
+      {
+        "name": "Marco Tilio",
+        "pos": "MF"
+      },
+      {
+        "name": "Lewis Miller",
+        "pos": "MF"
+      },
+      {
+        "name": "Cameron Devlin",
+        "pos": "MF"
+      },
+      {
+        "name": "Socceroos Irankunda",
+        "pos": "FW"
+      },
+      {
+        "name": "Martin Boyle",
+        "pos": "FW"
+      },
+      {
+        "name": "Awer Mabil",
+        "pos": "FW"
+      },
+      {
+        "name": "Adam Taggart",
+        "pos": "FW"
+      },
+      {
+        "name": "Mitchell Duke",
+        "pos": "FW"
+      },
+      {
+        "name": "Jason Cummings",
+        "pos": "FW"
+      },
+      {
+        "name": "Nick Fitzgerald",
+        "pos": "FW"
+      },
+      {
+        "name": "Kusini Yengi",
+        "pos": "FW"
+      }
+    ],
+    "Türkiye": [
+      {
+        "name": "Uğur Çakır",
+        "pos": "GK"
+      },
+      {
+        "name": "Mert Günok",
+        "pos": "GK"
+      },
+      {
+        "name": "Altay Bayındır",
+        "pos": "GK"
+      },
+      {
+        "name": "Ferdi Kadıoğlu",
+        "pos": "DF"
+      },
+      {
+        "name": "Merih Demiral",
+        "pos": "DF"
+      },
+      {
+        "name": "Samet Akaydın",
+        "pos": "DF"
+      },
+      {
+        "name": "Zeki Çelik",
+        "pos": "DF"
+      },
+      {
+        "name": "Mert Müldür",
+        "pos": "DF"
+      },
+      {
+        "name": "Abdülkerim Bardakçı",
+        "pos": "DF"
+      },
+      {
+        "name": "Ozan Kabak",
+        "pos": "DF"
+      },
+      {
+        "name": "Çağlar Söyüncü",
+        "pos": "DF"
+      },
+      {
+        "name": "Hakan Çalhanoğlu",
+        "pos": "MF"
+      },
+      {
+        "name": "Orkun Kökçü",
+        "pos": "MF"
+      },
+      {
+        "name": "Salih Özcan",
+        "pos": "MF"
+      },
+      {
+        "name": "Okay Yokuşlu",
+        "pos": "MF"
+      },
+      {
+        "name": "Kaan Ayhan",
+        "pos": "MF"
+      },
+      {
+        "name": "Kerem Aktürkoğlu",
+        "pos": "MF"
+      },
+      {
+        "name": "Yunus Akgün",
+        "pos": "MF"
+      },
+      {
+        "name": "Arda Güler",
+        "pos": "FW"
+      },
+      {
+        "name": "Serdar Dursun",
+        "pos": "FW"
+      },
+      {
+        "name": "Kenan Yıldız",
+        "pos": "FW"
+      },
+      {
+        "name": "Burak Yılmaz",
+        "pos": "FW"
+      },
+      {
+        "name": "Baris Alper Yilmaz",
+        "pos": "FW"
+      },
+      {
+        "name": "Yusuf Yazıcı",
+        "pos": "FW"
+      },
+      {
+        "name": "Umut Meraş",
+        "pos": "FW"
+      },
+      {
+        "name": "Emirhan Delibaş",
+        "pos": "FW"
+      }
+    ],
+    "Germany": [
+      {
+        "name": "Marc-André ter Stegen",
+        "pos": "GK"
+      },
+      {
+        "name": "Oliver Baumann",
+        "pos": "GK"
+      },
+      {
+        "name": "Alexander Nübel",
+        "pos": "GK"
+      },
+      {
+        "name": "Antonio Rüdiger",
+        "pos": "DF"
+      },
+      {
+        "name": "Jonathan Tah",
+        "pos": "DF"
+      },
+      {
+        "name": "Joshua Kimmich",
+        "pos": "DF"
+      },
+      {
+        "name": "Maximilian Mittelstädt",
+        "pos": "DF"
+      },
+      {
+        "name": "Nico Schlotterbeck",
+        "pos": "DF"
+      },
+      {
+        "name": "Waldemar Anton",
+        "pos": "DF"
+      },
+      {
+        "name": "Robin Koch",
+        "pos": "DF"
+      },
+      {
+        "name": "Benjamin Henrichs",
+        "pos": "DF"
+      },
+      {
+        "name": "Toni Kroos",
+        "pos": "MF"
+      },
+      {
+        "name": "İlkay Gündoğan",
+        "pos": "MF"
+      },
+      {
+        "name": "Robert Andrich",
+        "pos": "MF"
+      },
+      {
+        "name": "Pascal Groß",
+        "pos": "MF"
+      },
+      {
+        "name": "Aleksandar Pavlović",
+        "pos": "MF"
+      },
+      {
+        "name": "Leon Goretzka",
+        "pos": "MF"
+      },
+      {
+        "name": "Jamal Musiala",
+        "pos": "FW"
+      },
+      {
+        "name": "Florian Wirtz",
+        "pos": "FW"
+      },
+      {
+        "name": "Kai Havertz",
+        "pos": "FW"
+      },
+      {
+        "name": "Leroy Sané",
+        "pos": "FW"
+      },
+      {
+        "name": "Thomas Müller",
+        "pos": "FW"
+      },
+      {
+        "name": "Niclas Füllkrug",
+        "pos": "FW"
+      },
+      {
+        "name": "Deniz Undav",
+        "pos": "FW"
+      },
+      {
+        "name": "Karim Adeyemi",
+        "pos": "FW"
+      },
+      {
+        "name": "Tim Beier",
+        "pos": "FW"
+      }
+    ],
+    "Curaçao": [
+      {
+        "name": "Eloy Room",
+        "pos": "GK"
+      },
+      {
+        "name": "Jairzinho Doornbusch",
+        "pos": "GK"
+      },
+      {
+        "name": "Shiloh Bodak",
+        "pos": "GK"
+      },
+      {
+        "name": "Cuco Martina",
+        "pos": "DF"
+      },
+      {
+        "name": "Dion Malone",
+        "pos": "DF"
+      },
+      {
+        "name": "Genaro Snijders",
+        "pos": "DF"
+      },
+      {
+        "name": "Gianni Zuiverloon",
+        "pos": "DF"
+      },
+      {
+        "name": "Myron Boadu",
+        "pos": "DF"
+      },
+      {
+        "name": "Tyronne Ebuehi",
+        "pos": "DF"
+      },
+      {
+        "name": "Elvis Manu",
+        "pos": "DF"
+      },
+      {
+        "name": "Rajiv van La Parra",
+        "pos": "DF"
+      },
+      {
+        "name": "Leandro Bacuna",
+        "pos": "MF"
+      },
+      {
+        "name": "Vurnon Anita",
+        "pos": "MF"
+      },
+      {
+        "name": "Carel Eiting",
+        "pos": "MF"
+      },
+      {
+        "name": "Daishawn Redan",
+        "pos": "MF"
+      },
+      {
+        "name": "Brandley Kuwas",
+        "pos": "MF"
+      },
+      {
+        "name": "Rangelo Janga",
+        "pos": "MF"
+      },
+      {
+        "name": "Geronimo Ruiz",
+        "pos": "MF"
+      },
+      {
+        "name": "Jafar Arias",
+        "pos": "FW"
+      },
+      {
+        "name": "Juninho Bacuna",
+        "pos": "FW"
+      },
+      {
+        "name": "Jamiro Monteiro",
+        "pos": "FW"
+      },
+      {
+        "name": "Shane Peetersen",
+        "pos": "FW"
+      },
+      {
+        "name": "Sheraldo Becker",
+        "pos": "FW"
+      },
+      {
+        "name": "Ryan Koolwijk",
+        "pos": "FW"
+      },
+      {
+        "name": "Giliano Wijnaldum",
+        "pos": "FW"
+      },
+      {
+        "name": "Gio Michels",
+        "pos": "FW"
+      }
+    ],
+    "Ivory Coast": [
+      {
+        "name": "Yahia Fofana",
+        "pos": "GK"
+      },
+      {
+        "name": "Ali Badra Sangaré",
+        "pos": "GK"
+      },
+      {
+        "name": "Badra Ali Sangaré",
+        "pos": "GK"
+      },
+      {
+        "name": "Jonathan Kodjia",
+        "pos": "DF"
+      },
+      {
+        "name": "Willy Boly",
+        "pos": "DF"
+      },
+      {
+        "name": "Odilon Kossounou",
+        "pos": "DF"
+      },
+      {
+        "name": "Eric Bailly",
+        "pos": "DF"
+      },
+      {
+        "name": "Serge Aurier",
+        "pos": "DF"
+      },
+      {
+        "name": "Jean-Michaël Seri",
+        "pos": "DF"
+      },
+      {
+        "name": "Emmanuel Agbadou",
+        "pos": "DF"
+      },
+      {
+        "name": "Simon Deli",
+        "pos": "DF"
+      },
+      {
+        "name": "Franck Kessié",
+        "pos": "MF"
+      },
+      {
+        "name": "Seko Fofana",
+        "pos": "MF"
+      },
+      {
+        "name": "Ibrahim Sangaré",
+        "pos": "MF"
+      },
+      {
+        "name": "Cheick Doucouré",
+        "pos": "MF"
+      },
+      {
+        "name": "Adama Traoré",
+        "pos": "MF"
+      },
+      {
+        "name": "Gradel Max-Alain",
+        "pos": "MF"
+      },
+      {
+        "name": "Yves Bissouma",
+        "pos": "MF"
+      },
+      {
+        "name": "Sébastien Haller",
+        "pos": "FW"
+      },
+      {
+        "name": "Simon Adingra",
+        "pos": "FW"
+      },
+      {
+        "name": "Nicolas Pépé",
+        "pos": "FW"
+      },
+      {
+        "name": "Wilfried Bony",
+        "pos": "FW"
+      },
+      {
+        "name": "Max-Alain Gradel",
+        "pos": "FW"
+      },
+      {
+        "name": "Jeremie Boga",
+        "pos": "FW"
+      },
+      {
+        "name": "Lassine Sinayoko",
+        "pos": "FW"
+      },
+      {
+        "name": "Jonathan Kodjia",
+        "pos": "FW"
+      }
+    ],
+    "Ecuador": [
+      {
+        "name": "Hernán Galíndez",
+        "pos": "GK"
+      },
+      {
+        "name": "Alexander Domínguez",
+        "pos": "GK"
+      },
+      {
+        "name": "Renato Ibarra",
+        "pos": "GK"
+      },
+      {
+        "name": "Piero Hincapié",
+        "pos": "DF"
+      },
+      {
+        "name": "Félix Torres",
+        "pos": "DF"
+      },
+      {
+        "name": "Pervis Estupiñán",
+        "pos": "DF"
+      },
+      {
+        "name": "Byron Castillo",
+        "pos": "DF"
+      },
+      {
+        "name": "Ángelo Preciado",
+        "pos": "DF"
+      },
+      {
+        "name": "Diego Palacios",
+        "pos": "DF"
+      },
+      {
+        "name": "José Hurtado",
+        "pos": "DF"
+      },
+      {
+        "name": "Jhegson Méndez",
+        "pos": "DF"
+      },
+      {
+        "name": "Moisés Caicedo",
+        "pos": "MF"
+      },
+      {
+        "name": "Carlos Gruezo",
+        "pos": "MF"
+      },
+      {
+        "name": "Ángel Mena",
+        "pos": "MF"
+      },
+      {
+        "name": "Jhegson Méndez",
+        "pos": "MF"
+      },
+      {
+        "name": "Alan Franco",
+        "pos": "MF"
+      },
+      {
+        "name": "Gledy Simons",
+        "pos": "MF"
+      },
+      {
+        "name": "Anthony Valencia",
+        "pos": "MF"
+      },
+      {
+        "name": "Kendry Páez",
+        "pos": "FW"
+      },
+      {
+        "name": "Enner Valencia",
+        "pos": "FW"
+      },
+      {
+        "name": "Michael Estrada",
+        "pos": "FW"
+      },
+      {
+        "name": "Kevin Rodríguez",
+        "pos": "FW"
+      },
+      {
+        "name": "Leonardo Campana",
+        "pos": "FW"
+      },
+      {
+        "name": "Jordy Caicedo",
+        "pos": "FW"
+      },
+      {
+        "name": "Jeremy Sarmiento",
+        "pos": "FW"
+      },
+      {
+        "name": "Djorkaeff Reasco",
+        "pos": "FW"
+      }
+    ],
+    "Netherlands": [
+      {
+        "name": "Bart Verbruggen",
+        "pos": "GK"
+      },
+      {
+        "name": "Justin Bijlow",
+        "pos": "GK"
+      },
+      {
+        "name": "Mark Flekken",
+        "pos": "GK"
+      },
+      {
+        "name": "Virgil van Dijk",
+        "pos": "DF"
+      },
+      {
+        "name": "Nathan Aké",
+        "pos": "DF"
+      },
+      {
+        "name": "Denzel Dumfries",
+        "pos": "DF"
+      },
+      {
+        "name": "Matthijs de Ligt",
+        "pos": "DF"
+      },
+      {
+        "name": "Jeremie Frimpong",
+        "pos": "DF"
+      },
+      {
+        "name": "Ian Maatsen",
+        "pos": "DF"
+      },
+      {
+        "name": "Micky van de Ven",
+        "pos": "DF"
+      },
+      {
+        "name": "Jurrien Timber",
+        "pos": "DF"
+      },
+      {
+        "name": "Frenkie de Jong",
+        "pos": "MF"
+      },
+      {
+        "name": "Tijjani Reijnders",
+        "pos": "MF"
+      },
+      {
+        "name": "Xavi Simons",
+        "pos": "MF"
+      },
+      {
+        "name": "Ryan Gravenberch",
+        "pos": "MF"
+      },
+      {
+        "name": "Teun Koopmeiners",
+        "pos": "MF"
+      },
+      {
+        "name": "Davy Klaassen",
+        "pos": "MF"
+      },
+      {
+        "name": "Joey Veerman",
+        "pos": "MF"
+      },
+      {
+        "name": "Cody Gakpo",
+        "pos": "FW"
+      },
+      {
+        "name": "Donyell Malen",
+        "pos": "FW"
+      },
+      {
+        "name": "Wout Weghorst",
+        "pos": "FW"
+      },
+      {
+        "name": "Brian Brobbey",
+        "pos": "FW"
+      },
+      {
+        "name": "Steven Bergwijn",
+        "pos": "FW"
+      },
+      {
+        "name": "Joshua Zirkzee",
+        "pos": "FW"
+      },
+      {
+        "name": "Memphis Depay",
+        "pos": "FW"
+      }
+    ],
+    "Japan": [
+      {
+        "name": "Zion Suzuki",
+        "pos": "GK"
+      },
+      {
+        "name": "Mitch Langerak",
+        "pos": "GK"
+      },
+      {
+        "name": "Daniel Schmidt",
+        "pos": "GK"
+      },
+      {
+        "name": "Ko Itakura",
+        "pos": "DF"
+      },
+      {
+        "name": "Maya Yoshida",
+        "pos": "DF"
+      },
+      {
+        "name": "Shogo Taniguchi",
+        "pos": "DF"
+      },
+      {
+        "name": "Miki Yamane",
+        "pos": "DF"
+      },
+      {
+        "name": "Hiroki Ito",
+        "pos": "DF"
+      },
+      {
+        "name": "Takehiro Tomiyasu",
+        "pos": "DF"
+      },
+      {
+        "name": "Yukinari Sugawara",
+        "pos": "DF"
+      },
+      {
+        "name": "Yuto Nagatomo",
+        "pos": "DF"
+      },
+      {
+        "name": "Wataru Endo",
+        "pos": "MF"
+      },
+      {
+        "name": "Hidemasa Morita",
+        "pos": "MF"
+      },
+      {
+        "name": "Takefusa Kubo",
+        "pos": "MF"
+      },
+      {
+        "name": "Ritsu Doan",
+        "pos": "MF"
+      },
+      {
+        "name": "Daichi Kamada",
+        "pos": "MF"
+      },
+      {
+        "name": "Ao Tanaka",
+        "pos": "MF"
+      },
+      {
+        "name": "Reo Hatate",
+        "pos": "MF"
+      },
+      {
+        "name": "Kaoru Mitoma",
+        "pos": "FW"
+      },
+      {
+        "name": "Ayase Ueda",
+        "pos": "FW"
+      },
+      {
+        "name": "Daizen Maeda",
+        "pos": "FW"
+      },
+      {
+        "name": "Takumi Minamino",
+        "pos": "FW"
+      },
+      {
+        "name": "Junya Ito",
+        "pos": "FW"
+      },
+      {
+        "name": "Keito Nakamura",
+        "pos": "FW"
+      },
+      {
+        "name": "Kou Itakura",
+        "pos": "FW"
+      },
+      {
+        "name": "Kyogo Furuhashi",
+        "pos": "FW"
+      }
+    ],
+    "Sweden": [
+      {
+        "name": "Robin Olsen",
+        "pos": "GK"
+      },
+      {
+        "name": "Karl-Johan Johnsson",
+        "pos": "GK"
+      },
+      {
+        "name": "Andreas Linde",
+        "pos": "GK"
+      },
+      {
+        "name": "Victor Lindelöf",
+        "pos": "DF"
+      },
+      {
+        "name": "Isak Hien",
+        "pos": "DF"
+      },
+      {
+        "name": "Carl Starfelt",
+        "pos": "DF"
+      },
+      {
+        "name": "Ludwig Augustinsson",
+        "pos": "DF"
+      },
+      {
+        "name": "Niclas Eliasson",
+        "pos": "DF"
+      },
+      {
+        "name": "Emil Holm",
+        "pos": "DF"
+      },
+      {
+        "name": "Jesper Karlsson",
+        "pos": "DF"
+      },
+      {
+        "name": "Marcus Danielson",
+        "pos": "DF"
+      },
+      {
+        "name": "Dejan Kulusevski",
+        "pos": "MF"
+      },
+      {
+        "name": "Jens Cajuste",
+        "pos": "MF"
+      },
+      {
+        "name": "Emil Forsberg",
+        "pos": "MF"
+      },
+      {
+        "name": "Mattias Svanberg",
+        "pos": "MF"
+      },
+      {
+        "name": "Viktor Gyökeres",
+        "pos": "MF"
+      },
+      {
+        "name": "Jesper Löfgren",
+        "pos": "MF"
+      },
+      {
+        "name": "Lucas Bergvall",
+        "pos": "MF"
+      },
+      {
+        "name": "Alexander Isak",
+        "pos": "FW"
+      },
+      {
+        "name": "Viktor Gyökeres",
+        "pos": "FW"
+      },
+      {
+        "name": "Anthony Elanga",
+        "pos": "FW"
+      },
+      {
+        "name": "Robin Quaison",
+        "pos": "FW"
+      },
+      {
+        "name": "Svante Ingelsson",
+        "pos": "FW"
+      },
+      {
+        "name": "John Guidetti",
+        "pos": "FW"
+      },
+      {
+        "name": "Pontus Almqvist",
+        "pos": "FW"
+      },
+      {
+        "name": "Samuel Addo Appiah",
+        "pos": "FW"
+      }
+    ],
+    "Tunisia": [
+      {
+        "name": "Aymen Dahmen",
+        "pos": "GK"
+      },
+      {
+        "name": "Mouez Hassen",
+        "pos": "GK"
+      },
+      {
+        "name": "Farouk Ben Mustapha",
+        "pos": "GK"
+      },
+      {
+        "name": "Dylan Bronn",
+        "pos": "DF"
+      },
+      {
+        "name": "Montassar Talbi",
+        "pos": "DF"
+      },
+      {
+        "name": "Bilel Ifa",
+        "pos": "DF"
+      },
+      {
+        "name": "Ali Abdi",
+        "pos": "DF"
+      },
+      {
+        "name": "Hamza Rafia",
+        "pos": "DF"
+      },
+      {
+        "name": "Wajdi Kechrida",
+        "pos": "DF"
+      },
+      {
+        "name": "Nader Ghandri",
+        "pos": "DF"
+      },
+      {
+        "name": "Mohamed Ben Hamida",
+        "pos": "DF"
+      },
+      {
+        "name": "Ellyes Skhiri",
+        "pos": "MF"
+      },
+      {
+        "name": "Aïssa Laïdouni",
+        "pos": "MF"
+      },
+      {
+        "name": "Hannibal Mejbri",
+        "pos": "MF"
+      },
+      {
+        "name": "Youssef Msakni",
+        "pos": "MF"
+      },
+      {
+        "name": "Naim Sliti",
+        "pos": "MF"
+      },
+      {
+        "name": "Ben Romdhane",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohamed Ali Ben Romdhane",
+        "pos": "MF"
+      },
+      {
+        "name": "Wahbi Khazri",
+        "pos": "FW"
+      },
+      {
+        "name": "Taha Yassine Khenissi",
+        "pos": "FW"
+      },
+      {
+        "name": "Seifeddine Jaziri",
+        "pos": "FW"
+      },
+      {
+        "name": "Saif-Eddine Khaoui",
+        "pos": "FW"
+      },
+      {
+        "name": "Ammar Hatem",
+        "pos": "FW"
+      },
+      {
+        "name": "Elias Achouri",
+        "pos": "FW"
+      },
+      {
+        "name": "Issam Jebali",
+        "pos": "FW"
+      },
+      {
+        "name": "Hamdi Harbaoui",
+        "pos": "FW"
+      }
+    ],
+    "Belgium": [
+      {
+        "name": "Koen Casteels",
+        "pos": "GK"
+      },
+      {
+        "name": "Matz Sels",
+        "pos": "GK"
+      },
+      {
+        "name": "Thomas Kaminski",
+        "pos": "GK"
+      },
+      {
+        "name": "Wout Faes",
+        "pos": "DF"
+      },
+      {
+        "name": "Jan Vertonghen",
+        "pos": "DF"
+      },
+      {
+        "name": "Thomas Meunier",
+        "pos": "DF"
+      },
+      {
+        "name": "Timothy Castagne",
+        "pos": "DF"
+      },
+      {
+        "name": "Zeno Debast",
+        "pos": "DF"
+      },
+      {
+        "name": "Arthur Theate",
+        "pos": "DF"
+      },
+      {
+        "name": "Maxim De Cuyper",
+        "pos": "DF"
+      },
+      {
+        "name": "Killian Sardella",
+        "pos": "DF"
+      },
+      {
+        "name": "Kevin De Bruyne",
+        "pos": "MF"
+      },
+      {
+        "name": "Amadou Onana",
+        "pos": "MF"
+      },
+      {
+        "name": "Youri Tielemans",
+        "pos": "MF"
+      },
+      {
+        "name": "Arthur Vermeeren",
+        "pos": "MF"
+      },
+      {
+        "name": "Orel Mangala",
+        "pos": "MF"
+      },
+      {
+        "name": "Charles De Ketelaere",
+        "pos": "MF"
+      },
+      {
+        "name": "Arne Engels",
+        "pos": "MF"
+      },
+      {
+        "name": "Romelu Lukaku",
+        "pos": "FW"
+      },
+      {
+        "name": "Leandro Trossard",
+        "pos": "FW"
+      },
+      {
+        "name": "Jérémy Doku",
+        "pos": "FW"
+      },
+      {
+        "name": "Lois Openda",
+        "pos": "FW"
+      },
+      {
+        "name": "Johan Bakayoko",
+        "pos": "FW"
+      },
+      {
+        "name": "Dodi Lukebakio",
+        "pos": "FW"
+      },
+      {
+        "name": "Alexis Saelemaekers",
+        "pos": "FW"
+      },
+      {
+        "name": "Loïs Openda",
+        "pos": "FW"
+      }
+    ],
+    "Egypt": [
+      {
+        "name": "Mohamed El-Shenawy",
+        "pos": "GK"
+      },
+      {
+        "name": "Ahmed El-Shenawy",
+        "pos": "GK"
+      },
+      {
+        "name": "Mohamed Shobeir",
+        "pos": "GK"
+      },
+      {
+        "name": "Ahmed Hegazi",
+        "pos": "DF"
+      },
+      {
+        "name": "Ahmed Abdelmonem",
+        "pos": "DF"
+      },
+      {
+        "name": "Mohamed Hany",
+        "pos": "DF"
+      },
+      {
+        "name": "Omar Kamal",
+        "pos": "DF"
+      },
+      {
+        "name": "Mahmoud Hamdi",
+        "pos": "DF"
+      },
+      {
+        "name": "Akram Tawfik",
+        "pos": "DF"
+      },
+      {
+        "name": "Zizo",
+        "pos": "DF"
+      },
+      {
+        "name": "Ibrahim Adel",
+        "pos": "DF"
+      },
+      {
+        "name": "Mohamed Elneny",
+        "pos": "MF"
+      },
+      {
+        "name": "Tarek Hamed",
+        "pos": "MF"
+      },
+      {
+        "name": "Amr El-Sulaya",
+        "pos": "MF"
+      },
+      {
+        "name": "Omar Marmoush",
+        "pos": "MF"
+      },
+      {
+        "name": "Emam Ashour",
+        "pos": "MF"
+      },
+      {
+        "name": "Ibrahim Adel",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohamed Abdel Moneim",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohamed Salah",
+        "pos": "FW"
+      },
+      {
+        "name": "Mostafa Mohamed",
+        "pos": "FW"
+      },
+      {
+        "name": "Mahmoud Trezeguet",
+        "pos": "FW"
+      },
+      {
+        "name": "Omar Marmoush",
+        "pos": "FW"
+      },
+      {
+        "name": "Zizo",
+        "pos": "FW"
+      },
+      {
+        "name": "Ahmed Rayan",
+        "pos": "FW"
+      },
+      {
+        "name": "Amr El-Sulaya",
+        "pos": "FW"
+      },
+      {
+        "name": "Karim Hamdallah",
+        "pos": "FW"
+      }
+    ],
+    "Cape Verde": [
+      {
+        "name": "Vozinha",
+        "pos": "GK"
+      },
+      {
+        "name": "Marcelo Boavida",
+        "pos": "GK"
+      },
+      {
+        "name": "José Carlos Silva",
+        "pos": "GK"
+      },
+      {
+        "name": "Zé Luís",
+        "pos": "DF"
+      },
+      {
+        "name": "Kenny Rocha Santos",
+        "pos": "DF"
+      },
+      {
+        "name": "Stopira",
+        "pos": "DF"
+      },
+      {
+        "name": "Fortes",
+        "pos": "DF"
+      },
+      {
+        "name": "Marco Soares",
+        "pos": "DF"
+      },
+      {
+        "name": "Lisandro",
+        "pos": "DF"
+      },
+      {
+        "name": "Brendan Ferreira",
+        "pos": "DF"
+      },
+      {
+        "name": "Diney",
+        "pos": "DF"
+      },
+      {
+        "name": "Garry Rodrigues",
+        "pos": "MF"
+      },
+      {
+        "name": "Ryan Mendes",
+        "pos": "MF"
+      },
+      {
+        "name": "Kiki Rocha",
+        "pos": "MF"
+      },
+      {
+        "name": "Pina",
+        "pos": "MF"
+      },
+      {
+        "name": "Júlio Tavares",
+        "pos": "MF"
+      },
+      {
+        "name": "Andrezinho",
+        "pos": "MF"
+      },
+      {
+        "name": "Augusto Meideros",
+        "pos": "MF"
+      },
+      {
+        "name": "Bebé",
+        "pos": "FW"
+      },
+      {
+        "name": "Gilson Benchimol",
+        "pos": "FW"
+      },
+      {
+        "name": "Mickaël Pote",
+        "pos": "FW"
+      },
+      {
+        "name": "Vagner",
+        "pos": "FW"
+      },
+      {
+        "name": "Deroy Duarte",
+        "pos": "FW"
+      },
+      {
+        "name": "Carlos Vaz Tê",
+        "pos": "FW"
+      },
+      {
+        "name": "Jovane Cabral",
+        "pos": "FW"
+      },
+      {
+        "name": "Ryan Mendes",
+        "pos": "FW"
+      }
+    ],
+    "Saudi Arabia": [
+      {
+        "name": "Mohammed Al-Owais",
+        "pos": "GK"
+      },
+      {
+        "name": "Sultan Al-Ghannam",
+        "pos": "GK"
+      },
+      {
+        "name": "Nawaf Al-Aqidi",
+        "pos": "GK"
+      },
+      {
+        "name": "Saud Abdulhamid",
+        "pos": "DF"
+      },
+      {
+        "name": "Ali Al-Bulaihi",
+        "pos": "DF"
+      },
+      {
+        "name": "Abdulelah Al-Amri",
+        "pos": "DF"
+      },
+      {
+        "name": "Hassan Tambakti",
+        "pos": "DF"
+      },
+      {
+        "name": "Yasser Al-Shahrani",
+        "pos": "DF"
+      },
+      {
+        "name": "Abdullah Madu",
+        "pos": "DF"
+      },
+      {
+        "name": "Salman Al-Faraj",
+        "pos": "DF"
+      },
+      {
+        "name": "Sultan Ghannam",
+        "pos": "DF"
+      },
+      {
+        "name": "Sami Al-Najei",
+        "pos": "MF"
+      },
+      {
+        "name": "Nasser Al-Dawsari",
+        "pos": "MF"
+      },
+      {
+        "name": "Riyadh Mahrez",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohamed Kanno",
+        "pos": "MF"
+      },
+      {
+        "name": "Ali Al-Hassan",
+        "pos": "MF"
+      },
+      {
+        "name": "Abdulrahman Al-Aboud",
+        "pos": "MF"
+      },
+      {
+        "name": "Mishal Al-Harbi",
+        "pos": "MF"
+      },
+      {
+        "name": "Saleh Al-Shehri",
+        "pos": "FW"
+      },
+      {
+        "name": "Firas Al-Buraikan",
+        "pos": "FW"
+      },
+      {
+        "name": "Abdullah Al-Hamdan",
+        "pos": "FW"
+      },
+      {
+        "name": "Hattan Bahebri",
+        "pos": "FW"
+      },
+      {
+        "name": "Mohammed Maran",
+        "pos": "FW"
+      },
+      {
+        "name": "Muhannad Al-Shanqeeti",
+        "pos": "FW"
+      },
+      {
+        "name": "Abdullah Radif",
+        "pos": "FW"
+      },
+      {
+        "name": "Abdulrahman Al-Khateeb",
+        "pos": "FW"
+      }
+    ],
+    "New Zealand": [
+      {
+        "name": "Oliver Sail",
+        "pos": "GK"
+      },
+      {
+        "name": "Stefan Marinovic",
+        "pos": "GK"
+      },
+      {
+        "name": "Rhys Bartlett",
+        "pos": "GK"
+      },
+      {
+        "name": "Winston Reid",
+        "pos": "DF"
+      },
+      {
+        "name": "Michael Boxall",
+        "pos": "DF"
+      },
+      {
+        "name": "Liberato Cacace",
+        "pos": "DF"
+      },
+      {
+        "name": "Matthew Garbett",
+        "pos": "DF"
+      },
+      {
+        "name": "Tim Payne",
+        "pos": "DF"
+      },
+      {
+        "name": "Joe Bell",
+        "pos": "DF"
+      },
+      {
+        "name": "Marko Grgić",
+        "pos": "DF"
+      },
+      {
+        "name": "Callan Elliot",
+        "pos": "DF"
+      },
+      {
+        "name": "Clayton Lewis",
+        "pos": "MF"
+      },
+      {
+        "name": "Elijah Just",
+        "pos": "MF"
+      },
+      {
+        "name": "Alex Rufer",
+        "pos": "MF"
+      },
+      {
+        "name": "Callum McCowatt",
+        "pos": "MF"
+      },
+      {
+        "name": "Sarpreet Singh",
+        "pos": "MF"
+      },
+      {
+        "name": "Louis Fenton",
+        "pos": "MF"
+      },
+      {
+        "name": "Ryan Thomas",
+        "pos": "MF"
+      },
+      {
+        "name": "Chris Wood",
+        "pos": "FW"
+      },
+      {
+        "name": "Liberato Cacace",
+        "pos": "FW"
+      },
+      {
+        "name": "Kosta Barbarouses",
+        "pos": "FW"
+      },
+      {
+        "name": "Sarpreet Singh",
+        "pos": "FW"
+      },
+      {
+        "name": "Ben Old",
+        "pos": "FW"
+      },
+      {
+        "name": "Callan Elliot",
+        "pos": "FW"
+      },
+      {
+        "name": "Matthew Garbett",
+        "pos": "FW"
+      },
+      {
+        "name": "Hamish Watson",
+        "pos": "FW"
+      }
+    ],
+    "Spain": [
+      {
+        "name": "Unai Simón",
+        "pos": "GK"
+      },
+      {
+        "name": "David Raya",
+        "pos": "GK"
+      },
+      {
+        "name": "Álex Remiro",
+        "pos": "GK"
+      },
+      {
+        "name": "Dani Carvajal",
+        "pos": "DF"
+      },
+      {
+        "name": "Robin Le Normand",
+        "pos": "DF"
+      },
+      {
+        "name": "Aymeric Laporte",
+        "pos": "DF"
+      },
+      {
+        "name": "Marc Cucurella",
+        "pos": "DF"
+      },
+      {
+        "name": "Alejandro Grimaldo",
+        "pos": "DF"
+      },
+      {
+        "name": "Pau Cubarsí",
+        "pos": "DF"
+      },
+      {
+        "name": "Jordi Alba",
+        "pos": "DF"
+      },
+      {
+        "name": "Nacho Fernández",
+        "pos": "DF"
+      },
+      {
+        "name": "Rodri",
+        "pos": "MF"
+      },
+      {
+        "name": "Fabián Ruiz",
+        "pos": "MF"
+      },
+      {
+        "name": "Pedri",
+        "pos": "MF"
+      },
+      {
+        "name": "Dani Olmo",
+        "pos": "MF"
+      },
+      {
+        "name": "Mikel Merino",
+        "pos": "MF"
+      },
+      {
+        "name": "Martín Zubimendi",
+        "pos": "MF"
+      },
+      {
+        "name": "Gavi",
+        "pos": "MF"
+      },
+      {
+        "name": "Lamine Yamal",
+        "pos": "FW"
+      },
+      {
+        "name": "Álvaro Morata",
+        "pos": "FW"
+      },
+      {
+        "name": "Nico Williams",
+        "pos": "FW"
+      },
+      {
+        "name": "Mikel Oyarzabal",
+        "pos": "FW"
+      },
+      {
+        "name": "Ferran Torres",
+        "pos": "FW"
+      },
+      {
+        "name": "Joselu",
+        "pos": "FW"
+      },
+      {
+        "name": "Ayoze Pérez",
+        "pos": "FW"
+      },
+      {
+        "name": "Gerard Moreno",
+        "pos": "FW"
+      }
+    ],
+    "Senegal": [
+      {
+        "name": "Édouard Mendy",
+        "pos": "GK"
+      },
+      {
+        "name": "Alfred Gomis",
+        "pos": "GK"
+      },
+      {
+        "name": "Seny Dieng",
+        "pos": "GK"
+      },
+      {
+        "name": "Kalidou Koulibaly",
+        "pos": "DF"
+      },
+      {
+        "name": "Abdou Diallo",
+        "pos": "DF"
+      },
+      {
+        "name": "Formose Mendy",
+        "pos": "DF"
+      },
+      {
+        "name": "Pape Abou Cissé",
+        "pos": "DF"
+      },
+      {
+        "name": "Moussa Niakhaté",
+        "pos": "DF"
+      },
+      {
+        "name": "Ismail Jakobs",
+        "pos": "DF"
+      },
+      {
+        "name": "Youssouf Sabaly",
+        "pos": "DF"
+      },
+      {
+        "name": "Fodé Ballo-Touré",
+        "pos": "DF"
+      },
+      {
+        "name": "Idrissa Gueye",
+        "pos": "MF"
+      },
+      {
+        "name": "Nampalys Mendy",
+        "pos": "MF"
+      },
+      {
+        "name": "Cheikhou Kouyaté",
+        "pos": "MF"
+      },
+      {
+        "name": "Pape Matar Sarr",
+        "pos": "MF"
+      },
+      {
+        "name": "Lamine Camara",
+        "pos": "MF"
+      },
+      {
+        "name": "Pathé Ciss",
+        "pos": "MF"
+      },
+      {
+        "name": "Dion Lopy",
+        "pos": "MF"
+      },
+      {
+        "name": "Sadio Mané",
+        "pos": "FW"
+      },
+      {
+        "name": "Ismaïla Sarr",
+        "pos": "FW"
+      },
+      {
+        "name": "Nicolas Jackson",
+        "pos": "FW"
+      },
+      {
+        "name": "Boulaye Dia",
+        "pos": "FW"
+      },
+      {
+        "name": "Habib Diallo",
+        "pos": "FW"
+      },
+      {
+        "name": "Iliman Ndiaye",
+        "pos": "FW"
+      },
+      {
+        "name": "Abdallah Sima",
+        "pos": "FW"
+      },
+      {
+        "name": "Bamba Dieng",
+        "pos": "FW"
+      }
+    ],
+    "Jordan": [
+      {
+        "name": "Yazeed Abulaila",
+        "pos": "GK"
+      },
+      {
+        "name": "Mohammad Riyad",
+        "pos": "GK"
+      },
+      {
+        "name": "Elias Al-Zoubi",
+        "pos": "GK"
+      },
+      {
+        "name": "Bashar Bani Yaseen",
+        "pos": "DF"
+      },
+      {
+        "name": "Ahmad Saleh",
+        "pos": "DF"
+      },
+      {
+        "name": "Khaled Al-Ajalin",
+        "pos": "DF"
+      },
+      {
+        "name": "Ali Olwan",
+        "pos": "DF"
+      },
+      {
+        "name": "Mohammad Hemd",
+        "pos": "DF"
+      },
+      {
+        "name": "Baha'a Abdelrahman",
+        "pos": "DF"
+      },
+      {
+        "name": "Ahmad Al-Naimat",
+        "pos": "DF"
+      },
+      {
+        "name": "Saleh Rateb",
+        "pos": "DF"
+      },
+      {
+        "name": "Yazan Al-Naimat",
+        "pos": "MF"
+      },
+      {
+        "name": "Ahmad Habawneh",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohammad Bani Yaseen",
+        "pos": "MF"
+      },
+      {
+        "name": "Musa Al-Taamari",
+        "pos": "MF"
+      },
+      {
+        "name": "Ahmad Rawabdeh",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohammad Abu Almajd",
+        "pos": "MF"
+      },
+      {
+        "name": "Ismail Azzam",
+        "pos": "MF"
+      },
+      {
+        "name": "Musa Al-Taamari",
+        "pos": "FW"
+      },
+      {
+        "name": "Baha' Faisal",
+        "pos": "FW"
+      },
+      {
+        "name": "Hamza Al-Dardour",
+        "pos": "FW"
+      },
+      {
+        "name": "Ali Olwan",
+        "pos": "FW"
+      },
+      {
+        "name": "Salam Ananzeh",
+        "pos": "FW"
+      },
+      {
+        "name": "Qusai Abu Alia",
+        "pos": "FW"
+      },
+      {
+        "name": "Ibrahim Abu Hamdan",
+        "pos": "FW"
+      },
+      {
+        "name": "Muath Kasasbeh",
+        "pos": "FW"
+      }
+    ],
+    "France": [
+      {
+        "name": "Mike Maignan",
+        "pos": "GK"
+      },
+      {
+        "name": "Brice Samba",
+        "pos": "GK"
+      },
+      {
+        "name": "Alphonse Areola",
+        "pos": "GK"
+      },
+      {
+        "name": "William Saliba",
+        "pos": "DF"
+      },
+      {
+        "name": "Dayot Upamecano",
+        "pos": "DF"
+      },
+      {
+        "name": "Ibrahima Konaté",
+        "pos": "DF"
+      },
+      {
+        "name": "Jules Koundé",
+        "pos": "DF"
+      },
+      {
+        "name": "Theo Hernández",
+        "pos": "DF"
+      },
+      {
+        "name": "Benjamin Pavard",
+        "pos": "DF"
+      },
+      {
+        "name": "Jonathan Clauss",
+        "pos": "DF"
+      },
+      {
+        "name": "Ferland Mendy",
+        "pos": "DF"
+      },
+      {
+        "name": "Eduardo Camavinga",
+        "pos": "MF"
+      },
+      {
+        "name": "Aurélien Tchouaméni",
+        "pos": "MF"
+      },
+      {
+        "name": "Adrien Rabiot",
+        "pos": "MF"
+      },
+      {
+        "name": "Antoine Griezmann",
+        "pos": "MF"
+      },
+      {
+        "name": "Warren Zaïre-Emery",
+        "pos": "MF"
+      },
+      {
+        "name": "Matteo Guendouzi",
+        "pos": "MF"
+      },
+      {
+        "name": "Kylian Mbappé",
+        "pos": "FW"
+      },
+      {
+        "name": "Ousmane Dembélé",
+        "pos": "FW"
+      },
+      {
+        "name": "Bradley Barcola",
+        "pos": "FW"
+      },
+      {
+        "name": "Marcus Thuram",
+        "pos": "FW"
+      },
+      {
+        "name": "Olivier Giroud",
+        "pos": "FW"
+      },
+      {
+        "name": "Randal Kolo Muani",
+        "pos": "FW"
+      },
+      {
+        "name": "Kingsley Coman",
+        "pos": "FW"
+      },
+      {
+        "name": "Michael Olise",
+        "pos": "FW"
+      },
+      {
+        "name": "Christopher Nkunku",
+        "pos": "FW"
+      }
+    ],
+    "Norway": [
+      {
+        "name": "Ørjan Nyland",
+        "pos": "GK"
+      },
+      {
+        "name": "Jørgen Strand Larsen",
+        "pos": "GK"
+      },
+      {
+        "name": "Matz Sels",
+        "pos": "GK"
+      },
+      {
+        "name": "Stefan Strandberg",
+        "pos": "DF"
+      },
+      {
+        "name": "Leo Østigård",
+        "pos": "DF"
+      },
+      {
+        "name": "Julian Ryerson",
+        "pos": "DF"
+      },
+      {
+        "name": "Birger Meling",
+        "pos": "DF"
+      },
+      {
+        "name": "Kristoffer Ajer",
+        "pos": "DF"
+      },
+      {
+        "name": "Marcus Holmgren Pedersen",
+        "pos": "DF"
+      },
+      {
+        "name": "Morten Thorsby",
+        "pos": "DF"
+      },
+      {
+        "name": "Stian Gregersen",
+        "pos": "DF"
+      },
+      {
+        "name": "Martin Ødegaard",
+        "pos": "MF"
+      },
+      {
+        "name": "Sander Berge",
+        "pos": "MF"
+      },
+      {
+        "name": "Mats Møller Dæhli",
+        "pos": "MF"
+      },
+      {
+        "name": "Fredrik Aursnes",
+        "pos": "MF"
+      },
+      {
+        "name": "Patrick Berg",
+        "pos": "MF"
+      },
+      {
+        "name": "Kristian Thorstvedt",
+        "pos": "MF"
+      },
+      {
+        "name": "Ola Solbakken",
+        "pos": "MF"
+      },
+      {
+        "name": "Erling Haaland",
+        "pos": "FW"
+      },
+      {
+        "name": "Alexander Sørloth",
+        "pos": "FW"
+      },
+      {
+        "name": "Mohamed Elyounoussi",
+        "pos": "FW"
+      },
+      {
+        "name": "Jørgen Strand Larsen",
+        "pos": "FW"
+      },
+      {
+        "name": "Antonio Nusa",
+        "pos": "FW"
+      },
+      {
+        "name": "Ole Sæter",
+        "pos": "FW"
+      },
+      {
+        "name": "Viktor Boniface",
+        "pos": "FW"
+      },
+      {
+        "name": "Oscar Bobb",
+        "pos": "FW"
+      }
+    ],
+    "Algeria": [
+      {
+        "name": "Raïs M'Bolhi",
+        "pos": "GK"
+      },
+      {
+        "name": "Alexandre Oukidja",
+        "pos": "GK"
+      },
+      {
+        "name": "Mathieu Gorgelin",
+        "pos": "GK"
+      },
+      {
+        "name": "Youcef Atal",
+        "pos": "DF"
+      },
+      {
+        "name": "Aissa Mandi",
+        "pos": "DF"
+      },
+      {
+        "name": "Ramy Bensebaini",
+        "pos": "DF"
+      },
+      {
+        "name": "Zinedine Ferhat",
+        "pos": "DF"
+      },
+      {
+        "name": "Andy Delort",
+        "pos": "DF"
+      },
+      {
+        "name": "Hicham Boudaoui",
+        "pos": "DF"
+      },
+      {
+        "name": "Djamel Benlamri",
+        "pos": "DF"
+      },
+      {
+        "name": "Rayan Aït-Nouri",
+        "pos": "DF"
+      },
+      {
+        "name": "Nabil Bentaleb",
+        "pos": "MF"
+      },
+      {
+        "name": "Ismael Bennacer",
+        "pos": "MF"
+      },
+      {
+        "name": "Houssem Aouar",
+        "pos": "MF"
+      },
+      {
+        "name": "Ramiz Zerrouki",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohamed Amine Tougai",
+        "pos": "MF"
+      },
+      {
+        "name": "Zinedine Ferhat",
+        "pos": "MF"
+      },
+      {
+        "name": "Yacine Brahimi",
+        "pos": "MF"
+      },
+      {
+        "name": "Riyad Mahrez",
+        "pos": "FW"
+      },
+      {
+        "name": "Islam Slimani",
+        "pos": "FW"
+      },
+      {
+        "name": "Baghdad Bounedjah",
+        "pos": "FW"
+      },
+      {
+        "name": "Sofiane Bendebka",
+        "pos": "FW"
+      },
+      {
+        "name": "Amir Sayoud",
+        "pos": "FW"
+      },
+      {
+        "name": "Said Benrahma",
+        "pos": "FW"
+      },
+      {
+        "name": "Adam Ounas",
+        "pos": "FW"
+      },
+      {
+        "name": "Nassim Bouchareb",
+        "pos": "FW"
+      }
+    ],
+    "Austria": [
+      {
+        "name": "Patrick Pentz",
+        "pos": "GK"
+      },
+      {
+        "name": "Daniel Bachmann",
+        "pos": "GK"
+      },
+      {
+        "name": "Alexander Schlager",
+        "pos": "GK"
+      },
+      {
+        "name": "Stefan Posch",
+        "pos": "DF"
+      },
+      {
+        "name": "Kevin Danso",
+        "pos": "DF"
+      },
+      {
+        "name": "Philipp Lienhart",
+        "pos": "DF"
+      },
+      {
+        "name": "Phillipp Mwene",
+        "pos": "DF"
+      },
+      {
+        "name": "David Alaba",
+        "pos": "DF"
+      },
+      {
+        "name": "Maximilian Wöber",
+        "pos": "DF"
+      },
+      {
+        "name": "Leopold Querfeld",
+        "pos": "DF"
+      },
+      {
+        "name": "Phillipp Sturm",
+        "pos": "DF"
+      },
+      {
+        "name": "Nicolas Seiwald",
+        "pos": "MF"
+      },
+      {
+        "name": "Konrad Laimer",
+        "pos": "MF"
+      },
+      {
+        "name": "Marcel Sabitzer",
+        "pos": "MF"
+      },
+      {
+        "name": "Christoph Baumgartner",
+        "pos": "MF"
+      },
+      {
+        "name": "Florian Grillitsch",
+        "pos": "MF"
+      },
+      {
+        "name": "Florian Kainz",
+        "pos": "MF"
+      },
+      {
+        "name": "Patrick Wimmer",
+        "pos": "MF"
+      },
+      {
+        "name": "Michael Gregoritsch",
+        "pos": "FW"
+      },
+      {
+        "name": "Marko Arnautović",
+        "pos": "FW"
+      },
+      {
+        "name": "Christoph Monschein",
+        "pos": "FW"
+      },
+      {
+        "name": "Sasa Kalajdzic",
+        "pos": "FW"
+      },
+      {
+        "name": "Andreas Weimann",
+        "pos": "FW"
+      },
+      {
+        "name": "Patrick Griesser",
+        "pos": "FW"
+      },
+      {
+        "name": "Karim Adeyemi",
+        "pos": "FW"
+      },
+      {
+        "name": "Romano Schmid",
+        "pos": "FW"
+      }
+    ],
+    "Portugal": [
+      {
+        "name": "Diogo Costa",
+        "pos": "GK"
+      },
+      {
+        "name": "Rui Patrício",
+        "pos": "GK"
+      },
+      {
+        "name": "José Sá",
+        "pos": "GK"
+      },
+      {
+        "name": "Rúben Dias",
+        "pos": "DF"
+      },
+      {
+        "name": "Nuno Mendes",
+        "pos": "DF"
+      },
+      {
+        "name": "João Cancelo",
+        "pos": "DF"
+      },
+      {
+        "name": "Gonçalo Inácio",
+        "pos": "DF"
+      },
+      {
+        "name": "Diogo Dalot",
+        "pos": "DF"
+      },
+      {
+        "name": "Pepe",
+        "pos": "DF"
+      },
+      {
+        "name": "António Silva",
+        "pos": "DF"
+      },
+      {
+        "name": "Semedo",
+        "pos": "DF"
+      },
+      {
+        "name": "João Palhinha",
+        "pos": "MF"
+      },
+      {
+        "name": "Vitinha",
+        "pos": "MF"
+      },
+      {
+        "name": "Bruno Fernandes",
+        "pos": "MF"
+      },
+      {
+        "name": "Otávio",
+        "pos": "MF"
+      },
+      {
+        "name": "Rúben Neves",
+        "pos": "MF"
+      },
+      {
+        "name": "João Neves",
+        "pos": "MF"
+      },
+      {
+        "name": "Bernardo Silva",
+        "pos": "MF"
+      },
+      {
+        "name": "Cristiano Ronaldo",
+        "pos": "FW"
+      },
+      {
+        "name": "Rafael Leão",
+        "pos": "FW"
+      },
+      {
+        "name": "Diogo Jota",
+        "pos": "FW"
+      },
+      {
+        "name": "Gonçalo Ramos",
+        "pos": "FW"
+      },
+      {
+        "name": "João Félix",
+        "pos": "FW"
+      },
+      {
+        "name": "Pedro Neto",
+        "pos": "FW"
+      },
+      {
+        "name": "Francisco Conceição",
+        "pos": "FW"
+      }
+    ],
+    "DR Congo": [
+      {
+        "name": "Joël Kiassumbua",
+        "pos": "GK"
+      },
+      {
+        "name": "Vito Mannone",
+        "pos": "GK"
+      },
+      {
+        "name": "Ibrahim Mounkoro",
+        "pos": "GK"
+      },
+      {
+        "name": "Chancel Mbemba",
+        "pos": "DF"
+      },
+      {
+        "name": "Arthur Masuaku",
+        "pos": "DF"
+      },
+      {
+        "name": "Pierre Kalulu",
+        "pos": "DF"
+      },
+      {
+        "name": "Dylan Batubinsika",
+        "pos": "DF"
+      },
+      {
+        "name": "Yannick Bolasie",
+        "pos": "DF"
+      },
+      {
+        "name": "Mulamba Diakité",
+        "pos": "DF"
+      },
+      {
+        "name": "Marcel Tisserand",
+        "pos": "DF"
+      },
+      {
+        "name": "Denis Bouanga",
+        "pos": "DF"
+      },
+      {
+        "name": "Yannick Ferreira-Carrasco",
+        "pos": "MF"
+      },
+      {
+        "name": "Théo Bongonda",
+        "pos": "MF"
+      },
+      {
+        "name": "Youssouf Mulumbu",
+        "pos": "MF"
+      },
+      {
+        "name": "Gael Kakuta",
+        "pos": "MF"
+      },
+      {
+        "name": "Cédric Bakambu",
+        "pos": "MF"
+      },
+      {
+        "name": "Silas Wissa",
+        "pos": "MF"
+      },
+      {
+        "name": "Jean-Marc Makusu Mundele",
+        "pos": "MF"
+      },
+      {
+        "name": "Silas Wissa",
+        "pos": "FW"
+      },
+      {
+        "name": "Cédric Bakambu",
+        "pos": "FW"
+      },
+      {
+        "name": "Samuel Bastien",
+        "pos": "FW"
+      },
+      {
+        "name": "Benjamin Tetteh",
+        "pos": "FW"
+      },
+      {
+        "name": "Georginio Rutter",
+        "pos": "FW"
+      },
+      {
+        "name": "Ângel Gomes",
+        "pos": "FW"
+      },
+      {
+        "name": "Emmanuel Mbangula",
+        "pos": "FW"
+      },
+      {
+        "name": "Dodi Lukebakio",
+        "pos": "FW"
+      }
+    ],
+    "Uzbekistan": [
+      {
+        "name": "Eldor Shomurodov",
+        "pos": "GK"
+      },
+      {
+        "name": "Otabek Shukurov",
+        "pos": "GK"
+      },
+      {
+        "name": "Bunyod Yusupov",
+        "pos": "GK"
+      },
+      {
+        "name": "Dostonbek Khamdamov",
+        "pos": "DF"
+      },
+      {
+        "name": "Abbosbek Fayzullaev",
+        "pos": "DF"
+      },
+      {
+        "name": "Jasurbek Yakhshiboev",
+        "pos": "DF"
+      },
+      {
+        "name": "Sanjar Tursunov",
+        "pos": "DF"
+      },
+      {
+        "name": "Khojiakbar Alijonov",
+        "pos": "DF"
+      },
+      {
+        "name": "Oybek Bozorov",
+        "pos": "DF"
+      },
+      {
+        "name": "Temur Jumayev",
+        "pos": "DF"
+      },
+      {
+        "name": "Sherzod Qodirov",
+        "pos": "DF"
+      },
+      {
+        "name": "Otabek Shukurov",
+        "pos": "MF"
+      },
+      {
+        "name": "Jaloliddin Masharipov",
+        "pos": "MF"
+      },
+      {
+        "name": "Islombek Kobilov",
+        "pos": "MF"
+      },
+      {
+        "name": "Ilkhomjon Shamsiev",
+        "pos": "MF"
+      },
+      {
+        "name": "Abdukodir Khusanov",
+        "pos": "MF"
+      },
+      {
+        "name": "Dostonbek Khamdamov",
+        "pos": "MF"
+      },
+      {
+        "name": "Doniyor Ergashev",
+        "pos": "MF"
+      },
+      {
+        "name": "Eldor Shomurodov",
+        "pos": "FW"
+      },
+      {
+        "name": "Abbosbek Fayzullaev",
+        "pos": "FW"
+      },
+      {
+        "name": "Bobur Abdikholikov",
+        "pos": "FW"
+      },
+      {
+        "name": "Sherzod Nasrullayev",
+        "pos": "FW"
+      },
+      {
+        "name": "Laziz Azimov",
+        "pos": "FW"
+      },
+      {
+        "name": "Jamshid Iskanderov",
+        "pos": "FW"
+      },
+      {
+        "name": "Marat Bikmaev",
+        "pos": "FW"
+      },
+      {
+        "name": "Dostonbek Khamdamov",
+        "pos": "FW"
+      }
+    ],
+    "Colombia": [
+      {
+        "name": "David Ospina",
+        "pos": "GK"
+      },
+      {
+        "name": "Camilo Vargas",
+        "pos": "GK"
+      },
+      {
+        "name": "Kevin Mier",
+        "pos": "GK"
+      },
+      {
+        "name": "Dávinson Sánchez",
+        "pos": "DF"
+      },
+      {
+        "name": "William Tesillo",
+        "pos": "DF"
+      },
+      {
+        "name": "Stefan Medina",
+        "pos": "DF"
+      },
+      {
+        "name": "Johan Mojica",
+        "pos": "DF"
+      },
+      {
+        "name": "Yerry Mina",
+        "pos": "DF"
+      },
+      {
+        "name": "Jhon Lucumí",
+        "pos": "DF"
+      },
+      {
+        "name": "Daniel Muñoz",
+        "pos": "DF"
+      },
+      {
+        "name": "Carlos Cuesta",
+        "pos": "DF"
+      },
+      {
+        "name": "Juan Cuadrado",
+        "pos": "MF"
+      },
+      {
+        "name": "Wilmar Barrios",
+        "pos": "MF"
+      },
+      {
+        "name": "James Rodríguez",
+        "pos": "MF"
+      },
+      {
+        "name": "Lerma",
+        "pos": "MF"
+      },
+      {
+        "name": "Nicolás Gómez",
+        "pos": "MF"
+      },
+      {
+        "name": "Richard Ríos",
+        "pos": "MF"
+      },
+      {
+        "name": "Jhon Arias",
+        "pos": "MF"
+      },
+      {
+        "name": "Luis Díaz",
+        "pos": "FW"
+      },
+      {
+        "name": "Falcao",
+        "pos": "FW"
+      },
+      {
+        "name": "Rafael Santos Borré",
+        "pos": "FW"
+      },
+      {
+        "name": "Jhon Córdoba",
+        "pos": "FW"
+      },
+      {
+        "name": "Radamel Falcao",
+        "pos": "FW"
+      },
+      {
+        "name": "Cucho Hernández",
+        "pos": "FW"
+      },
+      {
+        "name": "Sinisterra",
+        "pos": "FW"
+      },
+      {
+        "name": "Jhon Durán",
+        "pos": "FW"
+      }
+    ],
+    "England": [
+      {
+        "name": "Jordan Pickford",
+        "pos": "GK"
+      },
+      {
+        "name": "Dean Henderson",
+        "pos": "GK"
+      },
+      {
+        "name": "James Trafford",
+        "pos": "GK"
+      },
+      {
+        "name": "Reece James",
+        "pos": "DF"
+      },
+      {
+        "name": "John Stones",
+        "pos": "DF"
+      },
+      {
+        "name": "Marc Guéhi",
+        "pos": "DF"
+      },
+      {
+        "name": "Ben Chilwell",
+        "pos": "DF"
+      },
+      {
+        "name": "Kyle Walker",
+        "pos": "DF"
+      },
+      {
+        "name": "Trent Alexander-Arnold",
+        "pos": "DF"
+      },
+      {
+        "name": "Harry Maguire",
+        "pos": "DF"
+      },
+      {
+        "name": "Lewis Dunk",
+        "pos": "DF"
+      },
+      {
+        "name": "Declan Rice",
+        "pos": "MF"
+      },
+      {
+        "name": "Jude Bellingham",
+        "pos": "MF"
+      },
+      {
+        "name": "Kobbie Mainoo",
+        "pos": "MF"
+      },
+      {
+        "name": "Curtis Jones",
+        "pos": "MF"
+      },
+      {
+        "name": "Jarrod Bowen",
+        "pos": "MF"
+      },
+      {
+        "name": "Cole Palmer",
+        "pos": "MF"
+      },
+      {
+        "name": "Phil Foden",
+        "pos": "MF"
+      },
+      {
+        "name": "Harry Kane",
+        "pos": "FW"
+      },
+      {
+        "name": "Bukayo Saka",
+        "pos": "FW"
+      },
+      {
+        "name": "Anthony Gordon",
+        "pos": "FW"
+      },
+      {
+        "name": "Ollie Watkins",
+        "pos": "FW"
+      },
+      {
+        "name": "Ivan Toney",
+        "pos": "FW"
+      },
+      {
+        "name": "Marcus Rashford",
+        "pos": "FW"
+      },
+      {
+        "name": "Demarai Gray",
+        "pos": "FW"
+      },
+      {
+        "name": "Raheem Sterling",
+        "pos": "FW"
+      }
+    ],
+    "Croatia": [
+      {
+        "name": "Dominik Livaković",
+        "pos": "GK"
+      },
+      {
+        "name": "Ivica Ivušić",
+        "pos": "GK"
+      },
+      {
+        "name": "Nediljko Labrović",
+        "pos": "GK"
+      },
+      {
+        "name": "Joško Gvardiol",
+        "pos": "DF"
+      },
+      {
+        "name": "Josip Šutalo",
+        "pos": "DF"
+      },
+      {
+        "name": "Josip Stanisić",
+        "pos": "DF"
+      },
+      {
+        "name": "Martin Erlić",
+        "pos": "DF"
+      },
+      {
+        "name": "Borna Sosa",
+        "pos": "DF"
+      },
+      {
+        "name": "Marin Pongračić",
+        "pos": "DF"
+      },
+      {
+        "name": "Domagoj Vida",
+        "pos": "DF"
+      },
+      {
+        "name": "Josip Juranović",
+        "pos": "DF"
+      },
+      {
+        "name": "Luka Modrić",
+        "pos": "MF"
+      },
+      {
+        "name": "Mateo Kovačić",
+        "pos": "MF"
+      },
+      {
+        "name": "Marcelo Brozović",
+        "pos": "MF"
+      },
+      {
+        "name": "Mario Pašalić",
+        "pos": "MF"
+      },
+      {
+        "name": "Luka Ivanušec",
+        "pos": "MF"
+      },
+      {
+        "name": "Lovro Majer",
+        "pos": "MF"
+      },
+      {
+        "name": "Nikola Vlašić",
+        "pos": "MF"
+      },
+      {
+        "name": "Andrej Kramarić",
+        "pos": "FW"
+      },
+      {
+        "name": "Ante Budimir",
+        "pos": "FW"
+      },
+      {
+        "name": "Bruno Petković",
+        "pos": "FW"
+      },
+      {
+        "name": "Ivan Perišić",
+        "pos": "FW"
+      },
+      {
+        "name": "Marko Pjaca",
+        "pos": "FW"
+      },
+      {
+        "name": "Kristijan Jakić",
+        "pos": "FW"
+      },
+      {
+        "name": "Toni Šunjić",
+        "pos": "FW"
+      },
+      {
+        "name": "Josip Brekalo",
+        "pos": "FW"
+      }
+    ],
+    "Iran": [
+      {
+        "name": "Alireza Beiranvand",
+        "pos": "GK"
+      },
+      {
+        "name": "Hossein Hosseini",
+        "pos": "GK"
+      },
+      {
+        "name": "Payam Niazmand",
+        "pos": "GK"
+      },
+      {
+        "name": "Milad Mohammadi",
+        "pos": "DF"
+      },
+      {
+        "name": "Shojae Khalilzadeh",
+        "pos": "DF"
+      },
+      {
+        "name": "Sadegh Moharrami",
+        "pos": "DF"
+      },
+      {
+        "name": "Mohammad Karimi",
+        "pos": "DF"
+      },
+      {
+        "name": "Ehsan Hajsafi",
+        "pos": "DF"
+      },
+      {
+        "name": "Hossein Kanaanizadegan",
+        "pos": "DF"
+      },
+      {
+        "name": "Abolfazl Jalali",
+        "pos": "DF"
+      },
+      {
+        "name": "Farshid Esmaeili",
+        "pos": "DF"
+      },
+      {
+        "name": "Saeid Ezatolahi",
+        "pos": "MF"
+      },
+      {
+        "name": "Saman Ghoddos",
+        "pos": "MF"
+      },
+      {
+        "name": "Omid Noorafkan",
+        "pos": "MF"
+      },
+      {
+        "name": "Mehdi Torabi",
+        "pos": "MF"
+      },
+      {
+        "name": "Ahmad Nourollahi",
+        "pos": "MF"
+      },
+      {
+        "name": "Alireza Jahanbakhsh",
+        "pos": "MF"
+      },
+      {
+        "name": "Karim Ansarifard",
+        "pos": "MF"
+      },
+      {
+        "name": "Mehdi Taremi",
+        "pos": "FW"
+      },
+      {
+        "name": "Sardar Azmoun",
+        "pos": "FW"
+      },
+      {
+        "name": "Alireza Jahanbakhsh",
+        "pos": "FW"
+      },
+      {
+        "name": "Morteza Pouraliganji",
+        "pos": "FW"
+      },
+      {
+        "name": "Vahid Amiri",
+        "pos": "FW"
+      },
+      {
+        "name": "Ali Gholizadeh",
+        "pos": "FW"
+      },
+      {
+        "name": "Majid Hosseini",
+        "pos": "FW"
+      },
+      {
+        "name": "Karim Ansarifard",
+        "pos": "FW"
+      }
+    ],
+    "Ghana": [
+      {
+        "name": "Lawrence Ati-Zigi",
+        "pos": "GK"
+      },
+      {
+        "name": "Jojo Wollacott",
+        "pos": "GK"
+      },
+      {
+        "name": "Ibrahim Danlad",
+        "pos": "GK"
+      },
+      {
+        "name": "Alexander Djiku",
+        "pos": "DF"
+      },
+      {
+        "name": "Tariq Lamptey",
+        "pos": "DF"
+      },
+      {
+        "name": "Abdul Rahman Baba",
+        "pos": "DF"
+      },
+      {
+        "name": "Daniel Amartey",
+        "pos": "DF"
+      },
+      {
+        "name": "Mohammed Salisu",
+        "pos": "DF"
+      },
+      {
+        "name": "Gideon Mensah",
+        "pos": "DF"
+      },
+      {
+        "name": "Alidu Seidu",
+        "pos": "DF"
+      },
+      {
+        "name": "Andy Yiadom",
+        "pos": "DF"
+      },
+      {
+        "name": "Thomas Partey",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohammed Kudus",
+        "pos": "MF"
+      },
+      {
+        "name": "Daniel-Kofi Kyereh",
+        "pos": "MF"
+      },
+      {
+        "name": "Iddrisu Baba",
+        "pos": "MF"
+      },
+      {
+        "name": "Andre Ayew",
+        "pos": "MF"
+      },
+      {
+        "name": "Abdul Samed Salis",
+        "pos": "MF"
+      },
+      {
+        "name": "Ernest Nuamah",
+        "pos": "MF"
+      },
+      {
+        "name": "Inaki Williams",
+        "pos": "FW"
+      },
+      {
+        "name": "Antoine Semenyo",
+        "pos": "FW"
+      },
+      {
+        "name": "Jordan Ayew",
+        "pos": "FW"
+      },
+      {
+        "name": "Osman Bukari",
+        "pos": "FW"
+      },
+      {
+        "name": "Emmanuel Gyasi",
+        "pos": "FW"
+      },
+      {
+        "name": "Ernest Nuamah",
+        "pos": "FW"
+      },
+      {
+        "name": "Fatawu Issahaku",
+        "pos": "FW"
+      },
+      {
+        "name": "Felix Afena-Gyan",
+        "pos": "FW"
+      }
+    ],
+    "Argentina": [
+      {
+        "name": "Emiliano Martínez",
+        "pos": "GK"
+      },
+      {
+        "name": "Gerónimo Rulli",
+        "pos": "GK"
+      },
+      {
+        "name": "Franco Armani",
+        "pos": "GK"
+      },
+      {
+        "name": "Cristian Romero",
+        "pos": "DF"
+      },
+      {
+        "name": "Lisandro Martínez",
+        "pos": "DF"
+      },
+      {
+        "name": "Nicolás Otamendi",
+        "pos": "DF"
+      },
+      {
+        "name": "Nahuel Molina",
+        "pos": "DF"
+      },
+      {
+        "name": "Nicolás Tagliafico",
+        "pos": "DF"
+      },
+      {
+        "name": "Germán Pezzella",
+        "pos": "DF"
+      },
+      {
+        "name": "Gonzalo Montiel",
+        "pos": "DF"
+      },
+      {
+        "name": "Marcos Acuña",
+        "pos": "DF"
+      },
+      {
+        "name": "Rodrigo De Paul",
+        "pos": "MF"
+      },
+      {
+        "name": "Alexis Mac Allister",
+        "pos": "MF"
+      },
+      {
+        "name": "Enzo Fernández",
+        "pos": "MF"
+      },
+      {
+        "name": "Leandro Paredes",
+        "pos": "MF"
+      },
+      {
+        "name": "Giovanni Lo Celso",
+        "pos": "MF"
+      },
+      {
+        "name": "Exequiel Palacios",
+        "pos": "MF"
+      },
+      {
+        "name": "Guido Rodríguez",
+        "pos": "MF"
+      },
+      {
+        "name": "Lionel Messi",
+        "pos": "FW"
+      },
+      {
+        "name": "Julián Álvarez",
+        "pos": "FW"
+      },
+      {
+        "name": "Ángel Di María",
+        "pos": "FW"
+      },
+      {
+        "name": "Lautaro Martínez",
+        "pos": "FW"
+      },
+      {
+        "name": "Nicolás González",
+        "pos": "FW"
+      },
+      {
+        "name": "Alejandro Garnacho",
+        "pos": "FW"
+      },
+      {
+        "name": "Paulo Dybala",
+        "pos": "FW"
+      },
+      {
+        "name": "Joaquín Correa",
+        "pos": "FW"
+      }
+    ],
+    "Uruguay": [
+      {
+        "name": "Fernando Muslera",
+        "pos": "GK"
+      },
+      {
+        "name": "Sergio Rochet",
+        "pos": "GK"
+      },
+      {
+        "name": "Sebastián Sosa",
+        "pos": "GK"
+      },
+      {
+        "name": "José María Giménez",
+        "pos": "DF"
+      },
+      {
+        "name": "Ronald Araújo",
+        "pos": "DF"
+      },
+      {
+        "name": "Nahitan Nández",
+        "pos": "DF"
+      },
+      {
+        "name": "Martín Cáceres",
+        "pos": "DF"
+      },
+      {
+        "name": "Mathías Olivera",
+        "pos": "DF"
+      },
+      {
+        "name": "Sebastián Coates",
+        "pos": "DF"
+      },
+      {
+        "name": "Santiago Bueno",
+        "pos": "DF"
+      },
+      {
+        "name": "Giovanni González",
+        "pos": "DF"
+      },
+      {
+        "name": "Federico Valverde",
+        "pos": "MF"
+      },
+      {
+        "name": "Manuel Ugarte",
+        "pos": "MF"
+      },
+      {
+        "name": "Nicolás De la Cruz",
+        "pos": "MF"
+      },
+      {
+        "name": "Rodrigo Bentancur",
+        "pos": "MF"
+      },
+      {
+        "name": "Giorgian de Arrascaeta",
+        "pos": "MF"
+      },
+      {
+        "name": "Facundo Pellistri",
+        "pos": "MF"
+      },
+      {
+        "name": "Mathías Olivera",
+        "pos": "MF"
+      },
+      {
+        "name": "Darwin Núñez",
+        "pos": "FW"
+      },
+      {
+        "name": "Luis Suárez",
+        "pos": "FW"
+      },
+      {
+        "name": "Edinson Cavani",
+        "pos": "FW"
+      },
+      {
+        "name": "Luciano Rodríguez",
+        "pos": "FW"
+      },
+      {
+        "name": "Facundo Torres",
+        "pos": "FW"
+      },
+      {
+        "name": "Maxi Gómez",
+        "pos": "FW"
+      },
+      {
+        "name": "Brian Ocampo",
+        "pos": "FW"
+      },
+      {
+        "name": "Agustín Canobbio",
+        "pos": "FW"
+      }
+    ],
+    "Panama": [
+      {
+        "name": "Luis Mejía",
+        "pos": "GK"
+      },
+      {
+        "name": "José Calderón",
+        "pos": "GK"
+      },
+      {
+        "name": "Orlando Mosquera",
+        "pos": "GK"
+      },
+      {
+        "name": "Fidel Escobar",
+        "pos": "DF"
+      },
+      {
+        "name": "Harold Cummings",
+        "pos": "DF"
+      },
+      {
+        "name": "Anibal Godoy",
+        "pos": "DF"
+      },
+      {
+        "name": "Adolfo Machado",
+        "pos": "DF"
+      },
+      {
+        "name": "Michael Murillo",
+        "pos": "DF"
+      },
+      {
+        "name": "Armando Cooper",
+        "pos": "DF"
+      },
+      {
+        "name": "Andrés Andrade",
+        "pos": "DF"
+      },
+      {
+        "name": "Eric Davis",
+        "pos": "DF"
+      },
+      {
+        "name": "Adalberto Carrasquilla",
+        "pos": "MF"
+      },
+      {
+        "name": "Édgar Bárcenas",
+        "pos": "MF"
+      },
+      {
+        "name": "Aníbal Godoy",
+        "pos": "MF"
+      },
+      {
+        "name": "Rolando Blackman",
+        "pos": "MF"
+      },
+      {
+        "name": "Jorman Aguilar",
+        "pos": "MF"
+      },
+      {
+        "name": "Alberto Quintero",
+        "pos": "MF"
+      },
+      {
+        "name": "José Fajardo",
+        "pos": "MF"
+      },
+      {
+        "name": "Roberto Nurse",
+        "pos": "FW"
+      },
+      {
+        "name": "Naldo Moreno",
+        "pos": "FW"
+      },
+      {
+        "name": "Éric Davis",
+        "pos": "FW"
+      },
+      {
+        "name": "Cesar Blackman",
+        "pos": "FW"
+      },
+      {
+        "name": "Gabriel Torres",
+        "pos": "FW"
+      },
+      {
+        "name": "Ismael Díaz",
+        "pos": "FW"
+      },
+      {
+        "name": "Blas Pérez",
+        "pos": "FW"
+      },
+      {
+        "name": "Alberto Quintero",
+        "pos": "FW"
+      }
+    ],
+    "Iraq": [
+      {
+        "name": "Jalal Hassan",
+        "pos": "GK"
+      },
+      {
+        "name": "Dhurgham Ismail",
+        "pos": "GK"
+      },
+      {
+        "name": "Mohammed Hameed",
+        "pos": "GK"
+      },
+      {
+        "name": "Rebin Sulaka",
+        "pos": "DF"
+      },
+      {
+        "name": "Ali Adnan",
+        "pos": "DF"
+      },
+      {
+        "name": "Murtadha Mahdi",
+        "pos": "DF"
+      },
+      {
+        "name": "Saad Natiq",
+        "pos": "DF"
+      },
+      {
+        "name": "Mustafa Nadhim",
+        "pos": "DF"
+      },
+      {
+        "name": "Ahmed Ibrahim",
+        "pos": "DF"
+      },
+      {
+        "name": "Bassam Riad",
+        "pos": "DF"
+      },
+      {
+        "name": "Hussein Ali",
+        "pos": "DF"
+      },
+      {
+        "name": "Safaa Hadi",
+        "pos": "MF"
+      },
+      {
+        "name": "Ahmed Yasin",
+        "pos": "MF"
+      },
+      {
+        "name": "Amjad Attwan",
+        "pos": "MF"
+      },
+      {
+        "name": "Karrar Hamad",
+        "pos": "MF"
+      },
+      {
+        "name": "Mohanad Jerew",
+        "pos": "MF"
+      },
+      {
+        "name": "Ali Husain",
+        "pos": "MF"
+      },
+      {
+        "name": "Alaa Abdulmajeed",
+        "pos": "MF"
+      },
+      {
+        "name": "Aymen Hussein",
+        "pos": "FW"
+      },
+      {
+        "name": "Mohanad Abdulraheem",
+        "pos": "FW"
+      },
+      {
+        "name": "Humam Tariq",
+        "pos": "FW"
+      },
+      {
+        "name": "Ali Jasim",
+        "pos": "FW"
+      },
+      {
+        "name": "Omar Sabah",
+        "pos": "FW"
+      },
+      {
+        "name": "Thaer Krouma",
+        "pos": "FW"
+      },
+      {
+        "name": "Wael Radhi",
+        "pos": "FW"
+      },
+      {
+        "name": "Alaa Mhawi",
+        "pos": "FW"
+      }
+    ]
+  }
+}

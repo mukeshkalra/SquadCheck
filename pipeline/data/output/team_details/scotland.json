@@ -1,0 +1,391 @@
+{
+  "team": "Scotland",
+  "confederation": "UEFA",
+  "group": "C",
+  "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  "sci": 48.37,
+  "squad_quality": 57.99,
+  "xfactor": 20.0,
+  "squad_depth": 44.4,
+  "recent_form": 50.0,
+  "squad_size": 27,
+  "best_xi": [
+    {
+      "name": "Angus Gunn",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 53.6,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Aaron Hickey",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 62.77,
+      "market_value_eur": 16000000
+    },
+    {
+      "name": "Andrew Robertson",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 60.32,
+      "market_value_eur": 10000000
+    },
+    {
+      "name": "Kieran Tierney",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 59.78,
+      "market_value_eur": 8000000
+    },
+    {
+      "name": "Scott McKenna",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 55.99,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Scott McTominay",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 73.97,
+      "market_value_eur": 45000000
+    },
+    {
+      "name": "Billy Gilmour",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 56.48,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "John McGinn",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 54.05,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Che Adams",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 62.72,
+      "market_value_eur": 8500000
+    },
+    {
+      "name": "Lawrence Shankland",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 49.74,
+      "market_value_eur": 2800000
+    },
+    {
+      "name": "Lyndon Dykes",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 48.44,
+      "market_value_eur": 2500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Scott McTominay",
+      "position": "Midfielder",
+      "rating": 73.97,
+      "market_value_eur": 45000000,
+      "goals": 7,
+      "assists": 3,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aaron Hickey",
+      "position": "Defender",
+      "rating": 62.77,
+      "market_value_eur": 16000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Che Adams",
+      "position": "Forward",
+      "rating": 62.72,
+      "market_value_eur": 8500000,
+      "goals": 5,
+      "assists": 2,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andrew Robertson",
+      "position": "Defender",
+      "rating": 60.32,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kieran Tierney",
+      "position": "Defender",
+      "rating": 59.78,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Billy Gilmour",
+      "position": "Midfielder",
+      "rating": 56.48,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Scott McKenna",
+      "position": "Defender",
+      "rating": 55.99,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ryan Porteous",
+      "position": "Defender",
+      "rating": 54.1,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "John McGinn",
+      "position": "Midfielder",
+      "rating": 54.05,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Angus Gunn",
+      "position": "Goalkeeper",
+      "rating": 53.6,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jack Butland",
+      "position": "Goalkeeper",
+      "rating": 52.82,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ryan Christie",
+      "position": "Midfielder",
+      "rating": 51.09,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Anthony Ralston",
+      "position": "Defender",
+      "rating": 50.28,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lawrence Shankland",
+      "position": "Forward",
+      "rating": 49.74,
+      "market_value_eur": 2800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Liam Cooper",
+      "position": "Defender",
+      "rating": 49.48,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lyndon Dykes",
+      "position": "Forward",
+      "rating": 48.44,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ryan Fraser",
+      "position": "Forward",
+      "rating": 46.06,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Callum McGregor",
+      "position": "Midfielder",
+      "rating": 44.9,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tommy Conway",
+      "position": "Forward",
+      "rating": 44.73,
+      "market_value_eur": 500000,
+      "goals": 8,
+      "assists": 4,
+      "age": 23.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kenny McLean",
+      "position": "Midfielder",
+      "rating": 41.1,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ryan Jack",
+      "position": "Midfielder",
+      "rating": 39.81,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Grant Hanley",
+      "position": "Defender",
+      "rating": 31.21,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aidan Connolly",
+      "position": "Forward",
+      "rating": 27.2,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Stuart Armstrong",
+      "position": "Midfielder",
+      "rating": 26.91,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "James Forrest",
+      "position": "Forward",
+      "rating": 26.71,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Morgan Boyes",
+      "position": "Forward",
+      "rating": 26.36,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Craig Gordon",
+      "position": "Goalkeeper",
+      "rating": 22.67,
+      "market_value_eur": 50000,
+      "goals": 0,
+      "assists": 0,
+      "age": 43.4,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

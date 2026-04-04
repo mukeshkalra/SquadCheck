@@ -1,0 +1,393 @@
+{
+  "team": "Australia",
+  "confederation": "AFC",
+  "group": "D",
+  "flag": "🇦🇺",
+  "sci": 48.3,
+  "squad_quality": 48.61,
+  "xfactor": 55.19,
+  "squad_depth": 41.07,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Mat Ryan",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 54.41,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Harry Souttar",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 58.4,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Connor Metcalfe",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 51.79,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Kye Rowles",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 49.21,
+      "market_value_eur": 1200000
+    },
+    {
+      "name": "Jason Geria",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 46.55,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Riley McGree",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.62,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Jackson Irvine",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 42.31,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Lewis Miller",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 40.54,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Nestory Irankunda",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 51.98,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Jamie Maclaren",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 46.77,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Awer Mabil",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 45.14,
+      "market_value_eur": 1300000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Nestory Irankunda",
+      "position": "Forward",
+      "age": 20.3,
+      "rating": 51.98
+    },
+    {
+      "name": "Garang Kuol",
+      "position": "Forward",
+      "age": 21.7,
+      "rating": 40.77
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Harry Souttar",
+      "position": "Defender",
+      "rating": 58.4,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mat Ryan",
+      "position": "Goalkeeper",
+      "rating": 54.41,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joe Gauci",
+      "position": "Goalkeeper",
+      "rating": 52.37,
+      "market_value_eur": 1400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nestory Irankunda",
+      "position": "Forward",
+      "rating": 51.98,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 20.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Connor Metcalfe",
+      "position": "Defender",
+      "rating": 51.79,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kye Rowles",
+      "position": "Defender",
+      "rating": 49.21,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Riley McGree",
+      "position": "Midfielder",
+      "rating": 47.62,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jamie Maclaren",
+      "position": "Forward",
+      "rating": 46.77,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jason Geria",
+      "position": "Defender",
+      "rating": 46.55,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Miloš Degenek",
+      "position": "Defender",
+      "rating": 46.34,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Awer Mabil",
+      "position": "Forward",
+      "rating": 45.14,
+      "market_value_eur": 1300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jason Cummings",
+      "position": "Forward",
+      "rating": 44.76,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Thomas Deng",
+      "position": "Defender",
+      "rating": 44.06,
+      "market_value_eur": 550000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jackson Irvine",
+      "position": "Midfielder",
+      "rating": 42.31,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marco Tilio",
+      "position": "Forward",
+      "rating": 41.62,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nick D'Agostino",
+      "position": "Forward",
+      "rating": 41.09,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Garang Kuol",
+      "position": "Forward",
+      "rating": 40.77,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 21.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lewis Miller",
+      "position": "Midfielder",
+      "rating": 40.54,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Keanu Baccus",
+      "position": "Midfielder",
+      "rating": 38.64,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ajdin Hrustic",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cameron Devlin",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joel King",
+      "position": "Defender",
+      "rating": 33.29,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lawrence Thomas",
+      "position": "Goalkeeper",
+      "rating": 33.23,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aziz Behich",
+      "position": "Defender",
+      "rating": 29.39,
+      "market_value_eur": 275000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Martin Boyle",
+      "position": "Midfielder",
+      "rating": 27.25,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mitch Duke",
+      "position": "Forward",
+      "rating": 24.03,
+      "market_value_eur": 275000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.4,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

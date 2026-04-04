@@ -1,0 +1,387 @@
+{
+  "team": "France",
+  "confederation": "UEFA",
+  "group": "I",
+  "flag": "🇫🇷",
+  "sci": 67.92,
+  "squad_quality": 76.24,
+  "xfactor": 62.69,
+  "squad_depth": 64.49,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Mike Maignan",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 71.27,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "William Saliba",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 79.41,
+      "market_value_eur": 90000000
+    },
+    {
+      "name": "Dayot Upamecano",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 76.1,
+      "market_value_eur": 70000000
+    },
+    {
+      "name": "Jules Koundé",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 74.23,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "Ibrahima Konaté",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 72.33,
+      "market_value_eur": 50000000
+    },
+    {
+      "name": "Aurélien Tchouaméni",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 68.17,
+      "market_value_eur": 75000000
+    },
+    {
+      "name": "Adrien Rabiot",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 66.29,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Warren Zaïre-Emery",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 64.48,
+      "market_value_eur": 60000000
+    },
+    {
+      "name": "Kylian Mbappé",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 92.29,
+      "market_value_eur": 200000000
+    },
+    {
+      "name": "Michael Olise",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 90.2,
+      "market_value_eur": 140000000
+    },
+    {
+      "name": "Ousmane Dembélé",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 83.89,
+      "market_value_eur": 100000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Warren Zaïre-Emery",
+      "position": "Midfielder",
+      "age": 20.3,
+      "rating": 64.48
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Kylian Mbappé",
+      "position": "Forward",
+      "rating": 92.29,
+      "market_value_eur": 200000000,
+      "goals": 23,
+      "assists": 4,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Michael Olise",
+      "position": "Forward",
+      "rating": 90.2,
+      "market_value_eur": 140000000,
+      "goals": 11,
+      "assists": 17,
+      "age": 24.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ousmane Dembélé",
+      "position": "Forward",
+      "rating": 83.89,
+      "market_value_eur": 100000000,
+      "goals": 10,
+      "assists": 5,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "William Saliba",
+      "position": "Defender",
+      "rating": 79.41,
+      "market_value_eur": 90000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bradley Barcola",
+      "position": "Forward",
+      "rating": 77.82,
+      "market_value_eur": 70000000,
+      "goals": 10,
+      "assists": 1,
+      "age": 23.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dayot Upamecano",
+      "position": "Defender",
+      "rating": 76.1,
+      "market_value_eur": 70000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jules Koundé",
+      "position": "Defender",
+      "rating": 74.23,
+      "market_value_eur": 65000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ibrahima Konaté",
+      "position": "Defender",
+      "rating": 72.33,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mike Maignan",
+      "position": "Goalkeeper",
+      "rating": 71.27,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Christopher Nkunku",
+      "position": "Forward",
+      "rating": 68.21,
+      "market_value_eur": 28000000,
+      "goals": 5,
+      "assists": 3,
+      "age": 28.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aurélien Tchouaméni",
+      "position": "Midfielder",
+      "rating": 68.17,
+      "market_value_eur": 75000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Theo Hernández",
+      "position": "Defender",
+      "rating": 67.73,
+      "market_value_eur": 28000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Randal Kolo Muani",
+      "position": "Forward",
+      "rating": 66.67,
+      "market_value_eur": 22000000,
+      "goals": 4,
+      "assists": 2,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Adrien Rabiot",
+      "position": "Midfielder",
+      "rating": 66.29,
+      "market_value_eur": 20000000,
+      "goals": 5,
+      "assists": 4,
+      "age": 31.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcus Thuram",
+      "position": "Forward",
+      "rating": 65.35,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Warren Zaïre-Emery",
+      "position": "Midfielder",
+      "rating": 64.48,
+      "market_value_eur": 60000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 20.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Eduardo Camavinga",
+      "position": "Midfielder",
+      "rating": 64.46,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Brice Samba",
+      "position": "Goalkeeper",
+      "rating": 64.11,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Benjamin Pavard",
+      "position": "Defender",
+      "rating": 62.54,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alphonse Areola",
+      "position": "Goalkeeper",
+      "rating": 60.85,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kingsley Coman",
+      "position": "Forward",
+      "rating": 58.89,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youssouf Fofana",
+      "position": "Midfielder",
+      "rating": 58.76,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Antoine Griezmann",
+      "position": "Midfielder",
+      "rating": 58.5,
+      "market_value_eur": 10000000,
+      "goals": 6,
+      "assists": 1,
+      "age": 35.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ferland Mendy",
+      "position": "Defender",
+      "rating": 57.94,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jonathan Clauss",
+      "position": "Defender",
+      "rating": 55.73,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Olivier Giroud",
+      "position": "Forward",
+      "rating": 47.86,
+      "market_value_eur": 1000000,
+      "goals": 6,
+      "assists": 1,
+      "age": 39.7,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

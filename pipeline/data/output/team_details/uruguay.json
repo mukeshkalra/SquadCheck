@@ -1,0 +1,369 @@
+{
+  "team": "Uruguay",
+  "confederation": "CONMEBOL",
+  "group": "L",
+  "flag": "🇺🇾",
+  "sci": 50.82,
+  "squad_quality": 60.51,
+  "xfactor": 20.0,
+  "squad_depth": 50.35,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Santiago Mele",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 56.37,
+      "market_value_eur": 2200000
+    },
+    {
+      "name": "Ronald Araújo",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 64.99,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Joaquín Piquerez",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 61.95,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Nahitan Nández",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.64,
+      "market_value_eur": 4500000
+    },
+    {
+      "name": "Matías Viña",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.15,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Federico Valverde",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 73.24,
+      "market_value_eur": 120000000
+    },
+    {
+      "name": "Manuel Ugarte",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 59.72,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Rodrigo Bentancur",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 57.74,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Luis Suárez",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 60.02,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Darwin Núñez",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 59.9,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Agustín Canobbio",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 58.86,
+      "market_value_eur": 6000000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Federico Valverde",
+      "position": "Midfielder",
+      "rating": 73.24,
+      "market_value_eur": 120000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ronald Araújo",
+      "position": "Defender",
+      "rating": 64.99,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joaquín Piquerez",
+      "position": "Defender",
+      "rating": 61.95,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luis Suárez",
+      "position": "Forward",
+      "rating": 60.02,
+      "market_value_eur": 1500000,
+      "goals": 24,
+      "assists": 4,
+      "age": 39.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Darwin Núñez",
+      "position": "Forward",
+      "rating": 59.9,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Manuel Ugarte",
+      "position": "Midfielder",
+      "rating": 59.72,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Agustín Canobbio",
+      "position": "Forward",
+      "rating": 58.86,
+      "market_value_eur": 6000000,
+      "goals": 3,
+      "assists": 1,
+      "age": 27.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rodrigo Bentancur",
+      "position": "Midfielder",
+      "rating": 57.74,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Facundo Torres",
+      "position": "Forward",
+      "rating": 57.09,
+      "market_value_eur": 13000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nahitan Nández",
+      "position": "Defender",
+      "rating": 56.64,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Santiago Mele",
+      "position": "Goalkeeper",
+      "rating": 56.37,
+      "market_value_eur": 2200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Matías Viña",
+      "position": "Defender",
+      "rating": 56.15,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sergio Rochet",
+      "position": "Goalkeeper",
+      "rating": 54.71,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Brian Rodríguez",
+      "position": "Forward",
+      "rating": 54.08,
+      "market_value_eur": 6500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Giorgian De Arrascaeta",
+      "position": "Midfielder",
+      "rating": 53.94,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lucas Torreira",
+      "position": "Midfielder",
+      "rating": 53.41,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sebastián Coates",
+      "position": "Defender",
+      "rating": 53.21,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nicolás De La Cruz",
+      "position": "Midfielder",
+      "rating": 51.51,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Facundo Pellistri",
+      "position": "Midfielder",
+      "rating": 49.23,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Guillermo Varela",
+      "position": "Defender",
+      "rating": 48.05,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sebastián Sosa",
+      "position": "Goalkeeper",
+      "rating": 46.38,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 42.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Maximiliano Gómez",
+      "position": "Forward",
+      "rating": 42.69,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "José Giménez",
+      "position": "Defender",
+      "rating": 39.85,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Edinson Cavani",
+      "position": "Forward",
+      "rating": 31.85,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Diego Godín",
+      "position": "Defender",
+      "rating": 28.21,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

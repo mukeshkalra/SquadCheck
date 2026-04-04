@@ -1,0 +1,393 @@
+{
+  "team": "Spain",
+  "confederation": "UEFA",
+  "group": "H",
+  "flag": "🇪🇸",
+  "sci": 68.75,
+  "squad_quality": 75.09,
+  "xfactor": 77.32,
+  "squad_depth": 60.56,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "David Raya",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 72.97,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Pau Cubarsí",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 76.09,
+      "market_value_eur": 80000000
+    },
+    {
+      "name": "Marc Cucurella",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 72.44,
+      "market_value_eur": 50000000
+    },
+    {
+      "name": "Pedro Porro",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 70.93,
+      "market_value_eur": 40000000
+    },
+    {
+      "name": "Robin Le Normand",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 66.6,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Pedri",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 80.28,
+      "market_value_eur": 150000000
+    },
+    {
+      "name": "Dani Olmo",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 78.92,
+      "market_value_eur": 60000000
+    },
+    {
+      "name": "Martín Zubimendi",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 76.68,
+      "market_value_eur": 80000000
+    },
+    {
+      "name": "Lamine Yamal",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 88.3,
+      "market_value_eur": 200000000
+    },
+    {
+      "name": "Ferran Torres",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 77.77,
+      "market_value_eur": 50000000
+    },
+    {
+      "name": "Nico Williams",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 64.96,
+      "market_value_eur": 50000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Lamine Yamal",
+      "position": "Forward",
+      "age": 18.9,
+      "rating": 88.3
+    },
+    {
+      "name": "Pau Cubarsí",
+      "position": "Defender",
+      "age": 19.4,
+      "rating": 76.09
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Lamine Yamal",
+      "position": "Forward",
+      "rating": 88.3,
+      "market_value_eur": 200000000,
+      "goals": 14,
+      "assists": 9,
+      "age": 18.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pedri",
+      "position": "Midfielder",
+      "rating": 80.28,
+      "market_value_eur": 150000000,
+      "goals": 2,
+      "assists": 2,
+      "age": 23.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dani Olmo",
+      "position": "Midfielder",
+      "rating": 78.92,
+      "market_value_eur": 60000000,
+      "goals": 7,
+      "assists": 7,
+      "age": 28.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ferran Torres",
+      "position": "Forward",
+      "rating": 77.77,
+      "market_value_eur": 50000000,
+      "goals": 12,
+      "assists": 2,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Martín Zubimendi",
+      "position": "Midfielder",
+      "rating": 76.68,
+      "market_value_eur": 80000000,
+      "goals": 5,
+      "assists": 1,
+      "age": 27.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pau Cubarsí",
+      "position": "Defender",
+      "rating": 76.09,
+      "market_value_eur": 80000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 19.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "David Raya",
+      "position": "Goalkeeper",
+      "rating": 72.97,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marc Cucurella",
+      "position": "Defender",
+      "rating": 72.44,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Unai Simón",
+      "position": "Goalkeeper",
+      "rating": 71.6,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pedro Porro",
+      "position": "Defender",
+      "rating": 70.93,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Álex Remiro",
+      "position": "Goalkeeper",
+      "rating": 66.77,
+      "market_value_eur": 14000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Robin Le Normand",
+      "position": "Defender",
+      "rating": 66.6,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alejandro Grimaldo",
+      "position": "Defender",
+      "rating": 65.7,
+      "market_value_eur": 24000000,
+      "goals": 6,
+      "assists": 7,
+      "age": 30.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nico Williams",
+      "position": "Forward",
+      "rating": 64.96,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Álex Baena",
+      "position": "Midfielder",
+      "rating": 63.83,
+      "market_value_eur": 45000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fabián Ruiz",
+      "position": "Midfielder",
+      "rating": 63.01,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yeremi Pino",
+      "position": "Forward",
+      "rating": 62.06,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mikel Merino",
+      "position": "Midfielder",
+      "rating": 59.74,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aymeric Laporte",
+      "position": "Defender",
+      "rating": 59.66,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dani Carvajal",
+      "position": "Defender",
+      "rating": 56.9,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Álvaro Morata",
+      "position": "Forward",
+      "rating": 53.84,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ayoze Pérez",
+      "position": "Forward",
+      "rating": 52.84,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joselu",
+      "position": "Forward",
+      "rating": 50.81,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Oyarzabal",
+      "position": "Forward",
+      "rating": 44.83,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nacho Fernández",
+      "position": "Defender",
+      "rating": 28.27,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rodri",
+      "position": "Midfielder",
+      "rating": 21.73,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 41.8,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

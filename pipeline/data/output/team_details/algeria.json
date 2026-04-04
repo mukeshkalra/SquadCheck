@@ -1,0 +1,347 @@
+{
+  "team": "Algeria",
+  "confederation": "CAF",
+  "group": "I",
+  "flag": "🇩🇿",
+  "sci": 43.22,
+  "squad_quality": 50.66,
+  "xfactor": 20.0,
+  "squad_depth": 36.93,
+  "recent_form": 50.0,
+  "squad_size": 23,
+  "best_xi": [
+    {
+      "name": "Alexis Guendouz",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 41.48,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Hichem Boudaoui",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 61.81,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Ramy Bensebaini",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 58.73,
+      "market_value_eur": 7000000
+    },
+    {
+      "name": "Youcef Atal",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.01,
+      "market_value_eur": 4300000
+    },
+    {
+      "name": "Zinedine Ferhat",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 51.29,
+      "market_value_eur": 2300000
+    },
+    {
+      "name": "Farès Chaïbi",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 54.09,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Ismael Bennacer",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 51.59,
+      "market_value_eur": 9000000
+    },
+    {
+      "name": "Saïd Benrahma",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 51.21,
+      "market_value_eur": 9000000
+    },
+    {
+      "name": "Sofiane Boufal",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 46.81,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Andy Delort",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 44.58,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Rachid Ghezzal",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 39.71,
+      "market_value_eur": 700000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Hichem Boudaoui",
+      "position": "Defender",
+      "rating": 61.81,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ramy Bensebaini",
+      "position": "Defender",
+      "rating": 58.73,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youcef Atal",
+      "position": "Defender",
+      "rating": 56.01,
+      "market_value_eur": 4300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Farès Chaïbi",
+      "position": "Midfielder",
+      "rating": 54.09,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ismael Bennacer",
+      "position": "Midfielder",
+      "rating": 51.59,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Zinedine Ferhat",
+      "position": "Defender",
+      "rating": 51.29,
+      "market_value_eur": 2300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Saïd Benrahma",
+      "position": "Midfielder",
+      "rating": 51.21,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nabil Bentaleb",
+      "position": "Midfielder",
+      "rating": 48.4,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Riyad Mahrez",
+      "position": "Midfielder",
+      "rating": 48.3,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Samir Nasri",
+      "position": "Defender",
+      "rating": 47.51,
+      "market_value_eur": 1600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sofiane Boufal",
+      "position": "Forward",
+      "rating": 46.81,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aissa Mandi",
+      "position": "Defender",
+      "rating": 46.04,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andy Delort",
+      "position": "Forward",
+      "rating": 44.58,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youcef Belaïli",
+      "position": "Midfielder",
+      "rating": 41.5,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexis Guendouz",
+      "position": "Goalkeeper",
+      "rating": 41.48,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rachid Ghezzal",
+      "position": "Forward",
+      "rating": 39.71,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexandre Oukidja",
+      "position": "Goalkeeper",
+      "rating": 39.02,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Djamel Benlamri",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Baghdad Bounedjah",
+      "position": "Forward",
+      "rating": 33.18,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Raïs M'Bolhi",
+      "position": "Goalkeeper",
+      "rating": 26.96,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sofiane Feghouli",
+      "position": "Midfielder",
+      "rating": 26.09,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Islam Slimani",
+      "position": "Forward",
+      "rating": 25.55,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Adlène Guedioura",
+      "position": "Defender",
+      "rating": 23.6,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.6,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

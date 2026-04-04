@@ -1,0 +1,399 @@
+{
+  "team": "England",
+  "confederation": "UEFA",
+  "group": "K",
+  "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+  "sci": 67.59,
+  "squad_quality": 73.4,
+  "xfactor": 72.64,
+  "squad_depth": 62.46,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Jordan Pickford",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 67.64,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Trent Alexander-Arnold",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 74.25,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "Marc Guéhi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 74.03,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "John Stones",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 62.09,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Ben Chilwell",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 61.73,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Phil Foden",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 79.02,
+      "market_value_eur": 80000000
+    },
+    {
+      "name": "Jude Bellingham",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 74.16,
+      "market_value_eur": 140000000
+    },
+    {
+      "name": "Declan Rice",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 73.18,
+      "market_value_eur": 120000000
+    },
+    {
+      "name": "Harry Kane",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 83.89,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "Bukayo Saka",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 82.46,
+      "market_value_eur": 120000000
+    },
+    {
+      "name": "Jarrod Bowen",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 74.93,
+      "market_value_eur": 35000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Jude Bellingham",
+      "position": "Midfielder",
+      "age": 23.0,
+      "rating": 74.16
+    },
+    {
+      "name": "Adam Wharton",
+      "position": "Midfielder",
+      "age": 22.3,
+      "rating": 65.39
+    },
+    {
+      "name": "Kobbie Mainoo",
+      "position": "Midfielder",
+      "age": 21.1,
+      "rating": 63.65
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Harry Kane",
+      "position": "Forward",
+      "rating": 83.89,
+      "market_value_eur": 65000000,
+      "goals": 31,
+      "assists": 4,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bukayo Saka",
+      "position": "Forward",
+      "rating": 82.46,
+      "market_value_eur": 120000000,
+      "goals": 6,
+      "assists": 3,
+      "age": 24.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Phil Foden",
+      "position": "Midfielder",
+      "rating": 79.02,
+      "market_value_eur": 80000000,
+      "goals": 7,
+      "assists": 3,
+      "age": 26.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jarrod Bowen",
+      "position": "Forward",
+      "rating": 74.93,
+      "market_value_eur": 35000000,
+      "goals": 8,
+      "assists": 6,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Trent Alexander-Arnold",
+      "position": "Defender",
+      "rating": 74.25,
+      "market_value_eur": 65000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jude Bellingham",
+      "position": "Midfielder",
+      "rating": 74.16,
+      "market_value_eur": 140000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marc Guéhi",
+      "position": "Defender",
+      "rating": 74.03,
+      "market_value_eur": 65000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Declan Rice",
+      "position": "Midfielder",
+      "rating": 73.18,
+      "market_value_eur": 120000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcus Rashford",
+      "position": "Forward",
+      "rating": 71.07,
+      "market_value_eur": 40000000,
+      "goals": 5,
+      "assists": 3,
+      "age": 28.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ollie Watkins",
+      "position": "Forward",
+      "rating": 70.99,
+      "market_value_eur": 30000000,
+      "goals": 9,
+      "assists": 1,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jordan Pickford",
+      "position": "Goalkeeper",
+      "rating": 67.64,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aaron Ramsdale",
+      "position": "Goalkeeper",
+      "rating": 66.6,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Adam Wharton",
+      "position": "Midfielder",
+      "rating": 65.39,
+      "market_value_eur": 60000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kobbie Mainoo",
+      "position": "Midfielder",
+      "rating": 63.65,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 21.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nick Pope",
+      "position": "Goalkeeper",
+      "rating": 62.11,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "John Stones",
+      "position": "Defender",
+      "rating": 62.09,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Connor Gallagher",
+      "position": "Midfielder",
+      "rating": 62.0,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ben Chilwell",
+      "position": "Defender",
+      "rating": 61.73,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luke Shaw",
+      "position": "Defender",
+      "rating": 60.71,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Harry Maguire",
+      "position": "Defender",
+      "rating": 60.01,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gordon",
+      "position": "Forward",
+      "rating": 58.18,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ivan Toney",
+      "position": "Forward",
+      "rating": 57.99,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kyle Walker",
+      "position": "Defender",
+      "rating": 50.84,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Conor Coady",
+      "position": "Defender",
+      "rating": 49.14,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jordan Henderson",
+      "position": "Midfielder",
+      "rating": 42.31,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Reece James",
+      "position": "Defender",
+      "rating": 32.61,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.6,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

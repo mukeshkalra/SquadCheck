@@ -1,0 +1,391 @@
+{
+  "team": "United States",
+  "confederation": "CONCACAF",
+  "group": "D",
+  "flag": "🇺🇸",
+  "sci": 54.05,
+  "squad_quality": 65.13,
+  "xfactor": 20.0,
+  "squad_depth": 54.91,
+  "recent_form": 50.0,
+  "squad_size": 27,
+  "best_xi": [
+    {
+      "name": "Patrick Schulte",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 59.19,
+      "market_value_eur": 3500000
+    },
+    {
+      "name": "Antonee Robinson",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 66.72,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Chris Richards",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 66.64,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Cameron Carter-Vickers",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 61.12,
+      "market_value_eur": 10000000
+    },
+    {
+      "name": "Joe Scally",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 58.59,
+      "market_value_eur": 7000000
+    },
+    {
+      "name": "Weston McKennie",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 65.04,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Malik Tillman",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 64.57,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Tyler Adams",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 58.75,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Christian Pulisic",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 75.45,
+      "market_value_eur": 50000000
+    },
+    {
+      "name": "Folarin Balogun",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 71.01,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Ricardo Pepi",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 69.34,
+      "market_value_eur": 25000000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Christian Pulisic",
+      "position": "Forward",
+      "rating": 75.45,
+      "market_value_eur": 50000000,
+      "goals": 8,
+      "assists": 3,
+      "age": 27.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Folarin Balogun",
+      "position": "Forward",
+      "rating": 71.01,
+      "market_value_eur": 30000000,
+      "goals": 9,
+      "assists": 3,
+      "age": 24.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ricardo Pepi",
+      "position": "Forward",
+      "rating": 69.34,
+      "market_value_eur": 25000000,
+      "goals": 10,
+      "assists": 0,
+      "age": 23.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Josh Sargent",
+      "position": "Forward",
+      "rating": 68.15,
+      "market_value_eur": 20000000,
+      "goals": 7,
+      "assists": 3,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Antonee Robinson",
+      "position": "Defender",
+      "rating": 66.72,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Chris Richards",
+      "position": "Defender",
+      "rating": 66.64,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Weston McKennie",
+      "position": "Midfielder",
+      "rating": 65.04,
+      "market_value_eur": 30000000,
+      "goals": 4,
+      "assists": 1,
+      "age": 27.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Malik Tillman",
+      "position": "Midfielder",
+      "rating": 64.57,
+      "market_value_eur": 30000000,
+      "goals": 5,
+      "assists": 0,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cameron Carter-Vickers",
+      "position": "Defender",
+      "rating": 61.12,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Patrick Schulte",
+      "position": "Goalkeeper",
+      "rating": 59.19,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tyler Adams",
+      "position": "Midfielder",
+      "rating": 58.75,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joe Scally",
+      "position": "Defender",
+      "rating": 58.59,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Auston Trusty",
+      "position": "Defender",
+      "rating": 58.43,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mark McKenzie",
+      "position": "Defender",
+      "rating": 58.36,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Johnny Cardoso",
+      "position": "Midfielder",
+      "rating": 57.49,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Matt Turner",
+      "position": "Goalkeeper",
+      "rating": 56.46,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kristoffer Lund",
+      "position": "Defender",
+      "rating": 55.76,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Brenden Aaronson",
+      "position": "Midfielder",
+      "rating": 55.56,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yunus Musah",
+      "position": "Midfielder",
+      "rating": 55.2,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gianluca Busio",
+      "position": "Forward",
+      "rating": 53.04,
+      "market_value_eur": 5500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ethan Horvath",
+      "position": "Goalkeeper",
+      "rating": 50.87,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luca de la Torre",
+      "position": "Midfielder",
+      "rating": 45.99,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Daryl Dike",
+      "position": "Forward",
+      "rating": 43.56,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Duane Holmes",
+      "position": "Forward",
+      "rating": 41.34,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gio Reyna",
+      "position": "Midfielder",
+      "rating": 38.32,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tim Ream",
+      "position": "Defender",
+      "rating": 26.22,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tim Weah",
+      "position": "Forward",
+      "rating": 21.56,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.7,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

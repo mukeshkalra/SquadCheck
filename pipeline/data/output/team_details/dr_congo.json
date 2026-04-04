@@ -1,0 +1,347 @@
+{
+  "team": "DR Congo",
+  "confederation": "CAF",
+  "group": "J",
+  "flag": "🇨🇩",
+  "sci": 39.78,
+  "squad_quality": 45.6,
+  "xfactor": 20.0,
+  "squad_depth": 32.42,
+  "recent_form": 50.0,
+  "squad_size": 23,
+  "best_xi": [
+    {
+      "name": "Lionel Mpasi",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 65.24,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Chancel Mbemba",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 52.24,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Arthur Masuaku",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 52.01,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Sandy Walsh",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 48.65,
+      "market_value_eur": 1300000
+    },
+    {
+      "name": "Cédric Bakambu",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 48.04,
+      "market_value_eur": 1400000
+    },
+    {
+      "name": "Théo Bongonda",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.24,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Ndombe Mubele",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 30.87,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Jean-Pierre Nseki",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 28.09,
+      "market_value_eur": 450000
+    },
+    {
+      "name": "Meschack Elia",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 47.69,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Paul-José Mpoku",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 41.19,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Anthony Limbombe",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 40.37,
+      "market_value_eur": 700000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Lionel Mpasi",
+      "position": "Goalkeeper",
+      "rating": 65.24,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Chancel Mbemba",
+      "position": "Defender",
+      "rating": 52.24,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Arthur Masuaku",
+      "position": "Defender",
+      "rating": 52.01,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sandy Walsh",
+      "position": "Defender",
+      "rating": 48.65,
+      "market_value_eur": 1300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cédric Bakambu",
+      "position": "Defender",
+      "rating": 48.04,
+      "market_value_eur": 1400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Meschack Elia",
+      "position": "Forward",
+      "rating": 47.69,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Théo Bongonda",
+      "position": "Midfielder",
+      "rating": 47.24,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dylan Batubinsika",
+      "position": "Defender",
+      "rating": 45.05,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Paul-José Mpoku",
+      "position": "Forward",
+      "rating": 41.19,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Anthony Limbombe",
+      "position": "Forward",
+      "rating": 40.37,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jonathan Bolingi",
+      "position": "Forward",
+      "rating": 39.68,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joël Kiassumbua",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Baggio Siadi",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nathan Juste",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Silas Katompa Mvumpa",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ndombe Mubele",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jean-Pierre Nseki",
+      "position": "Midfielder",
+      "rating": 28.09,
+      "market_value_eur": 450000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jordan Ikoko",
+      "position": "Midfielder",
+      "rating": 27.48,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dedryck Boyata",
+      "position": "Defender",
+      "rating": 27.43,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jordan Lukaku",
+      "position": "Forward",
+      "rating": 25.18,
+      "market_value_eur": 275000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gaël Kakuta",
+      "position": "Midfielder",
+      "rating": 24.96,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ben Arfa",
+      "position": "Midfielder",
+      "rating": 24.52,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Frédéric Bulot",
+      "position": "Forward",
+      "rating": 22.01,
+      "market_value_eur": 150000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.7,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

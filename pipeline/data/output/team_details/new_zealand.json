@@ -1,0 +1,376 @@
+{
+  "team": "New Zealand",
+  "confederation": "AFC",
+  "group": "H",
+  "flag": "🇳🇿",
+  "sci": 37.97,
+  "squad_quality": 42.53,
+  "xfactor": 20.0,
+  "squad_depth": 31.03,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Stefan Marinović",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 44.72,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Liberato Cacace",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 53.41,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Winston Reid",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 41.72,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Dane Ingham",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.84,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Clayton Lewis",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.74,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Joe Bell",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 45.89,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Marko Stamenic",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 45.54,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Ryan Thomas",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 38.0,
+      "market_value_eur": 700000
+    },
+    {
+      "name": "Chris Wood",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 52.31,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Ben Waine",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 34.4,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Shane Smeltz",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 32.28,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Stefan Marinović",
+      "position": "Goalkeeper",
+      "age": 18.7,
+      "rating": 44.72
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Liberato Cacace",
+      "position": "Defender",
+      "rating": 53.41,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Chris Wood",
+      "position": "Forward",
+      "rating": 52.31,
+      "market_value_eur": 6000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joe Bell",
+      "position": "Midfielder",
+      "rating": 45.89,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marko Stamenic",
+      "position": "Midfielder",
+      "rating": 45.54,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Stefan Marinović",
+      "position": "Goalkeeper",
+      "rating": 44.72,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 18.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Winston Reid",
+      "position": "Defender",
+      "rating": 41.72,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Max Crocombe",
+      "position": "Goalkeeper",
+      "rating": 40.83,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dane Ingham",
+      "position": "Defender",
+      "rating": 39.84,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Clayton Lewis",
+      "position": "Defender",
+      "rating": 39.74,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ryan Thomas",
+      "position": "Midfielder",
+      "rating": 38.0,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ben Waine",
+      "position": "Forward",
+      "rating": 34.4,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sarpreet Singh",
+      "position": "Midfielder",
+      "rating": 33.78,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tim Payne",
+      "position": "Defender",
+      "rating": 32.66,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Shane Smeltz",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hamish Watson",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Calum Henderson",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tom Greive",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Liam Elder",
+      "position": "Midfielder",
+      "rating": 30.4,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Oliver Sail",
+      "position": "Goalkeeper",
+      "rating": 30.31,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Storm Roux",
+      "position": "Defender",
+      "rating": 29.34,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Michael Woud",
+      "position": "Forward",
+      "rating": 26.64,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tommy Smith",
+      "position": "Defender",
+      "rating": 26.06,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 46.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Michael Boxall",
+      "position": "Defender",
+      "rating": 25.48,
+      "market_value_eur": 150000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kosta Barbarouses",
+      "position": "Forward",
+      "rating": 25.08,
+      "market_value_eur": 325000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Louis Fenton",
+      "position": "Midfielder",
+      "rating": 24.04,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.4,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

@@ -1,0 +1,358 @@
+{
+  "team": "Uzbekistan",
+  "confederation": "AFC",
+  "group": "J",
+  "flag": "🇺🇿",
+  "sci": 38.33,
+  "squad_quality": 41.42,
+  "xfactor": 20.0,
+  "squad_depth": 35.6,
+  "recent_form": 50.0,
+  "squad_size": 24,
+  "best_xi": [
+    {
+      "name": "Eldor Shomurodov",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 63.07,
+      "market_value_eur": 7000000
+    },
+    {
+      "name": "Azizbek Turgunboev",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.23,
+      "market_value_eur": 700000
+    },
+    {
+      "name": "Khojimat Erkinov",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 43.72,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Odil Akhmedov",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 43.3,
+      "market_value_eur": 900000
+    },
+    {
+      "name": "Islom Tukhtahujaev",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 37.1,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Jaloliddin Masharipov",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 42.4,
+      "market_value_eur": 1700000
+    },
+    {
+      "name": "Sherzod Nasrullayev",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 33.35,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Jasur Yakhshiboev",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 30.87,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Oston Urunov",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 43.12,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Dostonbek Khamdamov",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 40.69,
+      "market_value_eur": 750000
+    },
+    {
+      "name": "Jamshid Iskanderov",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 33.78,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Eldor Shomurodov",
+      "position": "Goalkeeper",
+      "rating": 63.07,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Otabek Shukurov",
+      "position": "Goalkeeper",
+      "rating": 54.17,
+      "market_value_eur": 1600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Azizbek Turgunboev",
+      "position": "Defender",
+      "rating": 44.23,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Khojimat Erkinov",
+      "position": "Defender",
+      "rating": 43.72,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Odil Akhmedov",
+      "position": "Defender",
+      "rating": 43.3,
+      "market_value_eur": 900000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Oston Urunov",
+      "position": "Forward",
+      "rating": 43.12,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jaloliddin Masharipov",
+      "position": "Midfielder",
+      "rating": 42.4,
+      "market_value_eur": 1700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dostonbek Khamdamov",
+      "position": "Forward",
+      "rating": 40.69,
+      "market_value_eur": 750000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdugani Abdukholiqov",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Islom Tukhtahujaev",
+      "position": "Defender",
+      "rating": 37.1,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Davronbek Hamrobekov",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Timur Sayfiev",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Shamsiddin Shomurodov",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jamshid Iskanderov",
+      "position": "Forward",
+      "rating": 33.78,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdulaziz Hasanov",
+      "position": "Forward",
+      "rating": 33.37,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 20.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sherzod Nasrullayev",
+      "position": "Midfielder",
+      "rating": 33.35,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ibrohim Rabimov",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jamoliddin Daminov",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Farrukh Tashkentov",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jasur Yakhshiboev",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bobir Abdixoliqov",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sardor Mirzayev",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Islombek Kobilov",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sanjar Tursunov",
+      "position": "Defender",
+      "rating": 24.44,
+      "market_value_eur": 125000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.4,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

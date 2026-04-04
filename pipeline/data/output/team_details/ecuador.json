@@ -1,0 +1,354 @@
+{
+  "team": "Ecuador",
+  "confederation": "CONMEBOL",
+  "group": "E",
+  "flag": "🇪🇨",
+  "sci": 47.5,
+  "squad_quality": 57.46,
+  "xfactor": 20.0,
+  "squad_depth": 41.36,
+  "recent_form": 50.0,
+  "squad_size": 23,
+  "best_xi": [
+    {
+      "name": "Moisés Ramírez",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 49.34,
+      "market_value_eur": 800000
+    },
+    {
+      "name": "Willian Pacho",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 75.73,
+      "market_value_eur": 70000000
+    },
+    {
+      "name": "Piero Hincapié",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 72.0,
+      "market_value_eur": 50000000
+    },
+    {
+      "name": "Pervis Estupiñán",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 62.42,
+      "market_value_eur": 14000000
+    },
+    {
+      "name": "Diego Palacios",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.12,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Moisés Caicedo",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 71.15,
+      "market_value_eur": 110000000
+    },
+    {
+      "name": "Gonzalo Plata",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 50.49,
+      "market_value_eur": 8000000
+    },
+    {
+      "name": "Kendry Páez",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 49.0,
+      "market_value_eur": 9000000
+    },
+    {
+      "name": "Kevin Rodríguez",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 52.8,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Leonardo Campana",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 49.12,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Enner Valencia",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 43.87,
+      "market_value_eur": 1500000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Kendry Páez",
+      "position": "Midfielder",
+      "age": 19.1,
+      "rating": 49.0
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Willian Pacho",
+      "position": "Defender",
+      "rating": 75.73,
+      "market_value_eur": 70000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Piero Hincapié",
+      "position": "Defender",
+      "rating": 72.0,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Moisés Caicedo",
+      "position": "Midfielder",
+      "rating": 71.15,
+      "market_value_eur": 110000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pervis Estupiñán",
+      "position": "Defender",
+      "rating": 62.42,
+      "market_value_eur": 14000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Diego Palacios",
+      "position": "Defender",
+      "rating": 56.12,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Angelo Preciado",
+      "position": "Defender",
+      "rating": 55.59,
+      "market_value_eur": 3800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kevin Rodríguez",
+      "position": "Forward",
+      "rating": 52.8,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gonzalo Plata",
+      "position": "Midfielder",
+      "rating": 50.49,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Moisés Ramírez",
+      "position": "Goalkeeper",
+      "rating": 49.34,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Leonardo Campana",
+      "position": "Forward",
+      "rating": 49.12,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kendry Páez",
+      "position": "Midfielder",
+      "rating": 49.0,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 19.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jeremy Sarmiento",
+      "position": "Midfielder",
+      "rating": 48.56,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Félix Torres",
+      "position": "Defender",
+      "rating": 47.44,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Enner Valencia",
+      "position": "Forward",
+      "rating": 43.87,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Robert Arboleda",
+      "position": "Defender",
+      "rating": 42.96,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Carlos Gruezo",
+      "position": "Midfielder",
+      "rating": 42.11,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Michael Estrada",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Junior Sornoza",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jhegson Méndez",
+      "position": "Midfielder",
+      "rating": 40.63,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Romario Ibarra",
+      "position": "Defender",
+      "rating": 39.76,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ángel Mena",
+      "position": "Midfielder",
+      "rating": 38.26,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hernán Galíndez",
+      "position": "Goalkeeper",
+      "rating": 30.66,
+      "market_value_eur": 325000,
+      "goals": 0,
+      "assists": 0,
+      "age": 39.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alexander Domínguez",
+      "position": "Goalkeeper",
+      "rating": 28.5,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 45.0,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

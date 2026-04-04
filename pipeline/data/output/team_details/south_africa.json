@@ -1,0 +1,369 @@
+{
+  "team": "South Africa",
+  "confederation": "CAF",
+  "group": "A",
+  "flag": "🇿🇦",
+  "sci": 38.7,
+  "squad_quality": 42.1,
+  "xfactor": 20.0,
+  "squad_depth": 35.77,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Ronwen Williams",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 40.33,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Teboho Mokoena",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.23,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Nkosinathi Sibisi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.01,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Aubrey Modiba",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 38.98,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Khuliso Mudau",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 38.92,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Bongokuhle Hlongwane",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 46.69,
+      "market_value_eur": 3500000
+    },
+    {
+      "name": "Keagan Dolly",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 41.38,
+      "market_value_eur": 1400000
+    },
+    {
+      "name": "Thabiso Kutumela",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 32.29,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Lyle Foster",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 55.55,
+      "market_value_eur": 10000000
+    },
+    {
+      "name": "Lebo Mothiba",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 45.83,
+      "market_value_eur": 1500000
+    },
+    {
+      "name": "Percy Tau",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 44.9,
+      "market_value_eur": 1500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Lyle Foster",
+      "position": "Forward",
+      "rating": 55.55,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bongokuhle Hlongwane",
+      "position": "Midfielder",
+      "rating": 46.69,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lebo Mothiba",
+      "position": "Forward",
+      "rating": 45.83,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Percy Tau",
+      "position": "Forward",
+      "rating": 44.9,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Keagan Dolly",
+      "position": "Midfielder",
+      "rating": 41.38,
+      "market_value_eur": 1400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Elias Mokwana",
+      "position": "Forward",
+      "rating": 40.98,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ronwen Williams",
+      "position": "Goalkeeper",
+      "rating": 40.33,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bruce Bvuma",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Veli Mothwa",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Teboho Mokoena",
+      "position": "Defender",
+      "rating": 39.23,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nkosinathi Sibisi",
+      "position": "Defender",
+      "rating": 39.01,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aubrey Modiba",
+      "position": "Defender",
+      "rating": 38.98,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Khuliso Mudau",
+      "position": "Defender",
+      "rating": 38.92,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nyiko Mobbie",
+      "position": "Defender",
+      "rating": 38.74,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sifiso Hlanti",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mothobi Mvala",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Evidence Makgopa",
+      "position": "Forward",
+      "rating": 34.53,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Oswin Appollis",
+      "position": "Forward",
+      "rating": 34.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Relebohile Mofokeng",
+      "position": "Forward",
+      "rating": 33.49,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 21.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Thabiso Kutumela",
+      "position": "Midfielder",
+      "rating": 32.29,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Khanyisa Mayo",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Siyanda Xulu",
+      "position": "Defender",
+      "rating": 31.25,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Themba Zwane",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ethan Ntshunyane",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Innocent Maela",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

@@ -1,0 +1,380 @@
+{
+  "team": "Ivory Coast",
+  "confederation": "CAF",
+  "group": "E",
+  "flag": "🇨🇮",
+  "sci": 49.47,
+  "squad_quality": 59.16,
+  "xfactor": 20.0,
+  "squad_depth": 46.95,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Yahia Fofana",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 61.76,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Wilfried Singo",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 66.55,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Odilon Kossounou",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 63.46,
+      "market_value_eur": 18000000
+    },
+    {
+      "name": "Serge Aurier",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 54.31,
+      "market_value_eur": 3700000
+    },
+    {
+      "name": "Ghislain Konan",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 53.79,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Ibrahim Sangaré",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 57.82,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Franck Kessié",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 53.55,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Ismael Bennacer",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 51.59,
+      "market_value_eur": 9000000
+    },
+    {
+      "name": "Amad Diallo",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 64.96,
+      "market_value_eur": 50000000
+    },
+    {
+      "name": "Nicolas Pépé",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 63.39,
+      "market_value_eur": 6000000
+    },
+    {
+      "name": "Simon Adingra",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 59.59,
+      "market_value_eur": 25000000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Wilfried Singo",
+      "position": "Defender",
+      "rating": 66.55,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amad Diallo",
+      "position": "Forward",
+      "rating": 64.96,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Odilon Kossounou",
+      "position": "Defender",
+      "rating": 63.46,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nicolas Pépé",
+      "position": "Forward",
+      "rating": 63.39,
+      "market_value_eur": 6000000,
+      "goals": 5,
+      "assists": 4,
+      "age": 31.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yahia Fofana",
+      "position": "Goalkeeper",
+      "rating": 61.76,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Simon Adingra",
+      "position": "Forward",
+      "rating": 59.59,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ibrahim Sangaré",
+      "position": "Midfielder",
+      "rating": 57.82,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jérémie Boga",
+      "position": "Forward",
+      "rating": 54.89,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Serge Aurier",
+      "position": "Defender",
+      "rating": 54.31,
+      "market_value_eur": 3700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ghislain Konan",
+      "position": "Defender",
+      "rating": 53.79,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Franck Kessié",
+      "position": "Midfielder",
+      "rating": 53.55,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ismael Bennacer",
+      "position": "Midfielder",
+      "rating": 51.59,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cheick Tioté",
+      "position": "Defender",
+      "rating": 51.16,
+      "market_value_eur": 3200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Wilfried Zaha",
+      "position": "Forward",
+      "rating": 50.55,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Seko Fofana",
+      "position": "Midfielder",
+      "rating": 50.26,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Eric Bailly",
+      "position": "Defender",
+      "rating": 49.48,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Youssouf Koné",
+      "position": "Goalkeeper",
+      "rating": 49.14,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Maxwell Cornet",
+      "position": "Forward",
+      "rating": 49.1,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sébastien Haller",
+      "position": "Forward",
+      "rating": 44.81,
+      "market_value_eur": 1300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lassana Coulibaly",
+      "position": "Midfielder",
+      "rating": 44.74,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jean Michaël Seri",
+      "position": "Midfielder",
+      "rating": 41.76,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Badra Ali Sangaré",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Willy Boly",
+      "position": "Defender",
+      "rating": 38.07,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Joris Gnagnon",
+      "position": "Defender",
+      "rating": 31.8,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jonathan Kodjia",
+      "position": "Forward",
+      "rating": 26.08,
+      "market_value_eur": 400000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Adama Diomande",
+      "position": "Midfielder",
+      "rating": 23.54,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

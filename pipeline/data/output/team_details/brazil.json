@@ -1,0 +1,410 @@
+{
+  "team": "Brazil",
+  "confederation": "CONMEBOL",
+  "group": "C",
+  "flag": "🇧🇷",
+  "sci": 63.49,
+  "squad_quality": 68.9,
+  "xfactor": 66.78,
+  "squad_depth": 57.61,
+  "recent_form": 50.0,
+  "squad_size": 27,
+  "best_xi": [
+    {
+      "name": "Alisson",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 68.79,
+      "market_value_eur": 17000000
+    },
+    {
+      "name": "Bremer",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 69.76,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Marquinhos",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 67.73,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Éder Militão",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 66.8,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Yan Couto",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 64.59,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Bruno Guimarães",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 80.78,
+      "market_value_eur": 75000000
+    },
+    {
+      "name": "Lucas Paquetá",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 62.07,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "André",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 58.44,
+      "market_value_eur": 25000000
+    },
+    {
+      "name": "Raphinha",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 81.61,
+      "market_value_eur": 80000000
+    },
+    {
+      "name": "Richarlison",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 70.62,
+      "market_value_eur": 28000000
+    },
+    {
+      "name": "Estevão",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 66.69,
+      "market_value_eur": 80000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Estevão",
+      "position": "Forward",
+      "age": 19.1,
+      "rating": 66.69
+    },
+    {
+      "name": "Savinho",
+      "position": "Forward",
+      "age": 22.2,
+      "rating": 62.56
+    },
+    {
+      "name": "Vinícius Jr.",
+      "position": "Forward",
+      "age": 18.7,
+      "rating": 48.86
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Raphinha",
+      "position": "Forward",
+      "rating": 81.61,
+      "market_value_eur": 80000000,
+      "goals": 11,
+      "assists": 3,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bruno Guimarães",
+      "position": "Midfielder",
+      "rating": 80.78,
+      "market_value_eur": 75000000,
+      "goals": 9,
+      "assists": 4,
+      "age": 28.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Richarlison",
+      "position": "Forward",
+      "rating": 70.62,
+      "market_value_eur": 28000000,
+      "goals": 9,
+      "assists": 3,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bremer",
+      "position": "Defender",
+      "rating": 69.76,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alisson",
+      "position": "Goalkeeper",
+      "rating": 68.79,
+      "market_value_eur": 17000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marquinhos",
+      "position": "Defender",
+      "rating": 67.73,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Éder Militão",
+      "position": "Defender",
+      "rating": 66.8,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Estevão",
+      "position": "Forward",
+      "rating": 66.69,
+      "market_value_eur": 80000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 19.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bento",
+      "position": "Goalkeeper",
+      "rating": 65.78,
+      "market_value_eur": 9000000,
+      "goals": 6,
+      "assists": 1,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rodrygo",
+      "position": "Forward",
+      "rating": 65.16,
+      "market_value_eur": 50000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yan Couto",
+      "position": "Defender",
+      "rating": 64.59,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gabriel Martinelli",
+      "position": "Forward",
+      "rating": 63.98,
+      "market_value_eur": 45000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Savinho",
+      "position": "Forward",
+      "rating": 62.56,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lucas Paquetá",
+      "position": "Midfielder",
+      "rating": 62.07,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Guilherme Arana",
+      "position": "Defender",
+      "rating": 59.08,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "André",
+      "position": "Midfielder",
+      "rating": 58.44,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gabriel Jesus",
+      "position": "Forward",
+      "rating": 58.16,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Douglas Luiz",
+      "position": "Midfielder",
+      "rating": 56.84,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gerson",
+      "position": "Midfielder",
+      "rating": 56.67,
+      "market_value_eur": 20000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andreas Pereira",
+      "position": "Midfielder",
+      "rating": 54.34,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Wendell",
+      "position": "Defender",
+      "rating": 50.89,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gabriel Magalhães",
+      "position": "Defender",
+      "rating": 48.96,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Vinícius Jr.",
+      "position": "Forward",
+      "rating": 48.86,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 18.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Endrick",
+      "position": "Forward",
+      "rating": 46.75,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ederson",
+      "position": "Goalkeeper",
+      "rating": 44.89,
+      "market_value_eur": 700000,
+      "goals": 4,
+      "assists": 2,
+      "age": 40.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Danilo",
+      "position": "Defender",
+      "rating": 27.53,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 42.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "João Gomes",
+      "position": "Midfielder",
+      "rating": 22.91,
+      "market_value_eur": 25000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

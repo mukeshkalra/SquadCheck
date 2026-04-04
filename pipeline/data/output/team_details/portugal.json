@@ -1,0 +1,404 @@
+{
+  "team": "Portugal",
+  "confederation": "UEFA",
+  "group": "J",
+  "flag": "🇵🇹",
+  "sci": 67.58,
+  "squad_quality": 74.93,
+  "xfactor": 71.41,
+  "squad_depth": 59.52,
+  "recent_form": 50.0,
+  "squad_size": 27,
+  "best_xi": [
+    {
+      "name": "Diogo Costa",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 75.67,
+      "market_value_eur": 40000000
+    },
+    {
+      "name": "Nuno Mendes",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 76.92,
+      "market_value_eur": 75000000
+    },
+    {
+      "name": "Rúben Dias",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 73.14,
+      "market_value_eur": 60000000
+    },
+    {
+      "name": "Gonçalo Inácio",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 70.68,
+      "market_value_eur": 40000000
+    },
+    {
+      "name": "Diogo Dalot",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 68.46,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Vitinha",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 78.87,
+      "market_value_eur": 110000000
+    },
+    {
+      "name": "Bruno Fernandes",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 78.65,
+      "market_value_eur": 40000000
+    },
+    {
+      "name": "João Neves",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 77.81,
+      "market_value_eur": 110000000
+    },
+    {
+      "name": "Rafael Leão",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 77.58,
+      "market_value_eur": 65000000
+    },
+    {
+      "name": "Pedro Neto",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 76.65,
+      "market_value_eur": 60000000
+    },
+    {
+      "name": "Gonçalo Ramos",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 69.8,
+      "market_value_eur": 35000000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "João Neves",
+      "position": "Midfielder",
+      "age": 21.7,
+      "rating": 77.81
+    },
+    {
+      "name": "António Silva",
+      "position": "Defender",
+      "age": 22.6,
+      "rating": 66.88
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Vitinha",
+      "position": "Midfielder",
+      "rating": 78.87,
+      "market_value_eur": 110000000,
+      "goals": 6,
+      "assists": 1,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bruno Fernandes",
+      "position": "Midfielder",
+      "rating": 78.65,
+      "market_value_eur": 40000000,
+      "goals": 8,
+      "assists": 16,
+      "age": 31.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "João Neves",
+      "position": "Midfielder",
+      "rating": 77.81,
+      "market_value_eur": 110000000,
+      "goals": 5,
+      "assists": 1,
+      "age": 21.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rafael Leão",
+      "position": "Forward",
+      "rating": 77.58,
+      "market_value_eur": 65000000,
+      "goals": 9,
+      "assists": 2,
+      "age": 27.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nuno Mendes",
+      "position": "Defender",
+      "rating": 76.92,
+      "market_value_eur": 75000000,
+      "goals": 4,
+      "assists": 5,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pedro Neto",
+      "position": "Forward",
+      "rating": 76.65,
+      "market_value_eur": 60000000,
+      "goals": 5,
+      "assists": 4,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Diogo Costa",
+      "position": "Goalkeeper",
+      "rating": 75.67,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rúben Dias",
+      "position": "Defender",
+      "rating": 73.14,
+      "market_value_eur": 60000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gonçalo Inácio",
+      "position": "Defender",
+      "rating": 70.68,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gonçalo Ramos",
+      "position": "Forward",
+      "rating": 69.8,
+      "market_value_eur": 35000000,
+      "goals": 6,
+      "assists": 1,
+      "age": 25.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Diogo Dalot",
+      "position": "Defender",
+      "rating": 68.46,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "António Silva",
+      "position": "Defender",
+      "rating": 66.88,
+      "market_value_eur": 28000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Diogo Jota",
+      "position": "Forward",
+      "rating": 62.92,
+      "market_value_eur": 40000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "José Sá",
+      "position": "Goalkeeper",
+      "rating": 60.81,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Francisco Conceição",
+      "position": "Forward",
+      "rating": 60.73,
+      "market_value_eur": 30000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 23.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "João Félix",
+      "position": "Forward",
+      "rating": 59.86,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "João Cancelo",
+      "position": "Defender",
+      "rating": 59.66,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bernardo Silva",
+      "position": "Midfielder",
+      "rating": 58.76,
+      "market_value_eur": 27000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rúben Neves",
+      "position": "Midfielder",
+      "rating": 58.62,
+      "market_value_eur": 25000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nelson Semedo",
+      "position": "Defender",
+      "rating": 58.31,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "André Silva",
+      "position": "Forward",
+      "rating": 57.8,
+      "market_value_eur": 3000000,
+      "goals": 7,
+      "assists": 0,
+      "age": 30.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "João Palhinha",
+      "position": "Midfielder",
+      "rating": 55.37,
+      "market_value_eur": 18000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Danilo Pereira",
+      "position": "Defender",
+      "rating": 54.58,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Otávio",
+      "position": "Midfielder",
+      "rating": 53.2,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cristiano Ronaldo",
+      "position": "Forward",
+      "rating": 52.39,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 41.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rui Patrício",
+      "position": "Goalkeeper",
+      "rating": 44.6,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pepe",
+      "position": "Defender",
+      "rating": 35.46,
+      "market_value_eur": 500000,
+      "goals": 4,
+      "assists": 1,
+      "age": 43.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

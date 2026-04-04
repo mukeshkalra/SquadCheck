@@ -1,0 +1,369 @@
+{
+  "team": "Egypt",
+  "confederation": "CAF",
+  "group": "G",
+  "flag": "🇪🇬",
+  "sci": 43.22,
+  "squad_quality": 50.32,
+  "xfactor": 20.0,
+  "squad_depth": 37.76,
+  "recent_form": 50.0,
+  "squad_size": 25,
+  "best_xi": [
+    {
+      "name": "Ahmed El-Shenawy",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 40.08,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Mohamed Abdelmonem",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 54.12,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Ahmed Hegazi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 45.77,
+      "market_value_eur": 1000000
+    },
+    {
+      "name": "Karim Hafez",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 44.22,
+      "market_value_eur": 600000
+    },
+    {
+      "name": "Akram Tawfik",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.36,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Zizo",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 48.16,
+      "market_value_eur": 5000000
+    },
+    {
+      "name": "Trézéguet",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.13,
+      "market_value_eur": 4500000
+    },
+    {
+      "name": "Ibrahim Adel",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 46.2,
+      "market_value_eur": 3200000
+    },
+    {
+      "name": "Mohamed Salah",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 70.0,
+      "market_value_eur": 30000000
+    },
+    {
+      "name": "Omar Marmoush",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 66.79,
+      "market_value_eur": 60000000
+    },
+    {
+      "name": "Mostafa Mohamed",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 51.74,
+      "market_value_eur": 4000000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Mohamed Salah",
+      "position": "Forward",
+      "rating": 70.0,
+      "market_value_eur": 30000000,
+      "goals": 5,
+      "assists": 6,
+      "age": 34.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Omar Marmoush",
+      "position": "Forward",
+      "rating": 66.79,
+      "market_value_eur": 60000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Abdelmonem",
+      "position": "Defender",
+      "rating": 54.12,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mostafa Mohamed",
+      "position": "Forward",
+      "rating": 51.74,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Zizo",
+      "position": "Midfielder",
+      "rating": 48.16,
+      "market_value_eur": 5000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Trézéguet",
+      "position": "Midfielder",
+      "rating": 47.13,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ibrahim Adel",
+      "position": "Midfielder",
+      "rating": 46.2,
+      "market_value_eur": 3200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Hegazi",
+      "position": "Defender",
+      "rating": 45.77,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ramadan Sobhi",
+      "position": "Midfielder",
+      "rating": 45.77,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Elneny",
+      "position": "Midfielder",
+      "rating": 45.07,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Karim Hafez",
+      "position": "Defender",
+      "rating": 44.22,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amr Warda",
+      "position": "Forward",
+      "rating": 40.12,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed El-Shenawy",
+      "position": "Goalkeeper",
+      "rating": 40.08,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Sherif Ekramy",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Akram Tawfik",
+      "position": "Defender",
+      "rating": 39.36,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed El-Shenawy",
+      "position": "Goalkeeper",
+      "rating": 39.18,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohamed Hany",
+      "position": "Defender",
+      "rating": 39.07,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Fathi",
+      "position": "Defender",
+      "rating": 38.25,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mahmoud Hamdi",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mostafa Fathi",
+      "position": "Midfielder",
+      "rating": 32.54,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Sayed Zizo",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mahmoud Trezeguet",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Hassan Koka",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Amr El Sulaya",
+      "position": "Midfielder",
+      "rating": 31.16,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Omar Kamal",
+      "position": "Defender",
+      "rating": 24.08,
+      "market_value_eur": 25000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.6,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

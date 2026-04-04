@@ -1,0 +1,347 @@
+{
+  "team": "Qatar",
+  "confederation": "AFC",
+  "group": "B",
+  "flag": "🇶🇦",
+  "sci": 36.67,
+  "squad_quality": 38.47,
+  "xfactor": 20.0,
+  "squad_depth": 34.66,
+  "recent_form": 50.0,
+  "squad_size": 23,
+  "best_xi": [
+    {
+      "name": "Meshaal Barsham",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 41.82,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Abdulkarim Hassan",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 43.48,
+      "market_value_eur": 650000
+    },
+    {
+      "name": "Abdelkarim Hassan",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 43.48,
+      "market_value_eur": 650000
+    },
+    {
+      "name": "Homam Ahmed",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.4,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Bassam Al-Rawi",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.38,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Akram Afif",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.58,
+      "market_value_eur": 4500000
+    },
+    {
+      "name": "Abdullah Al-Ahrak",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 33.19,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Almoez Ali",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 33.07,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Yusuf Abdurisag",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 34.63,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Ahmed Al-Rawi",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 33.62,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Ahmed Alaaeldin",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 33.57,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Akram Afif",
+      "position": "Midfielder",
+      "rating": 47.58,
+      "market_value_eur": 4500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdulkarim Hassan",
+      "position": "Defender",
+      "rating": 43.48,
+      "market_value_eur": 650000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdelkarim Hassan",
+      "position": "Defender",
+      "rating": 43.48,
+      "market_value_eur": 650000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Meshaal Barsham",
+      "position": "Goalkeeper",
+      "rating": 41.82,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Homam Ahmed",
+      "position": "Defender",
+      "rating": 39.4,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Saad Al-Sheeb",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yousef Hassan",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bassam Al-Rawi",
+      "position": "Defender",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohammed Waad",
+      "position": "Defender",
+      "rating": 39.3,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Pedro Miguel",
+      "position": "Defender",
+      "rating": 37.39,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Boualem Khoukhi",
+      "position": "Defender",
+      "rating": 37.36,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Musaab Khidir",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Yusuf Abdurisag",
+      "position": "Forward",
+      "rating": 34.63,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Al-Rawi",
+      "position": "Forward",
+      "rating": 33.62,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmed Alaaeldin",
+      "position": "Forward",
+      "rating": 33.57,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Abdullah Al-Ahrak",
+      "position": "Midfielder",
+      "rating": 33.19,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Almoez Ali",
+      "position": "Midfielder",
+      "rating": 33.07,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ismail Mohamad",
+      "position": "Forward",
+      "rating": 32.58,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mohammed Muntari",
+      "position": "Midfielder",
+      "rating": 32.42,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ahmad Moein",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hassan Al-Haydos",
+      "position": "Midfielder",
+      "rating": 31.42,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Karim Boudiaf",
+      "position": "Midfielder",
+      "rating": 31.33,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ali Asad",
+      "position": "Midfielder",
+      "rating": 26.14,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

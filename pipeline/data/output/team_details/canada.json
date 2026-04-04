@@ -1,0 +1,347 @@
+{
+  "team": "Canada",
+  "confederation": "CONCACAF",
+  "group": "B",
+  "flag": "🇨🇦",
+  "sci": 49.62,
+  "squad_quality": 60.28,
+  "xfactor": 20.0,
+  "squad_depth": 44.88,
+  "recent_form": 50.0,
+  "squad_size": 23,
+  "best_xi": [
+    {
+      "name": "James McGill",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 68.07,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Alphonso Davies",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 71.53,
+      "market_value_eur": 45000000
+    },
+    {
+      "name": "Alistair Johnston",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 59.91,
+      "market_value_eur": 8000000
+    },
+    {
+      "name": "Moise Bombito",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 59.72,
+      "market_value_eur": 8000000
+    },
+    {
+      "name": "Derek Cornelius",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 54.11,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Jonathan David",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 72.01,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Ismaël Koné",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 61.35,
+      "market_value_eur": 20000000
+    },
+    {
+      "name": "Stephen Eustáquio",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 49.93,
+      "market_value_eur": 7000000
+    },
+    {
+      "name": "Tajon Buchanan",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 64.05,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Jacob Shaffelburg",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 51.64,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Cyle Larin",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 50.76,
+      "market_value_eur": 3500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Jonathan David",
+      "position": "Midfielder",
+      "rating": 72.01,
+      "market_value_eur": 35000000,
+      "goals": 5,
+      "assists": 4,
+      "age": 26.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alphonso Davies",
+      "position": "Defender",
+      "rating": 71.53,
+      "market_value_eur": 45000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 25.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "James McGill",
+      "position": "Goalkeeper",
+      "rating": 68.07,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Tajon Buchanan",
+      "position": "Forward",
+      "rating": 64.05,
+      "market_value_eur": 12000000,
+      "goals": 6,
+      "assists": 1,
+      "age": 27.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ismaël Koné",
+      "position": "Midfielder",
+      "rating": 61.35,
+      "market_value_eur": 20000000,
+      "goals": 5,
+      "assists": 0,
+      "age": 24.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alistair Johnston",
+      "position": "Defender",
+      "rating": 59.91,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Moise Bombito",
+      "position": "Defender",
+      "rating": 59.72,
+      "market_value_eur": 8000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dayne St. Clair",
+      "position": "Goalkeeper",
+      "rating": 59.35,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Maxime Crépeau",
+      "position": "Goalkeeper",
+      "rating": 56.42,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Derek Cornelius",
+      "position": "Defender",
+      "rating": 54.11,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kamal Miller",
+      "position": "Defender",
+      "rating": 52.81,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jacob Shaffelburg",
+      "position": "Forward",
+      "rating": 51.64,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cyle Larin",
+      "position": "Forward",
+      "rating": 50.76,
+      "market_value_eur": 3500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ike Ugbo",
+      "position": "Forward",
+      "rating": 50.7,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Stephen Eustáquio",
+      "position": "Midfielder",
+      "rating": 49.93,
+      "market_value_eur": 7000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Richie Laryea",
+      "position": "Defender",
+      "rating": 47.04,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Samuel Adekugbe",
+      "position": "Defender",
+      "rating": 45.42,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Theo Bair",
+      "position": "Midfielder",
+      "rating": 43.95,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Liam Millar",
+      "position": "Midfielder",
+      "rating": 43.77,
+      "market_value_eur": 1700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jonathan Osorio",
+      "position": "Midfielder",
+      "rating": 41.25,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Jacob Labelle",
+      "position": "Forward",
+      "rating": 40.94,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Doneil Henry",
+      "position": "Defender",
+      "rating": 29.42,
+      "market_value_eur": 250000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Liam Fraser",
+      "position": "Forward",
+      "rating": 27.47,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.2,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

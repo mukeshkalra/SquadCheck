@@ -1,0 +1,380 @@
+{
+  "team": "Croatia",
+  "confederation": "UEFA",
+  "group": "K",
+  "flag": "🇭🇷",
+  "sci": 50.58,
+  "squad_quality": 60.49,
+  "xfactor": 20.0,
+  "squad_depth": 49.16,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Dominik Livaković",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 60.02,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Joško Gvardiol",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 75.7,
+      "market_value_eur": 70000000
+    },
+    {
+      "name": "Josip Stanišić",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 69.74,
+      "market_value_eur": 35000000
+    },
+    {
+      "name": "Borna Sosa",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.19,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Martin Erlić",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.19,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Nikola Vlašić",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 61.57,
+      "market_value_eur": 9000000
+    },
+    {
+      "name": "Mario Pašalić",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 54.58,
+      "market_value_eur": 7000000
+    },
+    {
+      "name": "Mateo Kovačić",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 52.97,
+      "market_value_eur": 12000000
+    },
+    {
+      "name": "Ante Budimir",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 61.51,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Andrej Kramarić",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 61.48,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Ivan Perišić",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 55.46,
+      "market_value_eur": 1300000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "Joško Gvardiol",
+      "position": "Defender",
+      "rating": 75.7,
+      "market_value_eur": 70000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Josip Stanišić",
+      "position": "Defender",
+      "rating": 69.74,
+      "market_value_eur": 35000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nikola Vlašić",
+      "position": "Midfielder",
+      "rating": 61.57,
+      "market_value_eur": 9000000,
+      "goals": 7,
+      "assists": 3,
+      "age": 28.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ante Budimir",
+      "position": "Forward",
+      "rating": 61.51,
+      "market_value_eur": 3000000,
+      "goals": 14,
+      "assists": 0,
+      "age": 34.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andrej Kramarić",
+      "position": "Forward",
+      "rating": 61.48,
+      "market_value_eur": 3000000,
+      "goals": 10,
+      "assists": 5,
+      "age": 35.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dominik Livaković",
+      "position": "Goalkeeper",
+      "rating": 60.02,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Borna Sosa",
+      "position": "Defender",
+      "rating": 56.19,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Martin Erlić",
+      "position": "Defender",
+      "rating": 56.19,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Nediljko Labrović",
+      "position": "Goalkeeper",
+      "rating": 55.71,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ivan Perišić",
+      "position": "Forward",
+      "rating": 55.46,
+      "market_value_eur": 1300000,
+      "goals": 5,
+      "assists": 9,
+      "age": 37.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mario Pašalić",
+      "position": "Midfielder",
+      "rating": 54.58,
+      "market_value_eur": 7000000,
+      "goals": 3,
+      "assists": 1,
+      "age": 31.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Duje Ćaleta-Car",
+      "position": "Defender",
+      "rating": 53.91,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ivica Ivušić",
+      "position": "Goalkeeper",
+      "rating": 53.39,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mateo Kovačić",
+      "position": "Midfielder",
+      "rating": 52.97,
+      "market_value_eur": 12000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Lovro Majer",
+      "position": "Midfielder",
+      "rating": 52.79,
+      "market_value_eur": 10000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Josip Juranović",
+      "position": "Defender",
+      "rating": 52.52,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marcelo Brozović",
+      "position": "Midfielder",
+      "rating": 50.41,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Marko Livaja",
+      "position": "Forward",
+      "rating": 49.7,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Bruno Petković",
+      "position": "Forward",
+      "rating": 47.11,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luka Ivanušec",
+      "position": "Midfielder",
+      "rating": 45.94,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luka Modrić",
+      "position": "Midfielder",
+      "rating": 43.67,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 40.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mislav Oršić",
+      "position": "Forward",
+      "rating": 42.7,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Domagoj Vida",
+      "position": "Defender",
+      "rating": 42.05,
+      "market_value_eur": 600000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dario Šarić",
+      "position": "Forward",
+      "rating": 40.97,
+      "market_value_eur": 700000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Dejan Lovren",
+      "position": "Defender",
+      "rating": 37.49,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luka Lučić",
+      "position": "Forward",
+      "rating": 26.09,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

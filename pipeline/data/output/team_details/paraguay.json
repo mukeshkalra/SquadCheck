@@ -1,0 +1,377 @@
+{
+  "team": "Paraguay",
+  "confederation": "CONMEBOL",
+  "group": "D",
+  "flag": "🇵🇾",
+  "sci": 52.57,
+  "squad_quality": 53.9,
+  "xfactor": 68.78,
+  "squad_depth": 39.0,
+  "recent_form": 50.0,
+  "squad_size": 24,
+  "best_xi": [
+    {
+      "name": "Antony Silva",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 71.8,
+      "market_value_eur": 28000000
+    },
+    {
+      "name": "Mathías Villasanti",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 56.02,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Gustavo Gómez",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 55.12,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "Santiago Arzamendia",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 52.97,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Junior Alonso",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 50.76,
+      "market_value_eur": 2000000
+    },
+    {
+      "name": "Rodrigo Rojas",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 53.89,
+      "market_value_eur": 15000000
+    },
+    {
+      "name": "Miguel Almirón",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 50.78,
+      "market_value_eur": 9000000
+    },
+    {
+      "name": "Richard Sánchez",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 45.78,
+      "market_value_eur": 3000000
+    },
+    {
+      "name": "Julio Enciso",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 58.19,
+      "market_value_eur": 22000000
+    },
+    {
+      "name": "Alejandro Romero",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 48.93,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Rodrigo Aguirre",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 48.68,
+      "market_value_eur": 2500000
+    }
+  ],
+  "u23_stars": [
+    {
+      "name": "Antony Silva",
+      "position": "Goalkeeper",
+      "age": 22.6,
+      "rating": 71.8
+    },
+    {
+      "name": "Julio Enciso",
+      "position": "Forward",
+      "age": 22.4,
+      "rating": 58.19
+    },
+    {
+      "name": "Rodrigo Rojas",
+      "position": "Midfielder",
+      "age": 22.9,
+      "rating": 53.89
+    }
+  ],
+  "all_players": [
+    {
+      "name": "Antony Silva",
+      "position": "Goalkeeper",
+      "rating": 71.8,
+      "market_value_eur": 28000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Julio Enciso",
+      "position": "Forward",
+      "rating": 58.19,
+      "market_value_eur": 22000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Mathías Villasanti",
+      "position": "Defender",
+      "rating": 56.02,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gustavo Gómez",
+      "position": "Defender",
+      "rating": 55.12,
+      "market_value_eur": 4000000,
+      "goals": 2,
+      "assists": 0,
+      "age": 33.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rodrigo Rojas",
+      "position": "Midfielder",
+      "rating": 53.89,
+      "market_value_eur": 15000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 22.9,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Santiago Arzamendia",
+      "position": "Defender",
+      "rating": 52.97,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Miguel Almirón",
+      "position": "Midfielder",
+      "rating": 50.78,
+      "market_value_eur": 9000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 32.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Junior Alonso",
+      "position": "Defender",
+      "rating": 50.76,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 33.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alejandro Romero",
+      "position": "Forward",
+      "rating": 48.93,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rodrigo Aguirre",
+      "position": "Forward",
+      "rating": 48.68,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fabián Balbuena",
+      "position": "Defender",
+      "rating": 47.52,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 34.8,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Antonio Sanabria",
+      "position": "Forward",
+      "rating": 47.45,
+      "market_value_eur": 2000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Richard Sánchez",
+      "position": "Midfielder",
+      "rating": 45.78,
+      "market_value_eur": 3000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Juan Sforza",
+      "position": "Forward",
+      "rating": 45.76,
+      "market_value_eur": 1500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 24.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Braian Samudio",
+      "position": "Midfielder",
+      "rating": 40.9,
+      "market_value_eur": 1000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Kaku",
+      "position": "Midfielder",
+      "rating": 40.24,
+      "market_value_eur": 500000,
+      "goals": 6,
+      "assists": 2,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gabriel Ávalos",
+      "position": "Forward",
+      "rating": 40.01,
+      "market_value_eur": 800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.7,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Celso Ortiz",
+      "position": "Midfielder",
+      "rating": 40.0,
+      "market_value_eur": 1200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gatito Fernández",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rodrigo Morínigo",
+      "position": "Goalkeeper",
+      "rating": 39.38,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rómulo Otero",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Iván Piris",
+      "position": "Defender",
+      "rating": 30.21,
+      "market_value_eur": 350000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Hernán Pérez",
+      "position": "Defender",
+      "rating": 24.91,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Diego Gómez",
+      "position": "Defender",
+      "rating": 24.89,
+      "market_value_eur": 200000,
+      "goals": 0,
+      "assists": 0,
+      "age": 42.4,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}

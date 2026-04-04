@@ -1,0 +1,380 @@
+{
+  "team": "Panama",
+  "confederation": "CONCACAF",
+  "group": "L",
+  "flag": "🇵🇦",
+  "sci": 37.18,
+  "squad_quality": 40.11,
+  "xfactor": 20.0,
+  "squad_depth": 33.15,
+  "recent_form": 50.0,
+  "squad_size": 26,
+  "best_xi": [
+    {
+      "name": "Orlando Mosquera",
+      "position": "Goalkeeper",
+      "pos_short": "GK",
+      "rating": 47.74,
+      "market_value_eur": 650000
+    },
+    {
+      "name": "Cesar Yanis",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 39.07,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Fidel Escobar",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 38.84,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Éric Davis",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 37.62,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Andrés Andrade",
+      "position": "Defender",
+      "pos_short": "DF",
+      "rating": 37.34,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Adalberto Carrasquilla",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 47.61,
+      "market_value_eur": 4000000
+    },
+    {
+      "name": "César Yanis",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 32.97,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "Édgar Bárcenas",
+      "position": "Midfielder",
+      "pos_short": "MF",
+      "rating": 30.87,
+      "market_value_eur": 500000
+    },
+    {
+      "name": "José Luis Rodríguez",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 49.38,
+      "market_value_eur": 2500000
+    },
+    {
+      "name": "Ismael Díaz",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 46.77,
+      "market_value_eur": 1800000
+    },
+    {
+      "name": "Cecilio Waterman",
+      "position": "Forward",
+      "pos_short": "FW",
+      "rating": 32.95,
+      "market_value_eur": 500000
+    }
+  ],
+  "u23_stars": [],
+  "all_players": [
+    {
+      "name": "José Luis Rodríguez",
+      "position": "Forward",
+      "rating": 49.38,
+      "market_value_eur": 2500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 28.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Orlando Mosquera",
+      "position": "Goalkeeper",
+      "rating": 47.74,
+      "market_value_eur": 650000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Adalberto Carrasquilla",
+      "position": "Midfielder",
+      "rating": 47.61,
+      "market_value_eur": 4000000,
+      "goals": 0,
+      "assists": 0,
+      "age": 27.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Ismael Díaz",
+      "position": "Forward",
+      "rating": 46.77,
+      "market_value_eur": 1800000,
+      "goals": 0,
+      "assists": 0,
+      "age": 29.1,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Luis Mejía",
+      "position": "Goalkeeper",
+      "rating": 40.02,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cesar Yanis",
+      "position": "Defender",
+      "rating": 39.07,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Fidel Escobar",
+      "position": "Defender",
+      "rating": 38.84,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 31.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Éric Davis",
+      "position": "Defender",
+      "rating": 37.62,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Andrés Andrade",
+      "position": "Defender",
+      "rating": 37.34,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 37.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Harold Cummings",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Richard Morales",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Michael Amir Murillo",
+      "position": "Defender",
+      "rating": 36.96,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "César Yanis",
+      "position": "Midfielder",
+      "rating": 32.97,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 30.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Cecilio Waterman",
+      "position": "Forward",
+      "rating": 32.95,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 35.2,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "José Calderón",
+      "position": "Goalkeeper",
+      "rating": 32.8,
+      "market_value_eur": 300000,
+      "goals": 0,
+      "assists": 0,
+      "age": 26.4,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Adolfo Machado",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Freddy Góndola",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Blas Pérez",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Raheem Tulloch",
+      "position": "Forward",
+      "rating": 32.28,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Édgar Bárcenas",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Rolando Blackman",
+      "position": "Midfielder",
+      "rating": 30.87,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": null,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Alberto Quintero",
+      "position": "Midfielder",
+      "rating": 30.27,
+      "market_value_eur": 500000,
+      "goals": 0,
+      "assists": 0,
+      "age": 38.5,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Felipe Baloy",
+      "position": "Defender",
+      "rating": 23.8,
+      "market_value_eur": 150000,
+      "goals": 0,
+      "assists": 0,
+      "age": 43.0,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Gabriel Torres",
+      "position": "Forward",
+      "rating": 23.6,
+      "market_value_eur": 275000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.6,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Anibal Godoy",
+      "position": "Midfielder",
+      "rating": 22.23,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.3,
+      "club_name": null,
+      "club_position": null
+    },
+    {
+      "name": "Aníbal Godoy",
+      "position": "Midfielder",
+      "rating": 22.23,
+      "market_value_eur": 100000,
+      "goals": 0,
+      "assists": 0,
+      "age": 36.3,
+      "club_name": null,
+      "club_position": null
+    }
+  ]
+}
