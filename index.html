@@ -409,13 +409,18 @@ const T=[
   el.innerHTML=items.map(t=>`<div class="ti"><span>${t.f}</span><strong>${t.n}</strong><span class="rk">#${t.r}</span><span style="color:rgba(255,255,255,.2)">·</span><span>${t.s.toFixed(1)}</span></div>`).join('');
 })();
 
+// Slugify team name to match generated team page filenames
+function slugify(name){
+  return name.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,'-').replace(/[',\.]/g,'');
+}
+
 // Top 10
 (function(){
   const list=document.getElementById('t10');
   T.slice(0,10).forEach(t=>{
     const pct=Math.min(100,Math.round((t.s/70)*100));
     const a=document.createElement('a');
-    a.href='/power-index.html';
+    a.href='/teams/'+slugify(t.n)+'.html';
     a.className='tr'+(t.r===1?' gold':'');
     a.setAttribute('role','listitem');
     a.setAttribute('aria-label',`${t.n} ranked ${t.r}, score ${t.s.toFixed(2)}`);
@@ -430,7 +435,7 @@ const T=[
   T.forEach(t=>{
     const bw=Math.min(100,Math.round((t.s/70)*100));
     const a=document.createElement('a');
-    a.href='/power-index.html';
+    a.href='/teams/'+slugify(t.n)+'.html';
     a.className='nc';
     a.dataset.conf=t.c;
     a.setAttribute('role','listitem');
