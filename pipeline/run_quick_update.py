@@ -35,6 +35,7 @@ from engine.match_players import run as match_players
 from engine.rate_players import run as rate_players
 from engine.calculate_index import run as calculate_index
 from publish.generate_html import main as generate_html
+from publish.generate_team_pages import main as generate_team_pages
 
 
 def step_banner(num: int, name: str) -> None:
@@ -49,10 +50,11 @@ def run_quick() -> None:
     print("=" * 60)
 
     steps = [
-        (4, "match_players",   match_players),
-        (5, "rate_players",    rate_players),
-        (6, "calculate_index", calculate_index),
-        (7, "generate_html",   generate_html),
+        (4, "match_players",       match_players),
+        (5, "rate_players",        rate_players),
+        (6, "calculate_index",     calculate_index),
+        (7, "generate_html",       generate_html),
+        (8, "generate_team_pages", generate_team_pages),
     ]
 
     for num, name, fn in steps:

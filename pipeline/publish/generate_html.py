@@ -20,6 +20,13 @@ TODAY = date.today().strftime("%B %-d, %Y")
 ALL_GROUPS = list("ABCDEFGHIJKL")
 ALL_CONFS  = ["UEFA", "CONMEBOL", "CONCACAF", "AFC", "CAF"]
 
+import unicodedata
+
+def slugify(name: str) -> str:
+    nfkd = unicodedata.normalize("NFKD", name)
+    ascii_name = "".join(c for c in nfkd if not unicodedata.combining(c))
+    return ascii_name.lower().replace(" ", "-").replace("'", "").replace(",", "").replace(".", "")
+
 FLAGS = {
     "France":"🇫🇷",     "England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿",   "Spain":"🇪🇸",      "Germany":"🇩🇪",
     "Portugal":"🇵🇹",   "Netherlands":"🇳🇱","Belgium":"🇧🇪",    "Croatia":"🇭🇷",
@@ -168,13 +175,14 @@ def build_table_rows(entries: List[Dict[str, Any]]) -> str:
         u23_html      = build_u23_rows(u23_stars)
         breakdown_html = build_breakdown_col(entry)
 
+        team_slug = slugify(team)
         data_attrs = (
             f'data-team="{team_e.lower()}" data-conf="{conf_e}" data-group="{group_e}" '
             f'data-sci="{sci:.4f}" data-rank="{rank}" data-sq="{sq:.4f}" '
             f'data-xf="{xf:.4f}" data-sd="{sd:.4f}" data-size="{size}"'
         )
 
-        team_row = f"""<tr class="tr-team" id="row-{rank}" {data_attrs} onclick="toggle('{rank}')">
+        team_row = f"""<tr class="tr-team" id="row-{rank}" {data_attrs} onclick="location.href='/teams/{team_slug}.html'" style="cursor:pointer">
   <td class="{rank_cls}">{rank}</td>
   <td>
     <div class="td-team">
@@ -196,23 +204,10 @@ def build_table_rows(entries: List[Dict[str, Any]]) -> str:
   <td class="cv" style="text-align:right">{xf:.1f}</td>
   <td class="cv" style="text-align:right">{sd:.1f}</td>
   <td class="cv" style="text-align:right">{size}</td>
-  <td class="xv">&#9660;</td>
-</tr>"""
-
-        detail_row = f"""<tr class="tr-detail" id="det-{rank}">
-  <td colspan="8">
-    <div class="d-inner">
-      <div class="d-content">
-        <div class="d-col"><h4>Best XI</h4>{best_xi_html}</div>
-        <div class="d-col"><h4>U23 Stars</h4>{u23_html}</div>
-        <div class="d-col"><h4>Breakdown</h4>{breakdown_html}</div>
-      </div>
-    </div>
-  </td>
+  <td class="xv">&#8594;</td>
 </tr>"""
 
         rows.append(team_row)
-        rows.append(detail_row)
 
     return "\n".join(rows)
 
