@@ -181,6 +181,37 @@ footer{background:var(--d2);border-top:.5px solid var(--bd);padding:32px 5%;disp
 @media(max-width:768px){.statsbar{grid-template-columns:repeat(2,1fr)}.statsbar .sb-item:nth-child(2){border-right:none}.nav-links a:not(.nav-cta){display:none}}
 @media(max-width:480px){.n-grid{grid-template-columns:repeat(2,1fr)}}
 
+/* INTENT BAR */
+#ic-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:#0A0A0A;border-top:2px solid #CCFF00;font-family:'Outfit',sans-serif;transform:translateY(0);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+#ic-bar.hidden{transform:translateY(100%)}
+.ic-inner{max-width:1200px;margin:0 auto;padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+/* State 1 */
+#ic-s1{display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px}
+.ic-copy .ic-days{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(204,255,0,.7);margin-bottom:4px}
+.ic-copy .ic-headline{font-size:15px;font-weight:800;color:#fff;line-height:1.2}
+/* State 2 */
+#ic-s2{display:none;flex-direction:column;width:100%;gap:8px}
+.ic-s2-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(204,255,0,.7)}
+.ic-s2-row{display:flex;gap:10px;align-items:center}
+#ic-email{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;color:#fff;outline:none;transition:border-color .2s}
+#ic-email:focus{border-color:rgba(204,255,0,.5)}
+#ic-email::placeholder{color:rgba(255,255,255,.3)}
+/* State 3 */
+#ic-s3{display:none;align-items:center;gap:14px;width:100%}
+.ic-check{width:36px;height:36px;border-radius:50%;background:#CCFF00;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic-s3-text .ic-s3-main{font-size:15px;font-weight:800;color:#fff}
+.ic-s3-text .ic-s3-sub{font-size:13px;color:rgba(255,255,255,.45);margin-top:2px}
+/* Shared button */
+.ic-btn{background:#CCFF00;color:#000;font-family:'Outfit',sans-serif;font-size:14px;font-weight:900;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
+.ic-btn:hover{background:#b8e600}
+@media(max-width:480px){
+  .ic-inner{flex-direction:column;align-items:stretch;gap:10px;padding:12px 5%}
+  #ic-s1{flex-direction:column;align-items:flex-start;gap:10px}
+  .ic-copy .ic-headline{font-size:14px}
+  .ic-s2-row{flex-direction:column}
+  #ic-email{width:100%}
+  .ic-btn{width:100%;text-align:center}
+}
 </style>
 </head>
 <body>
@@ -458,6 +489,113 @@ function filter(conf,btn){
 (function(){
   function upd(){const d=Math.max(0,Math.floor((new Date('2026-06-11T19:00:00Z')-new Date())/86400000));const el=document.getElementById('cd');if(el)el.textContent=d}
   upd();setInterval(upd,60000);
+})();
+</script>
+
+<!-- INTENT CAPTURE BAR -->
+<div id="ic-bar">
+  <div class="ic-inner">
+    <!-- State 1: default -->
+    <div id="ic-s1">
+      <div class="ic-copy">
+        <div class="ic-days" id="ic-days">— days to kickoff</div>
+        <div class="ic-headline">Get your WC26 superpower — free</div>
+      </div>
+      <button class="ic-btn" id="ic-tap-btn">I'm in</button>
+    </div>
+    <!-- State 2: email -->
+    <div id="ic-s2">
+      <div class="ic-s2-label">Drop your email — we'll notify you before every match</div>
+      <div class="ic-s2-row">
+        <input id="ic-email" type="email" placeholder="your@email.com" autocomplete="email" aria-label="Email address">
+        <button class="ic-btn" id="ic-notify-btn">Notify me</button>
+      </div>
+    </div>
+    <!-- State 3: confirmed -->
+    <div id="ic-s3">
+      <div class="ic-check"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="3,9 7,13 15,5" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="ic-s3-text">
+        <div class="ic-s3-main">You're in.</div>
+        <div class="ic-s3-sub">We'll find you before kickoff on June 11.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Supabase config ──────────────────────────────────────────────────
+const SC = {
+  url: 'https://efxmkcahkbxarebihdmq.supabase.co',
+  key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmeG1rY2Foa2J4YXJlYmloZG1xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3MjEwMTcsImV4cCI6MjA5MTI5NzAxN30.Ll5ruM3gx-SulYv-AgDFjg-4CX2tuw6SMbyu9b-2CHE'
+};
+
+function sbInsert(row) {
+  return fetch(SC.url + '/rest/v1/intent_captures', {
+    method: 'POST',
+    headers: {
+      'apikey': SC.key,
+      'Authorization': 'Bearer ' + SC.key,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(row)
+  });
+}
+
+// ── Intent bar ───────────────────────────────────────────────────────
+(function(){
+  const bar      = document.getElementById('ic-bar');
+  const s1       = document.getElementById('ic-s1');
+  const s2       = document.getElementById('ic-s2');
+  const s3       = document.getElementById('ic-s3');
+  const tapBtn   = document.getElementById('ic-tap-btn');
+  const emailEl  = document.getElementById('ic-email');
+  const notifyBtn= document.getElementById('ic-notify-btn');
+  const daysEl   = document.getElementById('ic-days');
+
+  // Dynamic countdown in the bar
+  const days = Math.max(0, Math.floor((new Date('2026-06-11T19:00:00Z') - new Date()) / 86400000));
+  daysEl.textContent = days + ' days to kickoff';
+
+  // State 1 → 2
+  tapBtn.addEventListener('click', () => {
+    sbInsert({ event: 'intent_tap', source: 'homepage', timestamp: new Date().toISOString() }).catch(()=>{});
+    s1.style.transform = 'translateY(100%)';
+    s1.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
+    setTimeout(() => {
+      s1.style.display = 'none';
+      s2.style.display = 'flex';
+      s2.style.transform = 'translateY(20px)';
+      s2.style.opacity = '0';
+      s2.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1), opacity .3s';
+      requestAnimationFrame(() => {
+        s2.style.transform = 'translateY(0)';
+        s2.style.opacity = '1';
+      });
+      emailEl.focus();
+    }, 280);
+  });
+
+  // State 2 → 3
+  function submitEmail() {
+    const email = emailEl.value.trim();
+    if (!email || !email.includes('@')) { emailEl.focus(); return; }
+    notifyBtn.textContent = '…';
+    notifyBtn.disabled = true;
+    sbInsert({ event: 'email_capture', email, source: 'homepage', timestamp: new Date().toISOString() })
+      .catch(()=>{})
+      .finally(() => {
+        s2.style.display = 'none';
+        s3.style.display = 'flex';
+        // Auto-dismiss after 4s
+        setTimeout(() => {
+          bar.classList.add('hidden');
+        }, 4000);
+      });
+  }
+
+  notifyBtn.addEventListener('click', submitEmail);
+  emailEl.addEventListener('keydown', e => { if (e.key === 'Enter') submitEmail(); });
 })();
 </script>
 </body>
