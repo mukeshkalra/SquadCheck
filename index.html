@@ -20,7 +20,6 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who is favourite to win World Cup 2026?","acceptedAnswer":{"@type":"Answer","text":"The SC Power Index places Spain #1 (68.75), France #2 (67.92) and England #3 (67.59). Spain combine Lamine Yamal's X-Factor (88) with strong squad depth. Defending champions Argentina are ranked #7."}},{"@type":"Question","name":"What is the SC Power Index?","acceptedAnswer":{"@type":"Answer","text":"The SC Power Index ranks all 48 WC26 teams on Squad Quality (50%), Squad Depth (20%), X-Factor (15%) and Recent Form (15%). Recent Form is held at a neutral baseline pre-tournament and updates live once matches begin on June 11."}},{"@type":"Question","name":"How is Argentina ranked for WC26?","acceptedAnswer":{"@type":"Answer","text":"Argentina are #7 with a score of 62.16. Strong squad quality (69.5) but the lowest depth score (53.5) of any top-10 team."}},{"@type":"Question","name":"How is Morocco ranked for WC26?","acceptedAnswer":{"@type":"Answer","text":"Morocco are #13 (56.23). Achraf Hakimi scores 79 but Morocco's collective identity and pressing system go beyond individual player data — they may be more dangerous than their ranking suggests."}},{"@type":"Question","name":"Who are the dark horses for WC26?","acceptedAnswer":{"@type":"Answer","text":"Turkey (#9, X-Factor 72.7), Morocco (#13), Senegal (#12) and Japan (#20, who beat Germany and Spain in 2022) are the most undervalued teams in the Index."}},{"@type":"Question","name":"Who is the best young player at WC26?","acceptedAnswer":{"@type":"Answer","text":"Lamine Yamal (Spain, 17) scores 88 — the highest-rated U23 player. Kenan Yıldız (Turkey, 21) scores 80, João Neves (Portugal, 22) scores 78."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"SC Power Index — World Cup 2026 Team Rankings","description":"Rankings of all 48 WC2026 teams based on squad quality, depth and X-Factor from 34,000+ player data points across 10 leagues.","url":"https://www.squadcheck.club/power-index.html","creator":{"@type":"Organization","name":"SquadCheck","url":"https://www.squadcheck.club"},"dateModified":"2026-04-05"}</script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -182,17 +181,6 @@ footer{background:var(--d2);border-top:.5px solid var(--bd);padding:32px 5%;disp
 @media(max-width:768px){.statsbar{grid-template-columns:repeat(2,1fr)}.statsbar .sb-item:nth-child(2){border-right:none}.nav-links a:not(.nav-cta){display:none}}
 @media(max-width:480px){.n-grid{grid-template-columns:repeat(2,1fr)}}
 
-/* FLOATING INTENT BAR */
-#intent-bar{position:fixed;bottom:0;left:0;right:0;z-index:999;background:#CCFF00;font-family:'Outfit',sans-serif;transition:height .35s cubic-bezier(.4,0,.2,1);height:64px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
-#intent-bar.open{height:130px}
-#intent-step1{display:flex;align-items:center;justify-content:center;height:64px;flex-shrink:0}
-#intent-tap-btn{background:transparent;border:none;font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:#000;cursor:pointer;letter-spacing:-.01em;padding:0 24px}
-#intent-step2{display:flex;align-items:center;justify-content:center;gap:10px;height:66px;padding:0 20px;flex-shrink:0}
-#intent-email{flex:1;max-width:340px;padding:12px 18px;border-radius:8px;border:none;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;background:#000;color:#CCFF00;outline:none}
-#intent-email::placeholder{color:rgba(204,255,0,.35)}
-#intent-submit-btn{background:#000;color:#CCFF00;border:none;font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;padding:12px 22px;border-radius:8px;cursor:pointer;white-space:nowrap}
-#intent-submit-btn:hover{background:#111}
-#intent-thanks{display:none;align-items:center;justify-content:center;height:64px;font-size:16px;font-weight:800;color:#000}
 </style>
 </head>
 <body>
@@ -365,70 +353,7 @@ footer{background:var(--d2);border-top:.5px solid var(--bd);padding:32px 5%;disp
   <div class="ft-copy">© 2026 SquadCheck · Data: Transfermarkt · football-data.org</div>
 </footer>
 
-<!-- FLOATING INTENT BAR -->
-<div id="intent-bar">
-  <div id="intent-step1">
-    <button id="intent-tap-btn" aria-label="Get notified at launch">I'm in — notify me at launch →</button>
-  </div>
-  <div id="intent-step2">
-    <input id="intent-email" type="email" placeholder="your@email.com" autocomplete="email" aria-label="Email address">
-    <button id="intent-submit-btn">Send me updates</button>
-  </div>
-  <div id="intent-thanks">You're in. We'll notify you before kickoff. ⚡</div>
-</div>
-
 <script>
-// ── Supabase config ──────────────────────────────────────────────────
-const SC = {
-  url: 'https://your-project.supabase.co',   // ← replace with your Supabase project URL
-  key: 'your-anon-key-here'                  // ← replace with your Supabase anon key
-};
-const _sb = supabase.createClient(SC.url, SC.key);
-
-// ── Floating intent bar ──────────────────────────────────────────────
-(function(){
-  const bar    = document.getElementById('intent-bar');
-  const tapBtn = document.getElementById('intent-tap-btn');
-  const step2  = document.getElementById('intent-step2');
-  const emailI = document.getElementById('intent-email');
-  const subBtn = document.getElementById('intent-submit-btn');
-  const thanks = document.getElementById('intent-thanks');
-
-  tapBtn.addEventListener('click', async () => {
-    bar.classList.add('open');
-    emailI.focus();
-    // Track intent_tap (no email)
-    try {
-      await _sb.from('intent_captures').insert({
-        source: 'homepage',
-        event: 'intent_tap',
-        timestamp: new Date().toISOString()
-      });
-    } catch(e) {}
-  });
-
-  subBtn.addEventListener('click', async () => {
-    const email = emailI.value.trim();
-    if (!email || !email.includes('@')) { emailI.focus(); return; }
-    subBtn.textContent = '…';
-    subBtn.disabled = true;
-    try {
-      await _sb.from('intent_captures').insert({
-        email,
-        source: 'homepage',
-        event: 'email_submit',
-        timestamp: new Date().toISOString()
-      });
-    } catch(e) {}
-    step2.style.display = 'none';
-    document.getElementById('intent-step1').style.display = 'none';
-    thanks.style.display = 'flex';
-    bar.style.height = '64px';
-  });
-
-  emailI.addEventListener('keydown', e => { if (e.key === 'Enter') subBtn.click(); });
-})();
-
 const T=[
   {r:1,f:"🇪🇸",n:"Spain",c:"UEFA",g:"H",s:68.75,q:75.1,d:60.6,x:77.3,p:"Lamine Yamal",ps:88},
   {r:2,f:"🇫🇷",n:"France",c:"UEFA",g:"I",s:67.92,q:76.2,d:64.5,x:62.7,p:"Kylian Mbappé",ps:92},
