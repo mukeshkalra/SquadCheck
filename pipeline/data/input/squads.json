@@ -4284,10 +4284,6 @@
         "position": "Midfielder"
       },
       {
-        "name": "Jordan Henderson",
-        "position": "Midfielder"
-      },
-      {
         "name": "Phil Foden",
         "position": "Midfielder"
       },
@@ -4326,6 +4322,10 @@
       {
         "name": "Marcus Rashford",
         "position": "Forward"
+      },
+      {
+        "name": "Cole Palmer",
+        "position": "Midfielder"
       }
     ]
   },
