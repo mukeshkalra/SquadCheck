@@ -3424,19 +3424,11 @@
         "position": "Defender"
       },
       {
-        "name": "Eduardo Camavinga",
-        "position": "Midfielder"
-      },
-      {
         "name": "Aurélien Tchouaméni",
         "position": "Midfielder"
       },
       {
         "name": "Adrien Rabiot",
-        "position": "Midfielder"
-      },
-      {
-        "name": "Antoine Griezmann",
         "position": "Midfielder"
       },
       {
@@ -3468,10 +3460,6 @@
         "position": "Forward"
       },
       {
-        "name": "Randal Kolo Muani",
-        "position": "Forward"
-      },
-      {
         "name": "Kingsley Coman",
         "position": "Forward"
       },
@@ -3482,6 +3470,24 @@
       {
         "name": "Christopher Nkunku",
         "position": "Forward"
+      },
+      {
+        "name": "Manu Koné",
+        "position": "Midfielder",
+        "date_of_birth": "2001-05-01",
+        "club_name": "AS Roma"
+      },
+      {
+        "name": "Maghnes Akliouche",
+        "position": "Forward",
+        "date_of_birth": "2002-12-26",
+        "club_name": "Monaco"
+      },
+      {
+        "name": "Jean-Philippe Mateta",
+        "position": "Forward",
+        "date_of_birth": "1997-06-28",
+        "club_name": "Crystal Palace"
       }
     ]
   },
