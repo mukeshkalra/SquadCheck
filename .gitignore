@@ -12,5 +12,3 @@ pipeline/.env
 # OS
 .DS_Store
 content-engine/.env
-content-engine/.env
-content-engine/.env
