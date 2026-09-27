@@ -225,12 +225,11 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   justify-content:center;font-size:10px;font-weight:900;border:2px solid}
 .cv.c{background:#000;color:var(--lime);border-color:var(--lime)}
 .cv.v{background:#000;color:var(--white);border-color:rgba(240,240,242,.6)}
-.pc-why-row{padding:0 14px 12px;display:flex;align-items:center;justify-content:space-between}
-.why-btn{font-size:13px;font-weight:800;color:var(--lime);background:none;border:none;
-  padding:0;display:flex;align-items:center;gap:5px;transition:opacity .15s}
-.why-btn:hover{opacity:.75}
-.why-chev{transition:transform .2s;display:inline-block;font-style:normal}
-.why-chev.open{transform:rotate(90deg)}
+.why-btn{font-size:11px;font-weight:700;color:var(--gray2);background:none;border:none;
+  padding:2px 0 0;display:flex;align-items:center;gap:3px;transition:color .15s;cursor:pointer;white-space:nowrap}
+.why-btn:hover{color:var(--lime)}
+.why-chev{transition:transform .2s;display:inline-block}
+.why-chev.open{transform:rotate(180deg)}
 /* Confidence dot — replaces text badge; keeps signal without visual clutter */
 .conf-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .conf-dot.c-hi{background:var(--lime)}
@@ -306,6 +305,13 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .swap-rl{color:var(--gray);font-weight:500} .swap-rv{font-weight:700}
 .swap-note{font-size:13px;color:var(--gray);line-height:1.6;
   border-top:1px solid rgba(255,255,255,.06);padding-top:14px}
+/* Swap player reasoning — colour-coded left border */
+.swap-player{padding:12px 12px 12px 14px;border-left:3px solid transparent;margin-bottom:4px;border-radius:0 var(--r-sm) var(--r-sm) 0}
+.swap-player.sp-out{border-left-color:var(--coral);background:rgba(255,107,74,.04)}
+.swap-player.sp-in{border-left-color:var(--lime);background:rgba(204,255,0,.04)}
+.swap-player-lbl{font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.swap-player-lbl.lbl-out{color:var(--coral)}
+.swap-player-lbl.lbl-in{color:var(--lime)}
 
 /* ── HOLD ── */
 .hold-card{background:var(--d2);border:1px solid rgba(255,255,255,.08);
@@ -816,12 +822,8 @@ function pcCard(pl,p){
         <span class="pc-pts ${ptsCls}">${dispPts.toFixed(1)}</span>
         ${isC?'<span class="capt-2x">2× captain</span>':''}
         <span class="conf-dot ${dotCls}"></span>
+        <button class="why-btn" onclick="toggleWhy(event,${id})">Why? <span class="why-chev" id="wc-${id}">›</span></button>
       </div>
-    </div>
-    <div class="pc-why-row">
-      <button class="why-btn" onclick="toggleWhy(event,${id})">
-        Why this projection? <span class="why-chev" id="wc-${id}">›</span>
-      </button>
     </div>
     <div id="pd-${id}" class="pc-detail" style="display:none">
       ${pdLevel1(pl,isC)}
@@ -1024,29 +1026,27 @@ function buildSwap(p){
     Also: ${esc(s.out.web_name)} → ${esc(s.in.web_name)} (+${((s.in.xPts||0)-(s.out.xPts||0)).toFixed(1)} pts)
   </p>`).join('');
 
-  return `<p class="sec-hdr">One thing worth considering</p>
+  return `<p class="sec-hdr">One change to make</p>
 <div class="swap-card">
   <div class="swap-top">
     <span class="swap-names">${esc(sub.out.web_name)} → ${esc(sub.in.web_name)}</span>
     <span class="swap-delta">+${p.delta.toFixed(1)} pts</span>
   </div>
   <div class="swap-body">
-    <div class="swap-block">
-      <p class="swap-block-lbl">Why ${esc(sub.out.web_name)} comes out</p>
+    <div class="swap-player sp-out">
+      <p class="swap-player-lbl lbl-out">Why ${esc(sub.out.web_name)} is out</p>
       <div class="swap-row"><span class="swap-rl">Expected minutes</span><span class="swap-rv">${outMins}</span></div>
       <div class="swap-row"><span class="swap-rl">Fixture mult.</span><span class="swap-rv">${outFix}</span></div>
-      <div class="swap-row"><span class="swap-rl">Opponent defence</span><span class="swap-rv">${esc(outOpp)}</span></div>
-      <div class="swap-row"><span class="swap-rl">Confidence</span><span class="swap-rv">${esc(outP.confidence)}</span></div>
+      <div class="swap-row"><span class="swap-rl">Opponent</span><span class="swap-rv">${esc(outOpp)}</span></div>
     </div>
-    <div class="swap-block">
-      <p class="swap-block-lbl">Why ${esc(sub.in.web_name)} comes in</p>
+    <div class="swap-player sp-in">
+      <p class="swap-player-lbl lbl-in">Why ${esc(sub.in.web_name)} is in</p>
       <div class="swap-row"><span class="swap-rl">Expected minutes</span><span class="swap-rv">${inMins}</span></div>
       <div class="swap-row"><span class="swap-rl">Fixture mult.</span><span class="swap-rv">${inFix}</span></div>
-      <div class="swap-row"><span class="swap-rl">Opponent defence</span><span class="swap-rv">${esc(inOpp)}</span></div>
-      <div class="swap-row"><span class="swap-rl">Confidence</span><span class="swap-rv">${esc(inP.confidence)}</span></div>
+      <div class="swap-row"><span class="swap-rl">Opponent</span><span class="swap-rv">${esc(inOpp)}</span></div>
     </div>
     ${extra}
-    <p class="swap-note">This is a bench swap, not a transfer. It won't cost you a free transfer.</p>
+    <p class="swap-note">Bench swap only — your FPL squad registration stays the same.</p>
   </div>
 </div>`;
 }
@@ -1072,12 +1072,13 @@ function buildHold(p){
 /* ── FINAL CALL ──────────────────────────────────────────────────────────── */
 function renderFinalCall(p){
   let html='';
+  const gwLabel = p.gameweek ? `GW${p.gameweek}` : 'this Gameweek';
   if(p.action==='HOLD'){
     html=`<div class="fc-hold">
-      <p class="fc-hold-title">Hold your XI ✓</p>
+      <p class="fc-hold-title">You're set for ${esc(gwLabel)} ✓</p>
       <p class="fc-hold-body">${p.delta>0
-        ?`The best possible bench swap only adds ${p.delta.toFixed(1)} pts. Not enough to act on.`
-        :'Your starting XI is already the strongest combination from your bench. Nothing to change.'}</p>
+        ?`Best bench option adds only ${p.delta.toFixed(1)} pts — not worth the move.`
+        :'Your XI is the strongest combination from your squad this week.'}</p>
       <div class="fc-hold-pts">${(p.submitted_xi?.xPts||0).toFixed(1)}</div>
       <p class="fc-hold-sub">projected points this Gameweek</p>
     </div>`;
