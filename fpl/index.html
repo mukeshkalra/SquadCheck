@@ -364,6 +364,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .bm-name{font-weight:700}
 .bm-pts{font-weight:800;color:var(--gray);font-variant-numeric:tabular-nums}
 
+.fc-xi-sub{font-size:10px;color:var(--gray2);font-weight:600;margin-top:4px}
 /* ── FINAL CALL ── */
 .fc-hold{position:relative;background:var(--d2);
   border:1px solid rgba(204,255,0,.18);border-radius:var(--r-lg);
@@ -1189,33 +1190,64 @@ function buildHold(p){
 }
 
 /* ── FINAL CALL ──────────────────────────────────────────────────────────── */
+function _captainBonus(p, playerList){
+  /* Extra xPts from captain 2× (the +1× on top of the 1× already in team total) */
+  const capt = p.captain_id ? playerList.find(q=>q.player_id===p.captain_id) : null;
+  return capt ? capt.xPts : 0;
+}
+
 function renderFinalCall(p){
   let html='';
-  const gwLabel = p.gameweek ? `GW${p.gameweek}` : 'this Gameweek';
+  const gwLabel  = p.gameweek ? `GW${p.gameweek}` : 'this Gameweek';
+  const starts   = (p.players||[]).filter(q=>q.is_starting);
+
+  // Captain bonus for your current XI
+  const yourCaptBonus  = _captainBonus(p, starts);
+  const yourXIPts      = (p.submitted_xi?.xPts||0) + yourCaptBonus;
+
   if(p.action==='HOLD'){
     html=`<div class="fc-hold">
       <p class="fc-hold-title">You're set for ${esc(gwLabel)} ✓</p>
       <p class="fc-hold-body">${p.delta>0
         ?`Best bench option adds only ${p.delta.toFixed(1)} pts — not worth the move.`
         :'Your XI is the strongest combination from your squad this week.'}</p>
-      <div class="fc-hold-pts">${(p.submitted_xi?.xPts||0).toFixed(1)}</div>
-      <p class="fc-hold-sub">pts forecast this GW</p>
+      <div class="fc-hold-pts">${yourXIPts.toFixed(1)}</div>
+      <p class="fc-hold-sub">pts forecast this GW (inc. captain ×2)</p>
     </div>`;
   } else {
+    // Best captain in recommended XI (after bench swap)
+    const sub = (p.substitutions||[])[0];
+    let recStarts = [...starts];
+    if(sub){
+      recStarts = recStarts.filter(q=>q.player_id!==sub.out.player_id);
+      const comingIn = (p.players||[]).find(q=>q.player_id===sub.in.player_id);
+      if(comingIn) recStarts.push(comingIn);
+    }
+    const bestInRec    = recStarts.length ? recStarts.reduce((a,b)=>b.xPts>a.xPts?b:a) : null;
+    const recCaptBonus = bestInRec ? bestInRec.xPts : 0;
+    const afterPts     = (p.recommended_xi?.xPts||0) + recCaptBonus;
+    const totalDelta   = afterPts - yourXIPts;
+
+    // Label: if rec captain differs from current, note the combined upside
+    const captSwitched = bestInRec && p.captain_id && bestInRec.player_id!==p.captain_id;
+    const afterLbl     = captSwitched ? `After change + captain` : `After change`;
+
     const subs=(p.substitutions||[]).map(s=>`${esc(s.out.web_name)} → ${esc(s.in.web_name)}`).join(', ');
     html=`<div class="fc-change">
       <div class="fc-change-top">
         <p class="fc-change-title">Make the change</p>
-        <p class="fc-change-sub">+${p.delta.toFixed(1)} pts forecast</p>
+        <p class="fc-change-sub">+${totalDelta.toFixed(1)} pts forecast</p>
       </div>
       <div class="fc-xi">
         <div class="fc-xi-side">
           <p class="fc-xi-lbl">Your XI</p>
-          <p class="fc-xi-pts">${(p.submitted_xi?.xPts||0).toFixed(1)}</p>
+          <p class="fc-xi-pts">${yourXIPts.toFixed(1)}</p>
+          <p class="fc-xi-sub">inc. captain ×2</p>
         </div>
         <div class="fc-xi-side rec">
-          <p class="fc-xi-lbl">After change</p>
-          <p class="fc-xi-pts">${(p.recommended_xi?.xPts||0).toFixed(1)}</p>
+          <p class="fc-xi-lbl">${esc(afterLbl)}</p>
+          <p class="fc-xi-pts">${afterPts.toFixed(1)}</p>
+          <p class="fc-xi-sub">inc. captain ×2</p>
         </div>
       </div>
       <p class="fc-change-note"><b>${esc(subs)}</b><br>

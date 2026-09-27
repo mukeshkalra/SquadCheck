@@ -506,8 +506,10 @@ def compute_xpts(
         w_bonus  = min(starts / 10.0, 1.0)                    # [heuristic: 10-start threshold]
         blended  = w_bonus * raw_rate + (1 - w_bonus) * _pos_bonus_base[pos]
         xBonus   = min(blended * P_60plus, _BONUS_CAP)        # [heuristic cap]
+    elif xMins > 0:
+        xBonus = _pos_bonus_base[pos] * 0.3                   # [heuristic fallback for new players]
     else:
-        xBonus = _pos_bonus_base[pos] * 0.3                   # [heuristic fallback]
+        xBonus = 0.0                                           # never played → no bonus expected
 
     # ── TOTAL ──────────────────────────────────────────────────────────────────
     xPts_raw = (xAppPts + xGoalPts + xAssistPts
