@@ -99,12 +99,23 @@ a{color:inherit;text-decoration:none}
 .conf-text{font-size:13px;color:var(--gray);line-height:1.55;font-weight:500}
 .conf-text b{color:var(--white)}
 
-/* ── LIMITS ── */
-.limit-list{display:flex;flex-direction:column;gap:7px;margin-bottom:40px}
-.limit-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;
-  color:var(--gray);line-height:1.55;font-weight:500;padding:12px 14px;
-  background:var(--d2);border:1px solid var(--border);border-radius:var(--r-sm)}
-.limit-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+/* ── COMING SOON ── */
+.cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:40px}
+.cs-card{background:var(--d2);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cs-card::after{content:'SOON';position:absolute;top:10px;right:10px;
+  font-size:8px;font-weight:900;letter-spacing:.1em;padding:3px 7px;
+  border-radius:4px;background:var(--lime-t);color:var(--lime);
+  border:1px solid var(--lime-b)}
+.cs-icon{font-size:24px;line-height:1}
+.cs-title{font-size:14px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.cs-body{font-size:12px;color:var(--gray);line-height:1.55;font-weight:500}
+
+/* ── LIMITS — kept short, secondary tone ── */
+.limit-note{font-size:13px;color:var(--gray2);line-height:1.7;margin-bottom:40px;
+  padding:14px 16px;background:var(--d2);border:1px solid var(--border);
+  border-radius:var(--r-sm)}
 
 /* ── CTA ── */
 .m-cta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
@@ -234,29 +245,42 @@ a{color:inherit;text-decoration:none}
 
   <div class="div"></div>
 
-  <!-- LIMITATIONS -->
-  <p class="sec-hdr">What we can't predict</p>
-  <div class="limit-list">
-    <div class="limit-item">
-      <span class="limit-icon">🤕</span>
-      <span>In-game injuries — if a player gets hurt in the warm-up or after kickoff, the forecast won't know until FPL updates their status.</span>
+  <!-- COMING SOON -->
+  <p class="sec-hdr">Coming soon</p>
+  <div class="cs-grid">
+
+    <div class="cs-card">
+      <div class="cs-icon">🃏</div>
+      <div class="cs-title">Chip strategy</div>
+      <div class="cs-body">When to play Triple Captain, Bench Boost, or Free Hit — timed to your squad and the fixture run.</div>
     </div>
-    <div class="limit-item">
-      <span class="limit-icon">🔄</span>
-      <span>Late lineup changes — managers sometimes rotate or rest players right before a match. Check FPL team news close to the deadline.</span>
+
+    <div class="cs-card">
+      <div class="cs-icon">📅</div>
+      <div class="cs-title">Double GW planning</div>
+      <div class="cs-body">See which of your players benefit most from double gameweeks and how to maximise the upside.</div>
     </div>
-    <div class="limit-item">
-      <span class="limit-icon">🃏</span>
-      <span>Chip strategy — Triple Captain, Bench Boost, and Free Hit change the maths significantly. Use your own judgement on chips.</span>
+
+    <div class="cs-card">
+      <div class="cs-icon">🔁</div>
+      <div class="cs-title">Transfer advice</div>
+      <div class="cs-body">Identify which players in your squad to replace and who to bring in, ranked by projected gain.</div>
     </div>
-    <div class="limit-item">
-      <span class="limit-icon">📅</span>
-      <span>Blank and double gameweeks — SquadCheck forecasts the next scheduled fixture. Double GW upside isn't reflected unless already confirmed.</span>
+
+    <div class="cs-card">
+      <div class="cs-icon">🏆</div>
+      <div class="cs-title">Season planner</div>
+      <div class="cs-body">Multi-week fixture runs scored for every team — so you can plan transfers and chips further ahead.</div>
     </div>
-    <div class="limit-item">
-      <span class="limit-icon">🎲</span>
-      <span>Football is football — even a 12-pt projection has a wide range of outcomes. Use forecasts as a guide, not a guarantee.</span>
-    </div>
+
+  </div>
+
+  <div class="div"></div>
+
+  <!-- LIMITATIONS — short, secondary -->
+  <p class="sec-hdr">A note on uncertainty</p>
+  <div class="limit-note">
+    Forecasts can't account for in-game injuries, last-minute lineup surprises, or the basic unpredictability of football. Always check team news close to the deadline and use projections as a guide, not a guarantee.
   </div>
 
   <!-- CTA -->
