@@ -154,6 +154,12 @@ class handler(BaseHTTPRequestHandler):
             sys.stderr = _real_stderr
         _diag_log = _diag_buf.getvalue().strip()
 
+        # Scanned player names — safe to expose (no secrets), needed to find the 16th name
+        _scanned = [
+            {"name": p.get("name",""), "is_starting": p.get("is_starting"), "pos": p.get("position")}
+            for p in scan_result.get("players", [])
+        ]
+
         if scan_result.get("status") != VALID:
             return {
                 "status":          "SCAN_FAIL",
@@ -171,7 +177,8 @@ class handler(BaseHTTPRequestHandler):
                 "vice_captain_id": None,
                 "captain_note":    "",
                 "message":         scan_result.get("message", ""),
-                "_diag_log":       _diag_log,   # ← diagnostic only, remove after debugging
+                "_diag_log":       _diag_log,
+                "_scanned":        _scanned,
             }
 
         # Captain/vice not yet extractable from image bytes
@@ -189,13 +196,18 @@ class handler(BaseHTTPRequestHandler):
 
         element_summaries = _summaries(all_ids)
 
-        return run_pipeline(
+        result = run_pipeline(
             scan_result       = scan_result,
             bootstrap         = bootstrap,
             element_summaries = element_summaries,
             params            = params,
             threshold         = _THRESHOLD,
         )
+
+        # Inject diagnostics into every response until OCR path is stable
+        result["_diag_log"]  = _diag_log
+        result["_scanned"]   = _scanned
+        return result
 
     def log_message(self, *_):
         pass   # suppress Vercel access logs
