@@ -80,16 +80,19 @@ _SEPARATOR_GAP      = 0.04   # exclusion zone either side of bench-label separat
 # None of these patterns can appear at the end of a real player name.
 # The regex is applied iteratively so combinations ("Pickford 8 (H)") work.
 _FPL_STAT_SUFFIX = re.compile(
+    # NOTE: no re.IGNORECASE — the bare team-code branch must stay uppercase-only
+    # so that bench position labels ("1. FWD", "2. DEF", "3. DEF") are NOT stripped.
+    # "FWD"/"DEF"/"MID" are 3-letter uppercase strings just like team codes; if we
+    # applied IGNORECASE the pattern would destroy bench labels and break view detection.
     r'\s+(?:'
-    r'\d{1,3}'                              # integer score:    8, 12, 0
-    r'|\d+\.\d+[%m]?'                       # decimal stat:     5.0  31.5%  5.5m
-    r'|[+\-]\d+\.?\d*'                      # price change:     +0.1  -0.2
-    r'|£\d+[\d.]*m?'                        # explicit price:   £5.5m  £5.5
-    r'|\(H\)|\(A\)'                         # home/away marker: (H)  (A)
-    r'|vs\s+[A-Z]{2,4}(?:\s+\([HA]\))?'    # vs OPP:           vs SUN  vs LIV (H)
-    r'|[A-Z]{2,4}(?:\s+\([HA]\))?'         # bare team code:   SUN  MCI (A)
+    r'\d{1,3}'                                   # integer score:    8, 12, 0
+    r'|\d+\.\d+[%m]?'                            # decimal stat:     5.0  31.5%  5.5m
+    r'|[+\-]\d+\.?\d*'                           # price change:     +0.1  -0.2
+    r'|£\d+[\d.]*m?'                             # explicit price:   £5.5m  £5.5
+    r'|\(H\)|\(A\)'                              # home/away marker: (H)  (A)
+    r'|(?i:vs)\s+[A-Z]{2,4}(?:\s+\([HA]\))?'   # vs OPP:   vs SUN  vs LIV (H)  (case-insensitive "vs")
+    r'|(?!GKP|DEF|MID|FWD)[A-Z]{3,4}(?:\s+\([HA]\))?'  # bare uppercase team code (not a position tag)
     r')$',
-    re.IGNORECASE,
 )
 
 
