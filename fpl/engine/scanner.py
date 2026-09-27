@@ -353,20 +353,41 @@ def _run_ocr(image_bytes: bytes):
 
     Returns list[dict] | _OCR_UNAVAILABLE | _OCR_IMAGE_ERROR.
     """
+    import sys
+
+    # ── Diagnostic 1 & 2 & 3 ─────────────────────────────────────────────────
+    api_key    = os.environ.get("GOOGLE_VISION_API_KEY", "")
+    key_present = bool(api_key)
+    swift_avail = _BIN.exists()
+    backend     = "swift" if swift_avail else ("google_vision" if key_present else "none")
+    print(
+        f"[diag] image_bytes={len(image_bytes)}  "
+        f"api_key_present={key_present}  "
+        f"backend={backend}",
+        file=sys.stderr,
+    )
+
     # Swift binary is only present on macOS (excluded from git via .gitignore)
-    if _BIN.exists():
+    if swift_avail:
         return _run_ocr_swift(image_bytes)
 
     # Cloud path — requires env var set in Vercel (or locally for testing)
-    api_key = os.environ.get("GOOGLE_VISION_API_KEY", "")
-    if not api_key:
+    if not key_present:
         return _OCR_UNAVAILABLE
 
     try:
-        return _run_ocr_google_vision(image_bytes, api_key)
+        result = _run_ocr_google_vision(image_bytes, api_key)
+
+        # ── Diagnostic 4 ─────────────────────────────────────────────────────
+        if isinstance(result, list):
+            print(f"[diag] google_vision_blocks={len(result)}", file=sys.stderr)
+        else:
+            sentinel = "_OCR_IMAGE_ERROR" if result is _OCR_IMAGE_ERROR else "_OCR_UNAVAILABLE"
+            print(f"[diag] google_vision_result={sentinel}", file=sys.stderr)
+
+        return result
+
     except Exception as exc:
-        # Diagnostic logging — safe: never logs api_key or image contents
-        import sys
         http_status = None
         http_body   = None
         if hasattr(exc, "code"):           # urllib.error.HTTPError
@@ -751,29 +772,54 @@ def _scan_image(image_bytes: bytes) -> dict:
     Entry point for image bytes.  Runs OCR then dispatches to the appropriate
     layout parser.  Returns UNSUPPORTED if OCR is unavailable.
     """
+    import sys
+
     blocks = _run_ocr(image_bytes)
     if blocks is _OCR_UNAVAILABLE:
-        return _unsupported(
+        result = _unsupported(
             "OCR unavailable. Requires macOS with Xcode Command Line Tools "
             "(swiftc must be on PATH)."
         )
+        print(f"[diag] scanner_status={result['status']} reason=ocr_unavailable", file=sys.stderr)
+        return result
     if blocks is _OCR_IMAGE_ERROR or not blocks:
-        return _unsupported(
+        result = _unsupported(
             "Image could not be decoded or contains no recognisable text. "
             "Ensure the screenshot is a valid JPEG or PNG from the FPL app."
         )
+        print(f"[diag] scanner_status={result['status']} reason=ocr_image_error_or_empty", file=sys.stderr)
+        return result
 
+    # ── Diagnostic 5: first 15 normalised blocks ─────────────────────────────
+    sample = [
+        {"text": b["text"], "x": round(b["x"], 4), "y": round(b["y"], 4),
+         "w": round(b.get("w", 0), 4), "h": round(b.get("h", 0), 4)}
+        for b in sorted(blocks, key=lambda b: -b["y"])[:15]
+    ]
+    print(f"[diag] top15_blocks={sample}", file=sys.stderr)
+
+    # ── Diagnostic 6: view detection ─────────────────────────────────────────
     view_type = _detect_view_type(blocks)
+    print(f"[diag] view_type={view_type}", file=sys.stderr)
 
     if view_type == VIEW_PITCH:
-        return _parse_pitch_view(blocks)
-    if view_type == VIEW_LIST:
-        return _parse_list_view(blocks)
+        result = _parse_pitch_view(blocks)
+    elif view_type == VIEW_LIST:
+        result = _parse_list_view(blocks)
+    else:
+        result = _unsupported(
+            "Screenshot does not appear to be an FPL Pitch View or List View. "
+            "Use the FPL app squad tab (Pitch or List)."
+        )
 
-    return _unsupported(
-        "Screenshot does not appear to be an FPL Pitch View or List View. "
-        "Use the FPL app squad tab (Pitch or List)."
+    # ── Diagnostic 7: final scanner status ───────────────────────────────────
+    print(
+        f"[diag] scanner_status={result['status']}  "
+        f"players={len(result.get('players', []))}  "
+        f"msg={result.get('message', '')[:120]}",
+        file=sys.stderr,
     )
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
