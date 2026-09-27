@@ -272,8 +272,8 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .bench-lbl{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2)}
 .bench-chev{font-size:12px;color:var(--gray2);transition:transform .2s}
 .bench-chev.open{transform:rotate(180deg)}
-.bench-body{display:none}
-.bench-body.open{display:block}
+.bench-body{display:block}
+.bench-body.closed{display:none}
 
 /* ── AWESOME ── */
 .sec{padding:28px 14px 0}
@@ -396,15 +396,15 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 /* ── ACTIONS ── */
 .act-wrap{padding:20px 14px 0}
 .share-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
-  padding:15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-  border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:14px;
-  font-weight:700;color:var(--white);margin-bottom:9px;transition:border-color .15s,background .15s}
-.share-btn:hover{border-color:var(--border2);background:rgba(255,255,255,.07)}
-.again-btn{display:flex;align-items:center;justify-content:center;width:100%;
   padding:16px;background:var(--lime);border:none;border-radius:var(--r-sm);
   font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;
-  text-transform:uppercase;letter-spacing:.04em;color:#000;
+  text-transform:uppercase;letter-spacing:.04em;color:#000;margin-bottom:9px;
   box-shadow:0 4px 20px rgba(204,255,0,.2);transition:background .14s,box-shadow .14s}
+.share-btn:hover{background:#d4ff1a;box-shadow:0 6px 28px rgba(204,255,0,.35)}
+.again-btn{display:flex;align-items:center;justify-content:center;width:100%;
+  padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;
+  color:var(--gray);transition:border-color .15s,color .15s}
 .again-btn:hover{background:#d4ff1a;box-shadow:0 6px 28px rgba(204,255,0,.3)}
 .footer{text-align:center;font-size:11px;color:var(--gray2);padding:22px 20px 48px;line-height:1.6}
 .a2hs-result{display:none;text-align:center;margin:16px 14px 0}
@@ -562,7 +562,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
         <line x1="9.8" y1="3.3" x2="4.2" y2="6.7" stroke="currentColor" stroke-width="1.2"/>
         <line x1="4.2" y1="8.3" x2="9.8" y2="11.7" stroke="currentColor" stroke-width="1.2"/>
       </svg>
-      Share this result
+      Ask your friends — what's their forecast?
     </button>
     <button class="again-btn" onclick="goUpload()">Check another squad →</button>
   </div>
@@ -577,10 +577,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
     </button>
   </div>
 
-  <p class="footer">
-    Projections use current-season FPL data.<br>
-    Captain 2× is not included in the projected total.
-  </p>
+  <p class="footer">Forecasts use current-season FPL data.</p>
 
 </section><!-- /s-result -->
 
@@ -751,9 +748,9 @@ function renderHero(p) {
   <div class="hero-pill"><span class="hero-pill-dot"></span>
     <span class="hero-pill-text">Gameweek ${esc(gw)}</span>
   </div>
-  <p class="hero-label">Your team is projected for</p>
+  <p class="hero-label">Your squad forecast</p>
   <div class="hero-pts">${esc(xPts)}</div>
-  <p class="hero-pts-unit">points this week</p>
+  <p class="hero-pts-unit">pts this GW</p>
   <div class="hero-chips">
     <span class="hc ${confCls}">${esc(confLabel)}</span>
     <span class="hc">${esc(form)}</span>
@@ -783,7 +780,7 @@ function renderPlayers(p) {
   const benchTot = bench.reduce((s,q)=>s+q.xPts,0).toFixed(1);
   html += `<div class="bench-hdr" onclick="toggleBench(this)">
     <span class="bench-lbl">Bench · ${bench.length} players · ${esc(benchTot)} pts</span>
-    <span class="bench-chev" id="bench-chev">›</span>
+    <span class="bench-chev open" id="bench-chev">›</span>
   </div>
   <div class="bench-body" id="bench-body">${bench.map(q=>pcCard(q,p)).join('')}</div>`;
   $('r-players').innerHTML = html;
@@ -920,9 +917,9 @@ function closeCard(id){
 }
 function toggleBench(btn){
   const body=$('bench-body'),chev=$('bench-chev');
-  const open=body.classList.toggle('open');
-  chev.className='bench-chev'+(open?' open':'');
-  if(open) track('bench_viewed',{});
+  const nowClosed=body.classList.toggle('closed');
+  chev.className='bench-chev'+(nowClosed?'':' open');
+  if(!nowClosed) track('bench_viewed',{});
 }
 
 /* ── WHAT'S AWESOME ──────────────────────────────────────────────────────── */
@@ -1080,14 +1077,14 @@ function renderFinalCall(p){
         ?`Best bench option adds only ${p.delta.toFixed(1)} pts — not worth the move.`
         :'Your XI is the strongest combination from your squad this week.'}</p>
       <div class="fc-hold-pts">${(p.submitted_xi?.xPts||0).toFixed(1)}</div>
-      <p class="fc-hold-sub">projected points this Gameweek</p>
+      <p class="fc-hold-sub">pts forecast this GW</p>
     </div>`;
   } else {
     const subs=(p.substitutions||[]).map(s=>`${esc(s.out.web_name)} → ${esc(s.in.web_name)}`).join(', ');
     html=`<div class="fc-change">
       <div class="fc-change-top">
         <p class="fc-change-title">Make the change</p>
-        <p class="fc-change-sub">+${p.delta.toFixed(1)} projected points</p>
+        <p class="fc-change-sub">+${p.delta.toFixed(1)} pts forecast</p>
       </div>
       <div class="fc-xi">
         <div class="fc-xi-side">
@@ -1128,7 +1125,7 @@ async function doShare(){
   const gw=p.gameweek||'?';
   const pts=(p.submitted_xi?.xPts||0).toFixed(1);
   const verdict=p.action==='SWAP'?`Change: +${p.delta.toFixed(1)} pts available`:'Hold — lineup looks good';
-  const text=`⚽ GW${gw} · ${pts} pts projected · ${verdict}\nSquadCheck FPL — squadcheck.club`;
+  const text=`⚽ GW${gw} squad forecast: ${pts} pts · ${verdict}\nSquadCheck — squadcheck.club`;
   try{
     if(navigator.share){
       await navigator.share({title:'SquadCheck FPL',text,url:location.href});
