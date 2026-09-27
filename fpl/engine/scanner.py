@@ -788,8 +788,9 @@ def _parse_list_view(blocks: list) -> dict:
     5. For bench players: position comes from the team+pos combined token
        that appears immediately below the player name in the same row.
     """
-    warnings = []
-    sorted_blocks = sorted(blocks, key=lambda b: -b["y"])   # top → bottom
+    warnings           = []
+    player_name_blocks = []   # OCR blocks accepted as player names (for C/VC proximity)
+    sorted_blocks      = sorted(blocks, key=lambda b: -b["y"])   # top → bottom
 
     # When OCR splits "Arsenal DEF" into two separate blocks at the same Y-level,
     # the team-name token ("Arsenal") appears at the same y as the standalone "DEF".
@@ -861,17 +862,23 @@ def _parse_list_view(blocks: list) -> dict:
             "position":    pos,
             "is_starting": not is_bench,
         })
+        player_name_blocks.append(b)
 
     if not players_out:
         return _unsupported(
             "No players detected. Ensure the screenshot shows a complete FPL List View."
         )
 
-    return _validate({
+    captain_name, vice_name = _detect_captain_badges(blocks, player_name_blocks)
+
+    result = _validate({
         "view_type": VIEW_LIST,
         "players":   players_out,
         "warnings":  warnings,
     })
+    result["captain_name"]      = captain_name
+    result["vice_captain_name"] = vice_name
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
