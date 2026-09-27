@@ -139,7 +139,20 @@ class handler(BaseHTTPRequestHandler):
     # ── Pipeline ──────────────────────────────────────────────────────────────
     def _process(self) -> dict:
         image_bytes = self._image_bytes()
-        scan_result = scan_squad(image_bytes)
+
+        # ── Temporary diagnostic: capture scanner stderr → embed in response ──
+        # Reads the [diag] lines printed by scanner._run_ocr / _scan_image.
+        # Never captures GOOGLE_VISION_API_KEY or image contents.
+        # Remove once the deployed OCR path is verified working.
+        import io as _io
+        _diag_buf = _io.StringIO()
+        _real_stderr = sys.stderr
+        sys.stderr = _diag_buf
+        try:
+            scan_result = scan_squad(image_bytes)
+        finally:
+            sys.stderr = _real_stderr
+        _diag_log = _diag_buf.getvalue().strip()
 
         if scan_result.get("status") != VALID:
             return {
@@ -158,6 +171,7 @@ class handler(BaseHTTPRequestHandler):
                 "vice_captain_id": None,
                 "captain_note":    "",
                 "message":         scan_result.get("message", ""),
+                "_diag_log":       _diag_log,   # ← diagnostic only, remove after debugging
             }
 
         # Captain/vice not yet extractable from image bytes
