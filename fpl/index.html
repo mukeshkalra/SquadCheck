@@ -305,6 +305,31 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .swap-player-lbl.lbl-out{color:var(--coral)}
 .swap-player-lbl.lbl-in{color:var(--lime)}
 
+/* ── CAPTAIN ── */
+.capt-card{background:var(--d2);border:1px solid rgba(204,255,0,.18);
+  border-radius:var(--r);overflow:hidden;box-shadow:0 2px 16px rgba(204,255,0,.06)}
+.capt-top{background:linear-gradient(135deg,rgba(204,255,0,.1) 0%,rgba(204,255,0,.03) 100%);
+  border-bottom:1px solid rgba(204,255,0,.12);padding:16px;
+  display:flex;align-items:center;gap:14px}
+.capt-badge{width:40px;height:40px;border-radius:50%;background:#000;
+  border:2px solid var(--lime);display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;color:var(--lime);flex-shrink:0}
+.capt-info{flex:1;min-width:0}
+.capt-name{font-size:18px;font-weight:900;letter-spacing:-.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.capt-sub{font-size:12px;color:var(--gray2);margin-top:3px}
+.capt-pts{text-align:right;flex-shrink:0}
+.capt-pts-num{font-size:28px;font-weight:900;color:var(--lime);
+  font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
+.capt-pts-lbl{font-size:10px;color:var(--gray2);font-weight:700;margin-top:2px}
+.capt-alts{padding:12px 16px;display:flex;gap:8px}
+.capt-alt{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r-sm);padding:10px 12px;min-width:0}
+.capt-alt-name{font-size:13px;font-weight:800;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.capt-alt-pts{font-size:11px;color:var(--gray);margin-top:3px;font-weight:600}
+.capt-note{font-size:12px;color:var(--gray2);padding:0 16px 14px;line-height:1.55}
+
 /* ── HOLD ── */
 .hold-card{background:var(--d2);border:1px solid rgba(255,255,255,.08);
   border-radius:var(--r);padding:20px}
@@ -424,7 +449,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
     <span class="live-text">Live &nbsp;·&nbsp; Current Gameweek</span>
   </div>
   <h1 class="up-h1">How many points<br><em>this GW?</em></h1>
-  <p class="up-sub">Upload your FPL squad screenshot and find out in seconds — points forecast, bench swap advice, and captain pick. Free, no login.</p>
+  <p class="up-sub">Upload your FPL squad screenshot and find out in seconds — points forecast, captain pick, and bench swap advice. Free, no login.</p>
   <p class="up-instruction"><b>Use Pitch View or List View.</b> Make sure all 15 players are visible before taking the screenshot.</p>
 
   <input type="file" id="file-input" accept="image/*" aria-label="Upload FPL squad screenshot">
@@ -508,6 +533,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   <div class="div"></div>
   <div id="r-players" class="pos-wrap"></div>
   <div id="r-awesome"></div>
+  <div id="r-captain"></div>
   <div id="r-attention" style="padding:0 16px"></div>
   <div id="r-finalcall" style="padding:24px 16px 0"></div>
 
@@ -700,7 +726,7 @@ function renderResult(p) {
     }
   }
   // Wrap each section individually so a crash names the exact function
-  const steps = [renderHero, renderPlayers, renderAwesome, renderAttention, renderFinalCall];
+  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderFinalCall];
   for (const fn of steps) {
     try { fn(p); }
     catch(e) {
@@ -970,6 +996,50 @@ function buildAwesome(p){
   }
 
   return out.slice(0,4);
+}
+
+/* ── CAPTAIN RECOMMENDATION ─────────────────────────────────────────────── */
+function renderCaptain(p){
+  const starts = (p.players||[]).filter(q=>q.is_starting);
+  if(!starts.length){ $('r-captain').innerHTML=''; return; }
+
+  // Sort starters by xPts descending — top pick is the captain
+  const sorted = [...starts].sort((a,b)=>b.xPts-a.xPts);
+  const pick   = sorted[0];
+  const alts   = sorted.slice(1,3);   // next 2 as alternatives
+
+  const team = pick.player_api?.team_name||'';
+  const opp  = pick.inputs?.opponent_name||'';
+  const home = pick.inputs?.is_home;
+  const fix  = opp?(home?`vs ${esc(opp)}`:`@ ${esc(opp)}`):'';
+  const sub  = [team,fix].filter(Boolean).join(' · ');
+
+  const altCards = alts.map(a=>`
+    <div class="capt-alt">
+      <div class="capt-alt-name">${esc(a.web_name)}</div>
+      <div class="capt-alt-pts">${(a.xPts*2).toFixed(1)} pts as captain</div>
+    </div>`).join('');
+
+  $('r-captain').innerHTML = `<div class="div"></div>
+<div class="sec">
+  <p class="sec-hdr">Captain pick</p>
+  <div class="capt-card">
+    <div class="capt-top">
+      <div class="capt-badge">C</div>
+      <div class="capt-info">
+        <div class="capt-name">${esc(pick.web_name)}</div>
+        <div class="capt-sub">${esc(sub)}</div>
+      </div>
+      <div class="capt-pts">
+        <div class="capt-pts-num">${(pick.xPts*2).toFixed(1)}</div>
+        <div class="capt-pts-lbl">pts with 2×</div>
+      </div>
+    </div>
+    ${alts.length?`<div class="capt-alts">${altCards}</div>`:''}
+    <p class="capt-note">Set ${esc(pick.web_name)} as your captain in the FPL app — this forecast already includes their 2× multiplier.</p>
+  </div>
+</div>`;
+  track('captain_card_viewed',{player_id:pick.player_id,xPts:pick.xPts});
 }
 
 /* ── WHAT NEEDS ATTENTION ────────────────────────────────────────────────── */
