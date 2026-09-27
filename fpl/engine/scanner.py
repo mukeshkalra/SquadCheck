@@ -323,7 +323,23 @@ def _run_ocr(image_bytes: bytes):
 
     try:
         return _run_ocr_google_vision(image_bytes, api_key)
-    except Exception:
+    except Exception as exc:
+        # Diagnostic logging — safe: never logs api_key or image contents
+        import sys
+        http_status = None
+        http_body   = None
+        if hasattr(exc, "code"):           # urllib.error.HTTPError
+            http_status = exc.code
+            try:
+                http_body = exc.read(512).decode("utf-8", errors="replace")
+            except Exception:
+                pass
+        print(
+            f"[scanner] Google Vision error: {type(exc).__name__}: {exc}"
+            + (f" | HTTP {http_status}" if http_status else "")
+            + (f" | body: {http_body}"  if http_body   else ""),
+            file=sys.stderr,
+        )
         return _OCR_IMAGE_ERROR
 
 
