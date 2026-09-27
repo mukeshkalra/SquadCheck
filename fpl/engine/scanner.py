@@ -72,6 +72,42 @@ _SEPARATOR_GAP      = 0.04   # exclusion zone either side of bench-label separat
 
 # ── Text-filter heuristics ────────────────────────────────────────────────────
 # Words that are never player names even though they pass the case/length checks
+# ── FPL stat-suffix stripping (Google Vision paragraph-level fix) ─────────────
+# Google Vision merges a player's name with the stat shown below it in the
+# FPL app into one paragraph.  The FPL Pitch View can display:
+#   points (8), form (5.0), price (£5.5m), price change (+0.1 / -0.1),
+#   ownership (31.5%), opponent (vs SUN / vs LIV (H)), or just a team code.
+# None of these patterns can appear at the end of a real player name.
+# The regex is applied iteratively so combinations ("Pickford 8 (H)") work.
+_FPL_STAT_SUFFIX = re.compile(
+    r'\s+(?:'
+    r'\d{1,3}'                              # integer score:    8, 12, 0
+    r'|\d+\.\d+[%m]?'                       # decimal stat:     5.0  31.5%  5.5m
+    r'|[+\-]\d+\.?\d*'                      # price change:     +0.1  -0.2
+    r'|£\d+[\d.]*m?'                        # explicit price:   £5.5m  £5.5
+    r'|\(H\)|\(A\)'                         # home/away marker: (H)  (A)
+    r'|vs\s+[A-Z]{2,4}(?:\s+\([HA]\))?'    # vs OPP:           vs SUN  vs LIV (H)
+    r'|[A-Z]{2,4}(?:\s+\([HA]\))?'         # bare team code:   SUN  MCI (A)
+    r')$',
+    re.IGNORECASE,
+)
+
+
+def _strip_fpl_stat(text: str) -> str:
+    """
+    Remove any FPL stat token(s) appended to a player name by Google Vision.
+
+    Applied iteratively so multi-token suffixes resolve correctly:
+        "Pickford vs SUN (H)"  →  "Pickford"   (2 iterations not needed here,
+        "Haaland 12 (A)"       →  "Haaland"     but iterating is safe)
+    """
+    prev = None
+    while text != prev:
+        prev  = text
+        text  = _FPL_STAT_SUFFIX.sub("", text).strip()
+    return text
+
+
 _NAME_BLOCKLIST = frozenset({
     "fantasy", "substitutes", "substitute",
     "sta",     "dard",        "artered",    # "Standard Chartered" fragments
@@ -328,12 +364,11 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
                 words = [_word_text(w) for w in para.get("words", [])]
                 text  = " ".join(words).strip()
 
-                # Google Vision sometimes merges a player's name and their FPL
-                # score into one paragraph (e.g. "Pickford 8", "Haaland 12").
-                # Apple Vision returns name and score as separate observations.
-                # Strip the trailing score so "Pickford 8" → "Pickford".
-                # FPL scores are integers; no player name ends with " <digits>".
-                text = re.sub(r'\s+\d{1,3}$', '', text)
+                # Google Vision merges the player name with whatever stat is
+                # shown below it on the FPL Pitch View card (points, opponent,
+                # form, price, ownership, price change, home/away marker).
+                # Strip those suffixes so only the player name remains.
+                text = _strip_fpl_stat(text)
 
                 if not text:
                     continue
