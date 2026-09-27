@@ -1028,6 +1028,32 @@ function _playerSub(pl){
   return [team,fix].filter(Boolean).join(' · ');
 }
 
+function _fixLbl(atk){
+  if(!atk) return '';
+  if(atk>=1.2)  return 'Excellent fixture';
+  if(atk>=1.05) return 'Good fixture';
+  if(atk>=0.95) return 'Average fixture';
+  return 'Tough fixture';
+}
+
+function _captSwitchReason(cur, rec){
+  const da = (rec.inputs?.atk_scale||1) - (cur.inputs?.atk_scale||1);
+  const dm = (rec.inputs?.xMins||0)     - (cur.inputs?.xMins||0);
+  const curOpp = cur.inputs?.opponent_name||'their opponent';
+  const recOpp = rec.inputs?.opponent_name||'their opponent';
+  const recHome = rec.inputs?.is_home;
+  if(da >= 0.1){
+    const where = recHome ? 'at home' : 'away';
+    return `${esc(rec.web_name)} has an easier fixture ${where} ${recOpp ? 'vs '+esc(recOpp) : ''} — better chance of a big score.`;
+  }
+  if(dm >= 15){
+    return `${esc(rec.web_name)} is more likely to play the full 90 minutes.`;
+  }
+  return `${esc(rec.web_name)} projects higher this week — better fixture conditions.`;
+}
+
+const _CAPT_SWITCH_THRESHOLD = 0.3;  // min base xPts difference to show switch
+
 function renderCaptain(p){
   const starts=(p.players||[]).filter(q=>q.is_starting);
   if(!starts.length){$('r-captain').innerHTML='';return;}
@@ -1036,28 +1062,36 @@ function renderCaptain(p){
   const best=sorted[0];                                          // highest xPts
   const alts=sorted.slice(1,3);
   const detected=p.captain_id?starts.find(q=>q.player_id===p.captain_id):null;
-  const switchAvail=detected&&detected.player_id!==best.player_id;
+  // Only recommend switch when gain is meaningful (avoids firing on rounding noise)
+  const switchAvail=detected
+    && detected.player_id!==best.player_id
+    && (best.xPts-detected.xPts)>=_CAPT_SWITCH_THRESHOLD;
 
   let inner='';
 
   if(switchAvail){
     // ── Switch recommended: detected captain ≠ best xPts pick ───────────
-    const gain=(best.xPts-detected.xPts).toFixed(1);
-    const altCards=alts.map(a=>`
+    const gainBase=(best.xPts-detected.xPts);
+    const gainWith2x=(gainBase*2).toFixed(1);
+    const reason=_captSwitchReason(detected,best);
+    const detFix=[_playerSub(detected),_fixLbl(detected.inputs?.atk_scale)].filter(Boolean).join(' · ');
+    const recFix=[_playerSub(best),_fixLbl(best.inputs?.atk_scale)].filter(Boolean).join(' · ');
+    const altCards=alts.filter(a=>a.player_id!==detected.player_id&&a.player_id!==best.player_id).map(a=>`
       <div class="capt-alt">
         <div class="capt-alt-name">${esc(a.web_name)}</div>
         <div class="capt-alt-pts">${(a.xPts*2).toFixed(1)} pts as captain</div>
       </div>`).join('');
     inner=`
       <div class="capt-switch-hdr">
-        <span class="capt-switch-lbl">Captain switch available</span>
-        <span class="capt-switch-gain">+${gain} pts</span>
+        <span class="capt-switch-lbl">Captain switch</span>
+        <span class="capt-switch-gain">+${gainWith2x} pts</span>
       </div>
+      <p style="font-size:13px;color:var(--gray);line-height:1.55;padding:10px 16px 4px">${reason}</p>
       <div class="capt-row">
         <div class="capt-row-badge cur">C</div>
         <div class="capt-row-info">
           <div class="capt-row-name">${esc(detected.web_name)}</div>
-          <div class="capt-row-sub">Current captain · ${esc(_playerSub(detected))}</div>
+          <div class="capt-row-sub">${esc(detFix)}</div>
         </div>
         <div class="capt-row-pts">
           <div class="capt-row-pts-num cur">${(detected.xPts*2).toFixed(1)}</div>
@@ -1068,16 +1102,16 @@ function renderCaptain(p){
         <div class="capt-row-badge rec">C</div>
         <div class="capt-row-info">
           <div class="capt-row-name">${esc(best.web_name)}</div>
-          <div class="capt-row-sub">Switch to this · ${esc(_playerSub(best))}</div>
+          <div class="capt-row-sub">${esc(recFix)}</div>
         </div>
         <div class="capt-row-pts">
           <div class="capt-row-pts-num rec">${(best.xPts*2).toFixed(1)}</div>
           <div class="capt-row-pts-lbl">pts with 2×</div>
         </div>
       </div>
-      ${alts.length?`<div class="capt-alts">${altCards}</div>`:''}
+      ${altCards?`<div class="capt-alts">${altCards}</div>`:''}
       <p class="capt-note">Change your captain to ${esc(best.web_name)} in the FPL app — costs nothing, just tap their name and select captain.</p>`;
-    track('captain_switch_shown',{from:detected.player_id,to:best.player_id,gain:+gain});
+    track('captain_switch_shown',{from:detected.player_id,to:best.player_id,gain:gainBase});
   } else {
     // ── No switch: current captain is already optimal (or undetected) ────
     const pick=detected||best;
