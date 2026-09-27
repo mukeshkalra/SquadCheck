@@ -122,6 +122,7 @@ _NAME_BLOCKLIST = frozenset({
     # Google Vision paragraph-level additions:
     "knox",    "illcmc",     "hiicmc",      # Brentford/CMC Markets kit text in mixed case
     "hicmc",   "iiicmc",                   # CMC Markets OCR variants
+    "vitality",                             # Bournemouth/Brighton kit sponsor
 })
 
 
@@ -152,9 +153,13 @@ def _is_player_name(text: str) -> bool:
     if t[0].isdigit():
         return False
 
-    # List View section headers — never player names
-    if t.lower() in {"goalkeeper", "defenders", "midfielders", "forwards",
-                     "substitutes", "substitute", "player"}:
+    # List View section headers and bench label — never player names.
+    # Prefix check on "substitut" catches OCR variants like "Substitutoa",
+    # "Substituto", "Substitution", etc.
+    tl = t.lower()
+    if tl in {"goalkeeper", "defenders", "midfielders", "forwards", "player"}:
+        return False
+    if tl.startswith("substitut"):
         return False
 
     # Combined "Team Name + POS" tokens ("Man City MID", "Arsenal DEF", …)
