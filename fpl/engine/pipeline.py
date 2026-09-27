@@ -343,6 +343,7 @@ def _build_payload(scan_result, projections, bench_result, threshold,
             "drivers":           p["drivers"],
             "risks":             p["risks"],
             "player_api": {
+                "photo_code":     elem.get("code"),   # p{code}.png for player photo URL
                 "xG_p90":         elem.get("expected_goals_per_90"),
                 "xA_p90":         elem.get("expected_assists_per_90"),
                 "starts":         elem.get("starts"),

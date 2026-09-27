@@ -225,12 +225,22 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   justify-content:center;font-size:10px;font-weight:900;border:2px solid}
 .cv.c{background:#000;color:var(--lime);border-color:var(--lime)}
 .cv.v{background:#000;color:var(--white);border-color:rgba(240,240,242,.6)}
-.pc-why-row{padding:0 14px 12px;display:flex;justify-content:flex-end}
-.why-btn{font-size:12px;font-weight:700;color:var(--gray2);background:none;border:none;
-  padding:0;display:flex;align-items:center;gap:4px;transition:color .15s}
-.why-btn:hover{color:var(--lime)}
-.why-chev{transition:transform .2s;display:inline-block}
-.why-chev.open{transform:rotate(180deg)}
+.pc-why-row{padding:0 14px 12px;display:flex;align-items:center;justify-content:space-between}
+.why-btn{font-size:13px;font-weight:800;color:var(--lime);background:none;border:none;
+  padding:0;display:flex;align-items:center;gap:5px;transition:opacity .15s}
+.why-btn:hover{opacity:.75}
+.why-chev{transition:transform .2s;display:inline-block;font-style:normal}
+.why-chev.open{transform:rotate(90deg)}
+/* Confidence dot — replaces text badge; keeps signal without visual clutter */
+.conf-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.conf-dot.c-hi{background:var(--lime)}
+.conf-dot.c-med{background:var(--amber)}
+.conf-dot.c-lo{background:var(--coral)}
+/* Player photo */
+.pc-photo{width:38px;height:48px;object-fit:cover;object-position:top center;
+  border-radius:7px;flex-shrink:0;background:var(--d4);display:block}
+/* Captain 2× label */
+.capt-2x{font-size:9px;font-weight:900;color:var(--lime);letter-spacing:.04em;margin-top:2px}
 
 /* ── PLAYER DETAIL ── */
 .pc-detail{border-top:1px solid rgba(255,255,255,.05)}
@@ -693,6 +703,14 @@ $('file-input').addEventListener('change', async function(){
 /* ══════════════════════ RENDERERS ══════════════════════ */
 
 function renderResult(p) {
+  // Auto-select captain: highest xPts starter (server sets to null for image uploads)
+  if (!p.captain_id) {
+    const starts = (p.players||[]).filter(q=>q.is_starting);
+    if (starts.length) {
+      const capt = starts.reduce((a,b)=>b.xPts>a.xPts?b:a);
+      p.captain_id = capt.player_id;
+    }
+  }
   // Wrap each section individually so a crash names the exact function
   const steps = [renderHero, renderPlayers, renderAwesome, renderAttention, renderFinalCall];
   for (const fn of steps) {
@@ -708,15 +726,19 @@ function renderResult(p) {
 /* ── HERO ────────────────────────────────────────────────────────────────── */
 function renderHero(p) {
   const gw   = p.gameweek||'—';
-  const xPts = (p.submitted_xi?.xPts??0).toFixed(1);
   const form = p.submitted_xi?.formation||'—';
   const starts = (p.players||[]).filter(q=>q.is_starting);
   const hiN  = starts.filter(q=>q.confidence==='HIGH').length;
   const confLabel = hiN===11?'HIGH confidence':hiN>=8?'Good confidence':'Mixed confidence';
   const confCls   = hiN===11?'lime':hiN>=8?'amber':'coral';
 
-  const captP = p.captain_id ? p.players?.find(q=>q.player_id===p.captain_id) : null;
-  const captChip = captP ? `<span class="hc"><span class="cv-sm c">C</span>${esc(captP.web_name)}</span>` : '';
+  // Include captain 2× in the projected total
+  const captP  = p.captain_id ? starts.find(q=>q.player_id===p.captain_id) : null;
+  const base   = p.submitted_xi?.xPts ?? 0;
+  const xPts   = (base + (captP?.xPts ?? 0)).toFixed(1);   // +1× for captain (already counted once)
+  const captChip = captP
+    ? `<span class="hc lime"><span class="cv-sm c">C</span>${esc(captP.web_name)} ${(captP.xPts*2).toFixed(1)} pts</span>`
+    : '';
 
   $('r-hero').innerHTML = `
 <div class="hero">
@@ -731,7 +753,6 @@ function renderHero(p) {
     <span class="hc">${esc(form)}</span>
     ${captChip}
   </div>
-  <p class="hero-note">Captain 2× not included</p>
 </div>`;
 }
 
@@ -744,7 +765,7 @@ function renderPlayers(p) {
   const bench    = (p.players||[]).filter(q=>!q.is_starting);
   let html='';
   for(const pos of [1,2,3,4]){
-    const grp = starters.filter(q=>q.position===pos);
+    const grp = starters.filter(q=>q.position===pos).sort((a,b)=>b.xPts-a.xPts);
     if(!grp.length) continue;
     const tot = grp.reduce((s,q)=>s+q.xPts,0).toFixed(1);
     const meta = POS[pos];
@@ -763,51 +784,60 @@ function renderPlayers(p) {
 }
 
 function pcCard(pl,p){
-  const meta   = POS[pl.position]||{tag:'?',cls:''};
-  const pts    = pl.xPts;
-  const ptsCls = pts>=8?'hi':pts>=5?'mid':'lo';
-  const confCls = pl.confidence==='HIGH'?'c-hi':pl.confidence==='MEDIUM'?'c-med':'c-lo';
-  const team  = pl.player_api?.team_name||'';
-  const opp   = pl.inputs?.opponent_name||'';
-  const home  = pl.inputs?.is_home;
-  const fix   = opp?(home?`vs ${esc(opp)}`:`@ ${esc(opp)}`):'';
-  const sub   = [team,fix].filter(Boolean).join(' · ');
-  const isC   = _P && pl.player_id===_P.captain_id;
-  const isV   = _P && pl.player_id===_P.vice_captain_id;
-  const id    = pl.player_id;
+  const meta     = POS[pl.position]||{tag:'?',cls:''};
+  const isC      = _P && pl.player_id===_P.captain_id;
+  const isV      = _P && pl.player_id===_P.vice_captain_id;
+  const basePts  = pl.xPts;
+  const dispPts  = isC ? basePts*2 : basePts;         // captain shows 2× pts
+  const ptsCls   = dispPts>=8?'hi':dispPts>=5?'mid':'lo';
+  const dotCls   = pl.confidence==='HIGH'?'c-hi':pl.confidence==='MEDIUM'?'c-med':'c-lo';
+  const team     = pl.player_api?.team_name||'';
+  const opp      = pl.inputs?.opponent_name||'';
+  const home     = pl.inputs?.is_home;
+  const fix      = opp?(home?`vs ${esc(opp)}`:`@ ${esc(opp)}`):'';
+  const sub      = [team,fix].filter(Boolean).join(' · ');
+  const id       = pl.player_id;
+  const photoCode= pl.player_api?.photo_code;
+  const photoHtml= photoCode
+    ? `<img class="pc-photo" src="https://resources.premierleague.com/premierleague/photos/players/110x140/p${photoCode}.png" loading="lazy" alt="" onerror="this.style.display='none'">`
+    : '';
   return `<div class="pc ${meta.cls}" id="pc-${id}">
     <div class="pc-main" onclick="openCard(${id})">
       <div class="pc-pos">${meta.tag}</div>
+      ${photoHtml}
       <div class="pc-info">
-        <div class="pc-name">${esc(pl.web_name)}</div>
+        <div class="pc-name">
+          ${isC?'<span class="cv c">C</span>':''}${isV?'<span class="cv v">V</span>':''}
+          ${esc(pl.web_name)}
+        </div>
         <div class="pc-sub">${esc(sub)}</div>
       </div>
       <div class="pc-right">
-        <span class="pc-pts ${ptsCls}">${pts.toFixed(1)}</span>
-        <div class="pc-badges">
-          ${isC?'<span class="cv c">C</span>':''}
-          ${isV?'<span class="cv v">V</span>':''}
-          <span class="conf ${confCls}">${esc(pl.confidence)}</span>
-        </div>
+        <span class="pc-pts ${ptsCls}">${dispPts.toFixed(1)}</span>
+        ${isC?'<span class="capt-2x">2× captain</span>':''}
+        <span class="conf-dot ${dotCls}"></span>
       </div>
     </div>
     <div class="pc-why-row">
       <button class="why-btn" onclick="toggleWhy(event,${id})">
-        Why? <span class="why-chev" id="wc-${id}">›</span>
+        Why this projection? <span class="why-chev" id="wc-${id}">›</span>
       </button>
     </div>
     <div id="pd-${id}" class="pc-detail" style="display:none">
-      ${pdLevel1(pl)}
+      ${pdLevel1(pl,isC)}
     </div>
   </div>`;
 }
 
-function pdLevel1(pl){
+function pdLevel1(pl,isC){
   const drivers = (pl.drivers||[]).map(d=>`<div class="drv"><span class="di p">✓</span><span>${esc(dText(d))}</span></div>`).join('');
   const risks   = (pl.risks||[]).map(r=>`<div class="rsk"><span class="di n">!</span><span>${esc(rText(r))}</span></div>`).join('');
   const cs = pl.inputs?.p_cs!=null?`<div class="drv"><span class="di p">🔒</span><span>${Math.round(pl.inputs.p_cs*100)}% clean sheet</span></div>`:'';
+  const captNote = isC?`<div class="drv"><span class="di p">©</span><span>Captain ×2 — base ${pl.xPts.toFixed(1)} pts × 2</span></div>`:'';
+  const dispPts = isC ? pl.xPts*2 : pl.xPts;
   return `<div class="pc-d1">
-    <p class="pc-d-label">Why ${pl.xPts.toFixed(1)} pts?</p>
+    <p class="pc-d-label">Why ${dispPts.toFixed(1)} pts?</p>
+    ${captNote}
     ${drivers||'<div class="drv"><span class="di p">✓</span><span>Playing this Gameweek</span></div>'}
     ${pl.position<=2?cs:''}${risks}
     <button class="nums-btn" onclick="toggleNums(event,${pl.player_id})">Full numbers ›</button>
@@ -842,7 +872,7 @@ function pdNumbers(pl){
   return `${rowHtml}<div class="nd"></div>
     <p class="pc-d-label">Breakdown</p>${bkd}
     <div class="nd"></div>
-    <div class="ntot"><span>Total</span><span class="nv">${pl.xPts.toFixed(1)} pts</span></div>`;
+    <div class="ntot"><span>Total (base)</span><span class="nv">${pl.xPts.toFixed(1)} pts</span></div>`;
 }
 
 const D_MAP = [
@@ -916,14 +946,15 @@ function buildAwesome(p){
   const top=sorted[0];
 
   if(top){
+    const isTopCap = p.captain_id && top.player_id===p.captain_id;
+    const topDisp  = isTopCap ? top.xPts*2 : top.xPts;
     const atk=top.inputs?.atk_scale||1;
     if(atk>=1.15){
-      const opp=top.inputs?.opponent_name||'their opponent';
       out.push({icon:'⚡',hl:`${top.web_name}'s fixture`,
         body:`Favourable attacking conditions this week — strong environment for ${top.web_name}.`});
     } else {
-      out.push({icon:'⭐',hl:`${top.web_name} leads the way`,
-        body:`${top.web_name} is your top projected scorer at ${top.xPts.toFixed(1)} pts.`});
+      out.push({icon:'⭐',hl:`${isTopCap?'(C) ':''}${top.web_name} leads the way`,
+        body:`${top.web_name} projects ${topDisp.toFixed(1)} pts${isTopCap?' with captain 2×':''}.`});
     }
   }
 
