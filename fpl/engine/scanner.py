@@ -378,6 +378,13 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
                 # Strip those suffixes so only the player name remains.
                 text = _strip_fpl_stat(text)
 
+                # Safety: strip captain/vice-captain badge if Google Vision
+                # merged it with the player name ("Haaland C", "Gibbs-White VC").
+                if text.endswith(" VC"):
+                    text = text[:-3].strip()
+                elif " " in text and text.endswith(" C"):
+                    text = text[:-2].strip()
+
                 if not text:
                     continue
 
@@ -543,6 +550,48 @@ def _find_bench_labels(blocks: list) -> list:
     return labels
 
 
+def _nearest_player_block(badge: dict, player_blocks: list):
+    """Return the player block whose centre is closest to the badge block."""
+    if not player_blocks:
+        return None
+    bx = badge["x"] + badge.get("w", 0) / 2
+    by = badge["y"] + badge.get("h", 0) / 2
+    return min(
+        player_blocks,
+        key=lambda b: (b["x"] + b.get("w", 0) / 2 - bx) ** 2
+                    + (b["y"] + b.get("h", 0) / 2 - by) ** 2,
+    )
+
+
+def _detect_captain_badges(blocks: list, player_blocks: list):
+    """
+    Detect captain ("C") and vice-captain ("VC") badges from OCR blocks.
+
+    Handles two cases:
+    1. Standalone badge blocks: text is exactly "C" or "VC" — associate with
+       the nearest player name block by centre-to-centre Euclidean distance.
+    2. Suffix on player name: handled upstream in _run_ocr_google_vision by
+       stripping " C" / " VC" before blocks reach the parser.
+
+    Returns (captain_name, vice_name) — either may be None.
+    """
+    captain_name: str | None = None
+    vice_name:    str | None = None
+
+    for b in blocks:
+        t = b["text"].strip()
+        if t == "C" and captain_name is None:
+            nearest = _nearest_player_block(b, player_blocks)
+            if nearest:
+                captain_name = nearest["text"].strip()
+        elif t == "VC" and vice_name is None:
+            nearest = _nearest_player_block(b, player_blocks)
+            if nearest:
+                vice_name = nearest["text"].strip()
+
+    return captain_name, vice_name
+
+
 def _cluster_by_y(blocks: list, tolerance: float = 0.03) -> list:
     """
     Group blocks into horizontal clusters where consecutive items are within
@@ -669,11 +718,18 @@ def _parse_pitch_view(blocks: list) -> dict:
             "No players detected. Ensure the screenshot shows a complete FPL Pitch View."
         )
 
-    return _validate({
+    # Detect captain / vice-captain badges from OCR blocks
+    all_player_blocks = starter_names + bench_names
+    captain_name, vice_name = _detect_captain_badges(blocks, all_player_blocks)
+
+    result = _validate({
         "view_type": VIEW_PITCH,
         "players":   players_out,
         "warnings":  warnings,
     })
+    result["captain_name"]       = captain_name
+    result["vice_captain_name"]  = vice_name
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────

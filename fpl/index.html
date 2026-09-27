@@ -329,6 +329,26 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   overflow:hidden;text-overflow:ellipsis}
 .capt-alt-pts{font-size:11px;color:var(--gray);margin-top:3px;font-weight:600}
 .capt-note{font-size:12px;color:var(--gray2);padding:0 16px 14px;line-height:1.55}
+/* Captain switch recommendation variant */
+.capt-switch-hdr{background:linear-gradient(135deg,rgba(204,255,0,.1) 0%,rgba(204,255,0,.03) 100%);
+  border-bottom:1px solid rgba(204,255,0,.12);padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between}
+.capt-switch-lbl{font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--lime)}
+.capt-switch-gain{font-size:20px;font-weight:900;color:var(--lime);font-variant-numeric:tabular-nums}
+.capt-row{display:flex;align-items:center;gap:13px;padding:12px 16px}
+.capt-row+.capt-row{border-top:1px solid rgba(255,255,255,.05)}
+.capt-row-badge{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.capt-row-badge.cur{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);color:var(--gray)}
+.capt-row-badge.rec{background:#000;border:2px solid var(--lime);color:var(--lime)}
+.capt-row-info{flex:1;min-width:0}
+.capt-row-name{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.capt-row-sub{font-size:11px;color:var(--gray2);margin-top:2px}
+.capt-row-pts{text-align:right;flex-shrink:0}
+.capt-row-pts-num{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.capt-row-pts-num.cur{color:var(--gray)}
+.capt-row-pts-num.rec{color:var(--lime)}
+.capt-row-pts-lbl{font-size:10px;color:var(--gray2);margin-top:2px}
 
 /* ── HOLD ── */
 .hold-card{background:var(--d2);border:1px solid rgba(255,255,255,.08);
@@ -999,47 +1019,94 @@ function buildAwesome(p){
 }
 
 /* ── CAPTAIN RECOMMENDATION ─────────────────────────────────────────────── */
+function _playerSub(pl){
+  const team=pl.player_api?.team_name||'';
+  const opp=pl.inputs?.opponent_name||'';
+  const home=pl.inputs?.is_home;
+  const fix=opp?(home?`vs ${esc(opp)}`:`@ ${esc(opp)}`):'';
+  return [team,fix].filter(Boolean).join(' · ');
+}
+
 function renderCaptain(p){
-  const starts = (p.players||[]).filter(q=>q.is_starting);
-  if(!starts.length){ $('r-captain').innerHTML=''; return; }
+  const starts=(p.players||[]).filter(q=>q.is_starting);
+  if(!starts.length){$('r-captain').innerHTML='';return;}
 
-  // Sort starters by xPts descending — top pick is the captain
-  const sorted = [...starts].sort((a,b)=>b.xPts-a.xPts);
-  const pick   = sorted[0];
-  const alts   = sorted.slice(1,3);   // next 2 as alternatives
+  const sorted=[...starts].sort((a,b)=>b.xPts-a.xPts);
+  const best=sorted[0];                                          // highest xPts
+  const alts=sorted.slice(1,3);
+  const detected=p.captain_id?starts.find(q=>q.player_id===p.captain_id):null;
+  const switchAvail=detected&&detected.player_id!==best.player_id;
 
-  const team = pick.player_api?.team_name||'';
-  const opp  = pick.inputs?.opponent_name||'';
-  const home = pick.inputs?.is_home;
-  const fix  = opp?(home?`vs ${esc(opp)}`:`@ ${esc(opp)}`):'';
-  const sub  = [team,fix].filter(Boolean).join(' · ');
+  let inner='';
 
-  const altCards = alts.map(a=>`
-    <div class="capt-alt">
-      <div class="capt-alt-name">${esc(a.web_name)}</div>
-      <div class="capt-alt-pts">${(a.xPts*2).toFixed(1)} pts as captain</div>
-    </div>`).join('');
+  if(switchAvail){
+    // ── Switch recommended: detected captain ≠ best xPts pick ───────────
+    const gain=(best.xPts-detected.xPts).toFixed(1);
+    const altCards=alts.map(a=>`
+      <div class="capt-alt">
+        <div class="capt-alt-name">${esc(a.web_name)}</div>
+        <div class="capt-alt-pts">${(a.xPts*2).toFixed(1)} pts as captain</div>
+      </div>`).join('');
+    inner=`
+      <div class="capt-switch-hdr">
+        <span class="capt-switch-lbl">Captain switch available</span>
+        <span class="capt-switch-gain">+${gain} pts</span>
+      </div>
+      <div class="capt-row">
+        <div class="capt-row-badge cur">C</div>
+        <div class="capt-row-info">
+          <div class="capt-row-name">${esc(detected.web_name)}</div>
+          <div class="capt-row-sub">Current captain · ${esc(_playerSub(detected))}</div>
+        </div>
+        <div class="capt-row-pts">
+          <div class="capt-row-pts-num cur">${(detected.xPts*2).toFixed(1)}</div>
+          <div class="capt-row-pts-lbl">pts with 2×</div>
+        </div>
+      </div>
+      <div class="capt-row">
+        <div class="capt-row-badge rec">C</div>
+        <div class="capt-row-info">
+          <div class="capt-row-name">${esc(best.web_name)}</div>
+          <div class="capt-row-sub">Switch to this · ${esc(_playerSub(best))}</div>
+        </div>
+        <div class="capt-row-pts">
+          <div class="capt-row-pts-num rec">${(best.xPts*2).toFixed(1)}</div>
+          <div class="capt-row-pts-lbl">pts with 2×</div>
+        </div>
+      </div>
+      ${alts.length?`<div class="capt-alts">${altCards}</div>`:''}
+      <p class="capt-note">Change your captain to ${esc(best.web_name)} in the FPL app — costs nothing, just tap their name and select captain.</p>`;
+    track('captain_switch_shown',{from:detected.player_id,to:best.player_id,gain:+gain});
+  } else {
+    // ── No switch: current captain is already optimal (or undetected) ────
+    const pick=detected||best;
+    const altCards=alts.map(a=>`
+      <div class="capt-alt">
+        <div class="capt-alt-name">${esc(a.web_name)}</div>
+        <div class="capt-alt-pts">${(a.xPts*2).toFixed(1)} pts as captain</div>
+      </div>`).join('');
+    inner=`
+      <div class="capt-top">
+        <div class="capt-badge">C</div>
+        <div class="capt-info">
+          <div class="capt-name">${esc(pick.web_name)}</div>
+          <div class="capt-sub">${esc(_playerSub(pick))}</div>
+        </div>
+        <div class="capt-pts">
+          <div class="capt-pts-num">${(pick.xPts*2).toFixed(1)}</div>
+          <div class="capt-pts-lbl">pts with 2×</div>
+        </div>
+      </div>
+      ${alts.length?`<div class="capt-alts">${altCards}</div>`:''}
+      <p class="capt-note">Set ${esc(pick.web_name)} as your captain in the FPL app — this forecast already includes their 2× multiplier.</p>`;
+    track('captain_card_viewed',{player_id:pick.player_id,xPts:pick.xPts});
+  }
 
-  $('r-captain').innerHTML = `<div class="div"></div>
+  $('r-captain').innerHTML=`<div class="div"></div>
 <div class="sec">
   <p class="sec-hdr">Captain pick</p>
-  <div class="capt-card">
-    <div class="capt-top">
-      <div class="capt-badge">C</div>
-      <div class="capt-info">
-        <div class="capt-name">${esc(pick.web_name)}</div>
-        <div class="capt-sub">${esc(sub)}</div>
-      </div>
-      <div class="capt-pts">
-        <div class="capt-pts-num">${(pick.xPts*2).toFixed(1)}</div>
-        <div class="capt-pts-lbl">pts with 2×</div>
-      </div>
-    </div>
-    ${alts.length?`<div class="capt-alts">${altCards}</div>`:''}
-    <p class="capt-note">Set ${esc(pick.web_name)} as your captain in the FPL app — this forecast already includes their 2× multiplier.</p>
-  </div>
+  <div class="capt-card">${inner}</div>
 </div>`;
-  track('captain_card_viewed',{player_id:pick.player_id,xPts:pick.xPts});
 }
 
 /* ── WHAT NEEDS ATTENTION ────────────────────────────────────────────────── */

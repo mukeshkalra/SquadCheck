@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT))
 
 from fpl.engine.scanner    import scan_squad, VALID
 from fpl.engine.projection import build_params
-from fpl.engine.pipeline   import run_pipeline, resolve_players, bootstrap_filter
+from fpl.engine.pipeline   import run_pipeline, resolve_players, bootstrap_filter, _norm_name
 
 # ── Config ────────────────────────────────────────────────────────────────────
 _FPL_BS   = "https://fantasy.premierleague.com/api/bootstrap-static/"
@@ -201,12 +201,21 @@ class handler(BaseHTTPRequestHandler):
                 "Found %d of 15 players. Unrecognised: %s" % (got, rej_names),
             )
 
-        scan_result["players"]         = clean_players
-        scan_result["captain_id"]      = None
-        scan_result["vice_captain_id"] = None
+        scan_result["players"] = clean_players
 
+        # Resolve player names once — used for summaries and captain detection
         resolved, _ = resolve_players(clean_players, elements)
         all_ids     = [r["player_id"] for r in resolved if r["player_id"]]
+
+        # Resolve captain / vice-captain names detected from image to player IDs
+        name_to_id = {
+            _norm_name(r["name"]): r["player_id"]
+            for r in resolved if r["player_id"]
+        }
+        capt_name = scan_result.get("captain_name")
+        vice_name = scan_result.get("vice_captain_name")
+        scan_result["captain_id"]      = name_to_id.get(_norm_name(capt_name))      if capt_name else None
+        scan_result["vice_captain_id"] = name_to_id.get(_norm_name(vice_name))      if vice_name else None
 
         element_summaries = _summaries(all_ids)
 
