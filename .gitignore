@@ -12,3 +12,7 @@ pipeline/.env
 # OS
 .DS_Store
 content-engine/.env
+
+# FPL scanner — compiled macOS binary excluded from Vercel deployment
+# Swift source (_vision_ocr.swift) is committed; binary is rebuilt locally by swiftc
+fpl/engine/_vision_ocr
