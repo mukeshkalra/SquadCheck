@@ -4,10 +4,5 @@
       "source": "/sitemap.xml",
       "headers": [{ "key": "Content-Type", "value": "application/xml" }]
     }
-  ],
-  "functions": {
-    "api/squad-check.py": {
-      "runtime": "python3.12"
-    }
-  }
+  ]
 }
