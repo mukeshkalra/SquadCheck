@@ -40,6 +40,9 @@ V1 payload shape
 HOLD is a valid successful result.
 """
 
+import re as _re
+import unicodedata as _ud
+
 from .scanner  import VALID as _SCAN_VALID
 from .projection import compute_xpts
 from .bench    import optimise_bench
@@ -169,6 +172,55 @@ def _run(scan_result, bootstrap, element_summaries, params, threshold):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# BOOTSTRAP VALIDATION  (pre-pipeline filter)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _norm_name(name: str) -> str:
+    """
+    Normalise a name for fuzzy matching against the FPL bootstrap.
+
+    Steps: NFKD decompose → drop combining marks → lowercase → keep a-z only.
+
+    Examples:
+      'Gibbs - White' → 'gibbswhite'   (OCR spaced hyphen)
+      'Muñoz'         → 'munoz'         (accent stripped)
+      'João Pedro'    → 'joaopedro'     (ã → a, space dropped)
+      'N.Williams'    → 'nwilliams'     (dot dropped)
+      'O\'Shea'       → 'oshea'         (apostrophe dropped)
+      'Ødegaard'      → 'degaard'       (Ø has no ASCII equivalent)
+    """
+    nfkd = _ud.normalize("NFKD", name)
+    no_marks = "".join(c for c in nfkd if _ud.category(c) != "Mn")
+    return _re.sub(r"[^a-z]", "", no_marks.lower())
+
+
+def bootstrap_filter(players: list, elements: list) -> tuple:
+    """
+    Remove players whose names cannot be matched to any active FPL player.
+
+    Uses position-free, normalised name matching so OCR variants resolve:
+      'Gibbs - White' matches 'Gibbs-White' in the bootstrap.
+      'Knox', 'Vitality', 'IllCMC' don't match anything → rejected.
+
+    Returns (clean, rejected) lists.  Only call this when scanner returned
+    VALID — the intent is to strip residual noise, not to validate format.
+    """
+    known: set[str] = set()
+    for e in elements:
+        if e.get("removed", False):
+            continue
+        for field in ("web_name", "second_name", "known_name"):
+            v = (e.get(field) or "").strip()
+            if len(v) >= 3:
+                known.add(_norm_name(v))
+
+    clean, rejected = [], []
+    for p in players:
+        (clean if _norm_name(p["name"]) in known else rejected).append(p)
+    return clean, rejected
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # NAME RESOLUTION
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -220,6 +272,21 @@ def _find_id(name: str, position: int, elements: list):
         full  = ("%s %s" % (first, sec)).strip()
         if q in (web, sec, known, full):
             hits.append(e["id"])
+
+    if not hits:
+        # Normalised fallback: handles OCR variants like 'Gibbs - White' → 'Gibbs-White'
+        qn = _norm_name(q)
+        for e in elements:
+            if e.get("element_type") != position or e.get("removed", False):
+                continue
+            web  = (e.get("web_name",    "") or "")
+            sec  = (e.get("second_name", "") or "")
+            knwn = (e.get("known_name",  "") or "")
+            fst  = (e.get("first_name",  "") or "")
+            full = ("%s %s" % (fst, sec)).strip()
+            if qn in (_norm_name(web), _norm_name(sec), _norm_name(knwn), _norm_name(full)):
+                hits.append(e["id"])
+
     return hits[0] if len(hits) == 1 else None
 
 

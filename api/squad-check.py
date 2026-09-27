@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT))
 
 from fpl.engine.scanner    import scan_squad, VALID
 from fpl.engine.projection import build_params
-from fpl.engine.pipeline   import run_pipeline, resolve_players
+from fpl.engine.pipeline   import run_pipeline, resolve_players, bootstrap_filter
 
 # ── Config ────────────────────────────────────────────────────────────────────
 _FPL_BS   = "https://fantasy.premierleague.com/api/bootstrap-static/"
@@ -140,30 +140,22 @@ class handler(BaseHTTPRequestHandler):
     def _process(self) -> dict:
         image_bytes = self._image_bytes()
 
-        # ── Temporary diagnostic: capture scanner stderr → embed in response ──
-        # Reads the [diag] lines printed by scanner._run_ocr / _scan_image.
+        # Capture scanner stderr ([diag] lines) into the response for debugging.
         # Never captures GOOGLE_VISION_API_KEY or image contents.
-        # Remove once the deployed OCR path is verified working.
         import io as _io
-        _diag_buf = _io.StringIO()
+        _diag_buf    = _io.StringIO()
         _real_stderr = sys.stderr
-        sys.stderr = _diag_buf
+        sys.stderr   = _diag_buf
         try:
             scan_result = scan_squad(image_bytes)
         finally:
             sys.stderr = _real_stderr
         _diag_log = _diag_buf.getvalue().strip()
 
-        # Scanned player names — safe to expose (no secrets), needed to find the 16th name
-        _scanned = [
-            {"name": p.get("name",""), "is_starting": p.get("is_starting"), "pos": p.get("position")}
-            for p in scan_result.get("players", [])
-        ]
-
-        if scan_result.get("status") != VALID:
+        def _fail_response(scanner_status, message):
             return {
                 "status":          "SCAN_FAIL",
-                "scanner_status":  scan_result.get("status"),
+                "scanner_status":  scanner_status,
                 "view_type":       scan_result.get("view_type", "UNKNOWN"),
                 "players":         [],
                 "submitted_xi":    None,
@@ -176,23 +168,45 @@ class handler(BaseHTTPRequestHandler):
                 "captain_id":      None,
                 "vice_captain_id": None,
                 "captain_note":    "",
-                "message":         scan_result.get("message", ""),
+                "message":         message,
                 "_diag_log":       _diag_log,
-                "_scanned":        _scanned,
+                "_scanned": [
+                    {"name": p.get("name",""), "is_starting": p.get("is_starting"),
+                     "pos": p.get("position")}
+                    for p in scan_result.get("players", [])
+                ],
             }
 
-        # Captain/vice not yet extractable from image bytes
+        # Gate 1 — scanner must produce a structurally valid squad
+        if scan_result.get("status") != VALID:
+            return _fail_response(
+                scan_result.get("status"),
+                scan_result.get("message", ""),
+            )
+
+        # Gate 2 — bootstrap validation: strip any OCR noise that passed the
+        # scanner's heuristics but isn't a real FPL player.
+        bootstrap = _bootstrap()
+        params    = _params(bootstrap)
+        elements  = bootstrap.get("elements", [])
+
+        raw_players             = scan_result.get("players", [])
+        clean_players, rejected = bootstrap_filter(raw_players, elements)
+
+        if len(clean_players) != 15:
+            rej_names = ", ".join(p["name"] for p in rejected) if rejected else "—"
+            got       = len(clean_players)
+            return _fail_response(
+                "PARTIAL",
+                "Found %d of 15 players. Unrecognised: %s" % (got, rej_names),
+            )
+
+        scan_result["players"]         = clean_players
         scan_result["captain_id"]      = None
         scan_result["vice_captain_id"] = None
 
-        bootstrap = _bootstrap()
-        params    = _params(bootstrap)
-
-        resolved, _ = resolve_players(
-            scan_result.get("players", []),
-            bootstrap.get("elements", []),
-        )
-        all_ids = [r["player_id"] for r in resolved if r["player_id"]]
+        resolved, _ = resolve_players(clean_players, elements)
+        all_ids     = [r["player_id"] for r in resolved if r["player_id"]]
 
         element_summaries = _summaries(all_ids)
 
@@ -203,10 +217,7 @@ class handler(BaseHTTPRequestHandler):
             params            = params,
             threshold         = _THRESHOLD,
         )
-
-        # Inject diagnostics into every response until OCR path is stable
-        result["_diag_log"]  = _diag_log
-        result["_scanned"]   = _scanned
+        result["_diag_log"] = _diag_log
         return result
 
     def log_message(self, *_):

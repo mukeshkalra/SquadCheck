@@ -150,7 +150,7 @@ def _is_player_name(text: str) -> bool:
         return False
     if all(c.islower() for c in letters):
         return False
-    if t[0].isdigit():
+    if not t[0].isalpha():   # blocks "(Vitality)", "1. FWD", "[...]" etc.
         return False
 
     # List View section headers and bench label — never player names.
