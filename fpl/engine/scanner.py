@@ -231,16 +231,38 @@ def _run_ocr_swift(image_bytes: bytes):
 def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
     """
     Call Google Cloud Vision DOCUMENT_TEXT_DETECTION and return blocks in the
-    same format as _run_ocr_swift — normalised coordinates with y=0 at bottom
-    (Apple Vision convention) so the existing parsers need no changes.
+    same format as _run_ocr_swift so the existing parsers need no changes.
+
+    Output schema (matches Apple Vision _run_ocr_swift output exactly)
+    ------------------------------------------------------------------
+      text : str    line-level text (one paragraph ≈ one line)
+      conf : float  1.0  (Google Vision does not expose per-paragraph confidence)
+      x    : float  LEFT EDGE of bounding box, normalised [0, 1]
+      y    : float  BOTTOM EDGE of bounding box, normalised [0, 1], y=0 at bottom
+      w    : float  width,  normalised [0, 1]
+      h    : float  height, normalised [0, 1]
+
+    Granularity
+    -----------
+    Apple Vision VNRecognizeTextRequest returns ONE observation per LINE of text.
+    Google Vision textAnnotations[1:] returns ONE annotation per WORD — wrong
+    granularity; "De Cuyper" becomes ["De","Cuyper"] and team tokens like
+    "Man City MID" become ["Man","City","MID"] which breaks the name filters.
+
+    Google Vision fullTextAnnotation.pages[].blocks[].paragraphs[] gives ONE
+    paragraph per LINE of text — the correct equivalent.  We join the words
+    within each paragraph (space-separated) to reconstruct the line text.
 
     Coordinate conversion
     ---------------------
-    Google Vision: pixel coords, origin top-left  (y=0 at top)
-    Our format:    normalised [0,1], origin bottom-left (y=0 at bottom)
+    Google Vision: integer pixel coords, origin TOP-LEFT (y increases downward)
+    Apple Vision:  normalised [0,1],     origin BOTTOM-LEFT (y increases upward)
+    Apple Vision stores the BOTTOM EDGE of the bounding box in the y field.
 
-        normalised_x = pixel_x / image_width
-        normalised_y = 1.0 − (pixel_y / image_height)   ← flip y-axis
+        x_left   = min_pixel_x / image_width          ← left edge (not centre)
+        y_bottom = 1.0 - (max_pixel_y / image_height) ← flip: pixel bottom → AV bottom
+        width    = (max_px_x - min_px_x) / image_width
+        height   = (max_px_y - min_px_y) / image_height
     """
     payload = json.dumps({
         "requests": [{
@@ -257,49 +279,68 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
     with urllib.request.urlopen(req, timeout=20) as r:
         data = json.loads(r.read())
 
-    resp = data.get("responses", [{}])[0]
-
-    # Image dimensions from DOCUMENT_TEXT_DETECTION pages
+    resp  = data.get("responses", [{}])[0]
     pages = resp.get("fullTextAnnotation", {}).get("pages", [])
-    img_w = pages[0].get("width",  0) if pages else 0
-    img_h = pages[0].get("height", 0) if pages else 0
 
-    # Fallback: infer from bounding box of full-text annotation
-    if not img_w or not img_h:
-        anns = resp.get("textAnnotations", [])
-        if anns:
-            verts = anns[0].get("boundingPoly", {}).get("vertices", [])
-            img_w = max(v.get("x", 0) for v in verts) if verts else 0
-            img_h = max(v.get("y", 0) for v in verts) if verts else 0
+    if not pages:
+        return _OCR_IMAGE_ERROR
 
+    img_w = pages[0].get("width",  0)
+    img_h = pages[0].get("height", 0)
     if not img_w or not img_h:
         return _OCR_IMAGE_ERROR
 
-    blocks = []
-    for ann in resp.get("textAnnotations", [])[1:]:   # skip first (full-page text)
-        text = ann.get("description", "").strip()
-        if not text:
-            continue
-        verts = ann.get("boundingPoly", {}).get("vertices", [])
-        if not verts:
-            continue
+    def _word_text(word: dict) -> str:
+        """Concatenate symbol texts within one word (preserves hyphens, accents)."""
+        return "".join(sym.get("text", "") for sym in word.get("symbols", []))
 
+    def _para_coords(para: dict):
+        """
+        Return (x_left, y_bottom, width, height) in normalised Apple Vision coords,
+        or None if the paragraph has no usable bounding box.
+        """
+        verts = para.get("boundingBox", {}).get("vertices", [])
+        if not verts:
+            return None
         xs = [v.get("x", 0) for v in verts]
         ys = [v.get("y", 0) for v in verts]
-
         x_min, x_max = min(xs) / img_w, max(xs) / img_w
         y_min, y_max = min(ys) / img_h, max(ys) / img_h
+        # y_max is the visual bottom of the text in pixel coords (largest y).
+        # After flipping it becomes the Apple Vision bottom edge (y=0 at bottom).
+        return (
+            x_min,          # left edge
+            1.0 - y_max,    # bottom edge in Apple Vision convention
+            x_max - x_min,  # width
+            y_max - y_min,  # height
+        )
 
-        blocks.append({
-            "text": text,
-            "conf": 1.0,
-            "x":  (x_min + x_max) / 2,
-            "y":  1.0 - (y_min + y_max) / 2,   # flip y to Apple Vision coords
-            "w":  x_max - x_min,
-            "h":  y_max - y_min,
-        })
+    blocks = []
+    for page in pages:
+        for block in page.get("blocks", []):
+            for para in block.get("paragraphs", []):
+                # Reconstruct line text: join words separated by spaces.
+                # Each word is formed by concatenating its symbol characters.
+                words = [_word_text(w) for w in para.get("words", [])]
+                text  = " ".join(words).strip()
+                if not text:
+                    continue
 
-    return blocks   # may be [] if image has no text
+                coords = _para_coords(para)
+                if coords is None:
+                    continue
+
+                x_left, y_bottom, width, height = coords
+                blocks.append({
+                    "text": text,
+                    "conf": 1.0,
+                    "x":   x_left,    # left edge  — parsers add w/2 to get centre
+                    "y":   y_bottom,  # bottom edge — matches Apple Vision b.origin.y
+                    "w":   width,
+                    "h":   height,
+                })
+
+    return blocks   # [] if image contains no text
 
 
 # ── Dispatcher: Swift on macOS, Google Vision on Linux/cloud ─────────────────
