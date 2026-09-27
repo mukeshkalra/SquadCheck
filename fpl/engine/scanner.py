@@ -32,6 +32,7 @@ UNKNOWN Could not be determined
 """
 
 import os
+import re
 import base64
 import json
 import subprocess
@@ -79,6 +80,9 @@ _NAME_BLOCKLIST = frozenset({
     "express", "american",    "airways",
     "etihad",  "marex",       "usdc",       # kit sponsors (sometimes mixed-case OCR)
     "halo",    "hyundai",     "cazoo",      # other common FPL sponsor names
+    # Google Vision paragraph-level additions:
+    "knox",    "illcmc",     "hiicmc",      # Brentford/CMC Markets kit text in mixed case
+    "hicmc",   "iiicmc",                   # CMC Markets OCR variants
 })
 
 
@@ -323,6 +327,14 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
                 # Each word is formed by concatenating its symbol characters.
                 words = [_word_text(w) for w in para.get("words", [])]
                 text  = " ".join(words).strip()
+
+                # Google Vision sometimes merges a player's name and their FPL
+                # score into one paragraph (e.g. "Pickford 8", "Haaland 12").
+                # Apple Vision returns name and score as separate observations.
+                # Strip the trailing score so "Pickford 8" → "Pickford".
+                # FPL scores are integers; no player name ends with " <digits>".
+                text = re.sub(r'\s+\d{1,3}$', '', text)
+
                 if not text:
                     continue
 
