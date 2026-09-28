@@ -34,6 +34,7 @@ UNKNOWN Could not be determined
 import os
 import re
 import base64
+from itertools import combinations as _combinations
 import json
 import subprocess
 import tempfile
@@ -672,15 +673,29 @@ def _parse_pitch_view(blocks: list) -> dict:
     # Sort top-to-bottom (highest Vision Y = top of image)
     clusters.sort(key=lambda c: -(sum(b["y"] for b in c) / len(c)))
 
-    # If >4 clusters (kit/logo fragments created extra), slide a window of 4
-    # and pick the window whose total player count is closest to 11 starters.
+    # If >4 clusters (kit/logo fragments created extra), pick the best 4.
+    # We try every combination of 4 clusters (not just consecutive) so a
+    # noise cluster between GKP and DEF doesn't displace the real GKP.
+    # Tiebreaker when two combos sum to 11: prefer the one whose first cluster
+    # sits highest in the image (largest mean y) — the GKP is always topmost.
     if len(clusters) > 4:
-        best_start, best_diff = 0, 9999
-        for s in range(len(clusters) - 3):
-            diff = abs(sum(len(c) for c in clusters[s:s + 4]) - 11)
-            if diff < best_diff:
-                best_diff, best_start = diff, s
-        clusters = clusters[best_start:best_start + 4]
+        best_indices    = None
+        best_diff       = 9999
+        best_first_len  = -1   # tiebreaker: longer GKP name = more likely real player
+
+        for combo in _combinations(range(len(clusters)), 4):
+            count     = sum(len(clusters[i]) for i in combo)
+            diff      = abs(count - 11)
+            # Sum of name lengths in first (GKP) cluster.
+            # Kit fragments ("Ste", "Ster") are short; real GKP names are longer.
+            first_len = sum(len(b["text"]) for b in clusters[combo[0]])
+            if diff < best_diff or (diff == best_diff and first_len > best_first_len):
+                best_diff      = diff
+                best_first_len = first_len
+                best_indices   = combo
+
+        if best_indices:
+            clusters = [clusters[i] for i in best_indices]
 
     # Assign positions by cluster order (always GKP→DEF→MID→FWD top-to-bottom)
     POS_ORDER = [1, 2, 3, 4]

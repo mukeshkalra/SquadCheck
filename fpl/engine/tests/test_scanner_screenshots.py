@@ -136,6 +136,19 @@ class TestScannerScreenshots(unittest.TestCase):
         self.assertEqual(len(r["players"]), 15)
         self.assertEqual(r["view_type"], "PITCH")
 
+    @_skip("fpl pitch 3.jpeg")
+    def test_fpl_pitch_3(self):
+        """Opponent-fixture display mode (HUL A, COV A, etc.) + kit noise above GKP.
+        Previously returned 'Ste' as GKP instead of Pickford due to kit fragment
+        creating an extra cluster. Fixed by name-length tiebreaker in window selection."""
+        _assert_squad(self, _scan("fpl pitch 3.jpeg"), "PITCH", [
+            "pickford",
+            "thiaw", "munoz", "keane",
+            "rogers", "degaard", "szoboszlai", "cherki",
+            "wissa", "joaopedro", "haaland",
+            "dubravka", "msangare", "vanhecke", "calafiori",
+        ])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
