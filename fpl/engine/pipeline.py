@@ -305,6 +305,11 @@ def _find_id(name: str, elements: list, position: int = None):
 
     if len(hits) == 1:
         return hits[0]["id"], hits[0]["element_type"]
+    if len(hits) > 1:
+        # Multiple players share the same name — pick the one with most starts.
+        # The more active player is almost always the one in a user's squad.
+        best = max(hits, key=lambda e: e.get("starts", 0) or 0)
+        return best["id"], best["element_type"]
     return None, None
 
 
