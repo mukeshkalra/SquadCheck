@@ -405,6 +405,30 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .fc-xi-side.rec .fc-xi-pts{color:var(--lime)}
 .fc-change-note{font-size:13px;color:var(--gray);line-height:1.65;padding:14px 18px}
+
+/* ── DISAMBIGUATION ── */
+.dq-wrap{padding:calc(var(--nav-h) + 32px) 20px 60px;max-width:480px;margin:0 auto}
+.dq-title{font-size:22px;font-weight:900;letter-spacing:-.03em;margin-bottom:6px}
+.dq-sub{font-size:14px;color:var(--gray);margin-bottom:28px;line-height:1.6}
+.dq-group{margin-bottom:24px}
+.dq-name{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gray2);margin-bottom:10px}
+.dq-options{display:flex;gap:10px}
+.dq-opt{flex:1;background:var(--d2);border:2px solid var(--border);border-radius:var(--r);
+  padding:14px;cursor:pointer;text-align:center;transition:border-color .15s,background .15s}
+.dq-opt:hover{border-color:var(--border2)}
+.dq-opt.sel{border-color:var(--lime);background:var(--lime-t)}
+.dq-opt-pos{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gray2);margin-bottom:4px}
+.dq-opt-name{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.dq-opt-team{font-size:11px;color:var(--gray2);margin-top:3px}
+.dq-photo{width:44px;height:56px;object-fit:cover;object-position:top center;
+  border-radius:6px;margin:0 auto 8px;display:block;background:var(--d4)}
+.dq-cta{width:100%;padding:16px;background:var(--lime);border:none;border-radius:var(--r);
+  font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;text-transform:uppercase;
+  letter-spacing:.03em;color:#000;margin-top:8px;
+  box-shadow:0 4px 24px rgba(204,255,0,.25);transition:background .15s}
+.dq-cta:disabled{opacity:.4;cursor:not-allowed}
 .fc-change-note b{color:var(--white)}
 
 /* ── HOW IT WORKS LINK ── */
@@ -543,6 +567,16 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
     <div class="skel" style="height:64px;opacity:.7"></div>
     <div class="skel" style="height:64px;opacity:.45"></div>
   </div>
+</div>
+</section>
+
+<!-- ══════════════════════ DISAMBIGUATION ══════════════════════ -->
+<section id="s-disambig" class="screen">
+<div class="dq-wrap">
+  <h2 class="dq-title">One quick question</h2>
+  <p class="dq-sub">We found two players with the same name. Which one is in your squad?</p>
+  <div id="dq-groups"></div>
+  <button class="dq-cta" id="dq-btn" onclick="submitDisambig()" disabled>Confirm →</button>
 </div>
 </section>
 
@@ -730,6 +764,7 @@ $('file-input').addEventListener('change', async function(){
   startLoading(null);
   const fd = new FormData();
   fd.append('screenshot', this.files[0]);
+  _lastFile = this.files[0];
   this.value='';
   try {
     const res = await fetch('/api/squad-check',{method:'POST',body:fd});
@@ -737,6 +772,7 @@ $('file-input').addEventListener('change', async function(){
     const data = await res.json();
     if(data.error) throw new Error(data.error);
     stopLoading();
+    if(data.status==='DISAMBIG'){ showDisambig(data.ambiguous); return; }
     if(data.status!=='OK') { showError(data.scanner_status||'default',data.message||''); return; }
     _P = data;
     console.log('[SC] payload status:', data.status, 'action:', data.action,
@@ -1348,6 +1384,71 @@ async function doShare(){
       track('share_clipboard');
     }
   }catch(_){}
+}
+
+/* ── DISAMBIGUATION ─────────────────────────────────────────────────────── */
+let _lastFile  = null;
+let _dqChoices = {};   // norm_name → player_id
+
+function _normName(s){
+  // mirrors _norm_name in pipeline.py
+  return s.toLowerCase().replace(/[^a-z]/g,'');
+}
+
+function showDisambig(ambiguous){
+  _dqChoices = {};
+  const groups = ambiguous.map((item,gi) => {
+    const opts = item.candidates.map((c,ci) => {
+      const photo = c.photo_code
+        ? `<img class="dq-photo" src="https://resources.premierleague.com/premierleague/photos/players/110x140/p${c.photo_code}.png" onerror="this.style.display='none'" loading="lazy">`
+        : '';
+      return `<div class="dq-opt" id="dq-${gi}-${ci}" onclick="pickDisambig(${gi},${ci},${c.player_id},'${_normName(item.name)}')">
+        ${photo}
+        <div class="dq-opt-pos">${esc(c.pos_label)}</div>
+        <div class="dq-opt-name">${esc(c.web_name)}</div>
+      </div>`;
+    }).join('');
+    return `<div class="dq-group">
+      <p class="dq-name">${esc(item.name)}</p>
+      <div class="dq-options">${opts}</div>
+    </div>`;
+  }).join('');
+  $('dq-groups').innerHTML = groups;
+  $('dq-btn').disabled = true;
+  show('s-disambig');
+  track('disambig_shown',{count:ambiguous.length});
+}
+
+function pickDisambig(gi, ci, playerId, normName){
+  // deselect siblings
+  document.querySelectorAll(`[id^="dq-${gi}-"]`).forEach(el=>el.classList.remove('sel'));
+  $(`dq-${gi}-${ci}`).classList.add('sel');
+  _dqChoices[normName] = playerId;
+  // enable confirm once all groups have a choice
+  const total = document.querySelectorAll('.dq-group').length;
+  $('dq-btn').disabled = Object.keys(_dqChoices).length < total;
+}
+
+async function submitDisambig(){
+  if(!_lastFile) return;
+  startLoading(null);
+  const fd = new FormData();
+  fd.append('screenshot', _lastFile);
+  fd.append('player_choices', JSON.stringify(_dqChoices));
+  try {
+    const res = await fetch('/api/squad-check',{method:'POST',body:fd});
+    if(!res.ok) throw new Error('Server error '+res.status);
+    const data = await res.json();
+    if(data.error) throw new Error(data.error);
+    stopLoading();
+    if(data.status==='DISAMBIG'){ showDisambig(data.ambiguous); return; }
+    if(data.status!=='OK'){ showError(data.scanner_status||'default',data.message||''); return; }
+    _P=data; renderResult(data); show('s-result');
+    track('disambig_resolved',{choices:Object.keys(_dqChoices).length});
+  } catch(err){
+    stopLoading();
+    showError('default', err.message||'Unknown error');
+  }
 }
 
 /* ── SCROLL TRACKING ─────────────────────────────────────────────────────── */

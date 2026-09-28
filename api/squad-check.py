@@ -30,7 +30,8 @@ sys.path.insert(0, str(ROOT))
 
 from fpl.engine.scanner    import scan_squad, VALID
 from fpl.engine.projection import build_params
-from fpl.engine.pipeline   import run_pipeline, resolve_players, bootstrap_filter, _norm_name
+from fpl.engine.pipeline   import (run_pipeline, resolve_players, bootstrap_filter,
+                                    resolve_squad_smart, _norm_name)
 
 # ── Config ────────────────────────────────────────────────────────────────────
 _FPL_BS   = "https://fantasy.premierleague.com/api/bootstrap-static/"
@@ -112,8 +113,9 @@ class handler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
 
-    # ── Multipart image extraction ────────────────────────────────────────────
-    def _image_bytes(self) -> bytes:
+    # ── Form parsing ─────────────────────────────────────────────────────────
+    def _parse_form(self):
+        """Read body once; return (image_bytes, player_choices dict)."""
         ct = self.headers.get("Content-Type", "")
         cl = int(self.headers.get("Content-Length", 0))
 
@@ -123,22 +125,26 @@ class handler(BaseHTTPRequestHandler):
         body = self.rfile.read(cl)
 
         if "multipart/form-data" not in ct:
-            return body   # raw POST
+            return body, {}
 
         form = cgi.FieldStorage(
             fp      = io.BytesIO(body),
             headers = self.headers,
-            environ = {
-                "REQUEST_METHOD": "POST",
-                "CONTENT_TYPE":   ct,
-                "CONTENT_LENGTH": str(cl),
-            },
+            environ = {"REQUEST_METHOD": "POST", "CONTENT_TYPE": ct,
+                       "CONTENT_LENGTH": str(cl)},
         )
-        return form["screenshot"].file.read() if "screenshot" in form else body
+        image   = form["screenshot"].file.read() if "screenshot" in form else body
+        choices = {}
+        if "player_choices" in form:
+            try:
+                choices = json.loads(form["player_choices"].value)
+            except Exception:
+                pass
+        return image, choices
 
     # ── Pipeline ──────────────────────────────────────────────────────────────
     def _process(self) -> dict:
-        image_bytes = self._image_bytes()
+        image_bytes, player_choices = self._parse_form()
 
         # Capture scanner stderr ([diag] lines) into the response for debugging.
         # Never captures GOOGLE_VISION_API_KEY or image contents.
@@ -203,15 +209,36 @@ class handler(BaseHTTPRequestHandler):
 
         scan_result["players"] = clean_players
 
-        # Resolve player names once — used for summaries and captain detection
-        resolved, _ = resolve_players(clean_players, elements)
-        all_ids     = [r["player_id"] for r in resolved if r["player_id"]]
+        # Gate 3 — smart resolution with squad constraints + user overrides
+        resolved, ambiguous, unresolved = resolve_squad_smart(
+            clean_players, elements, overrides=player_choices
+        )
 
-        # Resolve captain / vice-captain names detected from image to player IDs
-        name_to_id = {
-            _norm_name(r["name"]): r["player_id"]
-            for r in resolved if r["player_id"]
-        }
+        if ambiguous:
+            # Some player names still ambiguous after constraint check — ask user
+            return {
+                "status":    "DISAMBIG",
+                "ambiguous": ambiguous,
+                "_diag_log": _diag_log,
+            }
+
+        if unresolved:
+            names = ", ".join(r["name"] for r in unresolved)
+            return _fail_response("PARTIAL", "Could not identify: %s" % names)
+
+        all_ids = [r["player_id"] for r in resolved if r["player_id"]]
+
+        # Inject bootstrap positions back into scan_result so run_pipeline
+        # can resolve cleanly without hitting ambiguity again
+        id_to_pos = {r["player_id"]: r["position"] for r in resolved}
+        for p in scan_result["players"]:
+            for r in resolved:
+                if _norm_name(r["name"]) == _norm_name(p["name"]):
+                    p["position"] = r["position"]
+                    break
+
+        # Captain / vice-captain from image
+        name_to_id = {_norm_name(r["name"]): r["player_id"] for r in resolved}
         capt_name = scan_result.get("captain_name")
         vice_name = scan_result.get("vice_captain_name")
         scan_result["captain_id"]      = name_to_id.get(_norm_name(capt_name))      if capt_name else None

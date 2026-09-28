@@ -224,6 +224,160 @@ def bootstrap_filter(players: list, elements: list) -> tuple:
 # NAME RESOLUTION
 # ─────────────────────────────────────────────────────────────────────────────
 
+# FPL squad composition: total slots per position
+_SQUAD_POS = {1: 2, 2: 5, 3: 5, 4: 3}
+
+
+def resolve_squad_smart(
+    scan_players: list,
+    elements:     list,
+    overrides:    dict = None,   # {norm_name: player_id} — user's explicit choices
+) -> tuple:
+    """
+    Two-pass constraint-aware resolution.
+
+    Pass 1 — resolve unambiguous names (exactly 1 bootstrap match).
+             Track positions filled and clubs used.
+
+    Pass 2 — for names with multiple matches, filter candidates by:
+             • Remaining position slots (2 GKP / 5 DEF / 5 MID / 3 FWD total)
+             • Club budget not exceeded (max 3 per club)
+             If exactly 1 candidate survives → resolved.
+             If still multiple → needs user disambiguation.
+
+    Returns (resolved, ambiguous, unresolved)
+      resolved  : [{name, position, is_starting, player_id}]
+      ambiguous : [{name, is_starting, candidates: [{player_id, web_name,
+                    position, team_id, team_name}]}]
+      unresolved: [{name, is_starting, player_id: None}]
+    """
+    overrides  = overrides or {}
+    elem_by_id = {e["id"]: e for e in elements}
+    team_names = {}   # team_id → short_name, populated lazily from elements
+
+    # Build team short name lookup
+    for e in elements:
+        tid = e.get("team")
+        if tid and tid not in team_names:
+            team_names[tid] = str(tid)   # fallback; real names injected below
+
+    pos_filled   = {1: 0, 2: 0, 3: 0, 4: 0}
+    club_filled  = {}   # team_id → count
+    resolved     = []
+    pending      = []   # (sp, candidates_list)
+
+    # ── Pass 1: resolve unambiguous names ───────────────────────────────────
+    for sp in scan_players:
+        norm = _norm_name(sp["name"])
+
+        # User-supplied override takes absolute precedence
+        if norm in overrides:
+            pid = overrides[norm]
+            e   = elem_by_id.get(pid)
+            if e:
+                pos = e["element_type"]
+                pos_filled[pos] = pos_filled.get(pos, 0) + 1
+                club_filled[e["team"]] = club_filled.get(e["team"], 0) + 1
+                resolved.append({
+                    "name": sp["name"], "position": pos,
+                    "is_starting": sp["is_starting"], "player_id": pid,
+                })
+                continue
+
+        candidates = _find_all_matches(sp["name"], elements)
+
+        if len(candidates) == 1:
+            e   = candidates[0]
+            pos = e["element_type"]
+            pos_filled[pos] = pos_filled.get(pos, 0) + 1
+            club_filled[e["team"]] = club_filled.get(e["team"], 0) + 1
+            resolved.append({
+                "name": sp["name"], "position": pos,
+                "is_starting": sp["is_starting"], "player_id": e["id"],
+            })
+        else:
+            pending.append((sp, candidates))
+
+    # ── Pass 2: apply squad constraints ─────────────────────────────────────
+    pos_remaining  = {pos: _SQUAD_POS[pos] - pos_filled.get(pos, 0)
+                      for pos in _SQUAD_POS}
+
+    ambiguous  = []
+    unresolved = []
+
+    for sp, candidates in pending:
+        if not candidates:
+            unresolved.append({"name": sp["name"], "is_starting": sp["is_starting"],
+                                "player_id": None})
+            continue
+
+        # Filter: position still needed AND club not maxed
+        filtered = [
+            e for e in candidates
+            if pos_remaining.get(e["element_type"], 0) > 0
+            and club_filled.get(e["team"], 0) < 3
+        ]
+
+        if len(filtered) == 1:
+            e   = filtered[0]
+            pos = e["element_type"]
+            pos_remaining[pos] -= 1
+            club_filled[e["team"]] = club_filled.get(e["team"], 0) + 1
+            resolved.append({
+                "name": sp["name"], "position": pos,
+                "is_starting": sp["is_starting"], "player_id": e["id"],
+            })
+        elif len(filtered) == 0:
+            unresolved.append({"name": sp["name"], "is_starting": sp["is_starting"],
+                                "player_id": None})
+        else:
+            # Still ambiguous — ask the user
+            POS_LABEL = {1: "GKP", 2: "DEF", 3: "MID", 4: "FWD"}
+            ambiguous.append({
+                "name":       sp["name"],
+                "is_starting": sp["is_starting"],
+                "candidates": [
+                    {
+                        "player_id": e["id"],
+                        "web_name":  e.get("web_name", ""),
+                        "position":  e["element_type"],
+                        "pos_label": POS_LABEL.get(e["element_type"], "?"),
+                        "team_id":   e.get("team"),
+                        "photo_code": e.get("code"),
+                        "starts":    e.get("starts", 0),
+                    }
+                    for e in filtered
+                ],
+            })
+
+    return resolved, ambiguous, unresolved
+
+
+def _find_all_matches(name: str, elements: list) -> list:
+    """Return all active bootstrap elements matching a player name."""
+    q  = name.lower().strip()
+    qn = _norm_name(q)
+    hits: list = []
+    seen: set  = set()
+
+    for e in elements:
+        if e.get("removed", False):
+            continue
+        web   = (e.get("web_name",    "") or "").lower().strip()
+        sec   = (e.get("second_name", "") or "").lower().strip()
+        known = (e.get("known_name",  "") or "").lower().strip()
+        first = (e.get("first_name",  "") or "").lower().strip()
+        full  = ("%s %s" % (first, sec)).strip()
+        matched = (q in (web, sec, known, full)
+                   or any(_norm_name(v) == qn
+                          for v in (web, sec, known, full) if v))
+        if matched and e["id"] not in seen:
+            seen.add(e["id"])
+            hits.append(e)
+
+    return hits
+
+
 def resolve_players(scan_players: list, elements: list) -> tuple:
     """
     Match scanner player records to bootstrap element IDs.
