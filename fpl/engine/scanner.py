@@ -333,9 +333,17 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
     with urllib.request.urlopen(req, timeout=20) as r:
         data = json.loads(r.read())
 
-    resp  = data.get("responses", [{}])[0]
-    pages = resp.get("fullTextAnnotation", {}).get("pages", [])
+    resp = data.get("responses", [{}])[0]
+    return _parse_gv_response(resp)
 
+
+def _parse_gv_response(resp: dict):
+    """
+    Convert a single Google Vision API response object into the normalised
+    block list used by the parsers.  Separated from the network call so
+    tests can replay saved responses without hitting the API.
+    """
+    pages = resp.get("fullTextAnnotation", {}).get("pages", [])
     if not pages:
         return _OCR_IMAGE_ERROR
 
@@ -344,15 +352,10 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
     if not img_w or not img_h:
         return _OCR_IMAGE_ERROR
 
-    def _word_text(word: dict) -> str:
-        """Concatenate symbol texts within one word (preserves hyphens, accents)."""
+    def _word_text(word):
         return "".join(sym.get("text", "") for sym in word.get("symbols", []))
 
-    def _para_coords(para: dict):
-        """
-        Return (x_left, y_bottom, width, height) in normalised Apple Vision coords,
-        or None if the paragraph has no usable bounding box.
-        """
+    def _para_coords(para):
         verts = para.get("boundingBox", {}).get("vertices", [])
         if not verts:
             return None
@@ -360,108 +363,62 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
         ys = [v.get("y", 0) for v in verts]
         x_min, x_max = min(xs) / img_w, max(xs) / img_w
         y_min, y_max = min(ys) / img_h, max(ys) / img_h
-        # y_max is the visual bottom of the text in pixel coords (largest y).
-        # After flipping it becomes the Apple Vision bottom edge (y=0 at bottom).
-        return (
-            x_min,          # left edge
-            1.0 - y_max,    # bottom edge in Apple Vision convention
-            x_max - x_min,  # width
-            y_max - y_min,  # height
-        )
+        return (x_min, 1.0 - y_max, x_max - x_min, y_max - y_min)
 
     blocks = []
     for page in pages:
         for block in page.get("blocks", []):
             for para in block.get("paragraphs", []):
-                # Reconstruct line text: join words separated by spaces.
-                # Each word is formed by concatenating its symbol characters.
                 words = [_word_text(w) for w in para.get("words", [])]
                 text  = " ".join(words).strip()
-
-                # Keep raw text — parsers call _extract_player_name() when
-                # they need a clean name. Structural blocks (GKP, 1. FWD,
-                # VC badge) must survive unchanged for view detection and
-                # captain detection.
-
                 if not text:
                     continue
-
                 coords = _para_coords(para)
                 if coords is None:
                     continue
-
                 x_left, y_bottom, width, height = coords
                 blocks.append({
-                    "text": text,
-                    "conf": 1.0,
-                    "x":   x_left,    # left edge  — parsers add w/2 to get centre
-                    "y":   y_bottom,  # bottom edge — matches Apple Vision b.origin.y
-                    "w":   width,
-                    "h":   height,
+                    "text": text, "conf": 1.0,
+                    "x": x_left, "y": y_bottom, "w": width, "h": height,
                 })
 
-    return blocks   # [] if image contains no text
+    return blocks
 
 
 # ── Dispatcher: Swift on macOS, Google Vision on Linux/cloud ─────────────────
 
 def _run_ocr(image_bytes: bytes):
     """
-    Select OCR backend automatically:
-      - macOS dev:  Swift binary (fast, free, high accuracy)
-      - Cloud/Linux: Google Cloud Vision REST API (requires GOOGLE_VISION_API_KEY)
+    Run Google Cloud Vision OCR.  Single backend used everywhere —
+    local dev and Vercel behave identically.
 
+    Requires GOOGLE_VISION_API_KEY env var.
     Returns list[dict] | _OCR_UNAVAILABLE | _OCR_IMAGE_ERROR.
     """
     import sys
 
-    # ── Diagnostic 1 & 2 & 3 ─────────────────────────────────────────────────
-    api_key    = os.environ.get("GOOGLE_VISION_API_KEY", "")
-    key_present = bool(api_key)
-    swift_avail = _BIN.exists()
-    backend     = "swift" if swift_avail else ("google_vision" if key_present else "none")
-    print(
-        f"[diag] image_bytes={len(image_bytes)}  "
-        f"api_key_present={key_present}  "
-        f"backend={backend}",
-        file=sys.stderr,
-    )
+    api_key = os.environ.get("GOOGLE_VISION_API_KEY", "")
+    print(f"[diag] image_bytes={len(image_bytes)}  api_key_present={bool(api_key)}  backend=google_vision",
+          file=sys.stderr)
 
-    # Swift binary is only present on macOS (excluded from git via .gitignore)
-    if swift_avail:
-        return _run_ocr_swift(image_bytes)
-
-    # Cloud path — requires env var set in Vercel (or locally for testing)
-    if not key_present:
+    if not api_key:
         return _OCR_UNAVAILABLE
 
     try:
         result = _run_ocr_google_vision(image_bytes, api_key)
-
-        # ── Diagnostic 4 ─────────────────────────────────────────────────────
         if isinstance(result, list):
             print(f"[diag] google_vision_blocks={len(result)}", file=sys.stderr)
-        else:
-            sentinel = "_OCR_IMAGE_ERROR" if result is _OCR_IMAGE_ERROR else "_OCR_UNAVAILABLE"
-            print(f"[diag] google_vision_result={sentinel}", file=sys.stderr)
-
         return result
-
     except Exception as exc:
-        http_status = None
+        http_status = getattr(exc, "code", None)
         http_body   = None
-        if hasattr(exc, "code"):           # urllib.error.HTTPError
-            http_status = exc.code
-            try:
-                http_body = exc.read(512).decode("utf-8", errors="replace")
-            except Exception:
-                pass
-        print(
-            f"[scanner] Google Vision error: {type(exc).__name__}: {exc}"
-            + (f" | HTTP {http_status}" if http_status else "")
-            + (f" | body: {http_body}"  if http_body   else ""),
-            file=sys.stderr,
-        )
+        if http_status:
+            try: http_body = exc.read(512).decode("utf-8", errors="replace")
+            except Exception: pass
+        print(f"[scanner] Google Vision error: {type(exc).__name__}: {exc}"
+              + (f" | HTTP {http_status}" if http_status else "")
+              + (f" | body: {http_body}"  if http_body   else ""),
+              file=sys.stderr)
         return _OCR_IMAGE_ERROR
 
 
@@ -764,30 +721,10 @@ def _parse_list_view(blocks: list) -> dict:
 # IMAGE SCAN DISPATCH
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _scan_image(image_bytes: bytes) -> dict:
-    """
-    Entry point for image bytes.  Runs OCR then dispatches to the appropriate
-    layout parser.  Returns UNSUPPORTED if OCR is unavailable.
-    """
+def _dispatch_blocks(blocks: list) -> dict:
+    """Route a block list to the correct parser. Used by both _scan_image and tests."""
     import sys
 
-    blocks = _run_ocr(image_bytes)
-    if blocks is _OCR_UNAVAILABLE:
-        result = _unsupported(
-            "OCR unavailable. Requires macOS with Xcode Command Line Tools "
-            "(swiftc must be on PATH)."
-        )
-        print(f"[diag] scanner_status={result['status']} reason=ocr_unavailable", file=sys.stderr)
-        return result
-    if blocks is _OCR_IMAGE_ERROR or not blocks:
-        result = _unsupported(
-            "Image could not be decoded or contains no recognisable text. "
-            "Ensure the screenshot is a valid JPEG or PNG from the FPL app."
-        )
-        print(f"[diag] scanner_status={result['status']} reason=ocr_image_error_or_empty", file=sys.stderr)
-        return result
-
-    # ── Diagnostic 5: first 15 normalised blocks ─────────────────────────────
     sample = [
         {"text": b["text"], "x": round(b["x"], 4), "y": round(b["y"], 4),
          "w": round(b.get("w", 0), 4), "h": round(b.get("h", 0), 4)}
@@ -795,7 +732,6 @@ def _scan_image(image_bytes: bytes) -> dict:
     ]
     print(f"[diag] top15_blocks={sample}", file=sys.stderr)
 
-    # ── Diagnostic 6: view detection ─────────────────────────────────────────
     view_type = _detect_view_type(blocks)
     print(f"[diag] view_type={view_type}", file=sys.stderr)
 
@@ -809,7 +745,6 @@ def _scan_image(image_bytes: bytes) -> dict:
             "Use the FPL app squad tab (Pitch or List)."
         )
 
-    # ── Diagnostic 7: final scanner status ───────────────────────────────────
     print(
         f"[diag] scanner_status={result['status']}  "
         f"players={len(result.get('players', []))}  "
@@ -817,6 +752,25 @@ def _scan_image(image_bytes: bytes) -> dict:
         file=sys.stderr,
     )
     return result
+
+
+def _scan_image(image_bytes: bytes) -> dict:
+    import sys
+
+    blocks = _run_ocr(image_bytes)
+    if blocks is _OCR_UNAVAILABLE:
+        result = _unsupported("OCR unavailable — set GOOGLE_VISION_API_KEY.")
+        print(f"[diag] scanner_status={result['status']} reason=ocr_unavailable", file=sys.stderr)
+        return result
+    if blocks is _OCR_IMAGE_ERROR or not blocks:
+        result = _unsupported(
+            "Image could not be decoded or contains no recognisable text."
+        )
+        print(f"[diag] scanner_status={result['status']} reason=ocr_error", file=sys.stderr)
+        return result
+
+    print(f"[diag] google_vision_blocks={len(blocks)}", file=sys.stderr)
+    return _dispatch_blocks(blocks)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
