@@ -1368,22 +1368,32 @@ function fbAct(t){
 function fbRsn(el,r){if(el.checked)track('feedback_reason',{reason:r});}
 
 /* ── SHARE ───────────────────────────────────────────────────────────────── */
-function _buildShareCard(p){
+function _rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+}
+
+async function _buildShareCard(p){
+  await document.fonts.load('700 92px "Outfit"');
+  await document.fonts.load('500 22px "Outfit"');
+
   const W=640, H=360;
   const c=document.createElement('canvas');
   c.width=W; c.height=H;
   const ctx=c.getContext('2d');
 
-  // background
   ctx.fillStyle='#0A0A0C';
   ctx.fillRect(0,0,W,H);
 
-  // subtle border
   ctx.strokeStyle='rgba(240,240,242,0.10)';
   ctx.lineWidth=1;
   ctx.strokeRect(0.5,0.5,W-1,H-1);
 
-  // lime accent bar top
   ctx.fillStyle='#CCFF00';
   ctx.fillRect(0,0,W,4);
 
@@ -1392,53 +1402,46 @@ function _buildShareCard(p){
   const base=p.submitted_xi?.xPts??0;
   const xPts=(base+(captP?.xPts??0)).toFixed(1);
 
-  // GW label top-right
   ctx.font='500 18px "Outfit",sans-serif';
   ctx.fillStyle='#8A8A96';
   ctx.textAlign='right';
   ctx.fillText(`Gameweek ${gw}`,W-36,52);
 
-  // big pts number
   ctx.font='700 92px "Outfit",sans-serif';
   ctx.fillStyle='#F0F0F2';
   ctx.textAlign='center';
   ctx.fillText(xPts,W/2,172);
 
-  // "pts forecast" label
   ctx.font='500 22px "Outfit",sans-serif';
   ctx.fillStyle='#8A8A96';
   ctx.fillText('pts forecast this GW',W/2,210);
 
-  // swap / hold pill
   const isSwap=p.action==='SWAP';
   const pillTxt=isSwap?`+${(p.delta||0).toFixed(1)} pts available with a swap`:'Squad looks good — hold';
   const pillColor=isSwap?'#CCFF00':'#3DCC6E';
   const pillBg=isSwap?'rgba(204,255,0,0.10)':'rgba(61,204,110,0.10)';
+  ctx.font='600 16px "Outfit",sans-serif';
   const pillW=ctx.measureText(pillTxt).width+48;
   const pillX=(W-pillW)/2, pillY=238, pillH=38, pillR=19;
 
   ctx.fillStyle=pillBg;
-  ctx.beginPath();
-  ctx.roundRect(pillX,pillY,pillW,pillH,pillR);
+  _rrect(ctx,pillX,pillY,pillW,pillH,pillR);
   ctx.fill();
 
-  ctx.font='600 16px "Outfit",sans-serif';
   ctx.fillStyle=pillColor;
   ctx.textAlign='center';
   ctx.fillText(pillTxt,W/2,pillY+25);
 
-  // divider
   ctx.strokeStyle='rgba(240,240,242,0.08)';
   ctx.lineWidth=1;
   ctx.beginPath();
   ctx.moveTo(36,310); ctx.lineTo(W-36,310);
   ctx.stroke();
 
-  // CTA footer
   ctx.font='500 15px "Outfit",sans-serif';
   ctx.fillStyle='#5C5C68';
   ctx.textAlign='center';
-  ctx.fillText('What\'s your forecast? →  squadcheck.club',W/2,338);
+  ctx.fillText("What's your forecast?  squadcheck.club",W/2,338);
 
   return c;
 }
@@ -1454,7 +1457,7 @@ async function doShare(){
   const text=`GW${gw}: ${xPts} pts forecast · ${rec}\nSquadCheck — squadcheck.club`;
 
   try{
-    const card=_buildShareCard(p);
+    const card=await _buildShareCard(p);
     const blob=await new Promise(res=>card.toBlob(res,'image/png'));
     const file=new File([blob],`squadcheck-gw${gw}.png`,{type:'image/png'});
     if(navigator.canShare&&navigator.canShare({files:[file]})){
@@ -1470,7 +1473,7 @@ async function doShare(){
       a.click();
       track('share_download');
     }
-  }catch(_){}
+  }catch(e){console.error('share failed',e);}
 }
 
 /* ── DISAMBIGUATION ─────────────────────────────────────────────────────── */
