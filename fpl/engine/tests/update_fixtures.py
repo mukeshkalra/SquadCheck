@@ -49,7 +49,7 @@ def _call_gv(image_bytes: bytes, api_key: str) -> dict:
 
 
 def main():
-    api_key = os.environ.get("GOOGLE_VISION_API_KEY", "")
+    api_key = os.environ.get("GOOGLE_VISION_API_KEY", "").strip().strip("‘’“”'\"")
     if not api_key:
         print("ERROR: GOOGLE_VISION_API_KEY not set", file=sys.stderr)
         sys.exit(1)

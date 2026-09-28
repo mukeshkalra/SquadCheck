@@ -19,3 +19,5 @@ fpl/engine/_vision_ocr
 
 # Local screenshot test fixtures — large user files, not for the repo
 fpl/test_images/
+# But track the GV response fixtures (small JSON, no secrets)
+!fpl/test_images/fixtures/

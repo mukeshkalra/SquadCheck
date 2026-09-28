@@ -103,6 +103,13 @@ def _extract_player_name(text: str) -> str:
     'M.Sangaré'              → 'M.Sangaré'  (no stat — unchanged)
     '1. FWD'                 → ''            (digit-first → bench label, filtered)
     """
+    # GV sometimes concatenates List View rows without spaces:
+    # "DeCuyperBrightonDEF" → strip the trailing position code first.
+    for _pos in ("GKP", "DEF", "MID", "FWD"):
+        if text.upper().endswith(_pos) and text.upper() != _pos:
+            text = text[:-len(_pos)].strip()
+            break
+
     name_parts = []
     for tok in text.split():
         if _ALL_CAPS_TOKEN.match(tok):   # HUL, BOU, MAREX, ETIHAD …
@@ -129,6 +136,7 @@ _NAME_BLOCKLIST = frozenset({
     "knox",    "illcmc",     "hiicmc",      # Brentford/CMC Markets kit text in mixed case
     "hicmc",   "iiicmc",                   # CMC Markets OCR variants
     "vitality",                             # Bournemouth/Brighton kit sponsor
+    "pts", "gls", "ast", "cs",             # List View column headers
 })
 
 
@@ -686,8 +694,19 @@ def _parse_list_view(blocks: list) -> dict:
             is_bench = True
             continue
 
-        # Skip combined team+position tokens ("Arsenal DEF", "Everton GKP")
+        # Combined team+position token ("Arsenal DEF", "Brighton GKP").
+        # GV sometimes merges player name too: "De Cuyper Brighton DEF".
+        # If the name-extracted part has 2+ words, strip the last word
+        # (team name) to recover the player name; otherwise skip.
         if _pos_from_combined_token(t) is not None:
+            extracted = _extract_player_name(t)
+            parts = extracted.split()
+            if len(parts) >= 2:
+                name = " ".join(parts[:-1])
+                if name and _is_player_name(name) and name.lower() not in seen:
+                    seen.add(name.lower())
+                    players_out.append({"name": name, "is_starting": not is_bench})
+                    player_name_blocks.append(b)
             continue
 
         # Skip team name sitting at same y as a standalone position tag
