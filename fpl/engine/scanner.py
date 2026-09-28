@@ -378,17 +378,10 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
                 words = [_word_text(w) for w in para.get("words", [])]
                 text  = " ".join(words).strip()
 
-                # Extract just the player name — stop at the first non-name
-                # token (all-caps team code, digit, bracket, 'vs').
-                # Everything else (fixture, score, price, home/away) comes
-                # from the FPL API after we resolve the name.
-                text = _extract_player_name(text)
-
-                # Strip captain/vice-captain badge if merged with the name.
-                if text.endswith(" VC"):
-                    text = text[:-3].strip()
-                elif " " in text and text.endswith(" C"):
-                    text = text[:-2].strip()
+                # Keep raw text — parsers call _extract_player_name() when
+                # they need a clean name. Structural blocks (GKP, 1. FWD,
+                # VC badge) must survive unchanged for view detection and
+                # captain detection.
 
                 if not text:
                     continue
@@ -646,7 +639,7 @@ def _parse_pitch_view(blocks: list) -> dict:
     player_blocks = []   # for C/VC proximity detection
 
     for b in blocks:
-        name = _extract_player_name(b["text"])
+        name = _extract_player_name(b["text"])   # strip fixture/stat suffix
         if not name or not _is_player_name(name):
             continue
         key = name.lower()
@@ -657,7 +650,7 @@ def _parse_pitch_view(blocks: list) -> dict:
         elif b["y"] < separator_y - gap:
             is_starting = False
         else:
-            continue   # in the separator zone — skip
+            continue
         seen.add(key)
         players_out.append({"name": name, "is_starting": is_starting})
         player_blocks.append(b)
