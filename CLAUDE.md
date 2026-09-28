@@ -1,51 +1,70 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## What This Is
 
-## Project Overview
+SquadCheck is a live FPL decision-support app at [squadcheck.club](https://squadcheck.club).
+A user uploads a screenshot of their FPL squad; the app returns xPts projections, bench-swap suggestions, and a captain recommendation for the upcoming gameweek.
+The old World Cup companion app is on the backburner — ignore it entirely.
 
-SquadCheck is a static single-page application (SPA) — a World Cup 2026 companion site at [squadcheck.club](https://squadcheck.club). It features team rankings, daily quizzes (coming soon), and a pre-launch email capture.
+## Folder Layout (FPL only)
 
-The entire frontend lives in a single file: **`index.html`** — no build system, no dependencies, no package manager.
+```
+fpl/
+  index.html            # SPA frontend (the live product)
+  server.py             # Local dev server — POST /api/squad-check
+  engine/
+    scanner.py          # Parse screenshot → ScanResult
+    pipeline.py         # Orchestrate full flow (scan → filter → match → project → bench)
+    projection.py       # Compute xPts per player per GW
+    bench.py            # Bench/start swap optimiser
+    tests/              # unittest suite
+      test_pipeline.py
+      test_bench.py
+      test_projection.py
+      test_scanner_screenshots.py
+  V2_IDEA_LOG.md        # V2 ideas (reference only, don't modify)
 
-## Architecture
+api/
+  squad-check.py        # Vercel serverless mirror of server.py
 
-Everything is self-contained in `index.html`:
-
-- **CSS**: Inline `<style>` block using CSS custom properties (`--lime`, `--dark`, etc.) for theming
-- **HTML**: Semantic sections — `<nav>`, hero, stats bar, index table, features grid, ticker, email capture, footer
-- **JavaScript**: Inline `<script>` at the bottom handling:
-  - Live countdown timer to `2026-06-11T00:00:00Z` (World Cup kickoff)
-  - `IntersectionObserver` for `.fade-in` scroll animations
-  - `handleSubmit()` — stores emails to `localStorage` under key `squadcheck_emails`
-
-## Design System
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--lime` | `#CCFF00` | Primary accent, CTAs, highlights |
-| `--dark` | `#0A0A0C` | Page background |
-| `--dark-2/3/4` | `#111114` / `#1A1A1F` / `#252530` | Card backgrounds, borders |
-| `--white` | `#F0F0F2` | Body text |
-| `--gray` | `#8A8A96` | Secondary text, labels |
-| `--coral` | `#FF6B4A` | Error states |
-| `--blue` | `#4A9EFF` | Accent (glow orb) |
-
-Fonts: `Outfit` (body/headings) and `DM Mono` (numbers, scores) loaded from Google Fonts.
-
-## Development
-
-No build step — open `index.html` directly in a browser or serve with any static file server:
-
-```bash
-python3 -m http.server 8080
-# or
-npx serve .
+vercel.json             # Routing config
 ```
 
-## Key Notes
+## Pipeline Steps
 
-- Email submissions are stored **only in `localStorage`** — no backend. This is intentional for the pre-launch phase.
-- The Readiness Index table is hardcoded HTML (top 5 teams shown; full 48-team rankings are "coming soon").
-- The scrolling ticker (`ticker-track`) duplicates team names to create a seamless CSS loop.
-- `logo.png` is referenced in three places: nav, hero, and footer.
+1. **scanner.py** — `scan_squad(source)`: accepts image bytes or dict; runs Google Vision OCR (`_run_ocr_google_vision`), detects view type (`_detect_view_type`: pitch / list / partial), parses blocks, extracts player names + captain/vc badges + starter vs bench split. `_validate` enforces 11 starters.
+2. **pipeline.py** — `bootstrap_filter(players, elements)`: cleans noisy tokens against FPL bootstrap data. `resolve_squad_smart` / `resolve_players` / `_find_id`: match cleaned names to FPL player IDs. `run_pipeline` / `_run`: top-level orchestrator.
+3. **projection.py** — `build_params(bootstrap)`: pre-computes league-wide xG/xGC baselines. `compute_xpts(player, ...)`: projects FPL points using minutes probability, clean-sheet odds, goal/assist rates.
+4. **bench.py** — `optimise_bench(...)`: enumerates all valid XIs from the 15-player squad and returns the highest-xPts legal swap.
+
+## Running Tests
+
+```bash
+# from repo root
+python3 -m unittest fpl.engine.tests.test_pipeline -v 2>&1 | tail -40
+python3 -m unittest fpl.engine.tests.test_scanner_screenshots -v 2>&1 | tail -40
+# run all at once
+python3 -m unittest discover -s fpl/engine/tests -v 2>&1 | tail -50
+```
+
+## Local Dev
+
+```bash
+python3 fpl/server.py          # http://localhost:8080/fpl/
+python3 fpl/server.py 3000     # custom port
+```
+
+## Deploys
+
+Push to `main` → Vercel auto-deploys via GitHub integration.
+`vercel.json` rewrites `/` → `/fpl/`; `api/*.py` files are serverless functions.
+No build step — static files served as-is.
+
+## Rules
+
+- Short replies; don't summarise what you just did.
+- Don't re-read files already read in this session.
+- Pipe all command/test output through `tail`/`head`/`grep` — never dump raw.
+- Read files with `offset`/`limit` — never load a whole large file unnecessarily.
+- Ask before touching more than 2 files at once.
+- No refactors beyond exactly what is asked.
