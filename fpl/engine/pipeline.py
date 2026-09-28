@@ -226,28 +226,27 @@ def bootstrap_filter(players: list, elements: list) -> tuple:
 
 def resolve_players(scan_players: list, elements: list) -> tuple:
     """
-    Match scanner player records (name + position) to bootstrap element IDs.
+    Match scanner player records to bootstrap element IDs.
 
-    Strategy (tried in order, stops at first unambiguous match):
-      1. Exact match on web_name (case-insensitive)
-      2. Exact match on second_name (case-insensitive)
-      3. Exact match on known_name (case-insensitive, if non-empty)
-      4. Exact match on "first_name second_name" full name
+    Position is no longer required from the scanner — it is resolved from
+    the bootstrap element_type after name matching.  If the scan player
+    dict includes a 'position' hint (demo / structured-dict path) it is
+    used to disambiguate players with the same name at different positions;
+    otherwise all positions are searched.
 
-    Position must match element_type.  Removed players are skipped.
-
-    Returns (resolved, unresolved) where each entry is a dict
-    {name, position, is_starting, player_id}.  player_id is None in
-    unresolved entries.
+    Returns (resolved, unresolved) where each entry is a dict with keys:
+    {name, position, is_starting, player_id}.
+    position comes from the bootstrap (or None if unresolved).
     """
     resolved   = []
     unresolved = []
 
     for sp in scan_players:
-        pid = _find_id(sp["name"], sp["position"], elements)
+        pos_hint = sp.get("position")        # int or None
+        pid, pos = _find_id(sp["name"], elements, position=pos_hint)
         entry = {
             "name":        sp["name"],
-            "position":    sp["position"],
+            "position":    pos,              # from bootstrap element_type
             "is_starting": sp["is_starting"],
             "player_id":   pid,
         }
@@ -256,38 +255,57 @@ def resolve_players(scan_players: list, elements: list) -> tuple:
     return resolved, unresolved
 
 
-def _find_id(name: str, position: int, elements: list):
-    """Return a single matching player_id or None if zero / ambiguous."""
+def _find_id(name: str, elements: list, position: int = None):
+    """
+    Return (player_id, element_type) for a player name, or (None, None).
+
+    Search strategy:
+    1. Exact match across all positions (or within `position` if supplied).
+    2. Normalised fallback for OCR variants ('Gibbs - White' → 'Gibbs-White').
+    3. If position was supplied and still no match, retry without position filter.
+
+    Returns (None, None) if zero or ambiguous matches.
+    """
     q = name.lower().strip()
-    hits = []
-    for e in elements:
-        if e.get("element_type") != position:
-            continue
-        if e.get("removed", False):
-            continue
-        web   = (e.get("web_name",    "") or "").lower().strip()
-        sec   = (e.get("second_name", "") or "").lower().strip()
-        known = (e.get("known_name",  "") or "").lower().strip()
-        first = (e.get("first_name",  "") or "").lower().strip()
-        full  = ("%s %s" % (first, sec)).strip()
-        if q in (web, sec, known, full):
-            hits.append(e["id"])
 
-    if not hits:
-        # Normalised fallback: handles OCR variants like 'Gibbs - White' → 'Gibbs-White'
-        qn = _norm_name(q)
+    def _search(pos_filter):
+        hits = []
         for e in elements:
-            if e.get("element_type") != position or e.get("removed", False):
+            if e.get("removed", False):
                 continue
-            web  = (e.get("web_name",    "") or "")
-            sec  = (e.get("second_name", "") or "")
-            knwn = (e.get("known_name",  "") or "")
-            fst  = (e.get("first_name",  "") or "")
-            full = ("%s %s" % (fst, sec)).strip()
-            if qn in (_norm_name(web), _norm_name(sec), _norm_name(knwn), _norm_name(full)):
-                hits.append(e["id"])
+            if pos_filter is not None and e.get("element_type") != pos_filter:
+                continue
+            web   = (e.get("web_name",    "") or "").lower().strip()
+            sec   = (e.get("second_name", "") or "").lower().strip()
+            known = (e.get("known_name",  "") or "").lower().strip()
+            first = (e.get("first_name",  "") or "").lower().strip()
+            full  = ("%s %s" % (first, sec)).strip()
+            if q in (web, sec, known, full):
+                hits.append(e)
+        if not hits:
+            qn = _norm_name(q)
+            for e in elements:
+                if e.get("removed", False):
+                    continue
+                if pos_filter is not None and e.get("element_type") != pos_filter:
+                    continue
+                for field in ("web_name", "second_name", "known_name"):
+                    v = (e.get(field) or "").strip()
+                    if v and _norm_name(v) == qn:
+                        hits.append(e)
+                        break
+        # Deduplicate by player_id
+        seen: set = set()
+        return [e for e in hits if e["id"] not in seen and not seen.add(e["id"])]
 
-    return hits[0] if len(hits) == 1 else None
+    hits = _search(position)
+    # If position hint gave no result, try without it
+    if not hits and position is not None:
+        hits = _search(None)
+
+    if len(hits) == 1:
+        return hits[0]["id"], hits[0]["element_type"]
+    return None, None
 
 
 # ─────────────────────────────────────────────────────────────────────────────

@@ -249,11 +249,13 @@ class TestResolveplayers(unittest.TestCase):
         self.assertEqual(unresolved[0]["name"], "XxxUnknown")
         self.assertIsNone(unresolved[0]["player_id"])
 
-    def test_wrong_position_goes_unresolved(self):
-        # "AlphaGK" is a GKP (pos=1); asking for pos=2 should fail
-        scan_p = [{"name": "AlphaGK", "position": 2, "is_starting": True}]
-        _, unresolved = resolve_players(scan_p, _ELEMENTS)
-        self.assertEqual(len(unresolved), 1)
+    def test_position_from_bootstrap_not_scanner(self):
+        # Position now comes from bootstrap, not scanner.
+        # "AlphaGK" has no position in scan → resolves to GKP (pos=1) from bootstrap.
+        scan_p = [{"name": "AlphaGK", "is_starting": True}]
+        resolved, unresolved = resolve_players(scan_p, _ELEMENTS)
+        self.assertEqual(len(resolved), 1)
+        self.assertEqual(resolved[0]["position"], 1)  # from bootstrap element_type
 
     def test_is_starting_preserved(self):
         scan_p = _make_scan()["players"]

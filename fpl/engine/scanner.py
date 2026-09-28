@@ -73,43 +73,48 @@ _SEPARATOR_GAP      = 0.04   # exclusion zone either side of bench-label separat
 
 # ── Text-filter heuristics ────────────────────────────────────────────────────
 # Words that are never player names even though they pass the case/length checks
-# ── FPL stat-suffix stripping (Google Vision paragraph-level fix) ─────────────
-# Google Vision merges a player's name with the stat shown below it in the
-# FPL app into one paragraph.  The FPL Pitch View can display:
-#   points (8), form (5.0), price (£5.5m), price change (+0.1 / -0.1),
-#   ownership (31.5%), opponent (vs SUN / vs LIV (H)), or just a team code.
-# None of these patterns can appear at the end of a real player name.
-# The regex is applied iteratively so combinations ("Pickford 8 (H)") work.
-_FPL_STAT_SUFFIX = re.compile(
-    # NOTE: no re.IGNORECASE — the bare team-code branch must stay uppercase-only
-    # so that bench position labels ("1. FWD", "2. DEF", "3. DEF") are NOT stripped.
-    # "FWD"/"DEF"/"MID" are 3-letter uppercase strings just like team codes; if we
-    # applied IGNORECASE the pattern would destroy bench labels and break view detection.
-    r'\s+(?:'
-    r'\d{1,3}'                                   # integer score:    8, 12, 0
-    r'|\d+\.\d+[%m]?'                            # decimal stat:     5.0  31.5%  5.5m
-    r'|[+\-]\d+\.?\d*'                           # price change:     +0.1  -0.2
-    r'|£\d+[\d.]*m?'                             # explicit price:   £5.5m  £5.5
-    r'|\(H\)|\(A\)'                              # home/away marker: (H)  (A)
-    r'|(?i:vs)\s+[A-Z]{2,4}(?:\s+\([HA]\))?'   # vs OPP:   vs SUN  vs LIV (H)  (case-insensitive "vs")
-    r'|(?!GKP|DEF|MID|FWD)[A-Z]{3,4}(?:\s+\([HA]\))?'  # bare uppercase team code (not a position tag)
-    r')$',
-)
+# ── Player name extraction ────────────────────────────────────────────────────
+# The FPL screenshot only needs to give us player names and C/VC badges.
+# Everything else (team, fixture, home/away, points, price) comes from the
+# FPL API which we already call. We extract the name by scanning tokens
+# left-to-right and stopping at the first token that cannot be part of a
+# player name:
+#   • All-uppercase 2+ chars  → team code / sponsor (HUL, BOU, MAREX, CMC…)
+#   • Starts with digit       → score / price / number
+#   • Starts with '('         → bracket in  "( A )", "(H)", "(A)"
+#   • Exactly 'vs'            → opponent prefix
+# This is format-agnostic: it handles "Pickford HUL ( A )", "Haaland 12",
+# "Saka vs NOR", "Ødegaard LEE ( H )" and any future FPL display mode
+# without needing to enumerate stat formats.
+
+_ALL_CAPS_TOKEN = re.compile(r'^[A-Z]{2,}$')   # team codes, sponsors
 
 
-def _strip_fpl_stat(text: str) -> str:
+def _extract_player_name(text: str) -> str:
     """
-    Remove any FPL stat token(s) appended to a player name by Google Vision.
+    Extract just the player name from an OCR text block that may have
+    fixture/stat data appended by Google Vision.
 
-    Applied iteratively so multi-token suffixes resolve correctly:
-        "Pickford vs SUN (H)"  →  "Pickford"   (2 iterations not needed here,
-        "Haaland 12 (A)"       →  "Haaland"     but iterating is safe)
+    'Pickford HUL ( A )'    → 'Pickford'
+    'Szoboszlai MCI ( H )'  → 'Szoboszlai'
+    'Haaland 12'             → 'Haaland'
+    'Ødegaard LEE ( H )'    → 'Ødegaard'
+    'Van Hecke'              → 'Van Hecke'   (no stat — unchanged)
+    'M.Sangaré'              → 'M.Sangaré'  (no stat — unchanged)
+    '1. FWD'                 → ''            (digit-first → bench label, filtered)
     """
-    prev = None
-    while text != prev:
-        prev  = text
-        text  = _FPL_STAT_SUFFIX.sub("", text).strip()
-    return text
+    name_parts = []
+    for tok in text.split():
+        if _ALL_CAPS_TOKEN.match(tok):   # HUL, BOU, MAREX, ETIHAD …
+            break
+        if tok[0].isdigit():              # 12, 8, 5.9, 5.5m …
+            break
+        if tok[0] == '(':                 # ( A ), (H), (A) …
+            break
+        if tok.lower() == 'vs':           # vs SUN, vs ARS …
+            break
+        name_parts.append(tok)
+    return ' '.join(name_parts).strip()
 
 
 _NAME_BLOCKLIST = frozenset({
@@ -373,14 +378,13 @@ def _run_ocr_google_vision(image_bytes: bytes, api_key: str):
                 words = [_word_text(w) for w in para.get("words", [])]
                 text  = " ".join(words).strip()
 
-                # Google Vision merges the player name with whatever stat is
-                # shown below it on the FPL Pitch View card (points, opponent,
-                # form, price, ownership, price change, home/away marker).
-                # Strip those suffixes so only the player name remains.
-                text = _strip_fpl_stat(text)
+                # Extract just the player name — stop at the first non-name
+                # token (all-caps team code, digit, bracket, 'vs').
+                # Everything else (fixture, score, price, home/away) comes
+                # from the FPL API after we resolve the name.
+                text = _extract_player_name(text)
 
-                # Safety: strip captain/vice-captain badge if Google Vision
-                # merged it with the player name ("Haaland C", "Gibbs-White VC").
+                # Strip captain/vice-captain badge if merged with the name.
                 if text.endswith(" VC"):
                     text = text[:-3].strip()
                 elif " " in text and text.endswith(" C"):
@@ -614,136 +618,60 @@ def _cluster_by_y(blocks: list, tolerance: float = 0.03) -> list:
 
 def _parse_pitch_view(blocks: list) -> dict:
     """
-    Extract 15 players from a Pitch View OCR block list.
+    Extract players from a Pitch View screenshot.
 
-    Adaptive strategy — no hardcoded Y-bands:
+    Only three things come from the image:
+      - Player names   (extracted by _extract_player_name)
+      - Starting / bench  (above or below the bench-label separator)
+      - Captain / vice-captain  (C/VC badge proximity)
 
-    1.  Find bench labels ("GKP", "1. FWD", "2. DEF", …) anywhere in the image.
-        Their median Y becomes the separator between starters and bench.
-        If none found, fall back to estimating the separator from image structure.
-
-    2.  Collect candidate player names above the separator → starters.
-        Collect candidate player names below the separator → bench.
-
-    3.  Cluster starters by Y proximity (tolerance ±0.03).
-        Sort clusters top-to-bottom.
-        Assign positions by order: cluster 0 = GKP, 1 = DEF, 2 = MID, 3 = FWD.
-        (In any FPL Pitch View the rows always appear in this top-to-bottom order
-        regardless of formation or image dimensions.)
-
-    4.  Assign bench player positions by X-proximity to the bench labels.
-
-    This works for any formation (3-4-3, 4-4-2, 5-3-2, …), any image size,
-    and partially cropped screenshots.
+    Position, team, fixtures — all resolved from the FPL bootstrap API
+    after name matching, so we don't attempt to assign them here.
     """
     warnings = []
 
-    # ── Step 1: Locate bench labels as separator anchor ───────────────────────
+    # ── Locate bench-label separator ─────────────────────────────────────────
     bench_labels = _find_bench_labels(blocks)
-
     if bench_labels:
         separator_y = sum(lb["y"] for lb in bench_labels) / len(bench_labels)
     else:
-        # Bench section not visible (cropped?). Estimate from image structure:
-        # name blocks near the bottom tend to be bench.
-        name_ys = sorted(b["y"] for b in blocks if _is_player_name(b["text"]))
-        if name_ys and name_ys[0] < 0.20:
-            # There are name-like blocks near the bottom — use 0.18 as separator
-            separator_y = 0.18
+        separator_y = 0.18
+        warnings.append("Bench labels not visible; separator estimated at y=0.18")
+
+    gap = _SEPARATOR_GAP
+
+    # ── Collect player names, classify as starting or bench ──────────────────
+    seen: set = set()
+    players_out = []
+    player_blocks = []   # for C/VC proximity detection
+
+    for b in blocks:
+        name = _extract_player_name(b["text"])
+        if not name or not _is_player_name(name):
+            continue
+        key = name.lower()
+        if key in seen:
+            continue
+        if b["y"] > separator_y + gap:
+            is_starting = True
+        elif b["y"] < separator_y - gap:
+            is_starting = False
         else:
-            separator_y = 0.15
-        warnings.append(
-            "Bench labels not visible; estimated separator at y=%.2f" % separator_y
-        )
-
-    gap = _SEPARATOR_GAP   # exclusion zone around the separator row
-
-    # ── Step 2: Split candidate names into starter / bench areas ─────────────
-    starter_names = [
-        b for b in blocks
-        if b["y"] > separator_y + gap and _is_player_name(b["text"])
-    ]
-    bench_names = [
-        b for b in blocks
-        if b["y"] < separator_y - gap and _is_player_name(b["text"])
-    ]
-
-    # ── Step 3: Cluster starters into position rows ───────────────────────────
-    clusters = _cluster_by_y(starter_names, tolerance=_CLUSTER_TOLERANCE)
-    # Sort top-to-bottom (highest Vision Y = top of image)
-    clusters.sort(key=lambda c: -(sum(b["y"] for b in c) / len(c)))
-
-    # If >4 clusters (kit/logo fragments created extra), pick the best 4.
-    # We try every combination of 4 clusters (not just consecutive) so a
-    # noise cluster between GKP and DEF doesn't displace the real GKP.
-    # Tiebreaker when two combos sum to 11: prefer the one whose first cluster
-    # sits highest in the image (largest mean y) — the GKP is always topmost.
-    if len(clusters) > 4:
-        best_indices    = None
-        best_diff       = 9999
-        best_first_len  = -1   # tiebreaker: longer GKP name = more likely real player
-
-        for combo in _combinations(range(len(clusters)), 4):
-            count     = sum(len(clusters[i]) for i in combo)
-            diff      = abs(count - 11)
-            # Sum of name lengths in first (GKP) cluster.
-            # Kit fragments ("Ste", "Ster") are short; real GKP names are longer.
-            first_len = sum(len(b["text"]) for b in clusters[combo[0]])
-            if diff < best_diff or (diff == best_diff and first_len > best_first_len):
-                best_diff      = diff
-                best_first_len = first_len
-                best_indices   = combo
-
-        if best_indices:
-            clusters = [clusters[i] for i in best_indices]
-
-    # Assign positions by cluster order (always GKP→DEF→MID→FWD top-to-bottom)
-    POS_ORDER = [1, 2, 3, 4]
-    starters  = []
-    for cluster, pos in zip(clusters, POS_ORDER):
-        for b in cluster:
-            starters.append({
-                "name":        b["text"].strip(),
-                "position":    pos,
-                "is_starting": True,
-            })
-
-    # ── Step 4: Bench players — position from nearest label by X ─────────────
-    bench_players = []
-    for b in bench_names:
-        bx = b["x"] + b.get("w", 0) / 2
-        if bench_labels:
-            nearest = min(bench_labels, key=lambda lb: abs(lb["x"] - bx))
-            pos = nearest["pos"]
-        else:
-            pos = 2   # fallback: DEF
-        bench_players.append({
-            "name":        b["text"].strip(),
-            "position":    pos,
-            "is_starting": False,
-        })
-
-    players_out = [
-        {"name": p["name"], "position": p["position"], "is_starting": p["is_starting"]}
-        for p in starters + bench_players
-    ]
+            continue   # in the separator zone — skip
+        seen.add(key)
+        players_out.append({"name": name, "is_starting": is_starting})
+        player_blocks.append(b)
 
     if not players_out:
         return _unsupported(
             "No players detected. Ensure the screenshot shows a complete FPL Pitch View."
         )
 
-    # Detect captain / vice-captain badges from OCR blocks
-    all_player_blocks = starter_names + bench_names
-    captain_name, vice_name = _detect_captain_badges(blocks, all_player_blocks)
+    captain_name, vice_name = _detect_captain_badges(blocks, player_blocks)
 
-    result = _validate({
-        "view_type": VIEW_PITCH,
-        "players":   players_out,
-        "warnings":  warnings,
-    })
-    result["captain_name"]       = captain_name
-    result["vice_captain_name"]  = vice_name
+    result = _validate({"view_type": VIEW_PITCH, "players": players_out, "warnings": warnings})
+    result["captain_name"]      = captain_name
+    result["vice_captain_name"] = vice_name
     return result
 
 
@@ -771,112 +699,59 @@ def _pos_from_combined_token(text: str):
 
 def _parse_list_view(blocks: list) -> dict:
     """
-    Extract 15 players from a List View OCR block list.
+    Extract players from a List View screenshot.
 
-    The FPL List View structure (top → bottom, Vision y decreasing):
+    Only two things come from the image:
+      - Player names  (above "Substitutes" header = starting, below = bench)
+      - Captain / vice-captain  (C/VC badge proximity)
 
-        Goalkeeper                        ← section header  → pos=1
-          Pickford                        ← player name
-          Everton GKP                     ← team+pos token (skip as name)
-        Defenders                         ← section header  → pos=2
-          Calafiori
-          Arsenal DEF
-          Diop
-          Ipswich Town DEF
-          …
-        Midfielders                       → pos=3
-          …
-        Forwards                          → pos=4
-          …
-        Substitutes                       ← bench separator
-          Verbruggen
-          Brighton GKP                    ← pos=1 for this bench slot
-          …
-
-    Strategy
-    --------
-    1. Walk blocks top-to-bottom (y descending).
-    2. When a section header ("Goalkeeper", "Defenders", …) is seen, update
-       current_pos.
-    3. When "Substitutes" is seen, switch to bench mode (is_bench = True).
-    4. For starters: any _is_player_name block inherits current_pos.
-    5. For bench players: position comes from the team+pos combined token
-       that appears immediately below the player name in the same row.
+    Position comes from the FPL bootstrap after name resolution.
     """
     warnings           = []
-    player_name_blocks = []   # OCR blocks accepted as player names (for C/VC proximity)
+    player_name_blocks = []
     sorted_blocks      = sorted(blocks, key=lambda b: -b["y"])   # top → bottom
 
-    # When OCR splits "Arsenal DEF" into two separate blocks at the same Y-level,
-    # the team-name token ("Arsenal") appears at the same y as the standalone "DEF".
-    # Collect those Y-values so we can skip the accompanying team-name token.
+    # Y-values of standalone position tags ("GKP", "DEF", "MID", "FWD").
+    # When OCR splits "Arsenal DEF" into two blocks at the same y, the lone
+    # team name sits at the same y as the tag — skip it to avoid false names.
     _split_pos_y = set()
     for b in sorted_blocks:
         if b["text"].strip().upper() in _LIST_TAG_TO_POS:
             _split_pos_y.add(round(b["y"] * 100))
 
-    current_pos = None
-    is_bench    = False
+    is_bench = False
+    seen: set = set()
     players_out = []
 
-    for i, b in enumerate(sorted_blocks):
+    for b in sorted_blocks:
         t  = b["text"].strip()
         tl = t.lower()
 
-        # ── Section header → update position context ──────────────────────────
+        # Section headers — not players
         if tl in _LIST_SECTION_TO_POS:
-            current_pos = _LIST_SECTION_TO_POS[tl]
             continue
 
-        # ── Substitutes header → switch to bench mode ─────────────────────────
-        if "substitutes" in tl and len(t) <= 12:   # avoid matching player names
-            is_bench    = True
-            current_pos = None   # position determined per-player from team+pos token
+        # "Substitutes" marks the bench boundary
+        if tl.startswith("substitut"):
+            is_bench = True
             continue
 
-        # ── Skip non-player tokens (numbers, sponsors, team+pos, section words) ──
-        if not _is_player_name(t):
+        # Skip combined team+position tokens ("Arsenal DEF", "Everton GKP")
+        if _pos_from_combined_token(t) is not None:
             continue
 
-        # ── Skip split team-name companions (e.g. "Arsenal" next to "DEF") ──
-        # When OCR splits "Arsenal DEF" into two blocks at the same y-level,
-        # the lone team name has no position suffix and appears at the same Y
-        # as a standalone position tag.  Drop it.
+        # Skip team name sitting at same y as a standalone position tag
         if round(b["y"] * 100) in _split_pos_y:
             continue
 
-        # ── Determine position ────────────────────────────────────────────────
-        if not is_bench:
-            # Starter: inherits the active section context
-            pos = current_pos
-        else:
-            # Bench: find the team+pos token just below this player name
-            # It appears a small distance lower (y decreases downward).
-            pos = None
-            player_y = b["y"]
-            for below in sorted_blocks:
-                dy = player_y - below["y"]
-                if dy < 0.005 or dy > 0.06:     # must be 0.005–0.06 below
-                    continue
-                if abs(below["x"] - b["x"]) > 0.15:   # must be in same column
-                    continue
-                pos = _pos_from_combined_token(below["text"])
-                if pos is not None:
-                    break
-
-            if pos is None:
-                warnings.append("Could not determine position for bench player %r" % t)
-                pos = 2   # safe fallback: DEF
-
-        if pos is None:
-            warnings.append("Player %r found outside any position section; skipped" % t)
+        name = _extract_player_name(t)
+        if not name or not _is_player_name(name):
+            continue
+        if name.lower() in seen:
             continue
 
-        players_out.append({
-            "name":        t,
-            "position":    pos,
-            "is_starting": not is_bench,
-        })
+        seen.add(name.lower())
+        players_out.append({"name": name, "is_starting": not is_bench})
         player_name_blocks.append(b)
 
     if not players_out:
@@ -886,11 +761,7 @@ def _parse_list_view(blocks: list) -> dict:
 
     captain_name, vice_name = _detect_captain_badges(blocks, player_name_blocks)
 
-    result = _validate({
-        "view_type": VIEW_LIST,
-        "players":   players_out,
-        "warnings":  warnings,
-    })
+    result = _validate({"view_type": VIEW_LIST, "players": players_out, "warnings": warnings})
     result["captain_name"]      = captain_name
     result["vice_captain_name"] = vice_name
     return result
@@ -987,17 +858,19 @@ def _validate(data: dict) -> dict:
         if not isinstance(p.get("name"), str) or not p["name"].strip():
             warnings.append("Skipped player %d: missing name" % i)
             continue
-        if p.get("position") not in _VALID_POSITIONS:
-            warnings.append("Skipped %r: invalid position %r" % (label, p.get("position")))
-            continue
         if not isinstance(p.get("is_starting"), bool):
             warnings.append("Skipped %r: is_starting must be bool" % label)
             continue
-        valid_players.append({
-            "name":        p["name"].strip(),
-            "position":    p["position"],
-            "is_starting": p["is_starting"],
-        })
+        # Position is optional for image scans (resolved from bootstrap later).
+        # If explicitly provided (demo/structured path) it must be valid.
+        pos = p.get("position")
+        if pos is not None and pos not in _VALID_POSITIONS:
+            warnings.append("Skipped %r: invalid position %r" % (label, pos))
+            continue
+        player: dict = {"name": p["name"].strip(), "is_starting": p["is_starting"]}
+        if pos is not None:
+            player["position"] = pos
+        valid_players.append(player)
 
     total    = len(valid_players)
     starters = sum(1 for p in valid_players if p["is_starting"])
@@ -1006,9 +879,9 @@ def _validate(data: dict) -> dict:
         return _result(PARTIAL, view_type, valid_players, warnings,
                        "Only %d/%d players found" % (total, _SQUAD_SIZE))
 
-    if starters != _STARTER_SIZE:
+    if starters < _STARTER_SIZE:
         return _result(PARTIAL, view_type, valid_players, warnings,
-                       "%d starters found, expected %d" % (starters, _STARTER_SIZE))
+                       "Only %d starters found, expected %d" % (starters, _STARTER_SIZE))
 
     names_lower = [p["name"].lower() for p in valid_players]
     if len(names_lower) != len(set(names_lower)):
