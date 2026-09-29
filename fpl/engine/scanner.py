@@ -90,6 +90,58 @@ _SEPARATOR_GAP      = 0.04   # exclusion zone either side of bench-label separat
 _ALL_CAPS_TOKEN = re.compile(r'^[A-Z]{2,}$')   # team codes, sponsors
 
 
+# ── Bootstrap name helpers ────────────────────────────────────────────────────
+
+def _norm_name(name: str) -> str:
+    """NFKD → strip combining marks → lowercase → a-z only."""
+    nfkd = unicodedata.normalize("NFKD", name)
+    no_marks = "".join(c for c in nfkd if unicodedata.category(c) != "Mn")
+    return re.sub(r"[^a-z]", "", no_marks.lower())
+
+
+def _bootstrap_known(elements: list) -> dict:
+    """Return {norm_name → canonical web_name} for all active FPL players."""
+    known = {}
+    for e in elements:
+        if e.get("removed", False):
+            continue
+        for field in ("web_name", "second_name", "known_name"):
+            v = (e.get(field) or "").strip()
+            if len(v) >= 3:
+                n = _norm_name(v)
+                if n not in known:
+                    known[n] = v
+    return known
+
+
+def _resolve_name_against_bootstrap(name: str, known: dict):
+    """
+    Returns the resolved name if the token is a real FPL player, else None.
+
+    - Exact normalised match → keep original OCR name.
+    - Ends with '...' or '…' (FPL truncation) and prefix matches exactly
+      one bootstrap name (≥4 chars) → return that canonical web_name.
+    - Multiple prefix matches → return original name (let downstream
+      disambiguation handle it).
+    - No match, not truncated → return None (noise, drop silently).
+    """
+    norm = _norm_name(name)
+    if norm in known:
+        return name
+
+    is_truncated = name.endswith("...") or name.endswith("…")
+    if is_truncated:
+        trunc_norm = _norm_name(name.rstrip(".… "))
+        if len(trunc_norm) >= 4:
+            matches = [(n, wn) for n, wn in known.items() if n.startswith(trunc_norm)]
+            if len(matches) == 1:
+                return matches[0][1]   # unambiguous — resolve to canonical web_name
+            if len(matches) > 1:
+                return name            # ambiguous — pass through for downstream handling
+
+    return None   # noise — drop
+
+
 def _extract_player_name(text: str) -> str:
     """
     Extract just the player name from an OCR text block that may have
@@ -574,7 +626,7 @@ def _cluster_by_y(blocks: list, tolerance: float = 0.03) -> list:
     return clusters
 
 
-def _parse_pitch_view(blocks: list) -> dict:
+def _parse_pitch_view(blocks: list, elements: list) -> dict:
     """
     Extract players from a Pitch View screenshot.
 
@@ -598,15 +650,34 @@ def _parse_pitch_view(blocks: list) -> dict:
 
     gap = _SEPARATOR_GAP
 
-    # ── Collect player names, classify as starting or bench ──────────────────
-    seen: set = set()
-    players_out = []
-    player_blocks = []   # for C/VC proximity detection
-
+    # ── Step 4: collect candidates that pass name heuristics ─────────────────
+    seen_candidates: set = set()
+    candidates = []
     for b in blocks:
-        name = _extract_player_name(b["text"])   # strip fixture/stat suffix
+        name = _extract_player_name(b["text"])
         if not name or not _is_player_name(name):
             continue
+        key = name.lower()
+        if key in seen_candidates:
+            continue
+        seen_candidates.add(key)
+        candidates.append((b, name))
+
+    # ── Bootstrap filter: drop noise, resolve truncations ────────────────────
+    known = _bootstrap_known(elements)
+    filtered = []
+    for b, name in candidates:
+        resolved = _resolve_name_against_bootstrap(name, known)
+        if resolved is not None:
+            filtered.append((b, resolved))
+    candidates = filtered
+
+    # ── Step 5: classify as starting or bench by y-coordinate ────────────────
+    seen: set = set()
+    players_out = []
+    player_blocks = []
+
+    for b, name in candidates:
         key = name.lower()
         if key in seen:
             continue
@@ -655,7 +726,7 @@ def _pos_from_combined_token(text: str):
     return _LIST_TAG_TO_POS.get(last)
 
 
-def _parse_list_view(blocks: list) -> dict:
+def _parse_list_view(blocks: list, elements: list) -> dict:
     """
     Extract players from a List View screenshot.
 
@@ -728,6 +799,17 @@ def _parse_list_view(blocks: list) -> dict:
             "No players detected. Ensure the screenshot shows a complete FPL List View."
         )
 
+    # ── Bootstrap filter: drop noise, resolve truncations ────────────────────
+    known = _bootstrap_known(elements)
+    new_players, new_blocks = [], []
+    for p, b in zip(players_out, player_name_blocks):
+        resolved = _resolve_name_against_bootstrap(p["name"], known)
+        if resolved is not None:
+            new_players.append({**p, "name": resolved})
+            new_blocks.append(b)
+    players_out      = new_players
+    player_name_blocks = new_blocks
+
     captain_name, vice_name = _detect_captain_badges(blocks, player_name_blocks)
 
     result = _validate({"view_type": VIEW_LIST, "players": players_out, "warnings": warnings})
@@ -740,7 +822,7 @@ def _parse_list_view(blocks: list) -> dict:
 # IMAGE SCAN DISPATCH
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _dispatch_blocks(blocks: list) -> dict:
+def _dispatch_blocks(blocks: list, elements: list) -> dict:
     """Route a block list to the correct parser. Used by both _scan_image and tests."""
     import sys
 
@@ -755,9 +837,9 @@ def _dispatch_blocks(blocks: list) -> dict:
     print(f"[diag] view_type={view_type}", file=sys.stderr)
 
     if view_type == VIEW_PITCH:
-        result = _parse_pitch_view(blocks)
+        result = _parse_pitch_view(blocks, elements)
     elif view_type == VIEW_LIST:
-        result = _parse_list_view(blocks)
+        result = _parse_list_view(blocks, elements)
     else:
         result = _unsupported(
             "Screenshot does not appear to be an FPL Pitch View or List View. "
@@ -773,7 +855,7 @@ def _dispatch_blocks(blocks: list) -> dict:
     return result
 
 
-def _scan_image(image_bytes: bytes) -> dict:
+def _scan_image(image_bytes: bytes, elements: list) -> dict:
     import sys
 
     blocks = _run_ocr(image_bytes)
@@ -789,7 +871,7 @@ def _scan_image(image_bytes: bytes) -> dict:
         return result
 
     print(f"[diag] google_vision_blocks={len(blocks)}", file=sys.stderr)
-    return _dispatch_blocks(blocks)
+    return _dispatch_blocks(blocks, elements)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -863,22 +945,27 @@ def _validate(data: dict) -> dict:
 # PUBLIC ENTRY POINT
 # ─────────────────────────────────────────────────────────────────────────────
 
-def scan_squad(source) -> dict:
+def scan_squad(source, elements=None) -> dict:
     """
     Main entry point.
 
     Parameters
     ----------
     source : bytes | bytearray | memoryview | dict
-        Image data  → OCR via Apple Vision, then layout parser.
-        Structured dict → validated directly (test / demo path).
+        Image data  → OCR via Google Vision, then layout parser.
+        Structured dict → validated directly (test / demo path, no bootstrap needed).
+    elements : list, required when source is image bytes
+        FPL bootstrap elements list. Used to filter OCR noise and resolve
+        truncated names. Must be provided for image scanning.
 
     Returns
     -------
     ScanResult dict with keys: status, view_type, players, message, warnings.
     """
     if isinstance(source, (bytes, bytearray, memoryview)):
-        return _scan_image(bytes(source))
+        if not elements:
+            return _unsupported("FPL bootstrap elements required for image scanning.")
+        return _scan_image(bytes(source), elements)
     if isinstance(source, dict):
         return _validate(source)
     return _unsupported("Unsupported input type: %s" % type(source).__name__)

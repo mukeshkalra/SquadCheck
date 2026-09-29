@@ -40,10 +40,7 @@ V1 payload shape
 HOLD is a valid successful result.
 """
 
-import re as _re
-import unicodedata as _ud
-
-from .scanner  import VALID as _SCAN_VALID
+from .scanner  import VALID as _SCAN_VALID, _norm_name
 from .projection import compute_xpts
 from .bench    import optimise_bench
 
@@ -174,24 +171,6 @@ def _run(scan_result, bootstrap, element_summaries, params, threshold):
 # ─────────────────────────────────────────────────────────────────────────────
 # BOOTSTRAP VALIDATION  (pre-pipeline filter)
 # ─────────────────────────────────────────────────────────────────────────────
-
-def _norm_name(name: str) -> str:
-    """
-    Normalise a name for fuzzy matching against the FPL bootstrap.
-
-    Steps: NFKD decompose → drop combining marks → lowercase → keep a-z only.
-
-    Examples:
-      'Gibbs - White' → 'gibbswhite'   (OCR spaced hyphen)
-      'Muñoz'         → 'munoz'         (accent stripped)
-      'João Pedro'    → 'joaopedro'     (ã → a, space dropped)
-      'N.Williams'    → 'nwilliams'     (dot dropped)
-      'O\'Shea'       → 'oshea'         (apostrophe dropped)
-      'Ødegaard'      → 'degaard'       (Ø has no ASCII equivalent)
-    """
-    nfkd = _ud.normalize("NFKD", name)
-    no_marks = "".join(c for c in nfkd if _ud.category(c) != "Mn")
-    return _re.sub(r"[^a-z]", "", no_marks.lower())
 
 
 def bootstrap_filter(players: list, elements: list) -> tuple:

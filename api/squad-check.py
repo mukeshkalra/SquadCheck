@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT))
 
 from fpl.engine.scanner    import scan_squad, VALID
 from fpl.engine.projection import build_params
-from fpl.engine.pipeline   import (run_pipeline, resolve_players, bootstrap_filter,
+from fpl.engine.pipeline   import (run_pipeline, resolve_players,
                                     resolve_squad_smart, _norm_name)
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -148,12 +148,17 @@ class handler(BaseHTTPRequestHandler):
 
         # Capture scanner stderr ([diag] lines) into the response for debugging.
         # Never captures GOOGLE_VISION_API_KEY or image contents.
+        # Fetch bootstrap before scanning — elements needed for bootstrap filter
+        bootstrap = _bootstrap()
+        params    = _params(bootstrap)
+        elements  = bootstrap.get("elements", [])
+
         import io as _io
         _diag_buf    = _io.StringIO()
         _real_stderr = sys.stderr
         sys.stderr   = _diag_buf
         try:
-            scan_result = scan_squad(image_bytes)
+            scan_result = scan_squad(image_bytes, elements)
         finally:
             sys.stderr = _real_stderr
         _diag_log = _diag_buf.getvalue().strip()
@@ -190,26 +195,8 @@ class handler(BaseHTTPRequestHandler):
                 scan_result.get("message", ""),
             )
 
-        # Gate 2 — bootstrap validation: strip any OCR noise that passed the
-        # scanner's heuristics but isn't a real FPL player.
-        bootstrap = _bootstrap()
-        params    = _params(bootstrap)
-        elements  = bootstrap.get("elements", [])
-
-        raw_players             = scan_result.get("players", [])
-        clean_players, rejected = bootstrap_filter(raw_players, elements)
-
-        if len(clean_players) != 15:
-            rej_names = ", ".join(p["name"] for p in rejected) if rejected else "—"
-            got       = len(clean_players)
-            return _fail_response(
-                "PARTIAL",
-                "Found %d of 15 players. Unrecognised: %s" % (got, rej_names),
-            )
-
-        scan_result["players"] = clean_players
-
-        # Gate 3 — smart resolution with squad constraints + user overrides
+        # Gate 2 — smart resolution with squad constraints + user overrides
+        # (bootstrap filtering now done inside the scanner)
         resolved, ambiguous, unresolved = resolve_squad_smart(
             clean_players, elements, overrides=player_choices
         )

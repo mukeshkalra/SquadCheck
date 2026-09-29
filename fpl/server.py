@@ -332,14 +332,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             n = len(image_bytes)
             print("  [upload] %d bytes received → passing to scanner …" % n)
 
-            scan_result = scan_squad(image_bytes)         # bytes → currently UNSUPPORTED
+            # Fetch bootstrap first — elements required for scanner bootstrap filter
+            bootstrap  = get_bootstrap()
+            params     = get_params(bootstrap)
+            elements   = bootstrap.get("elements", [])
+
+            scan_result = scan_squad(image_bytes, elements)
             status      = scan_result.get("status")
             print("  [scanner] status=%s" % status)
 
             if status != VALID:
-                # Scanner could not produce a valid 15-player squad.
-                # Return the error payload; the UI handles UNSUPPORTED / PARTIAL /
-                # AMBIGUOUS with specific messages.  Do NOT proceed to projection.
                 return {
                     "status":          "SCAN_FAIL",
                     "scanner_status":  status,
@@ -357,10 +359,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     "captain_note":    "",
                     "message":         scan_result.get("message", ""),
                 }
-
-            # VALID scan — fetch bootstrap and proceed
-            bootstrap  = get_bootstrap()
-            params     = get_params(bootstrap)
             # Captain / vice not yet extractable from image bytes (no OCR)
             scan_result["captain_id"]      = None
             scan_result["vice_captain_id"] = None

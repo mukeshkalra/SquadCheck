@@ -22,13 +22,18 @@ def _norm(name):
     return re.sub(r"[^a-z]", "", "".join(c for c in nfkd if unicodedata.category(c) != "Mn").lower())
 
 
-def _scan(stem):
+def _make_elements(*web_names):
+    return [{"web_name": n, "second_name": n, "known_name": None, "removed": False}
+            for n in web_names]
+
+
+def _scan(stem, elements):
     from fpl.engine.scanner import _parse_gv_response, _dispatch_blocks
     fix = _FIX_DIR / f"{stem}.json"
     resp = json.loads(fix.read_text()).get("responses", [{}])[0]
     blocks = _parse_gv_response(resp)
     buf = io.StringIO(); old = sys.stderr; sys.stderr = buf
-    result = _dispatch_blocks(blocks)
+    result = _dispatch_blocks(blocks, elements)
     sys.stderr = old
     return result
 
@@ -53,7 +58,12 @@ class TestScannerScreenshots(unittest.TestCase):
 
     @_skip("V1 Test Pitch View")
     def test_v1_pitch_view(self):
-        _assert(self, _scan("V1 Test Pitch View"), "PITCH", [
+        els = _make_elements(
+            "Pickford", "Van Hecke", "Thiaw", "Muñoz", "Ødegaard",
+            "M.Sangaré", "Rogers", "Szoboszlai", "Cherki",
+            "Haaland", "Wissa", "Dubravka", "João Pedro", "Keane", "Calafiori",
+        )
+        _assert(self, _scan("V1 Test Pitch View", els), "PITCH", [
             "pickford", "vanhecke", "thiaw", "munoz",
             "degaard", "msangare", "rogers", "szoboszlai", "cherki",
             "haaland", "wissa", "dubravka", "joaopedro", "keane", "calafiori",
@@ -61,7 +71,12 @@ class TestScannerScreenshots(unittest.TestCase):
 
     @_skip("fpl test prod 2")
     def test_prod_squad_2(self):
-        _assert(self, _scan("fpl test prod 2"), "PITCH", [
+        els = _make_elements(
+            "Sels", "Hall", "Tarkowski", "N.Williams", "Gibbs-White",
+            "Palmer", "Saka", "Cherki", "Barry", "Haaland", "Wissa",
+            "Forster", "Konsa", "O'Shea", "Slater",
+        )
+        _assert(self, _scan("fpl test prod 2", els), "PITCH", [
             "sels", "hall", "tarkowski", "nwilliams",
             "gibbswhite", "palmer", "saka", "cherki",
             "barry", "haaland", "wissa",
@@ -70,10 +85,12 @@ class TestScannerScreenshots(unittest.TestCase):
 
     @_skip("list-view-example")
     def test_list_view(self):
-        # Known GV limitation: some bench players get concatenated without
-        # spaces ("DeCuyperBrightonDEF") and can't be cleanly extracted.
-        # Pitch View is recommended; List View works for most squads.
-        _assert(self, _scan("list-view-example"), "LIST", [
+        els = _make_elements(
+            "Pickford", "Calafiori", "Diop", "Kayode", "Cherki",
+            "Gibbs-White", "Rogers", "Semenyo", "Isak", "Haaland", "Barry",
+            "Verbruggen", "Yalcouye", "Mendy", "De Cuyper",
+        )
+        _assert(self, _scan("list-view-example", els), "LIST", [
             "pickford", "calafiori", "diop", "kayode",
             "cherki", "gibbswhite", "rogers", "semenyo",
             "isak", "haaland", "barry",
@@ -82,7 +99,12 @@ class TestScannerScreenshots(unittest.TestCase):
 
     @_skip("pitch-view-example")
     def test_pitch_view_example(self):
-        _assert(self, _scan("pitch-view-example"), "PITCH", [
+        els = _make_elements(
+            "Pickford", "Kayode", "Diop", "Calafiori", "Rogers",
+            "Gibbs-White", "Cherki", "Semenyo", "Barry", "Haaland", "Isak",
+            "Verbruggen", "Yalcouye", "De Cuyper", "Mendy",
+        )
+        _assert(self, _scan("pitch-view-example", els), "PITCH", [
             "pickford", "kayode", "diop", "calafiori",
             "rogers", "gibbswhite", "cherki", "semenyo",
             "barry", "haaland", "isak",
@@ -91,7 +113,12 @@ class TestScannerScreenshots(unittest.TestCase):
 
     @_skip("fpl pitch 3")
     def test_fpl_pitch_3(self):
-        _assert(self, _scan("fpl pitch 3"), "PITCH", [
+        els = _make_elements(
+            "Pickford", "Thiaw", "Muñoz", "Keane", "Rogers",
+            "Ødegaard", "Szoboszlai", "Cherki", "Wissa", "João Pedro", "Haaland",
+            "Dubravka", "M.Sangaré", "Van Hecke", "Calafiori",
+        )
+        _assert(self, _scan("fpl pitch 3", els), "PITCH", [
             "pickford", "thiaw", "munoz", "keane",
             "rogers", "degaard", "szoboszlai", "cherki",
             "wissa", "joaopedro", "haaland",
