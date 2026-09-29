@@ -1345,13 +1345,16 @@ function renderFinalCall(p){
       const comingIn = (p.players||[]).find(q=>q.player_id===sub.in.player_id);
       if(comingIn) recStarts.push(comingIn);
     }
-    const bestInRec    = recStarts.length ? recStarts.reduce((a,b)=>b.xPts>a.xPts?b:a) : null;
-    const recCaptBonus = bestInRec ? bestInRec.xPts : 0;
-    const afterPts     = (p.recommended_xi?.xPts||0) + recCaptBonus;
-    const totalDelta   = afterPts - yourXIPts;
+    // Use the user's confirmed captain in the rec XI; only fall back to best
+    // if their captain was the player swapped out (rare edge case).
+    const userCaptInRec = p.captain_id ? recStarts.find(q=>q.player_id===p.captain_id) : null;
+    const bestInRec     = recStarts.length ? recStarts.reduce((a,b)=>b.xPts>a.xPts?b:a) : null;
+    const recCaptBonus  = (userCaptInRec || bestInRec) ? (userCaptInRec||bestInRec).xPts : 0;
+    const afterPts      = (p.recommended_xi?.xPts||0) + recCaptBonus;
+    const totalDelta    = afterPts - yourXIPts;
 
-    // Label: if rec captain differs from current, note the combined upside
-    const captSwitched = bestInRec && p.captain_id && bestInRec.player_id!==p.captain_id;
+    // Note captain change only when the user's captain was swapped out
+    const captSwitched = !userCaptInRec && bestInRec && p.captain_id;
     const afterLbl     = captSwitched ? `After change + captain` : `After change`;
 
     const subs=(p.substitutions||[]).map(s=>`${esc(s.out.web_name)} → ${esc(s.in.web_name)}`).join(', ');
