@@ -126,5 +126,21 @@ class TestScannerScreenshots(unittest.TestCase):
         ])
 
 
+    @_skip("FPL test pitch 6")
+    def test_fpl_pitch_6(self):
+        els = _make_elements(
+            "Raya", "Gabriel", "Tarkowski", "Hall",
+            "Gibbs-White", "B.Fernández", "Palmer", "Szoboszlai", "Schade",
+            "Wissa", "Barry",
+            "Steele", "Konsa", "De Cuyper", "João Pedro",
+        )
+        _assert(self, _scan("FPL test pitch 6", els), "PITCH", [
+            "raya", "gabriel", "tarkowski", "hall",
+            "gibbswhite", "bfernandez", "palmer", "szoboszlai", "schade",
+            "wissa", "barry",
+            "steele", "konsa", "decuyper", "joaopedro",
+        ])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

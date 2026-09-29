@@ -672,6 +672,16 @@ def _parse_pitch_view(blocks: list, elements: list) -> dict:
             filtered.append((b, resolved))
     candidates = filtered
 
+    # ── Dynamic gap: adapt exclusion zone to actual image spacing ───────────────
+    # Hardcoded 0.04 fails when FWD row is very close to bench labels (e.g. 3-5-2
+    # on some devices where the gap shrinks to ~0.03). Compute from real positions.
+    above_ys = [b["y"] for b, _ in candidates if b["y"] > separator_y]
+    below_ys = [b["y"] for b, _ in candidates if b["y"] < separator_y]
+    if above_ys and below_ys:
+        gap = min(min(above_ys) - separator_y, separator_y - max(below_ys)) / 2
+        gap = max(gap, 0.005)
+    # else: gap stays at _SEPARATOR_GAP (fallback for images with only starters visible)
+
     # ── Step 5: classify as starting or bench by y-coordinate ────────────────
     seen: set = set()
     players_out = []

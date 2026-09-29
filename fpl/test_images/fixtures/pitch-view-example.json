@@ -633,11 +633,11 @@
                 "y": 503
               },
               {
-                "x": 891,
+                "x": 890,
                 "y": 503
               },
               {
-                "x": 891,
+                "x": 890,
                 "y": 515
               },
               {
@@ -1116,11 +1116,11 @@
                 "y": 991
               },
               {
-                "x": 854,
+                "x": 853,
                 "y": 991
               },
               {
-                "x": 854,
+                "x": 853,
                 "y": 1002
               },
               {
@@ -1319,7 +1319,7 @@
           "boundingPoly": {
             "vertices": [
               {
-                "x": 409,
+                "x": 410,
                 "y": 1206
               },
               {
@@ -1331,7 +1331,7 @@
                 "y": 1215
               },
               {
-                "x": 409,
+                "x": 410,
                 "y": 1214
               }
             ]
@@ -1576,11 +1576,11 @@
                 "y": 1305
               },
               {
-                "x": 882,
+                "x": 883,
                 "y": 1305
               },
               {
-                "x": 882,
+                "x": 883,
                 "y": 1317
               },
               {
@@ -1645,11 +1645,11 @@
                 "y": 633
               },
               {
-                "x": 1013,
+                "x": 1014,
                 "y": 636
               },
               {
-                "x": 1012,
+                "x": 1013,
                 "y": 646
               },
               {
@@ -1736,23 +1736,23 @@
               "detectedLanguages": [
                 {
                   "languageCode": "en",
-                  "confidence": 0.6611135
+                  "confidence": 0.66110253
                 },
                 {
                   "languageCode": "nl",
-                  "confidence": 0.05399131
+                  "confidence": 0.053988565
                 },
                 {
                   "languageCode": "fr",
-                  "confidence": 0.023186475
+                  "confidence": 0.023187092
                 },
                 {
                   "languageCode": "ceb",
-                  "confidence": 0.02097629
+                  "confidence": 0.020976847
                 },
                 {
                   "languageCode": "no",
-                  "confidence": 0.02091541
+                  "confidence": 0.020910656
                 }
               ]
             },
@@ -1847,31 +1847,31 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.9562261
+                            "confidence": 0.9569099
                           },
                           {
                             "boundingBox": {
                               "vertices": [
                                 {
-                                  "x": 73,
+                                  "x": 74,
                                   "y": 636
                                 },
                                 {
-                                  "x": 85,
+                                  "x": 86,
                                   "y": 635
                                 },
                                 {
-                                  "x": 86,
+                                  "x": 87,
                                   "y": 648
                                 },
                                 {
-                                  "x": 74,
+                                  "x": 75,
                                   "y": 649
                                 }
                               ]
                             },
                             "text": "T",
-                            "confidence": 0.97567964
+                            "confidence": 0.976672
                           },
                           {
                             "boundingBox": {
@@ -1895,7 +1895,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.9895534
+                            "confidence": 0.988069
                           },
                           {
                             "boundingBox": {
@@ -1919,7 +1919,7 @@
                               ]
                             },
                             "text": "H",
-                            "confidence": 0.9867166
+                            "confidence": 0.9873592
                           },
                           {
                             "boundingBox": {
@@ -1943,7 +1943,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.9936552
+                            "confidence": 0.99361026
                           },
                           {
                             "property": {
@@ -1972,13 +1972,13 @@
                               ]
                             },
                             "text": "D",
-                            "confidence": 0.9905036
+                            "confidence": 0.9907388
                           }
                         ],
-                        "confidence": 0.9820558
+                        "confidence": 0.98222655
                       }
                     ],
-                    "confidence": 0.9820558
+                    "confidence": 0.98222655
                   },
                   {
                     "boundingBox": {
@@ -2078,7 +2078,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.77856284
+                            "confidence": 0.7785627
                           },
                           {
                             "boundingBox": {
@@ -2102,7 +2102,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.8602786
+                            "confidence": 0.86027855
                           },
                           {
                             "boundingBox": {
@@ -2150,7 +2150,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.9762622
+                            "confidence": 0.97626215
                           },
                           {
                             "boundingBox": {
@@ -2206,14 +2206,14 @@
                             "confidence": 0.9628899
                           }
                         ],
-                        "confidence": 0.90786374
+                        "confidence": 0.9078637
                       }
                     ],
-                    "confidence": 0.90786374
+                    "confidence": 0.9078637
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9421062
+                "confidence": 0.942185
               },
               {
                 "boundingBox": {
@@ -2311,7 +2311,7 @@
                               ]
                             },
                             "text": "F",
-                            "confidence": 0.9783651
+                            "confidence": 0.97761846
                           },
                           {
                             "boundingBox": {
@@ -2335,7 +2335,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.9653038
+                            "confidence": 0.96637034
                           },
                           {
                             "boundingBox": {
@@ -2359,31 +2359,31 @@
                               ]
                             },
                             "text": "n",
-                            "confidence": 0.9894562
+                            "confidence": 0.989483
                           },
                           {
                             "boundingBox": {
                               "vertices": [
                                 {
-                                  "x": 247,
+                                  "x": 246,
                                   "y": 19
                                 },
                                 {
-                                  "x": 264,
+                                  "x": 263,
                                   "y": 19
                                 },
                                 {
-                                  "x": 264,
+                                  "x": 263,
                                   "y": 48
                                 },
                                 {
-                                  "x": 247,
+                                  "x": 246,
                                   "y": 48
                                 }
                               ]
                             },
                             "text": "t",
-                            "confidence": 0.99069345
+                            "confidence": 0.99095947
                           },
                           {
                             "boundingBox": {
@@ -2407,7 +2407,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.98478144
+                            "confidence": 0.9865488
                           },
                           {
                             "boundingBox": {
@@ -2431,7 +2431,7 @@
                               ]
                             },
                             "text": "s",
-                            "confidence": 0.9872893
+                            "confidence": 0.98739874
                           },
                           {
                             "property": {
@@ -2460,17 +2460,17 @@
                               ]
                             },
                             "text": "y",
-                            "confidence": 0.9858099
+                            "confidence": 0.9863996
                           }
                         ],
-                        "confidence": 0.9830999
+                        "confidence": 0.98353976
                       }
                     ],
-                    "confidence": 0.9830999
+                    "confidence": 0.98353976
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9830999
+                "confidence": 0.98353976
               },
               {
                 "boundingBox": {
@@ -2560,7 +2560,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.2853109
+                            "confidence": 0.28388107
                           },
                           {
                             "boundingBox": {
@@ -2584,7 +2584,7 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.52169305
+                            "confidence": 0.51979846
                           },
                           {
                             "boundingBox": {
@@ -2608,7 +2608,7 @@
                               ]
                             },
                             "text": "M",
-                            "confidence": 0.87230694
+                            "confidence": 0.87435126
                           },
                           {
                             "property": {
@@ -2637,13 +2637,13 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.96619105
+                            "confidence": 0.9672339
                           }
                         ],
-                        "confidence": 0.66137546
+                        "confidence": 0.66131616
                       }
                     ],
-                    "confidence": 0.66137546
+                    "confidence": 0.66131616
                   },
                   {
                     "boundingBox": {
@@ -2719,7 +2719,7 @@
                               ]
                             },
                             "text": "M",
-                            "confidence": 0.9862376
+                            "confidence": 0.9860589
                           },
                           {
                             "boundingBox": {
@@ -2743,7 +2743,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.98815244
+                            "confidence": 0.9876333
                           },
                           {
                             "boundingBox": {
@@ -2767,7 +2767,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.9935526
+                            "confidence": 0.99328655
                           },
                           {
                             "boundingBox": {
@@ -2791,7 +2791,7 @@
                               ]
                             },
                             "text": "K",
-                            "confidence": 0.9927993
+                            "confidence": 0.9894269
                           },
                           {
                             "boundingBox": {
@@ -2815,7 +2815,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.99455225
+                            "confidence": 0.99238074
                           },
                           {
                             "boundingBox": {
@@ -2839,7 +2839,7 @@
                               ]
                             },
                             "text": "T",
-                            "confidence": 0.9937224
+                            "confidence": 0.99095684
                           },
                           {
                             "property": {
@@ -2868,17 +2868,17 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.98746794
+                            "confidence": 0.9895075
                           }
                         ],
-                        "confidence": 0.9909264
+                        "confidence": 0.98989296
                       }
                     ],
-                    "confidence": 0.9909264
+                    "confidence": 0.98989296
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.8710897
+                "confidence": 0.8704105
               },
               {
                 "boundingBox": {
@@ -2992,7 +2992,7 @@
                               ]
                             },
                             "text": "t",
-                            "confidence": 0.8977336
+                            "confidence": 0.89773357
                           },
                           {
                             "property": {
@@ -3021,7 +3021,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.5845348
+                            "confidence": 0.58453476
                           }
                         ],
                         "confidence": 0.7945385
@@ -3129,7 +3129,7 @@
                               ]
                             },
                             "text": "P",
-                            "confidence": 0.98966813
+                            "confidence": 0.9895325
                           },
                           {
                             "boundingBox": {
@@ -3153,7 +3153,7 @@
                               ]
                             },
                             "text": "i",
-                            "confidence": 0.99242187
+                            "confidence": 0.9925771
                           },
                           {
                             "boundingBox": {
@@ -3177,7 +3177,7 @@
                               ]
                             },
                             "text": "c",
-                            "confidence": 0.99279356
+                            "confidence": 0.99282676
                           },
                           {
                             "boundingBox": {
@@ -3201,7 +3201,7 @@
                               ]
                             },
                             "text": "k",
-                            "confidence": 0.98649406
+                            "confidence": 0.98665714
                           },
                           {
                             "boundingBox": {
@@ -3225,7 +3225,7 @@
                               ]
                             },
                             "text": "f",
-                            "confidence": 0.9881587
+                            "confidence": 0.98809886
                           },
                           {
                             "boundingBox": {
@@ -3249,7 +3249,7 @@
                               ]
                             },
                             "text": "o",
-                            "confidence": 0.9947301
+                            "confidence": 0.99470025
                           },
                           {
                             "boundingBox": {
@@ -3273,7 +3273,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.99504334
+                            "confidence": 0.99500114
                           },
                           {
                             "property": {
@@ -3302,10 +3302,10 @@
                               ]
                             },
                             "text": "d",
-                            "confidence": 0.9938123
+                            "confidence": 0.99381936
                           }
                         ],
-                        "confidence": 0.99164027
+                        "confidence": 0.99165165
                       },
                       {
                         "boundingBox": {
@@ -3356,17 +3356,17 @@
                               ]
                             },
                             "text": "8",
-                            "confidence": 0.9806556
+                            "confidence": 0.98040706
                           }
                         ],
-                        "confidence": 0.9806556
+                        "confidence": 0.98040706
                       }
                     ],
-                    "confidence": 0.99041975
+                    "confidence": 0.9904022
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.99041975
+                "confidence": 0.9904022
               },
               {
                 "boundingBox": {
@@ -3464,7 +3464,7 @@
                               ]
                             },
                             "text": "F",
-                            "confidence": 0.9748721
+                            "confidence": 0.97516596
                           },
                           {
                             "boundingBox": {
@@ -3474,11 +3474,11 @@
                                   "y": 19
                                 },
                                 {
-                                  "x": 842,
+                                  "x": 843,
                                   "y": 19
                                 },
                                 {
-                                  "x": 842,
+                                  "x": 843,
                                   "y": 48
                                 },
                                 {
@@ -3488,7 +3488,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.96982956
+                            "confidence": 0.96846265
                           },
                           {
                             "boundingBox": {
@@ -3512,7 +3512,7 @@
                               ]
                             },
                             "text": "n",
-                            "confidence": 0.9898443
+                            "confidence": 0.9901508
                           },
                           {
                             "boundingBox": {
@@ -3522,11 +3522,11 @@
                                   "y": 19
                                 },
                                 {
-                                  "x": 884,
+                                  "x": 883,
                                   "y": 19
                                 },
                                 {
-                                  "x": 884,
+                                  "x": 883,
                                   "y": 48
                                 },
                                 {
@@ -3536,7 +3536,7 @@
                               ]
                             },
                             "text": "t",
-                            "confidence": 0.99255174
+                            "confidence": 0.99272066
                           },
                           {
                             "boundingBox": {
@@ -3560,7 +3560,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.98827016
+                            "confidence": 0.9892272
                           },
                           {
                             "boundingBox": {
@@ -3584,7 +3584,7 @@
                               ]
                             },
                             "text": "s",
-                            "confidence": 0.98621684
+                            "confidence": 0.9871178
                           },
                           {
                             "property": {
@@ -3613,17 +3613,17 @@
                               ]
                             },
                             "text": "y",
-                            "confidence": 0.9842203
+                            "confidence": 0.9849282
                           }
                         ],
-                        "confidence": 0.98368645
+                        "confidence": 0.9839676
                       }
                     ],
-                    "confidence": 0.98368645
+                    "confidence": 0.9839676
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.98368645
+                "confidence": 0.9839676
               },
               {
                 "boundingBox": {
@@ -3850,7 +3850,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.9672452
+                            "confidence": 0.9570063
                           },
                           {
                             "boundingBox": {
@@ -3874,7 +3874,7 @@
                               ]
                             },
                             "text": "m",
-                            "confidence": 0.9794071
+                            "confidence": 0.972019
                           },
                           {
                             "boundingBox": {
@@ -3898,7 +3898,7 @@
                               ]
                             },
                             "text": "i",
-                            "confidence": 0.99288034
+                            "confidence": 0.9924283
                           },
                           {
                             "boundingBox": {
@@ -3908,11 +3908,11 @@
                                   "y": 387
                                 },
                                 {
-                                  "x": 209,
+                                  "x": 210,
                                   "y": 388
                                 },
                                 {
-                                  "x": 208,
+                                  "x": 209,
                                   "y": 401
                                 },
                                 {
@@ -3922,7 +3922,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.99135715
+                            "confidence": 0.99118805
                           },
                           {
                             "boundingBox": {
@@ -3946,7 +3946,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.9951714
+                            "confidence": 0.9953047
                           },
                           {
                             "boundingBox": {
@@ -3970,7 +3970,7 @@
                               ]
                             },
                             "text": "t",
-                            "confidence": 0.9909069
+                            "confidence": 0.99082196
                           },
                           {
                             "boundingBox": {
@@ -3994,7 +3994,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.9957257
+                            "confidence": 0.9956357
                           },
                           {
                             "property": {
@@ -4023,17 +4023,17 @@
                               ]
                             },
                             "text": "s",
-                            "confidence": 0.99205136
+                            "confidence": 0.99210095
                           }
                         ],
-                        "confidence": 0.98809314
+                        "confidence": 0.98581314
                       }
                     ],
-                    "confidence": 0.98809314
+                    "confidence": 0.98581314
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.98809314
+                "confidence": 0.98581314
               },
               {
                 "boundingBox": {
@@ -4308,7 +4308,7 @@
                               ]
                             },
                             "text": "i",
-                            "confidence": 0.97948086
+                            "confidence": 0.97710085
                           },
                           {
                             "boundingBox": {
@@ -4332,7 +4332,7 @@
                               ]
                             },
                             "text": "n",
-                            "confidence": 0.9880392
+                            "confidence": 0.98705775
                           },
                           {
                             "boundingBox": {
@@ -4356,7 +4356,7 @@
                               ]
                             },
                             "text": "d",
-                            "confidence": 0.9871766
+                            "confidence": 0.9871507
                           },
                           {
                             "boundingBox": {
@@ -4380,7 +4380,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.9922589
+                            "confidence": 0.9921019
                           },
                           {
                             "boundingBox": {
@@ -4404,7 +4404,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.99196213
+                            "confidence": 0.99190146
                           },
                           {
                             "property": {
@@ -4433,17 +4433,17 @@
                               ]
                             },
                             "text": "d",
-                            "confidence": 0.99189657
+                            "confidence": 0.991575
                           }
                         ],
-                        "confidence": 0.98846906
+                        "confidence": 0.9878146
                       }
                     ],
-                    "confidence": 0.98846906
+                    "confidence": 0.9878146
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.98846906
+                "confidence": 0.9878146
               },
               {
                 "boundingBox": {
@@ -4541,7 +4541,7 @@
                               ]
                             },
                             "text": "F",
-                            "confidence": 0.9681977
+                            "confidence": 0.96713185
                           },
                           {
                             "boundingBox": {
@@ -4565,7 +4565,7 @@
                               ]
                             },
                             "text": "L",
-                            "confidence": 0.9455733
+                            "confidence": 0.9438821
                           },
                           {
                             "property": {
@@ -4594,10 +4594,10 @@
                               ]
                             },
                             "text": "Y",
-                            "confidence": 0.95342886
+                            "confidence": 0.95202124
                           }
                         ],
-                        "confidence": 0.9557333
+                        "confidence": 0.95434505
                       },
                       {
                         "property": {
@@ -4651,7 +4651,7 @@
                               ]
                             },
                             "text": "B",
-                            "confidence": 0.9277433
+                            "confidence": 0.92896885
                           },
                           {
                             "boundingBox": {
@@ -4675,7 +4675,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.96299833
+                            "confidence": 0.96700764
                           },
                           {
                             "boundingBox": {
@@ -4699,7 +4699,7 @@
                               ]
                             },
                             "text": "T",
-                            "confidence": 0.96027035
+                            "confidence": 0.96403146
                           },
                           {
                             "boundingBox": {
@@ -4723,7 +4723,7 @@
                               ]
                             },
                             "text": "T",
-                            "confidence": 0.976279
+                            "confidence": 0.97954565
                           },
                           {
                             "boundingBox": {
@@ -4747,7 +4747,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.9815411
+                            "confidence": 0.98186034
                           },
                           {
                             "property": {
@@ -4776,17 +4776,17 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.9736618
+                            "confidence": 0.973677
                           }
                         ],
-                        "confidence": 0.963749
+                        "confidence": 0.9658485
                       }
                     ],
-                    "confidence": 0.9610771
+                    "confidence": 0.962014
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9610771
+                "confidence": 0.962014
               },
               {
                 "boundingBox": {
@@ -4870,11 +4870,11 @@
                                   "y": 469
                                 },
                                 {
-                                  "x": 187,
+                                  "x": 188,
                                   "y": 469
                                 },
                                 {
-                                  "x": 187,
+                                  "x": 188,
                                   "y": 484
                                 },
                                 {
@@ -4884,7 +4884,7 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.9849574
+                            "confidence": 0.98553056
                           },
                           {
                             "boundingBox": {
@@ -4908,7 +4908,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.98404664
+                            "confidence": 0.9846259
                           },
                           {
                             "boundingBox": {
@@ -4932,7 +4932,7 @@
                               ]
                             },
                             "text": "l",
-                            "confidence": 0.99272335
+                            "confidence": 0.99279237
                           },
                           {
                             "boundingBox": {
@@ -4956,7 +4956,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.9798234
+                            "confidence": 0.9791131
                           },
                           {
                             "boundingBox": {
@@ -4980,7 +4980,7 @@
                               ]
                             },
                             "text": "f",
-                            "confidence": 0.9841515
+                            "confidence": 0.983728
                           },
                           {
                             "boundingBox": {
@@ -5004,7 +5004,7 @@
                               ]
                             },
                             "text": "i",
-                            "confidence": 0.99186623
+                            "confidence": 0.9918613
                           },
                           {
                             "boundingBox": {
@@ -5028,7 +5028,7 @@
                               ]
                             },
                             "text": "o",
-                            "confidence": 0.9947105
+                            "confidence": 0.9946941
                           },
                           {
                             "boundingBox": {
@@ -5052,7 +5052,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.9955799
+                            "confidence": 0.9955132
                           },
                           {
                             "property": {
@@ -5081,10 +5081,10 @@
                               ]
                             },
                             "text": "i",
-                            "confidence": 0.99245113
+                            "confidence": 0.9923724
                           }
                         ],
-                        "confidence": 0.9889233
+                        "confidence": 0.98891455
                       },
                       {
                         "boundingBox": {
@@ -5141,11 +5141,11 @@
                         "confidence": 0.95950896
                       }
                     ],
-                    "confidence": 0.9859819
+                    "confidence": 0.98597395
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9859819
+                "confidence": 0.98597395
               },
               {
                 "boundingBox": {
@@ -5243,7 +5243,7 @@
                               ]
                             },
                             "text": "M",
-                            "confidence": 0.9864495
+                            "confidence": 0.9862895
                           },
                           {
                             "boundingBox": {
@@ -5267,7 +5267,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.9902854
+                            "confidence": 0.9905484
                           },
                           {
                             "boundingBox": {
@@ -5291,7 +5291,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.9955648
+                            "confidence": 0.99559397
                           },
                           {
                             "boundingBox": {
@@ -5315,7 +5315,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.99294764
+                            "confidence": 0.9930946
                           },
                           {
                             "property": {
@@ -5344,17 +5344,17 @@
                               ]
                             },
                             "text": "X",
-                            "confidence": 0.98395437
+                            "confidence": 0.9839622
                           }
                         ],
-                        "confidence": 0.9898403
+                        "confidence": 0.9898977
                       }
                     ],
-                    "confidence": 0.9898403
+                    "confidence": 0.9898977
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9898403
+                "confidence": 0.9898977
               },
               {
                 "boundingBox": {
@@ -5452,7 +5452,7 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.9742598
+                            "confidence": 0.97377175
                           },
                           {
                             "boundingBox": {
@@ -5476,7 +5476,7 @@
                               ]
                             },
                             "text": "h",
-                            "confidence": 0.98781574
+                            "confidence": 0.98746115
                           },
                           {
                             "boundingBox": {
@@ -5500,7 +5500,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.98802394
+                            "confidence": 0.9876378
                           },
                           {
                             "boundingBox": {
@@ -5524,7 +5524,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.9874633
+                            "confidence": 0.9879786
                           },
                           {
                             "boundingBox": {
@@ -5548,7 +5548,7 @@
                               ]
                             },
                             "text": "k",
-                            "confidence": 0.9890402
+                            "confidence": 0.98987585
                           },
                           {
                             "property": {
@@ -5577,17 +5577,17 @@
                               ]
                             },
                             "text": "i",
-                            "confidence": 0.9868013
+                            "confidence": 0.98646164
                           }
                         ],
-                        "confidence": 0.9855674
+                        "confidence": 0.98553115
                       }
                     ],
-                    "confidence": 0.9855674
+                    "confidence": 0.98553115
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9855674
+                "confidence": 0.98553115
               },
               {
                 "boundingBox": {
@@ -5682,17 +5682,17 @@
                               ]
                             },
                             "text": "8",
-                            "confidence": 0.97827095
+                            "confidence": 0.9773394
                           }
                         ],
-                        "confidence": 0.97827095
+                        "confidence": 0.9773394
                       }
                     ],
-                    "confidence": 0.97827095
+                    "confidence": 0.9773394
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.97827095
+                "confidence": 0.9773394
               },
               {
                 "boundingBox": {
@@ -5800,11 +5800,11 @@
                                   "y": 713
                                 },
                                 {
-                                  "x": 362,
+                                  "x": 361,
                                   "y": 713
                                 },
                                 {
-                                  "x": 362,
+                                  "x": 361,
                                   "y": 728
                                 },
                                 {
@@ -5886,7 +5886,7 @@
                               ]
                             },
                             "text": "s",
-                            "confidence": 0.97201294
+                            "confidence": 0.972013
                           }
                         ],
                         "confidence": 0.9862152
@@ -6201,7 +6201,7 @@
                               ]
                             },
                             "text": "D",
-                            "confidence": 0.9689155
+                            "confidence": 0.9668593
                           },
                           {
                             "boundingBox": {
@@ -6225,7 +6225,7 @@
                               ]
                             },
                             "text": "i",
-                            "confidence": 0.96172255
+                            "confidence": 0.95656025
                           },
                           {
                             "boundingBox": {
@@ -6249,7 +6249,7 @@
                               ]
                             },
                             "text": "o",
-                            "confidence": 0.9733903
+                            "confidence": 0.9693461
                           },
                           {
                             "property": {
@@ -6278,17 +6278,17 @@
                               ]
                             },
                             "text": "p",
-                            "confidence": 0.93092644
+                            "confidence": 0.93047684
                           }
                         ],
-                        "confidence": 0.9587387
+                        "confidence": 0.9558106
                       }
                     ],
-                    "confidence": 0.9587387
+                    "confidence": 0.9558106
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9587387
+                "confidence": 0.9558106
               },
               {
                 "boundingBox": {
@@ -6483,7 +6483,7 @@
                               ]
                             },
                             "text": "K",
-                            "confidence": 0.9300891
+                            "confidence": 0.93061835
                           },
                           {
                             "boundingBox": {
@@ -6507,7 +6507,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.9750646
+                            "confidence": 0.9750729
                           },
                           {
                             "boundingBox": {
@@ -6531,7 +6531,7 @@
                               ]
                             },
                             "text": "y",
-                            "confidence": 0.98866427
+                            "confidence": 0.98869956
                           },
                           {
                             "boundingBox": {
@@ -6555,7 +6555,7 @@
                               ]
                             },
                             "text": "o",
-                            "confidence": 0.99164814
+                            "confidence": 0.99161065
                           },
                           {
                             "boundingBox": {
@@ -6579,7 +6579,7 @@
                               ]
                             },
                             "text": "d",
-                            "confidence": 0.99487865
+                            "confidence": 0.9947751
                           },
                           {
                             "property": {
@@ -6608,10 +6608,10 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.9920154
+                            "confidence": 0.99201035
                           }
                         ],
-                        "confidence": 0.9787267
+                        "confidence": 0.9787978
                       },
                       {
                         "boundingBox": {
@@ -6621,11 +6621,11 @@
                               "y": 503
                             },
                             {
-                              "x": 891,
+                              "x": 890,
                               "y": 503
                             },
                             {
-                              "x": 891,
+                              "x": 890,
                               "y": 515
                             },
                             {
@@ -6648,11 +6648,11 @@
                                   "y": 503
                                 },
                                 {
-                                  "x": 891,
+                                  "x": 890,
                                   "y": 503
                                 },
                                 {
-                                  "x": 891,
+                                  "x": 890,
                                   "y": 515
                                 },
                                 {
@@ -6662,17 +6662,17 @@
                               ]
                             },
                             "text": "6",
-                            "confidence": 0.96819675
+                            "confidence": 0.96858025
                           }
                         ],
-                        "confidence": 0.96819675
+                        "confidence": 0.96858025
                       }
                     ],
-                    "confidence": 0.97722244
+                    "confidence": 0.9773382
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.97722244
+                "confidence": 0.9773382
               },
               {
                 "boundingBox": {
@@ -6818,7 +6818,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.6979672
+                            "confidence": 0.6979671
                           },
                           {
                             "boundingBox": {
@@ -6842,7 +6842,7 @@
                               ]
                             },
                             "text": "n",
-                            "confidence": 0.82481986
+                            "confidence": 0.8248196
                           },
                           {
                             "boundingBox": {
@@ -6866,7 +6866,7 @@
                               ]
                             },
                             "text": "d",
-                            "confidence": 0.92991537
+                            "confidence": 0.92991525
                           },
                           {
                             "boundingBox": {
@@ -6946,7 +6946,7 @@
                             "confidence": 0.9723318
                           }
                         ],
-                        "confidence": 0.82090145
+                        "confidence": 0.8209014
                       },
                       {
                         "property": {
@@ -7000,7 +7000,7 @@
                               ]
                             },
                             "text": "c",
-                            "confidence": 0.8894375
+                            "confidence": 0.88770586
                           },
                           {
                             "boundingBox": {
@@ -7024,7 +7024,7 @@
                               ]
                             },
                             "text": "h",
-                            "confidence": 0.9577323
+                            "confidence": 0.9597307
                           },
                           {
                             "boundingBox": {
@@ -7048,7 +7048,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.9544668
+                            "confidence": 0.95103794
                           },
                           {
                             "boundingBox": {
@@ -7072,7 +7072,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.9650696
+                            "confidence": 0.96293813
                           },
                           {
                             "boundingBox": {
@@ -7096,7 +7096,7 @@
                               ]
                             },
                             "text": "t",
-                            "confidence": 0.92669624
+                            "confidence": 0.91504747
                           },
                           {
                             "boundingBox": {
@@ -7120,7 +7120,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.96003664
+                            "confidence": 0.9572591
                           },
                           {
                             "boundingBox": {
@@ -7144,7 +7144,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.97561413
+                            "confidence": 0.97383624
                           },
                           {
                             "boundingBox": {
@@ -7168,7 +7168,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.9747988
+                            "confidence": 0.97443116
                           },
                           {
                             "property": {
@@ -7197,17 +7197,17 @@
                               ]
                             },
                             "text": "d",
-                            "confidence": 0.97863674
+                            "confidence": 0.9786506
                           }
                         ],
-                        "confidence": 0.9536099
+                        "confidence": 0.9511819
                       }
                     ],
-                    "confidence": 0.8911589
+                    "confidence": 0.88987345
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.8911589
+                "confidence": 0.88987345
               },
               {
                 "boundingBox": {
@@ -7297,7 +7297,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.9621572
+                            "confidence": 0.9622888
                           },
                           {
                             "boundingBox": {
@@ -7321,7 +7321,7 @@
                               ]
                             },
                             "text": "T",
-                            "confidence": 0.98246473
+                            "confidence": 0.9827878
                           },
                           {
                             "boundingBox": {
@@ -7345,7 +7345,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.9875087
+                            "confidence": 0.9878548
                           },
                           {
                             "boundingBox": {
@@ -7369,7 +7369,7 @@
                               ]
                             },
                             "text": "H",
-                            "confidence": 0.9886007
+                            "confidence": 0.9892899
                           },
                           {
                             "boundingBox": {
@@ -7393,7 +7393,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.9927563
+                            "confidence": 0.9928756
                           },
                           {
                             "property": {
@@ -7422,10 +7422,10 @@
                               ]
                             },
                             "text": "D",
-                            "confidence": 0.98875827
+                            "confidence": 0.98906624
                           }
                         ],
-                        "confidence": 0.98370767
+                        "confidence": 0.98402715
                       },
                       {
                         "property": {
@@ -7479,7 +7479,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.9476132
+                            "confidence": 0.9476304
                           },
                           {
                             "boundingBox": {
@@ -7503,7 +7503,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.9129973
+                            "confidence": 0.91352004
                           },
                           {
                             "boundingBox": {
@@ -7527,7 +7527,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.9803892
+                            "confidence": 0.98073244
                           },
                           {
                             "boundingBox": {
@@ -7551,7 +7551,7 @@
                               ]
                             },
                             "text": "W",
-                            "confidence": 0.98333
+                            "confidence": 0.983324
                           },
                           {
                             "boundingBox": {
@@ -7561,11 +7561,11 @@
                                   "y": 889
                                 },
                                 {
-                                  "x": 548,
+                                  "x": 547,
                                   "y": 889
                                 },
                                 {
-                                  "x": 548,
+                                  "x": 547,
                                   "y": 896
                                 },
                                 {
@@ -7575,7 +7575,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.991536
+                            "confidence": 0.9915287
                           },
                           {
                             "boundingBox": {
@@ -7628,17 +7628,17 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.97128683
+                            "confidence": 0.9712868
                           }
                         ],
-                        "confidence": 0.96677035
+                        "confidence": 0.9668946
                       }
                     ],
-                    "confidence": 0.97458756
+                    "confidence": 0.97480196
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.97458756
+                "confidence": 0.97480196
               },
               {
                 "boundingBox": {
@@ -7728,7 +7728,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.7745373
+                            "confidence": 0.77917856
                           },
                           {
                             "boundingBox": {
@@ -7752,7 +7752,7 @@
                               ]
                             },
                             "text": "s",
-                            "confidence": 0.9136531
+                            "confidence": 0.91702336
                           },
                           {
                             "boundingBox": {
@@ -7776,7 +7776,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.9547887
+                            "confidence": 0.95437354
                           },
                           {
                             "property": {
@@ -7805,17 +7805,17 @@
                               ]
                             },
                             "text": "k",
-                            "confidence": 0.973053
+                            "confidence": 0.972823
                           }
                         ],
-                        "confidence": 0.90400803
+                        "confidence": 0.90584964
                       }
                     ],
-                    "confidence": 0.90400803
+                    "confidence": 0.90584964
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.90400803
+                "confidence": 0.90584964
               },
               {
                 "boundingBox": {
@@ -7910,17 +7910,17 @@
                               ]
                             },
                             "text": "8",
-                            "confidence": 0.9521003
+                            "confidence": 0.9521002
                           }
                         ],
-                        "confidence": 0.9521003
+                        "confidence": 0.9521002
                       }
                     ],
-                    "confidence": 0.9521003
+                    "confidence": 0.9521002
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9521003
+                "confidence": 0.9521002
               },
               {
                 "boundingBox": {
@@ -8163,7 +8163,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.2705409
+                            "confidence": 0.26995367
                           },
                           {
                             "boundingBox": {
@@ -8187,7 +8187,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.36097148
+                            "confidence": 0.3608494
                           },
                           {
                             "boundingBox": {
@@ -8211,7 +8211,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.47289833
+                            "confidence": 0.46899706
                           },
                           {
                             "boundingBox": {
@@ -8235,7 +8235,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.5002035
+                            "confidence": 0.5069653
                           },
                           {
                             "boundingBox": {
@@ -8259,7 +8259,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.5384893
+                            "confidence": 0.5368603
                           },
                           {
                             "boundingBox": {
@@ -8283,7 +8283,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.5330432
+                            "confidence": 0.5386607
                           },
                           {
                             "boundingBox": {
@@ -8307,7 +8307,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.5525213
+                            "confidence": 0.55113417
                           },
                           {
                             "boundingBox": {
@@ -8331,7 +8331,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.61315155
+                            "confidence": 0.6154608
                           },
                           {
                             "boundingBox": {
@@ -8355,7 +8355,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.636832
+                            "confidence": 0.6368192
                           },
                           {
                             "boundingBox": {
@@ -8379,7 +8379,7 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.76278776
+                            "confidence": 0.76228744
                           },
                           {
                             "property": {
@@ -8408,17 +8408,17 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.7141274
+                            "confidence": 0.7148334
                           }
                         ],
-                        "confidence": 0.54141515
+                        "confidence": 0.5420747
                       }
                     ],
-                    "confidence": 0.54141515
+                    "confidence": 0.5420747
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.54141515
+                "confidence": 0.5420747
               },
               {
                 "boundingBox": {
@@ -8655,7 +8655,7 @@
                               ]
                             },
                             "text": "D",
-                            "confidence": 0.99070954
+                            "confidence": 0.9907095
                           }
                         ],
                         "confidence": 0.9895412
@@ -8763,7 +8763,7 @@
                               ]
                             },
                             "text": "H",
-                            "confidence": 0.97689825
+                            "confidence": 0.9765313
                           },
                           {
                             "boundingBox": {
@@ -8787,7 +8787,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.97052497
+                            "confidence": 0.9685851
                           },
                           {
                             "boundingBox": {
@@ -8811,7 +8811,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.98782045
+                            "confidence": 0.9873322
                           },
                           {
                             "boundingBox": {
@@ -8835,7 +8835,7 @@
                               ]
                             },
                             "text": "l",
-                            "confidence": 0.993375
+                            "confidence": 0.99322623
                           },
                           {
                             "boundingBox": {
@@ -8859,7 +8859,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.9949226
+                            "confidence": 0.9949787
                           },
                           {
                             "boundingBox": {
@@ -8883,7 +8883,7 @@
                               ]
                             },
                             "text": "n",
-                            "confidence": 0.99395484
+                            "confidence": 0.99418914
                           },
                           {
                             "property": {
@@ -8912,17 +8912,17 @@
                               ]
                             },
                             "text": "d",
-                            "confidence": 0.9795982
+                            "confidence": 0.98050064
                           }
                         ],
-                        "confidence": 0.98529917
+                        "confidence": 0.98504907
                       }
                     ],
-                    "confidence": 0.98529917
+                    "confidence": 0.98504907
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.98529917
+                "confidence": 0.98504907
               },
               {
                 "boundingBox": {
@@ -9194,13 +9194,13 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.97449
+                            "confidence": 0.9744899
                           }
                         ],
-                        "confidence": 0.98552376
+                        "confidence": 0.9855237
                       }
                     ],
-                    "confidence": 0.98552376
+                    "confidence": 0.9855237
                   },
                   {
                     "boundingBox": {
@@ -9276,7 +9276,7 @@
                               ]
                             },
                             "text": "B",
-                            "confidence": 0.75171953
+                            "confidence": 0.7517194
                           },
                           {
                             "property": {
@@ -9305,10 +9305,10 @@
                               ]
                             },
                             "text": "Y",
-                            "confidence": 0.77558994
+                            "confidence": 0.7755898
                           }
                         ],
-                        "confidence": 0.7636547
+                        "confidence": 0.7636546
                       },
                       {
                         "property": {
@@ -9362,7 +9362,7 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.7578659
+                            "confidence": 0.757866
                           },
                           {
                             "boundingBox": {
@@ -9386,7 +9386,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.7622897
+                            "confidence": 0.7622896
                           },
                           {
                             "boundingBox": {
@@ -9410,7 +9410,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.71365494
+                            "confidence": 0.7136549
                           },
                           {
                             "boundingBox": {
@@ -9490,10 +9490,10 @@
                             "confidence": 0.9383905
                           }
                         ],
-                        "confidence": 0.8342352
+                        "confidence": 0.83423513
                       }
                     ],
-                    "confidence": 0.8165901
+                    "confidence": 0.81659
                   }
                 ],
                 "blockType": "TEXT",
@@ -9691,7 +9691,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.9892132
+                            "confidence": 0.98921317
                           },
                           {
                             "property": {
@@ -9882,7 +9882,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.31388584
+                            "confidence": 0.3140738
                           },
                           {
                             "boundingBox": {
@@ -9906,7 +9906,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.28054726
+                            "confidence": 0.2815349
                           },
                           {
                             "boundingBox": {
@@ -9930,7 +9930,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.32909316
+                            "confidence": 0.33148885
                           },
                           {
                             "boundingBox": {
@@ -9954,7 +9954,7 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.62850785
+                            "confidence": 0.6270782
                           },
                           {
                             "boundingBox": {
@@ -9978,7 +9978,7 @@
                               ]
                             },
                             "text": "M",
-                            "confidence": 0.97073984
+                            "confidence": 0.97120005
                           },
                           {
                             "property": {
@@ -10007,17 +10007,17 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.93939227
+                            "confidence": 0.9442563
                           }
                         ],
-                        "confidence": 0.5770277
+                        "confidence": 0.578272
                       }
                     ],
-                    "confidence": 0.5770277
+                    "confidence": 0.578272
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.5770277
+                "confidence": 0.578272
               },
               {
                 "boundingBox": {
@@ -10115,7 +10115,7 @@
                               ]
                             },
                             "text": "M",
-                            "confidence": 0.987081
+                            "confidence": 0.9871423
                           },
                           {
                             "boundingBox": {
@@ -10139,7 +10139,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.9892563
+                            "confidence": 0.9890224
                           },
                           {
                             "boundingBox": {
@@ -10163,7 +10163,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.9947918
+                            "confidence": 0.9945338
                           },
                           {
                             "boundingBox": {
@@ -10187,7 +10187,7 @@
                               ]
                             },
                             "text": "K",
-                            "confidence": 0.9943793
+                            "confidence": 0.9942595
                           },
                           {
                             "boundingBox": {
@@ -10211,7 +10211,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.9946254
+                            "confidence": 0.99485666
                           },
                           {
                             "boundingBox": {
@@ -10235,7 +10235,7 @@
                               ]
                             },
                             "text": "T",
-                            "confidence": 0.99112135
+                            "confidence": 0.99221325
                           },
                           {
                             "property": {
@@ -10264,17 +10264,17 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.98115027
+                            "confidence": 0.98404133
                           }
                         ],
-                        "confidence": 0.99034363
+                        "confidence": 0.990867
                       }
                     ],
-                    "confidence": 0.99034363
+                    "confidence": 0.990867
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.99034363
+                "confidence": 0.990867
               },
               {
                 "boundingBox": {
@@ -10372,7 +10372,7 @@
                               ]
                             },
                             "text": "B",
-                            "confidence": 0.96398854
+                            "confidence": 0.96277535
                           },
                           {
                             "boundingBox": {
@@ -10396,7 +10396,7 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.7986657
+                            "confidence": 0.7837946
                           },
                           {
                             "boundingBox": {
@@ -10420,7 +10420,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.98295826
+                            "confidence": 0.98277134
                           },
                           {
                             "boundingBox": {
@@ -10444,7 +10444,7 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.96509963
+                            "confidence": 0.96477735
                           },
                           {
                             "property": {
@@ -10473,17 +10473,17 @@
                               ]
                             },
                             "text": "y",
-                            "confidence": 0.98382425
+                            "confidence": 0.9838479
                           }
                         ],
-                        "confidence": 0.93890727
+                        "confidence": 0.9355933
                       }
                     ],
-                    "confidence": 0.93890727
+                    "confidence": 0.9355933
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.93890727
+                "confidence": 0.9355933
               },
               {
                 "boundingBox": {
@@ -10493,11 +10493,11 @@
                       "y": 991
                     },
                     {
-                      "x": 854,
+                      "x": 853,
                       "y": 991
                     },
                     {
-                      "x": 854,
+                      "x": 853,
                       "y": 1002
                     },
                     {
@@ -10515,11 +10515,11 @@
                           "y": 991
                         },
                         {
-                          "x": 854,
+                          "x": 853,
                           "y": 991
                         },
                         {
-                          "x": 854,
+                          "x": 853,
                           "y": 1002
                         },
                         {
@@ -10537,11 +10537,11 @@
                               "y": 991
                             },
                             {
-                              "x": 854,
+                              "x": 853,
                               "y": 991
                             },
                             {
-                              "x": 854,
+                              "x": 853,
                               "y": 1002
                             },
                             {
@@ -10564,11 +10564,11 @@
                                   "y": 991
                                 },
                                 {
-                                  "x": 854,
+                                  "x": 853,
                                   "y": 991
                                 },
                                 {
-                                  "x": 854,
+                                  "x": 853,
                                   "y": 1002
                                 },
                                 {
@@ -10578,17 +10578,17 @@
                               ]
                             },
                             "text": "6",
-                            "confidence": 0.9644301
+                            "confidence": 0.9640225
                           }
                         ],
-                        "confidence": 0.9644301
+                        "confidence": 0.9640225
                       }
                     ],
-                    "confidence": 0.9644301
+                    "confidence": 0.9640225
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9644301
+                "confidence": 0.9640225
               },
               {
                 "boundingBox": {
@@ -10678,7 +10678,7 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.87912446
+                            "confidence": 0.8767096
                           },
                           {
                             "boundingBox": {
@@ -10702,7 +10702,7 @@
                               ]
                             },
                             "text": "t",
-                            "confidence": 0.85805535
+                            "confidence": 0.8552327
                           },
                           {
                             "property": {
@@ -10731,17 +10731,17 @@
                               ]
                             },
                             "text": "a",
-                            "confidence": 0.615692
+                            "confidence": 0.6304577
                           }
                         ],
-                        "confidence": 0.7842906
+                        "confidence": 0.78746665
                       }
                     ],
-                    "confidence": 0.7842906
+                    "confidence": 0.78746665
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.7842906
+                "confidence": 0.78746665
               },
               {
                 "boundingBox": {
@@ -11086,7 +11086,7 @@
                               ]
                             },
                             "text": "3",
-                            "confidence": 0.96937156
+                            "confidence": 0.9695816
                           },
                           {
                             "property": {
@@ -11115,10 +11115,10 @@
                               ]
                             },
                             "text": ".",
-                            "confidence": 0.9559717
+                            "confidence": 0.9563195
                           }
                         ],
-                        "confidence": 0.96267164
+                        "confidence": 0.9629506
                       },
                       {
                         "property": {
@@ -11172,7 +11172,7 @@
                               ]
                             },
                             "text": "D",
-                            "confidence": 0.9871772
+                            "confidence": 0.9868443
                           },
                           {
                             "boundingBox": {
@@ -11196,7 +11196,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.99258333
+                            "confidence": 0.99241775
                           },
                           {
                             "property": {
@@ -11225,17 +11225,17 @@
                               ]
                             },
                             "text": "F",
-                            "confidence": 0.98851013
+                            "confidence": 0.98875594
                           }
                         ],
-                        "confidence": 0.9894236
+                        "confidence": 0.98933935
                       }
                     ],
-                    "confidence": 0.9787228
+                    "confidence": 0.97878385
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9787228
+                "confidence": 0.97878385
               },
               {
                 "boundingBox": {
@@ -11477,7 +11477,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.9949726
+                            "confidence": 0.9949725
                           },
                           {
                             "property": {
@@ -11509,7 +11509,7 @@
                             "confidence": 0.99028915
                           }
                         ],
-                        "confidence": 0.9915906
+                        "confidence": 0.99159056
                       },
                       {
                         "property": {
@@ -11563,7 +11563,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.98474735
+                            "confidence": 0.9841577
                           },
                           {
                             "boundingBox": {
@@ -11587,7 +11587,7 @@
                               ]
                             },
                             "text": "X",
-                            "confidence": 0.97642
+                            "confidence": 0.9759669
                           },
                           {
                             "boundingBox": {
@@ -11611,7 +11611,7 @@
                               ]
                             },
                             "text": "P",
-                            "confidence": 0.98246276
+                            "confidence": 0.9823741
                           },
                           {
                             "boundingBox": {
@@ -11635,7 +11635,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.99140507
+                            "confidence": 0.99129677
                           },
                           {
                             "boundingBox": {
@@ -11659,7 +11659,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.98147744
+                            "confidence": 0.9814148
                           },
                           {
                             "boundingBox": {
@@ -11683,7 +11683,7 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.9588151
+                            "confidence": 0.95875984
                           },
                           {
                             "property": {
@@ -11712,17 +11712,17 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.94851583
+                            "confidence": 0.9442341
                           }
                         ],
-                        "confidence": 0.9748348
+                        "confidence": 0.9740292
                       }
                     ],
-                    "confidence": 0.9837712
+                    "confidence": 0.9833953
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9837712
+                "confidence": 0.9833953
               },
               {
                 "boundingBox": {
@@ -12010,7 +12010,7 @@
                         "boundingBox": {
                           "vertices": [
                             {
-                              "x": 409,
+                              "x": 410,
                               "y": 1206
                             },
                             {
@@ -12022,7 +12022,7 @@
                               "y": 1215
                             },
                             {
-                              "x": 409,
+                              "x": 410,
                               "y": 1214
                             }
                           ]
@@ -12032,25 +12032,25 @@
                             "boundingBox": {
                               "vertices": [
                                 {
-                                  "x": 409,
+                                  "x": 410,
                                   "y": 1206
                                 },
                                 {
-                                  "x": 417,
+                                  "x": 418,
                                   "y": 1206
                                 },
                                 {
-                                  "x": 417,
+                                  "x": 418,
                                   "y": 1214
                                 },
                                 {
-                                  "x": 409,
+                                  "x": 410,
                                   "y": 1214
                                 }
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.98678404
+                            "confidence": 0.98605424
                           },
                           {
                             "boundingBox": {
@@ -12074,7 +12074,7 @@
                               ]
                             },
                             "text": "X",
-                            "confidence": 0.9836292
+                            "confidence": 0.98296475
                           },
                           {
                             "boundingBox": {
@@ -12098,7 +12098,7 @@
                               ]
                             },
                             "text": "P",
-                            "confidence": 0.99408996
+                            "confidence": 0.9938849
                           },
                           {
                             "boundingBox": {
@@ -12122,7 +12122,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.96681803
+                            "confidence": 0.9716774
                           },
                           {
                             "boundingBox": {
@@ -12146,7 +12146,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.92267615
+                            "confidence": 0.9344164
                           },
                           {
                             "boundingBox": {
@@ -12170,7 +12170,7 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.83495754
+                            "confidence": 0.843102
                           },
                           {
                             "property": {
@@ -12199,17 +12199,17 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.90743786
+                            "confidence": 0.9139543
                           }
                         ],
-                        "confidence": 0.9423418
+                        "confidence": 0.94657916
                       }
                     ],
-                    "confidence": 0.9666631
+                    "confidence": 0.9686405
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9666631
+                "confidence": 0.9686405
               },
               {
                 "boundingBox": {
@@ -12355,7 +12355,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.9264763
+                            "confidence": 0.92647636
                           },
                           {
                             "boundingBox": {
@@ -12480,7 +12480,7 @@
                               ]
                             },
                             "text": "N",
-                            "confidence": 0.472797
+                            "confidence": 0.47279692
                           }
                         ],
                         "confidence": 0.8855159
@@ -13123,7 +13123,7 @@
                               ]
                             },
                             "text": "Y",
-                            "confidence": 0.96468914
+                            "confidence": 0.9646891
                           },
                           {
                             "boundingBox": {
@@ -13404,7 +13404,7 @@
                               ]
                             },
                             "text": "D",
-                            "confidence": 0.9739
+                            "confidence": 0.97403896
                           },
                           {
                             "property": {
@@ -13433,10 +13433,10 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.96931666
+                            "confidence": 0.9695428
                           }
                         ],
-                        "confidence": 0.97160834
+                        "confidence": 0.9717909
                       },
                       {
                         "property": {
@@ -13490,7 +13490,7 @@
                               ]
                             },
                             "text": "C",
-                            "confidence": 0.97772676
+                            "confidence": 0.9773495
                           },
                           {
                             "boundingBox": {
@@ -13500,11 +13500,11 @@
                                   "y": 1272
                                 },
                                 {
-                                  "x": 663,
+                                  "x": 664,
                                   "y": 1272
                                 },
                                 {
-                                  "x": 663,
+                                  "x": 664,
                                   "y": 1288
                                 },
                                 {
@@ -13514,7 +13514,7 @@
                               ]
                             },
                             "text": "u",
-                            "confidence": 0.97467005
+                            "confidence": 0.97391707
                           },
                           {
                             "boundingBox": {
@@ -13538,7 +13538,7 @@
                               ]
                             },
                             "text": "y",
-                            "confidence": 0.9855167
+                            "confidence": 0.9849177
                           },
                           {
                             "boundingBox": {
@@ -13562,7 +13562,7 @@
                               ]
                             },
                             "text": "p",
-                            "confidence": 0.9921195
+                            "confidence": 0.9919953
                           },
                           {
                             "boundingBox": {
@@ -13586,7 +13586,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.99330723
+                            "confidence": 0.99340886
                           },
                           {
                             "property": {
@@ -13615,17 +13615,17 @@
                               ]
                             },
                             "text": "r",
-                            "confidence": 0.99346626
+                            "confidence": 0.9934745
                           }
                         ],
-                        "confidence": 0.9861344
+                        "confidence": 0.98584384
                       }
                     ],
-                    "confidence": 0.9825029
+                    "confidence": 0.98233056
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.9825029
+                "confidence": 0.98233056
               },
               {
                 "boundingBox": {
@@ -13720,17 +13720,17 @@
                               ]
                             },
                             "text": "6",
-                            "confidence": 0.96505845
+                            "confidence": 0.96502584
                           }
                         ],
-                        "confidence": 0.96505845
+                        "confidence": 0.96502584
                       }
                     ],
-                    "confidence": 0.96505845
+                    "confidence": 0.96502584
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.96505845
+                "confidence": 0.96502584
               },
               {
                 "boundingBox": {
@@ -14062,7 +14062,7 @@
                               ]
                             },
                             "text": "e",
-                            "confidence": 0.9893066
+                            "confidence": 0.98930657
                           },
                           {
                             "boundingBox": {
@@ -14152,11 +14152,11 @@
                               "y": 1305
                             },
                             {
-                              "x": 882,
+                              "x": 883,
                               "y": 1305
                             },
                             {
-                              "x": 882,
+                              "x": 883,
                               "y": 1317
                             },
                             {
@@ -14179,11 +14179,11 @@
                                   "y": 1305
                                 },
                                 {
-                                  "x": 882,
+                                  "x": 883,
                                   "y": 1305
                                 },
                                 {
-                                  "x": 882,
+                                  "x": 883,
                                   "y": 1317
                                 },
                                 {
@@ -14199,11 +14199,11 @@
                         "confidence": 0.8361333
                       }
                     ],
-                    "confidence": 0.96345794
+                    "confidence": 0.9634579
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.96345794
+                "confidence": 0.9634579
               },
               {
                 "boundingBox": {
@@ -14651,17 +14651,17 @@
                               ]
                             },
                             "text": "Π",
-                            "confidence": 0.89154905
+                            "confidence": 0.8915491
                           }
                         ],
-                        "confidence": 0.89154905
+                        "confidence": 0.8915491
                       }
                     ],
-                    "confidence": 0.89154905
+                    "confidence": 0.8915491
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.89154905
+                "confidence": 0.8915491
               },
               {
                 "boundingBox": {
@@ -14671,11 +14671,11 @@
                       "y": 631
                     },
                     {
-                      "x": 1013,
+                      "x": 1014,
                       "y": 636
                     },
                     {
-                      "x": 1011,
+                      "x": 1012,
                       "y": 656
                     },
                     {
@@ -14693,11 +14693,11 @@
                           "y": 631
                         },
                         {
-                          "x": 1013,
+                          "x": 1014,
                           "y": 636
                         },
                         {
-                          "x": 1011,
+                          "x": 1012,
                           "y": 656
                         },
                         {
@@ -14715,11 +14715,11 @@
                               "y": 633
                             },
                             {
-                              "x": 1013,
+                              "x": 1014,
                               "y": 636
                             },
                             {
-                              "x": 1012,
+                              "x": 1013,
                               "y": 646
                             },
                             {
@@ -14751,7 +14751,7 @@
                               ]
                             },
                             "text": "E",
-                            "confidence": 0.9608257
+                            "confidence": 0.96120083
                           },
                           {
                             "boundingBox": {
@@ -14775,7 +14775,7 @@
                               ]
                             },
                             "text": "T",
-                            "confidence": 0.97976035
+                            "confidence": 0.9800807
                           },
                           {
                             "boundingBox": {
@@ -14799,7 +14799,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.9907679
+                            "confidence": 0.9909755
                           },
                           {
                             "boundingBox": {
@@ -14823,7 +14823,7 @@
                               ]
                             },
                             "text": "H",
-                            "confidence": 0.993578
+                            "confidence": 0.9934494
                           },
                           {
                             "boundingBox": {
@@ -14847,7 +14847,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.99208575
+                            "confidence": 0.9895356
                           },
                           {
                             "property": {
@@ -14862,11 +14862,11 @@
                                   "y": 636
                                 },
                                 {
-                                  "x": 1013,
+                                  "x": 1014,
                                   "y": 637
                                 },
                                 {
-                                  "x": 1012,
+                                  "x": 1013,
                                   "y": 646
                                 },
                                 {
@@ -14876,10 +14876,10 @@
                               ]
                             },
                             "text": "D",
-                            "confidence": 0.9793757
+                            "confidence": 0.9708006
                           }
                         ],
-                        "confidence": 0.98273224
+                        "confidence": 0.9810071
                       },
                       {
                         "property": {
@@ -14933,7 +14933,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.92964715
+                            "confidence": 0.9293064
                           },
                           {
                             "boundingBox": {
@@ -14957,7 +14957,7 @@
                               ]
                             },
                             "text": "I",
-                            "confidence": 0.8728782
+                            "confidence": 0.885953
                           },
                           {
                             "boundingBox": {
@@ -14981,7 +14981,7 @@
                               ]
                             },
                             "text": "R",
-                            "confidence": 0.9700213
+                            "confidence": 0.96656907
                           },
                           {
                             "boundingBox": {
@@ -15005,7 +15005,7 @@
                               ]
                             },
                             "text": "W",
-                            "confidence": 0.9758977
+                            "confidence": 0.9751707
                           },
                           {
                             "boundingBox": {
@@ -15029,7 +15029,7 @@
                               ]
                             },
                             "text": "A",
-                            "confidence": 0.98754025
+                            "confidence": 0.9874297
                           },
                           {
                             "boundingBox": {
@@ -15053,7 +15053,7 @@
                               ]
                             },
                             "text": "Y",
-                            "confidence": 0.98515886
+                            "confidence": 0.98506016
                           },
                           {
                             "property": {
@@ -15082,17 +15082,17 @@
                               ]
                             },
                             "text": "S",
-                            "confidence": 0.9707514
+                            "confidence": 0.9709288
                           }
                         ],
-                        "confidence": 0.955985
+                        "confidence": 0.95720255
                       }
                     ],
-                    "confidence": 0.96832985
+                    "confidence": 0.96818924
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.96832985
+                "confidence": 0.96818924
               },
               {
                 "boundingBox": {
@@ -15439,7 +15439,7 @@
                               ]
                             },
                             "text": "1",
-                            "confidence": 0.98602897
+                            "confidence": 0.9859634
                           },
                           {
                             "property": {
@@ -15468,20 +15468,20 @@
                               ]
                             },
                             "text": "7",
-                            "confidence": 0.9793458
+                            "confidence": 0.97919947
                           }
                         ],
-                        "confidence": 0.98268735
+                        "confidence": 0.98258144
                       }
                     ],
-                    "confidence": 0.98268735
+                    "confidence": 0.98258144
                   }
                 ],
                 "blockType": "TEXT",
-                "confidence": 0.98268735
+                "confidence": 0.98258144
               }
             ],
-            "confidence": 0.9432881
+            "confidence": 0.9432493
           }
         ],
         "text": "ETIHAD\nAIRWAYS\nFantasy\nICMC\nMARKETS\nSta\nPickford\n8\nFantasy\nde\nEmirates\nHALO\nindeed\nFLY BETTER\nCalafiori\n1\nMAREX\nCherki\n8\nGibbs-White\nDiop\n4\nKayode\n6\nstandard\nchartered\nETIHAD\nAIRWAYS\nIsak\n8\nGKP\n...........\n1. MID\nHaaland\n6\nUSDC\nBY CIRCLE\nRogers\n2\nIIICMC\nMARKETS\nBarry\n6\nSta\n2. DEF\n3. DEF\nAMERICAN\nEXPRESS\nAMERICAN\nEXPRESS\nAMERICAN\nEXPRESS\nVerbruggen\nYalcouyé\nDe Cuyper\n6\n1\n6\nMendy\n0\nSubstitutes\nΠ\nETIHAD\nAIRWAYS\nSemenyo\n17"

@@ -28,6 +28,7 @@ IMAGES = [
     "pitch-view-example.jpg",
     "screenshot fpl team .jpg",
     "fpl pitch 3.jpeg",
+    "FPL test pitch 6.PNG",
 ]
 
 
