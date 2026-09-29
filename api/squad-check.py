@@ -197,8 +197,9 @@ class handler(BaseHTTPRequestHandler):
 
         # Gate 2 — smart resolution with squad constraints + user overrides
         # (bootstrap filtering now done inside the scanner)
+        scan_players = scan_result.get("players", [])
         resolved, ambiguous, unresolved = resolve_squad_smart(
-            clean_players, elements, overrides=player_choices
+            scan_players, elements, overrides=player_choices
         )
 
         if ambiguous:
