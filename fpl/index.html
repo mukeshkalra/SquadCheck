@@ -1065,17 +1065,11 @@ function renderHero(p) {
   const gw   = p.gameweek||'—';
   const form = p.submitted_xi?.formation||'—';
   const starts = (p.players||[]).filter(q=>q.is_starting);
-  const hiN  = starts.filter(q=>q.confidence==='HIGH').length;
-  const confLabel = hiN===11?'HIGH confidence':hiN>=8?'Good confidence':'Mixed confidence';
-  const confCls   = hiN===11?'lime':hiN>=8?'':'dim';
 
   // Include captain 2× in the projected total
   const captP  = p.captain_id ? starts.find(q=>q.player_id===p.captain_id) : null;
   const base   = p.submitted_xi?.xPts ?? 0;
   const xPts   = (base + (captP?.xPts ?? 0)).toFixed(1);   // +1× for captain (already counted once)
-  const captChip = captP
-    ? `<span class="hc lime"><span class="cv-sm c">C</span>${esc(captP.web_name)} ${(captP.xPts*2).toFixed(1)} pts</span>`
-    : '';
 
   $('r-hero').innerHTML = `
 <div class="hero">
@@ -1085,12 +1079,7 @@ function renderHero(p) {
   <p class="hero-label">Your squad forecast</p>
   <div class="hero-pts">${esc(xPts)}</div>
   <p class="hero-pts-unit">pts this GW</p>
-  <p class="hero-interp">Here's how your team looks.</p>
-  <div class="hero-chips">
-    <span class="hc ${confCls}">${esc(confLabel)}</span>
-    <span class="hc">${esc(form)}</span>
-    ${captChip}
-  </div>
+  <p class="hero-interp">Here's how the points roll up.</p>
 </div>`;
 }
 
