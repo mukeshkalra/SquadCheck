@@ -43,6 +43,7 @@ HOLD is a valid successful result.
 from .scanner  import VALID as _SCAN_VALID, _norm_name
 from .projection import compute_xpts
 from .bench    import optimise_bench
+from .insight  import player_insight
 
 # Pipeline-level status codes (distinct from scanner status codes)
 OK            = "OK"
@@ -510,6 +511,14 @@ def _build_payload(scan_result, projections, bench_result, threshold,
                 "team_name_full": team_info.get("name", ""),
             },
         })
+
+    # Add one insight per player for result-screen display
+    _starters = [p for p in players_out if p["is_starting"]]
+    _top_id   = max(_starters, key=lambda p: p["xPts"])["player_id"] if _starters else None
+    for _p in players_out:
+        _p["insight"] = player_insight(
+            _p, is_top_captain=(_p["is_starting"] and _p["player_id"] == _top_id)
+        )
 
     return {
         "status":          OK,

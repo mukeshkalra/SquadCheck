@@ -29,6 +29,7 @@ IMAGES = [
     "screenshot fpl team .jpg",
     "fpl pitch 3.jpeg",
     "FPL test pitch 6.PNG",
+    "FPL test 4.png",
 ]
 
 

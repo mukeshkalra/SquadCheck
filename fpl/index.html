@@ -58,7 +58,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
 /* ─────── UPLOAD ─────── */
 #s-upload{min-height:100vh}
-.up-wrap{padding:36px 22px 80px;max-width:460px;margin:0 auto}
+.up-wrap{padding:32px 22px 20px;max-width:460px;margin:0 auto}
 
 .live-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 13px;
   background:var(--lime-t);border:1px solid var(--lime-b);border-radius:20px;margin-bottom:24px}
@@ -67,11 +67,11 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
 .live-text{font-size:11px;font-weight:800;color:var(--lime);letter-spacing:.08em;text-transform:uppercase}
 
-.up-h1{font-size:clamp(36px,10vw,52px);font-weight:900;line-height:.95;
+.up-h1{font-size:clamp(30px,9vw,50px);font-weight:900;line-height:.95;
   letter-spacing:-.04em;margin-bottom:14px}
 .up-h1 em{font-style:normal;color:var(--lime)}
 
-.up-sub{font-size:16px;font-weight:500;color:var(--gray);line-height:1.65;margin-bottom:20px}
+.up-sub{font-size:17px;font-weight:700;color:var(--white);line-height:1.5;margin-bottom:20px}
 .up-instruction{font-size:13px;font-weight:600;color:var(--gray2);
   line-height:1.5;margin-bottom:24px}
 .up-instruction b{color:var(--gray)}
@@ -87,9 +87,9 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .up-cta:active{transform:translateY(0);background:#bbec00;box-shadow:none}
 .up-cta-icon{flex-shrink:0}
 
-.up-trust{display:flex;align-items:center;justify-content:center;gap:14px;
-  font-size:12px;font-weight:600;color:var(--gray2);margin-bottom:32px}
-.up-trust-sep{width:3px;height:3px;border-radius:50%;background:var(--gray2);opacity:.35}
+.up-trust{display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:13px;font-weight:800;color:var(--lime);margin-bottom:24px;flex-wrap:wrap}
+.up-trust-sep{width:3px;height:3px;border-radius:50%;background:var(--lime);opacity:.45}
 
 
 .up-model-link{text-align:center;font-size:13px;font-weight:700;margin-bottom:32px}
@@ -163,6 +163,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hc.amber{background:var(--amber-t);border-color:rgba(255,181,71,.3);color:var(--amber)}
 .hc.coral{background:var(--coral-t);border-color:rgba(255,107,74,.3);color:var(--coral)}
 .hero-note{font-size:11px;color:var(--gray2);margin-top:8px}
+.hero-interp{font-size:15px;font-weight:600;color:var(--gray);margin-bottom:18px;line-height:1.5}
 .cv-sm{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;
   justify-content:center;font-size:9px;font-weight:900;border:1.5px solid}
 .cv-sm.c{background:#000;color:var(--lime);border-color:var(--lime)}
@@ -174,10 +175,10 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 /* ── POSITION SECTION ── */
 .pos-wrap{padding:0 14px}
 .pos-head{display:flex;align-items:center;justify-content:space-between;
-  padding:24px 4px 12px;border-top:1px solid rgba(255,255,255,.04)}
+  padding:24px 4px 12px;border-top:1px solid rgba(255,255,255,.08)}
 .pos-head:first-of-type{border-top:none;padding-top:18px}
-.pos-title{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--gray2)}
+.pos-title{font-size:13px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--white)}
 .pos-sum{font-size:13px;font-weight:800;color:var(--white);
   font-variant-numeric:tabular-nums}
 
@@ -261,6 +262,47 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .cl-btn{font-size:12px;font-weight:700;color:var(--gray2);background:none;border:none;transition:color .15s}
 .cl-btn:hover{color:var(--white)}
 
+/* ── HORIZONTAL PLAYER ROWS ── */
+.pos-section{margin-bottom:0}
+.pos-head.first{border-top:none;padding-top:18px}
+.pos-row{display:flex;gap:10px;overflow-x:auto;padding:0 14px 14px;
+  margin:0 -14px;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.pos-row::-webkit-scrollbar{display:none}
+.pc-h{flex:0 0 168px;background:var(--d2);border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r);padding:13px 13px 11px;position:relative;cursor:pointer;
+  scroll-snap-align:start;overflow:hidden;transition:border-color .15s,box-shadow .15s;
+  box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.pc-h.active{border-color:rgba(255,255,255,.22);box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.pc-h::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pc-h.gk::before{background:var(--amber)}
+.pc-h.df::before{background:var(--blue)}
+.pc-h.md::before{background:var(--lime)}
+.pc-h.fw::before{background:var(--coral)}
+.pc-h-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.pc-h-top-r{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.pc-h-postag{font-size:9px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}
+.pc-h.gk .pc-h-postag{color:var(--amber)}
+.pc-h.df .pc-h-postag{color:var(--blue)}
+.pc-h.md .pc-h-postag{color:var(--lime)}
+.pc-h.fw .pc-h-postag{color:var(--coral)}
+.pc-h-name{font-size:15px;font-weight:800;letter-spacing:-.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
+.pc-h-pts{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;line-height:1}
+.pc-h-pts.hi{color:var(--lime)} .pc-h-pts.mid{color:var(--white)} .pc-h-pts.lo{color:var(--gray)}
+.pc-h-unit{font-size:10px;color:var(--gray);font-weight:600;margin-left:2px}
+.pc-h-fix{font-size:11px;color:var(--gray2);font-weight:600;margin-top:5px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-h-photo{width:36px;height:46px;object-fit:cover;object-position:top center;
+  border-radius:6px;display:block;background:var(--d4);flex-shrink:0}
+.pc-h-ins{margin-top:7px;font-size:11px;font-weight:700;
+  display:flex;align-items:center;gap:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ins-pos{color:var(--lime)} .ins-cau{color:var(--amber)} .ins-neu{color:var(--gray2)}
+.hc.dim{opacity:.35}
+.pos-detail{margin:2px 0 8px;background:var(--d3,#1a1a1f);
+  border:1px solid rgba(255,255,255,.1);border-radius:var(--r);overflow:hidden}
+
 /* ── BENCH ── */
 .bench-hdr{display:flex;align-items:center;justify-content:space-between;
   padding:20px 4px 12px;border-top:1px solid rgba(255,255,255,.04);cursor:pointer}
@@ -272,8 +314,8 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
 /* ── AWESOME ── */
 .sec{padding:28px 14px 0}
-.sec-hdr{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--gray2);margin-bottom:14px}
+.sec-hdr{font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--white);margin-bottom:14px}
 .aw-grid{display:flex;flex-direction:column;gap:8px}
 .aw-card{background:var(--d2);border:1px solid rgba(255,255,255,.07);
   border-radius:var(--r);padding:16px;display:flex;gap:14px;align-items:flex-start;
@@ -473,6 +515,115 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   border-radius:var(--r-sm);font-size:13px;font-weight:600;color:var(--gray)}
 .fb-ropt input{accent-color:var(--lime)}
 
+/* ── NAV HOW-IT-WORKS ── */
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-how{font-size:12px;font-weight:700;color:var(--gray);transition:color .15s}
+.nav-how:hover{color:var(--white)}
+
+/* ── PITCH VISUAL ── */
+.pitch-vis{background:linear-gradient(175deg,#1d6e22 0%,#175a1c 50%,#1d6e22 100%);
+  border-radius:14px;padding:14px 8px 12px;margin-bottom:22px;
+  border:1px solid rgba(255,255,255,.1);overflow:hidden}
+.pitch-vis-inner{max-width:340px;margin:0 auto}
+.prow{display:flex;justify-content:center;gap:4px;margin-bottom:6px}
+.prow:last-child{margin-bottom:0}
+.pch{display:flex;flex-direction:column;align-items:center;gap:2px;width:56px}
+.pch-j{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:8px;font-weight:900;letter-spacing:.02em;
+  border:1.5px solid rgba(255,255,255,.2);flex-shrink:0}
+.pch-j.gk{background:#f0a500;color:#000}
+.pch-j.df{background:#2d74c4;color:#fff}
+.pch-j.md{background:#8ab400;color:#000}
+.pch-j.fw{background:#cc4400;color:#fff}
+.pch-n{font-size:8px;font-weight:700;color:rgba(255,255,255,.88);
+  text-align:center;line-height:1.1;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;max-width:52px}
+.pch-x{font-size:7px;font-weight:800;background:rgba(0,0,0,.55);
+  color:#ccff00;padding:1px 4px;border-radius:3px;line-height:1.5}
+.pitch-sep{display:flex;align-items:center;gap:8px;padding:6px 4px 5px}
+.pitch-sep-line{flex:1;height:0;border-top:1px dashed rgba(255,255,255,.2)}
+.pitch-sep-lbl{font-size:8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.35)}
+.pch.sm .pch-j{width:22px;height:22px;font-size:7px}
+.pch.sm .pch-n{font-size:7px}
+.pch.sm .pch-x{display:none}
+
+/* ── SCREENSHOT HINT (collapsible) ── */
+.up-hint{margin-top:4px;padding:13px 16px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r-sm)}
+.up-hint-main{font-size:14px;font-weight:800;color:var(--white);margin-bottom:2px}
+.up-hint-sub{font-size:12px;color:var(--gray);font-weight:600}
+.shot-reveal{margin-top:10px}
+.shot-reveal summary{cursor:pointer;list-style:none;font-size:12px;font-weight:700;
+  color:var(--gray2);display:inline-flex;align-items:center;gap:4px;
+  -webkit-tap-highlight-color:transparent;transition:color .15s;user-select:none}
+.shot-reveal summary::-webkit-details-marker{display:none}
+.shot-reveal summary::marker{display:none}
+.shot-reveal summary:hover,.shot-reveal[open] summary{color:var(--lime)}
+.shot-reveal-body{padding-top:12px}
+.shot-reveal-img{width:100%;border-radius:10px;display:block;
+  border:1px solid rgba(255,255,255,.08);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.shot-reveal-note{font-size:11px;color:var(--gray2);line-height:1.5;margin-top:8px}
+
+/* ── EXAMPLE RESULT (Screen 2) ── */
+.ex-wrap{padding:0 0 48px;border-top:1px solid rgba(255,255,255,.07);
+  max-width:460px;margin:0 auto}
+.ex-eyebrow-row{padding:36px 22px 0;text-align:center}
+.ex-eyebrow{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--lime);background:var(--lime-t);
+  border:1px solid var(--lime-b);padding:4px 12px;border-radius:20px}
+.ex-hero{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;padding:20px 22px 0}
+.ex-pts-num{font-size:76px;font-weight:900;color:var(--lime);line-height:1;
+  letter-spacing:-.04em;font-variant-numeric:tabular-nums;text-shadow:var(--shadow-lime)}
+.ex-pts-label{font-size:13px;font-weight:600;color:var(--gray);margin-top:6px;
+  max-width:140px;line-height:1.4}
+.ex-hold{display:flex;flex-direction:column;align-items:flex-end;gap:0;
+  padding-top:8px;flex-shrink:0}
+.ex-hold-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
+  background:var(--lime-t);border:1.5px solid var(--lime-b);border-radius:8px;
+  font-size:13px;font-weight:900;color:var(--lime);letter-spacing:.04em;white-space:nowrap}
+.ex-upside{padding:12px 22px 0;font-size:17px;font-weight:800;color:var(--white);line-height:1.45}
+.ex-calls{margin:20px 22px 0;border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r);overflow:hidden;background:var(--d2)}
+.ex-call{padding:16px;display:flex;align-items:center;gap:14px}
+.ex-call+.ex-call{border-top:1px solid rgba(255,255,255,.06)}
+.ex-call-photo{width:52px;height:64px;border-radius:8px;object-fit:cover;
+  object-position:top center;background:var(--d4);flex-shrink:0;display:block}
+.ex-call-body{flex:1;min-width:0}
+.ex-call-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:5px}
+.ex-call-type{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--lime)}
+.ex-call-gain{font-size:24px;font-weight:900;color:var(--lime);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ex-call-name{font-size:22px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+.ex-call-note{font-size:13px;font-weight:600;color:var(--white);line-height:1.4;opacity:.7}
+.ex-method{display:block;margin:16px 22px 0;padding:14px 16px;
+  background:var(--d2);border:1px solid var(--border);
+  border-left:3px solid var(--lime-b);border-radius:var(--r-sm);
+  transition:background .15s}
+.ex-method:hover{background:var(--d3)}
+.ex-method-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:2px}
+.ex-method-sub{font-size:11px;color:var(--gray2);font-weight:600}
+.ex-cta-wrap{padding:20px 22px 0}
+
+/* ── SCROLL HINT ── */
+.scroll-hint{position:fixed;bottom:20px;left:0;right:0;display:flex;flex-direction:column;
+  align-items:center;gap:4px;pointer-events:none;z-index:50;
+  transition:opacity .4s ease}
+.scroll-hint.hidden{opacity:0}
+.scroll-hint-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(204,255,0,.5)}
+.scroll-hint-arrow{width:28px;height:28px;border-radius:50%;
+  border:1.5px solid rgba(204,255,0,.3);display:flex;align-items:center;
+  justify-content:center;color:var(--lime);
+  animation:scrollBounce 1.8s ease-in-out infinite}
+@keyframes scrollBounce{
+  0%,100%{transform:translateY(0);opacity:.5}
+  50%{transform:translateY(5px);opacity:1}
+}
+
 /* ── ACTIONS ── */
 .act-wrap{padding:20px 14px 0}
 .share-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
@@ -487,11 +638,14 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   color:var(--gray);transition:border-color .15s,color .15s}
 .again-btn:hover{background:#d4ff1a;box-shadow:0 6px 28px rgba(204,255,0,.3)}
 .footer{text-align:center;font-size:11px;color:var(--gray2);padding:22px 20px 48px;line-height:1.6}
-.a2hs-result{display:none;text-align:center;margin:16px 14px 0}
-.a2hs-result-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;
-  background:var(--d2);border:1px solid var(--border);border-radius:var(--r-sm);
-  font-size:12px;font-weight:700;color:var(--gray);transition:border-color .15s}
-.a2hs-result-btn:hover{border-color:var(--border2)}
+.a2hs-result{display:none;margin:24px 14px 0}
+.a2hs-result-btn{display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;padding:17px 16px;
+  background:rgba(204,255,0,.07);border:1.5px solid rgba(204,255,0,.35);
+  border-radius:var(--r);font-family:'Outfit',sans-serif;
+  font-size:15px;font-weight:800;color:var(--white);
+  transition:background .15s,border-color .15s}
+.a2hs-result-btn:hover{background:rgba(204,255,0,.12);border-color:rgba(204,255,0,.55)}
 </style>
 </head>
 <body>
@@ -501,19 +655,23 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
 <nav class="nav">
   <a class="brand" href="/fpl/">Squad<span>Check</span></a>
-  <span class="nav-chip">FPL</span>
+  <div class="nav-right">
+    <a href="/fpl/model.html" class="nav-how">How it works</a>
+    <span class="nav-chip">FPL</span>
+  </div>
 </nav>
 
 <!-- ══════════════════════ UPLOAD ══════════════════════ -->
 <section id="s-upload" class="screen active">
 <div class="up-wrap">
+
   <div class="live-pill">
     <span class="live-dot"></span>
-    <span class="live-text">Live &nbsp;·&nbsp; Current Gameweek</span>
+    <span class="live-text">FPL &nbsp;·&nbsp; Free &nbsp;·&nbsp; Gameweek 6</span>
   </div>
-  <h1 class="up-h1">How many points<br><em>this GW?</em></h1>
-  <p class="up-sub">Upload your FPL squad screenshot and find out in seconds — points forecast, captain pick, and bench swap advice. Free, no login.</p>
-  <p class="up-instruction"><b>Use Pitch View or List View.</b> Make sure all 15 players are visible before taking the screenshot.</p>
+
+  <h1 class="up-h1">How's your squad<br><em>looking this GW?</em></h1>
+  <p class="up-sub">Your FPL points forecast. Your captain pick. Your best XI and bench swap — in seconds.</p>
 
   <input type="file" id="file-input" accept="image/*" aria-label="Upload FPL squad screenshot">
   <label class="up-cta" for="file-input">
@@ -521,29 +679,102 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
       <path d="M9 2v9M5.5 5.5L9 2l3.5 3.5" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M3 13.5v1A1.5 1.5 0 004.5 16h9a1.5 1.5 0 001.5-1.5v-1" stroke="#000" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
-    Upload Your Squad
+    Check my team's points — Free
   </label>
 
   <p class="up-trust">
-    <span>No login</span>
+    <span>✓ Free</span>
     <span class="up-trust-sep"></span>
-    <span>No FPL ID</span>
+    <span>✓ No login</span>
     <span class="up-trust-sep"></span>
-    <span>No tracking</span>
+    <span>✓ No FPL ID</span>
   </p>
-  <p class="up-model-link"><a href="/fpl/model.html">How we forecast your points →</a></p>
 
-  <div id="a2hs-wrap">
-    <button class="a2hs-btn" onclick="addToHome()">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <rect x=".7" y="2.7" width="12.6" height="8.6" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
-        <path d="M7 5.3v3.4M5.3 7H8.7" stroke="var(--lime)" stroke-width="1.4" stroke-linecap="round"/>
-      </svg>
-      Add to Home Screen for next GW
-    </button>
+  <div class="up-hint">
+    <p class="up-hint-main">Just send us your team.</p>
+    <p class="up-hint-sub">Pitch View or List View · all 15 players visible</p>
+    <details class="shot-reveal">
+      <summary>What screenshot? ↓</summary>
+      <div class="shot-reveal-body">
+        <img src="/fpl/test_images/pitch-view-example-v2.png"
+             alt="FPL squad Pitch View screenshot — all 15 players visible including 4 substitutes"
+             class="shot-reveal-img"
+             loading="lazy">
+        <p class="shot-reveal-note">Open the FPL app → your Squad tab → Pitch View or List View. Screenshot when all 15 players including all 4 substitutes are on screen.</p>
+      </div>
+    </details>
   </div>
 
 </div>
+
+<!-- ══════════════════════ EXAMPLE RESULT ══════════════════════ -->
+<div class="ex-wrap">
+
+  <div class="ex-eyebrow-row">
+    <span class="ex-eyebrow">Example Result</span>
+  </div>
+
+  <div class="ex-hero">
+    <div>
+      <div class="ex-pts-num">80</div>
+      <div class="ex-pts-label">pts projected for your current XI</div>
+    </div>
+    <div class="ex-hold">
+      <div class="ex-hold-badge">HOLD ✓</div>
+    </div>
+  </div>
+  <p class="ex-upside">Your squad looks good. There's ~9 pts of upside.</p>
+
+  <div class="ex-calls">
+    <div class="ex-call">
+      <img class="ex-call-photo"
+           src="/fpl/test_images/player-haaland.png"
+           alt="Haaland">
+      <div class="ex-call-body">
+        <div class="ex-call-header">
+          <span class="ex-call-type">Captain Call</span>
+          <span class="ex-call-gain">+6 pts</span>
+        </div>
+        <div class="ex-call-name">Haaland</div>
+        <p class="ex-call-note">Switch the armband vs your current captain.</p>
+      </div>
+    </div>
+    <div class="ex-call">
+      <img class="ex-call-photo"
+           src="/fpl/test_images/player-rogers.png"
+           alt="Rogers">
+      <div class="ex-call-body">
+        <div class="ex-call-header">
+          <span class="ex-call-type">Bench Call</span>
+          <span class="ex-call-gain">+3 pts</span>
+        </div>
+        <div class="ex-call-name">Rogers</div>
+        <p class="ex-call-note">Start him over your current bench option.</p>
+      </div>
+    </div>
+  </div>
+
+  <a href="/fpl/model.html" class="ex-method">
+    <div class="ex-method-title">How we calculate your score →</div>
+    <div class="ex-method-sub">Data · xG · methodology</div>
+  </a>
+
+  <div class="ex-cta-wrap">
+    <label class="up-cta" for="file-input">Check my team's points — Free</label>
+  </div>
+
+</div>
+
+<!-- scroll hint — only visible while on upload screen, fades on scroll -->
+<div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+  <span class="scroll-hint-label">Example below</span>
+  <div class="scroll-hint-arrow">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+      <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</div>
+
 </section>
 
 <!-- ══════════════════════ LOADING ══════════════════════ -->
@@ -680,7 +911,8 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 'use strict';
 
 /* ── globals ───────────────────────────────────────────────────────────── */
-let _P = null; // payload
+let _P = null;          // payload
+let _openHCard = null;  // {playerId, posKey} for horizontal card expansion
 const $ = id => document.getElementById(id);
 const esc = s => String(s??'')
   .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -692,9 +924,21 @@ const track = (e,p={}) => { try{console.log('[SC]',e,p)}catch(_){} };
 function show(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   $(id).classList.add('active');
-  if(id==='s-result') {window.scrollTo(0,0);showA2hs();}
+  window.scrollTo(0,0);
+  if(id==='s-result') showA2hs();
+  _updateScrollHint();
 }
 const goUpload = () => { _P=null; show('s-upload'); };
+
+/* ── scroll hint ── */
+function _updateScrollHint() {
+  const el = $('scroll-hint');
+  if(!el) return;
+  // hide once user has scrolled past a short threshold
+  const hide = window.scrollY > 60;
+  el.classList.toggle('hidden', hide);
+}
+window.addEventListener('scroll', _updateScrollHint, {passive:true});
 
 /* ── loading stage machine ──────────────────────────────────────────────── */
 let _stTimer;
@@ -823,7 +1067,7 @@ function renderHero(p) {
   const starts = (p.players||[]).filter(q=>q.is_starting);
   const hiN  = starts.filter(q=>q.confidence==='HIGH').length;
   const confLabel = hiN===11?'HIGH confidence':hiN>=8?'Good confidence':'Mixed confidence';
-  const confCls   = hiN===11?'lime':hiN>=8?'amber':'coral';
+  const confCls   = hiN===11?'lime':hiN>=8?'':'dim';
 
   // Include captain 2× in the projected total
   const captP  = p.captain_id ? starts.find(q=>q.player_id===p.captain_id) : null;
@@ -841,6 +1085,7 @@ function renderHero(p) {
   <p class="hero-label">Your squad forecast</p>
   <div class="hero-pts">${esc(xPts)}</div>
   <p class="hero-pts-unit">pts this GW</p>
+  <p class="hero-interp">Here's how your team looks.</p>
   <div class="hero-chips">
     <span class="hc ${confCls}">${esc(confLabel)}</span>
     <span class="hc">${esc(form)}</span>
@@ -854,26 +1099,106 @@ const POS = {1:{tag:'GK',cls:'gk',label:'Goalkeeper'},2:{tag:'DEF',cls:'df',labe
              3:{tag:'MID',cls:'md',label:'Midfield'},4:{tag:'FWD',cls:'fw',label:'Forwards'}};
 
 function renderPlayers(p) {
+  _openHCard = null; // reset expansion state on re-render
   const starters = (p.players||[]).filter(q=>q.is_starting);
   const bench    = (p.players||[]).filter(q=>!q.is_starting);
-  let html='';
+  let html='', isFirst=true;
   for(const pos of [1,2,3,4]){
     const grp = starters.filter(q=>q.position===pos).sort((a,b)=>b.xPts-a.xPts);
     if(!grp.length) continue;
-    const tot = grp.reduce((s,q)=>s+q.xPts,0).toFixed(1);
     const meta = POS[pos];
-    html += `<div class="pos-head"><span class="pos-title">${esc(meta.label)}</span>
-              <span class="pos-sum">${esc(tot)} pts</span></div>
-             ${grp.map(q=>pcCard(q,p)).join('')}`;
+    const tot  = grp.reduce((s,q)=>s+q.xPts,0).toFixed(1);
+    html += `<div class="pos-section">
+  <div class="pos-head${isFirst?' first':''}">
+    <span class="pos-title">${esc(meta.label)}</span>
+    <span class="pos-sum">${esc(tot)} pts</span>
+  </div>
+  <div class="pos-row" id="pr-${meta.cls}">
+    ${grp.map(q=>pcHCard(q,p)).join('')}
+  </div>
+  <div class="pos-detail" id="phd-${meta.cls}" style="display:none"></div>
+</div>`;
     track('position_section_viewed',{position:pos,xPts:+tot});
+    isFirst=false;
   }
   const benchTot = bench.reduce((s,q)=>s+q.xPts,0).toFixed(1);
   html += `<div class="bench-hdr" onclick="toggleBench(this)">
-    <span class="bench-lbl">Bench · ${bench.length} players · ${esc(benchTot)} pts</span>
-    <span class="bench-chev open" id="bench-chev">›</span>
-  </div>
-  <div class="bench-body" id="bench-body">${bench.map(q=>pcCard(q,p)).join('')}</div>`;
+  <span class="bench-lbl">Bench · ${bench.length} players · ${esc(benchTot)} pts</span>
+  <span class="bench-chev open" id="bench-chev">›</span>
+</div>
+<div class="bench-body" id="bench-body">
+  <div class="pos-row">${bench.map(q=>pcHCard(q,p,'bench')).join('')}</div>
+  <div class="pos-detail" id="phd-bench" style="display:none"></div>
+</div>`;
   $('r-players').innerHTML = html;
+}
+
+/* Horizontal card — used for starters and bench */
+function pcHCard(pl, p, posKeyOverride) {
+  const meta    = POS[pl.position]||{tag:'?',cls:''};
+  const posKey  = posKeyOverride || meta.cls;
+  const isC     = _P && pl.player_id===_P.captain_id;
+  const isV     = _P && pl.player_id===_P.vice_captain_id;
+  const dispPts = isC ? pl.xPts*2 : pl.xPts;
+  const ptsCls  = dispPts>=8?'hi':dispPts>=5?'mid':'lo';
+  const opp     = pl.inputs?.opponent_name||'';
+  const home    = pl.inputs?.is_home;
+  const fix     = opp ? `${esc(opp)} (${home?'H':'A'})` : '';
+  const ins     = pl.insight||{label:'Solid pick',tone:'positive',icon:'👍'};
+  const insCls  = ins.tone==='positive'?'ins-pos':ins.tone==='caution'?'ins-cau':'ins-neu';
+  const insText = ins.icon ? `${ins.icon} ${esc(ins.label)}` : esc(ins.label);
+  const photoCode = pl.player_api?.photo_code;
+  const captBadge = isC
+    ? `<span class="cv c" style="width:18px;height:18px;font-size:9px">C</span>`
+    : isV
+    ? `<span class="cv v" style="width:18px;height:18px;font-size:9px">V</span>`
+    : '';
+  const topRow = photoCode
+    ? `<div class="pc-h-top">
+        <img class="pc-h-photo" src="https://resources.premierleague.com/premierleague/photos/players/110x140/p${photoCode}.png" loading="lazy" alt="" onerror="this.style.display='none'">
+        <div class="pc-h-top-r"><span class="pc-h-postag">${meta.tag}</span>${captBadge}</div>
+      </div>`
+    : `<div class="pc-h-top"><span class="pc-h-postag">${meta.tag}</span><div>${captBadge}</div></div>`;
+  return `<div class="pc-h ${meta.cls}" id="pch-${pl.player_id}" onclick="openHCard(${pl.player_id},'${posKey}')">
+  ${topRow}
+  <div class="pc-h-name">${esc(pl.web_name)}</div>
+  <div><span class="pc-h-pts ${ptsCls}">${dispPts.toFixed(1)}</span><span class="pc-h-unit"> pts</span></div>
+  ${fix?`<div class="pc-h-fix">${fix}</div>`:''}
+  <div class="pc-h-ins ${insCls}">${insText}</div>
+</div>`;
+}
+
+/* Open / toggle horizontal card expansion */
+function openHCard(playerId, posKey) {
+  const detEl = $('phd-' + posKey);
+  if(!detEl) return;
+
+  if(_openHCard) {
+    const prevCard = $('pch-' + _openHCard.playerId);
+    if(prevCard) prevCard.classList.remove('active');
+    // Close panel in a different position group
+    if(_openHCard.posKey !== posKey) {
+      const prevDet = $('phd-' + _openHCard.posKey);
+      if(prevDet) { prevDet.style.display='none'; prevDet.innerHTML=''; }
+    }
+    // Same card → toggle closed
+    if(_openHCard.playerId === playerId) {
+      detEl.style.display='none'; detEl.innerHTML='';
+      _openHCard = null; return;
+    }
+  }
+
+  const pl = (_P.players||[]).find(q=>q.player_id===playerId);
+  if(!pl) return;
+
+  const isC = _P.captain_id === playerId;
+  detEl.innerHTML = pdLevel1(pl, isC);
+  detEl.style.display = 'block';
+  const card = $('pch-' + playerId);
+  if(card) card.classList.add('active');
+  _openHCard = {playerId, posKey};
+  track('player_card_opened', {player_id: playerId});
+  setTimeout(()=>detEl.scrollIntoView({behavior:'smooth',block:'nearest'}), 60);
 }
 
 function pcCard(pl,p){
@@ -1002,8 +1327,16 @@ function toggleNums(e,id){
   if(!open) track('player_numbers_opened',{player_id:id});
 }
 function closeCard(id){
-  $('pd-'+id).style.display='none';
-  $('wc-'+id).className='why-chev';
+  // Vertical bench card detail
+  const pdEl=$('pd-'+id); if(pdEl) pdEl.style.display='none';
+  const wcEl=$('wc-'+id); if(wcEl) wcEl.className='why-chev';
+  // Horizontal starter card expansion
+  if(_openHCard && _openHCard.playerId===id){
+    const detEl=$('phd-'+_openHCard.posKey);
+    if(detEl){detEl.style.display='none';detEl.innerHTML='';}
+    const card=$('pch-'+id); if(card) card.classList.remove('active');
+    _openHCard=null;
+  }
 }
 function toggleBench(btn){
   const body=$('bench-body'),chev=$('bench-chev');
@@ -1269,7 +1602,7 @@ function buildSwap(p){
     Also: ${esc(s.out.web_name)} → ${esc(s.in.web_name)} (+${((s.in.xPts||0)-(s.out.xPts||0)).toFixed(1)} pts)
   </p>`).join('');
 
-  return `<p class="sec-hdr">One change to make</p>
+  return `<p class="sec-hdr">Changes to make</p>
 <div class="swap-card">
   <div class="swap-top">
     <span class="swap-names">${esc(sub.out.web_name)} → ${esc(sub.in.web_name)}</span>
@@ -1304,9 +1637,9 @@ function buildHold(p){
   const note=p.delta>0
     ?`Best bench option only adds ${p.delta.toFixed(1)} pts. Not worth it.`
     :'No bench player improves on any starter this week.';
-  return `<p class="sec-hdr">What needs attention</p>
+  return `<p class="sec-hdr">Bench check</p>
 <div class="hold-card">
-  <p class="hold-hl">Your bench can't improve things</p>
+  <p class="hold-hl">Bench can't improve your XI this week</p>
   <p class="hold-body">${esc(note)}</p>
   <div class="bench-mini-list">${bItems}</div>
 </div>`;
@@ -1330,7 +1663,7 @@ function renderFinalCall(p){
 
   if(p.action==='HOLD'){
     html=`<div class="fc-hold">
-      <p class="fc-hold-title">You're set for ${esc(gwLabel)} ✓</p>
+      <p class="fc-hold-title">Honestly? I'd hold.</p>
       <p class="fc-hold-body">${p.delta>0
         ?`Best bench option adds only ${p.delta.toFixed(1)} pts — not worth the move.`
         :'Your XI is the strongest combination from your squad this week.'}</p>
