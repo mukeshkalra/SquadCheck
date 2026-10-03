@@ -9,6 +9,14 @@
 <link rel="manifest" href="/fpl/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- PostHog — async, does not block render. Replace __POSTHOG_KEY__ with your project API key. -->
+<script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+const _SC_PH_KEY='__POSTHOG_KEY__';
+if(_SC_PH_KEY&&_SC_PH_KEY!=='__POSTHOG_KEY__'){
+  posthog.init(_SC_PH_KEY,{api_host:'https://eu.i.posthog.com',person_profiles:'identified_only',autocapture:false,capture_pageview:false,session_recording:{maskAllInputs:false}});
+}
+</script>
 <style>
 /* ── TOKENS ────────────────────────────────────────────────────────────── */
 :root{
@@ -918,7 +926,50 @@ const esc = s => String(s??'')
   .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 /* ── analytics ─────────────────────────────────────────────────────────── */
-const track = (e,p={}) => { try{console.log('[SC]',e,p)}catch(_){} };
+
+// Session identity — stable within a tab, new each session
+const _scSid = sessionStorage.getItem('sc_sid') || (()=>{
+  const id = (typeof crypto!=='undefined'&&crypto.randomUUID)
+    ? crypto.randomUUID()
+    : Math.random().toString(36).slice(2,11)+'-'+Date.now().toString(36);
+  sessionStorage.setItem('sc_sid',id); return id;
+})();
+
+// Return-visit flag — set once on first ever page load
+const _scIsReturn = !!localStorage.getItem('sc_fv');
+if(!_scIsReturn) localStorage.setItem('sc_fv','1');
+
+// UTM attribution — read from URL first, fall back to session-stored value
+const _scUtm = (()=>{
+  const p=new URLSearchParams(location.search);
+  const keys=['source','medium','campaign','content','term'];
+  const fromUrl=Object.fromEntries(keys.filter(k=>p.get('utm_'+k)).map(k=>['utm_'+k,p.get('utm_'+k)]));
+  if(Object.keys(fromUrl).length){sessionStorage.setItem('sc_utm',JSON.stringify(fromUrl));return fromUrl;}
+  try{return JSON.parse(sessionStorage.getItem('sc_utm')||'{}');}catch(_){return {};}
+})();
+
+// experiment_id + creative_id — optional URL params for A/B and creative attribution
+const _scExp = (()=>{
+  const p=new URLSearchParams(location.search);
+  const out={};
+  if(p.get('experiment_id'))out.experiment_id=p.get('experiment_id');
+  if(p.get('creative_id'))out.creative_id=p.get('creative_id');
+  return out;
+})();
+
+// Super properties — attached to every event
+const _scProps = {session_id:_scSid, is_return:_scIsReturn, sc_version:'2.0', ..._scUtm, ..._scExp};
+
+// Register super properties with PostHog so they appear on every event automatically
+try{if(window.posthog)posthog.register(_scProps);}catch(_){}
+
+const track = (e, p={}) => {
+  try {
+    const props={..._scProps,...p};
+    if(window.posthog&&typeof posthog.capture==='function'){posthog.capture(e,props);}
+    else{console.log('[SC]',e,props);}
+  }catch(_){}
+};
 
 /* ── screens ────────────────────────────────────────────────────────────── */
 function show(id) {
@@ -1009,11 +1060,12 @@ function showError(status, message) {
 /* ── file upload + API ──────────────────────────────────────────────────── */
 $('file-input').addEventListener('change', async function(){
   if(!this.files?.length) return;
-  track('screenshot_uploaded');
+  const f = this.files[0];
+  track('screenshot_uploaded', {file_size_kb: Math.round(f.size/1024), file_type: f.type});
   startLoading(null);
   const fd = new FormData();
-  fd.append('screenshot', this.files[0]);
-  _lastFile = this.files[0];
+  fd.append('screenshot', f);
+  _lastFile = f;
   this.value='';
   try {
     const res = await fetch('/api/squad-check',{method:'POST',body:fd});
@@ -1021,16 +1073,40 @@ $('file-input').addEventListener('change', async function(){
     const data = await res.json();
     if(data.error) throw new Error(data.error);
     stopLoading();
-    if(data.status==='DISAMBIG'){ showDisambig(data.ambiguous); return; }
+    if(data.status==='DISAMBIG'){
+      track('scan_ambiguous',{count:(data.ambiguous||[]).length});
+      showDisambig(data.ambiguous); return;
+    }
     if(data.status!=='OK') { showError(data.scanner_status||'default',data.message||''); return; }
     _P = data;
     console.log('[SC] payload status:', data.status, 'action:', data.action,
                 'players:', data.players?.length, 'subs:', data.substitutions?.length);
-    track('scan_valid',{gw:data.gameweek});
+    const _starters = (data.players||[]).filter(q=>q.is_starting);
+    const _captP = data.captain_id ? _starters.find(q=>q.player_id===data.captain_id) : null;
+    track('scan_valid', {
+      gw:           data.gameweek,
+      player_count: (data.players||[]).length,
+      view_type:    data.submitted_xi?.view_type || null,
+      captain_name: _captP?.web_name || null,
+    });
+    try{if(window.posthog)posthog.register({gw:data.gameweek});}catch(_){}
     renderResult(data);
     console.log('[SC] renderResult complete — switching to result screen');
     show('s-result');
-    track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action});
+    track('projection_viewed', {
+      gw:           data.gameweek,
+      xPts:         data.submitted_xi?.xPts,
+      action:       data.action,
+      view_type:    data.submitted_xi?.view_type || null,
+      captain_name: _captP?.web_name || null,
+      captain_xpts: _captP?.xPts || null,
+    });
+    track('decision_reached', {
+      gw:     data.gameweek,
+      action: data.action,
+      xPts:   data.submitted_xi?.xPts,
+      delta:  data.delta ?? null,
+    });
   } catch(err) {
     stopLoading();
     console.error('[SquadCheck]', err);
@@ -1041,6 +1117,7 @@ $('file-input').addEventListener('change', async function(){
     $('err-body').textContent = err.message || 'Unknown error';
     $('err-tips').innerHTML = '<li>Please share this error message so we can fix it</li>';
     show('s-error');
+    track('scan_failed', {status:'APP_ERROR', message: err.message || 'Unknown error'});
   }
 });
 
@@ -1710,16 +1787,17 @@ function renderFinalCall(p){
 function fbRate(t){
   document.querySelectorAll('.fb-btn').forEach(b=>b.classList.remove('sel'));
   event.target.classList.add('sel');
-  track('feedback_'+t);
+  track('feedback_'+t, {rating:t, gw:_P?.gameweek||null, pipeline_action:_P?.action||null});
   $('fb-acts').classList.add('vis');
 }
 function fbAct(t){
   document.querySelectorAll('.fb-act').forEach(b=>b.classList.remove('sel'));
   event.target.classList.add('sel');
-  track('action_'+t+'_xi');
+  // pipeline_action = what the app recommended; t = what the user actually did
+  track('action_'+t+'_xi', {user_action:t, pipeline_action:_P?.action||null, gw:_P?.gameweek||null, delta:_P?.delta??null});
   $('fb-rsns').classList.add('vis');
 }
-function fbRsn(el,r){if(el.checked)track('feedback_reason',{reason:r});}
+function fbRsn(el,r){if(el.checked)track('feedback_reason',{reason:r, gw:_P?.gameweek||null});}
 
 /* ── SHARE ───────────────────────────────────────────────────────────────── */
 function _rrect(ctx,x,y,w,h,r){
@@ -1888,7 +1966,11 @@ async function submitDisambig(){
     if(data.status==='DISAMBIG'){ showDisambig(data.ambiguous); return; }
     if(data.status!=='OK'){ showError(data.scanner_status||'default',data.message||''); return; }
     _P=data; renderResult(data); show('s-result');
+    const _dStarters=(data.players||[]).filter(q=>q.is_starting);
+    const _dCaptP=data.captain_id?_dStarters.find(q=>q.player_id===data.captain_id):null;
     track('disambig_resolved',{choices:Object.keys(_dqChoices).length});
+    track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action,via_disambig:true,captain_name:_dCaptP?.web_name||null});
+    track('decision_reached',{gw:data.gameweek,action:data.action,xPts:data.submitted_xi?.xPts,delta:data.delta??null});
   } catch(err){
     stopLoading();
     showError('default', err.message||'Unknown error');
@@ -1924,6 +2006,9 @@ async function addToHome(){
   $('a2hs-wrap').style.display='none';
   $('a2hs-result').style.display='none';
 }
+
+// Fire after all handlers are registered so super properties are in place
+track('page_viewed', {referrer: document.referrer||null});
 </script>
 </body>
 </html>
