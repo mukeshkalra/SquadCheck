@@ -190,13 +190,34 @@ class TestCroppedNoBenchMarker(unittest.TestCase):
         self.assertEqual(r["status"], "VALID", r.get("message"))
         self.assertEqual({p["name"] for p in r["players"] if p["is_starting"]}, _CROPPED_STARTERS)
         self.assertEqual(sum(1 for p in r["players"] if not p["is_starting"]), 4)
-        self.assertTrue(any("inferred from vertical order" in w for w in r["warnings"]))
+        self.assertEqual(r["warnings"], [])   # vertical order is the primary split, nothing to flag
 
-    def test_no_guess_when_split_cuts_through_a_row(self):
+    def test_row_boundary_gap_is_warned_not_rejected(self):
         rows = [(0.75, _CROPPED_ROWS[0][1]), (0.59, _CROPPED_ROWS[1][1]), (0.43, _CROPPED_ROWS[2][1]),
                 (0.27, _CROPPED_ROWS[3][1]), (0.265, _CROPPED_ROWS[4][1])]   # bench row ~ FWD row
         r = _dispatch(_cropped_blocks(rows), _make_elements(*self.NAMES))
-        self.assertNotEqual(r["status"], "VALID")
+        self.assertEqual(r["status"], "VALID", r.get("message"))
+        self.assertTrue(any("within a row" in w for w in r["warnings"]))
+
+    def test_marker_disagreement_is_warned_and_vertical_order_wins(self):
+        # A "Substitutes" header placed above the FWD row would make a marker-based
+        # split 9 starters; vertical order still gives the 11-man XI.
+        blocks = _cropped_blocks() + [{"text": "Substitutes", "x": 0.4, "y": 0.35, "w": 0.2, "h": 0.01}]
+        r = _dispatch(blocks, _make_elements(*self.NAMES))
+        self.assertEqual(r["status"], "VALID", r.get("message"))
+        self.assertEqual({p["name"] for p in r["players"] if p["is_starting"]}, _CROPPED_STARTERS)
+        self.assertTrue(any("disagrees with vertical order" in w for w in r["warnings"]))
+
+    def test_pitch_parser_no_longer_drops_names_near_the_separator(self):
+        rows = _CROPPED_ROWS[:4] + [(0.08, _CROPPED_ROWS[4][1][:3]), (0.128, _CROPPED_ROWS[4][1][3:])]
+        blocks = _cropped_blocks(rows)
+        for b, label in zip(blocks[:4], ("GKP", "1. FWD", "2. DEF", "3. DEF")):
+            b["text"] = label                      # numbered labels => detected as PITCH
+        r = _dispatch(blocks, _make_elements(*self.NAMES))
+        self.assertEqual(r["view_type"], "PITCH")
+        self.assertEqual(r["status"], "VALID", r.get("message"))
+        self.assertEqual(len(r["players"]), 15)
+        self.assertEqual({p["name"] for p in r["players"] if p["is_starting"]}, _CROPPED_STARTERS)
 
     def test_validate_rejects_more_than_11_starters(self):
         from fpl.engine.scanner import scan_squad

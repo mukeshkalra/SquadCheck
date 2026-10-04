@@ -682,29 +682,31 @@ def _parse_pitch_view(blocks: list, elements: list) -> dict:
         gap = max(gap, 0.005)
     # else: gap stays at _SEPARATOR_GAP (fallback for images with only starters visible)
 
-    # ── Step 5: classify as starting or bench by y-coordinate ────────────────
+    # ── Step 5: collect players; bench-label position is only a cross-check ───
     seen: set = set()
     players_out = []
     player_blocks = []
+    marker_flags = []
 
     for b, name in candidates:
         key = name.lower()
         if key in seen:
             continue
-        if b["y"] > separator_y + gap:
-            is_starting = True
-        elif b["y"] < separator_y - gap:
-            is_starting = False
+        if not bench_labels or abs(b["y"] - separator_y) <= gap:
+            flag = None                      # no marker evidence for this name
         else:
-            continue
+            flag = b["y"] > separator_y
         seen.add(key)
-        players_out.append({"name": name, "is_starting": is_starting})
+        players_out.append({"name": name, "is_starting": True})
         player_blocks.append(b)
+        marker_flags.append(flag)
 
     if not players_out:
         return _unsupported(
             "No players detected. Ensure the screenshot shows a complete FPL Pitch View."
         )
+
+    players_out = _assign_xi_by_order(players_out, player_blocks, marker_flags, warnings)
 
     captain_name, vice_name = _detect_captain_badges(blocks, player_blocks)
 
@@ -736,22 +738,33 @@ def _pos_from_combined_token(text: str):
     return _LIST_TAG_TO_POS.get(last)
 
 
-def _infer_bench_by_order(players: list, name_blocks: list, warnings: list) -> list:
+def _assign_xi_by_order(players: list, name_blocks: list, marker_flags: list, warnings: list) -> list:
     """
-    No bench marker was found (e.g. a cropped screenshot), so every player was
-    marked as starting. With all 15 names present, treat the 11 highest on screen
-    as the XI and the rest as bench. Only when there is a clear vertical gap
-    between the 11th and 12th names, so the split never cuts through a row.
+    Primary XI/bench split, independent of view type: with exactly 15 players, the
+    11 highest names on screen are the XI and the other 4 are the bench.
+
+    marker_flags holds, per player, what an explicit bench marker ("Substitutes"
+    header, bench labels) says: True = starting, False = bench, None = no evidence.
+    Markers are only a cross-check: a disagreement or a boundary inside a row of
+    names is reported in warnings, not acted on.
+
+    With any other player count the split is not meaningful (the squad fails
+    validation anyway); markers are used where present, otherwise "starting".
     """
-    if len(players) != _SQUAD_SIZE or not all(p["is_starting"] for p in players):
-        return players
+    if len(players) != _SQUAD_SIZE:
+        return [{**p, "is_starting": True if f is None else f} for p, f in zip(players, marker_flags)]
+
     order = sorted(range(len(players)), key=lambda i: -name_blocks[i]["y"])   # top → bottom
+    xi = set(order[:_STARTER_SIZE])
+
     gap = name_blocks[order[_STARTER_SIZE - 1]]["y"] - name_blocks[order[_STARTER_SIZE]]["y"]
     if gap < _CLUSTER_TOLERANCE:
-        return players
-    bench = set(order[_STARTER_SIZE:])
-    warnings.append("No bench marker found; starting XI inferred from vertical order")
-    return [{**p, "is_starting": i not in bench} for i, p in enumerate(players)]
+        warnings.append("XI/bench boundary falls within a row of names")
+    conflicts = sum(1 for i, f in enumerate(marker_flags) if f is not None and f != (i in xi))
+    if conflicts:
+        warnings.append("Bench marker disagrees with vertical order for %d player(s); using vertical order" % conflicts)
+
+    return [{**p, "is_starting": i in xi} for i, p in enumerate(players)]
 
 
 def _parse_list_view(blocks: list, elements: list) -> dict:
@@ -777,6 +790,7 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
             _split_pos_y.add(round(b["y"] * 100))
 
     is_bench = False
+    saw_bench_marker = False
     seen: set = set()
     players_out = []
 
@@ -791,6 +805,7 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
         # "Substitutes" marks the bench boundary
         if tl.startswith("substitut"):
             is_bench = True
+            saw_bench_marker = True
             continue
 
         # Combined team+position token ("Arsenal DEF", "Brighton GKP").
@@ -838,7 +853,8 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
     players_out      = new_players
     player_name_blocks = new_blocks
 
-    players_out = _infer_bench_by_order(players_out, player_name_blocks, warnings)
+    marker_flags = [p["is_starting"] if saw_bench_marker else None for p in players_out]
+    players_out = _assign_xi_by_order(players_out, player_name_blocks, marker_flags, warnings)
 
     captain_name, vice_name = _detect_captain_badges(blocks, player_name_blocks)
 
