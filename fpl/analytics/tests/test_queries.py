@@ -14,6 +14,8 @@ from unittest.mock import patch
 from fpl.analytics.queries import (
     get_funnel,
     get_event_health,
+    get_scan_failures,
+    _SCAN_FAILURE_LIMIT,
     _FUNNEL_STEPS,
     _EXPECTED_EVENTS,
 )
@@ -300,6 +302,77 @@ class TestGetEventHealth(unittest.TestCase):
         for k in ("event", "total_events", "sessions", "events_per_session",
                   "first_seen", "last_seen"):
             self.assertIn(k, row)
+
+
+
+# ── get_scan_failures ─────────────────────────────────────────────────────────
+
+_FAIL_COLS = ["status", "message", "n", "sessions", "first_seen", "last_seen"]
+
+
+class TestGetScanFailures(unittest.TestCase):
+
+    @patch("fpl.analytics.queries.run_query")
+    def test_groups_carry_status_message_count_and_timestamps(self, mock_rq):
+        mock_rq.return_value = _resp(_FAIL_COLS, [
+            ["VALID", "Expected 11 starters, found 15", 4, 3, "2026-10-04 09:00:00", "2026-10-04 13:30:00"],
+            ["APP_ERROR", "Server error 500", 2, 2, "2026-10-05 08:00:00", "2026-10-05 08:05:00"],
+        ])
+        r = get_scan_failures()
+        self.assertEqual(r["total"], 6)
+        self.assertEqual(r["groups"][0], {
+            "status": "VALID", "message": "Expected 11 starters, found 15",
+            "count": 4, "sessions": 3,
+            "first_seen": "2026-10-04 09:00:00", "last_seen": "2026-10-04 13:30:00",
+        })
+        self.assertEqual(r["groups"][1]["status"], "APP_ERROR")
+        self.assertFalse(r["truncated"])
+
+    @patch("fpl.analytics.queries.run_query")
+    def test_missing_status_and_message_become_empty_strings(self, mock_rq):
+        mock_rq.return_value = _resp(_FAIL_COLS, [[None, None, 1, 1, None, None]])
+        g = get_scan_failures()["groups"][0]
+        self.assertEqual((g["status"], g["message"], g["first_seen"], g["last_seen"]), ("", "", "", ""))
+        self.assertEqual(g["count"], 1)
+
+    @patch("fpl.analytics.queries.run_query")
+    def test_none_counts_become_zero(self, mock_rq):
+        mock_rq.return_value = _resp(_FAIL_COLS, [["UNSUPPORTED", "x", None, None, "", ""]])
+        g = get_scan_failures()["groups"][0]
+        self.assertEqual((g["count"], g["sessions"]), (0, 0))
+
+    @patch("fpl.analytics.queries.run_query")
+    def test_empty_response(self, mock_rq):
+        mock_rq.return_value = _resp(_FAIL_COLS, [])
+        self.assertEqual(get_scan_failures(),
+                         {"lookback_days": 30, "total": 0, "groups": [], "truncated": False})
+
+    @patch("fpl.analytics.queries.run_query")
+    def test_truncated_flag_when_limit_hit(self, mock_rq):
+        rows = [["S", "m%d" % i, 1, 1, "", ""] for i in range(_SCAN_FAILURE_LIMIT)]
+        mock_rq.return_value = _resp(_FAIL_COLS, rows)
+        r = get_scan_failures()
+        self.assertTrue(r["truncated"])
+        self.assertEqual(len(r["groups"]), _SCAN_FAILURE_LIMIT)
+
+    @patch("fpl.analytics.queries.run_query")
+    def test_sql_filters_event_and_window_and_is_deterministic(self, mock_rq):
+        mock_rq.return_value = _resp(_FAIL_COLS, [])
+        get_scan_failures(lookback_days=3)
+        sql = mock_rq.call_args[0][0]
+        self.assertIn("event = 'scan_failed'", sql)
+        self.assertIn("interval 3 day", sql)
+        self.assertIn("GROUP BY status, message", sql)
+        self.assertIn("ORDER BY n DESC, last_seen DESC, status, message", sql)
+        self.assertIn("LIMIT %d" % _SCAN_FAILURE_LIMIT, sql)
+
+    @patch("fpl.analytics.queries.run_query")
+    def test_default_lookback_and_output_keys(self, mock_rq):
+        mock_rq.return_value = _resp(_FAIL_COLS, [])
+        r = get_scan_failures()
+        self.assertEqual(set(r), {"lookback_days", "total", "groups", "truncated"})
+        self.assertEqual(r["lookback_days"], 30)
+        self.assertIn("interval 30 day", mock_rq.call_args[0][0])
 
 
 # ── client error handling (no HTTP) ──────────────────────────────────────────

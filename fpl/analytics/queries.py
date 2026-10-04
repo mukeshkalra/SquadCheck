@@ -200,3 +200,57 @@ def get_event_health(lookback_days=7):
         "missing_events":     missing,
         "core_funnel_missing": core_missing,
     }
+
+
+# ── get_scan_failures ─────────────────────────────────────────────────────────
+
+_SCAN_FAILURE_LIMIT = 100
+
+
+def get_scan_failures(lookback_days=30):
+    """
+    Return scan_failed events grouped by (status, message), with counts and timestamps.
+
+    scan_failed fires on any non-OK API result, so one event covers scanner failures,
+    pipeline resolve failures and client app errors (status 'APP_ERROR'). The frontend
+    sends `status` (scanner_status, or 'APP_ERROR') and `message`; this query only
+    groups them — it does not classify or interpret them.
+
+    count     — raw scan_failed events in the group.
+    sessions  — distinct session_id in the group.
+    first_seen / last_seen — min/max event timestamp in the group.
+    A missing status or message is returned as "".
+    truncated — True when the group limit was hit, in which case total is understated.
+    """
+    sql = f"""
+    SELECT
+      properties.status           AS status,
+      properties.message          AS message,
+      count()                     AS n,
+      uniq(properties.session_id) AS sessions,
+      min(timestamp)              AS first_seen,
+      max(timestamp)              AS last_seen
+    FROM events
+    WHERE event = 'scan_failed'
+      AND timestamp >= now() - interval {int(lookback_days)} day
+    GROUP BY status, message
+    ORDER BY n DESC, last_seen DESC, status, message
+    LIMIT {_SCAN_FAILURE_LIMIT}
+    """
+    rows = rows_to_dicts(run_query(sql))
+
+    groups = [{
+        "status":     r.get("status") or "",
+        "message":    r.get("message") or "",
+        "count":      _g(r, "n"),
+        "sessions":   _g(r, "sessions"),
+        "first_seen": str(r.get("first_seen") or ""),
+        "last_seen":  str(r.get("last_seen") or ""),
+    } for r in rows]
+
+    return {
+        "lookback_days": lookback_days,
+        "total":         sum(g["count"] for g in groups),
+        "groups":        groups,
+        "truncated":     len(rows) >= _SCAN_FAILURE_LIMIT,
+    }
