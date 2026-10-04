@@ -871,10 +871,21 @@ def _dispatch_blocks(blocks: list, elements: list) -> dict:
     elif view_type == VIEW_LIST:
         result = _parse_list_view(blocks, elements)
     else:
-        result = _unsupported(
-            "Screenshot does not appear to be an FPL Pitch View or List View. "
-            "Use the FPL app squad tab (Pitch or List)."
-        )
+        # View type not recognised: don't reject on layout alone. Try the general
+        # parser and accept only a complete squad (15 players, valid XI/bench split).
+        # Otherwise report how many player names were found, so "not a squad
+        # screenshot" (few names) can be told apart from "squad with a few misses".
+        general = _parse_list_view(blocks, elements)
+        found   = len(general.get("players", []))
+        if general["status"] == VALID and found == _SQUAD_SIZE:
+            result = {**general, "view_type": VIEW_UNKNOWN,
+                      "warnings": general["warnings"] + ["View type not recognised; parsed with the general parser"]}
+        else:
+            result = _unsupported(
+                "Screenshot does not appear to be an FPL Pitch View or List View. "
+                "Use the FPL app squad tab (Pitch or List). "
+                "Found %d of %d player names." % (found, _SQUAD_SIZE)
+            )
 
     print(
         f"[diag] scanner_status={result['status']}  "

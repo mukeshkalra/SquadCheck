@@ -206,5 +206,51 @@ class TestCroppedNoBenchMarker(unittest.TestCase):
         self.assertIn("expected 11", r["message"])
 
 
+class TestUnknownViewFallsBackToGeneralParser(unittest.TestCase):
+    NAMES = [n for _, row in _CROPPED_ROWS for n, _ in row]
+
+    @staticmethod
+    def _unknown_blocks(rows=_CROPPED_ROWS):
+        # no bench labels, no section headers, no "Substitutes": detector returns UNKNOWN
+        return [b for b in _cropped_blocks(rows)
+                if b["text"] not in ("GKP", "FWD", "DEF", "Pitch", "List")]
+
+    def test_fixture_layout_is_unknown_to_the_detector(self):
+        from fpl.engine.scanner import _detect_view_type
+        self.assertEqual(_detect_view_type(self._unknown_blocks()), "UNKNOWN")
+
+    def test_complete_squad_is_accepted_with_unknown_view_type(self):
+        r = _dispatch(self._unknown_blocks(), _make_elements(*self.NAMES))
+        self.assertEqual(r["status"], "VALID", r.get("message"))
+        self.assertEqual(r["view_type"], "UNKNOWN")
+        self.assertEqual({p["name"] for p in r["players"] if p["is_starting"]}, _CROPPED_STARTERS)
+        self.assertTrue(any("not recognised" in w for w in r["warnings"]))
+
+    def test_partial_squad_reports_names_found(self):
+        r = _dispatch(self._unknown_blocks(), _make_elements(*self.NAMES[:9]))
+        self.assertEqual(r["status"], "UNSUPPORTED")
+        self.assertEqual(r["view_type"], "UNKNOWN")
+        self.assertIn("Found 9 of 15 player names", r["message"])
+        self.assertIn("does not appear to be an FPL Pitch View or List View", r["message"])
+
+    def test_non_squad_text_reports_zero_names(self):
+        blocks = [{"text": t, "x": 0.1, "y": 0.9 - i * 0.1, "w": 0.2, "h": 0.02}
+                  for i, t in enumerate(("Weather Today", "Sunny", "High 21C"))]
+        r = _dispatch(blocks, _make_elements(*self.NAMES))
+        self.assertEqual(r["status"], "UNSUPPORTED")
+        self.assertIn("Found 0 of 15 player names", r["message"])
+
+    def test_more_than_15_names_is_not_accepted(self):
+        rows = _CROPPED_ROWS + [(0.02, [("Extra", "XXX ( A )")])]
+        r = _dispatch(self._unknown_blocks(rows), _make_elements(*self.NAMES, "Extra"))
+        self.assertNotEqual(r["status"], "VALID")
+        self.assertIn("Found 16 of 15 player names", r["message"])
+
+    def test_recognised_views_are_unchanged(self):
+        r = _dispatch(_cropped_blocks(), _make_elements(*self.NAMES))
+        self.assertEqual(r["status"], "VALID")
+        self.assertEqual(r["view_type"], "LIST")   # plain-label layout, as before
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
