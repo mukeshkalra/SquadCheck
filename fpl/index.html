@@ -1520,6 +1520,7 @@ function selectCaptain(playerId){
   _P.vice_captain_id = vc ? vc.player_id : null;
   renderHero(_P);
   renderPlayers(_P);
+  observePosRows();
   renderCaptain(_P);
   renderFinalCall(_P);
 }
@@ -1991,20 +1992,30 @@ function setupScroll(p){
   ids.forEach(id=>{const el=$(id);if(el)ob.observe(el);});
 
   // position_section_viewed — fires when each position row scrolls into view (once per render)
-  const _posClsMap={'pr-gk':1,'pr-df':2,'pr-md':3,'pr-fw':4};
   const starters=(p.players||[]).filter(q=>q.is_starting);
-  const posOb=new IntersectionObserver(entries=>{
+  if(_posOb) _posOb.disconnect();
+  _posSeen=new Set();
+  _posOb=new IntersectionObserver(entries=>{
     entries.forEach(en=>{
       if(!en.isIntersecting) return;
       const posNum=_posClsMap[en.target.id];
-      if(posNum){
+      if(posNum && !_posSeen.has(posNum)){
+        _posSeen.add(posNum);
         const xPts=+starters.filter(q=>q.position===posNum).reduce((s,q)=>s+q.xPts,0).toFixed(1);
         track('position_section_viewed',{position:posNum,xPts});
       }
-      posOb.unobserve(en.target);
+      _posOb.unobserve(en.target);
     });
   },{threshold:.3});
-  Object.keys(_posClsMap).forEach(id=>{const el=$(id);if(el)posOb.observe(el);});
+  observePosRows();
+}
+
+// position rows are rebuilt by selectCaptain → re-observe those not yet seen this render
+const _posClsMap={'pr-gk':1,'pr-df':2,'pr-md':3,'pr-fw':4};
+let _posOb=null, _posSeen=new Set();
+function observePosRows(){
+  if(!_posOb) return;
+  Object.keys(_posClsMap).forEach(id=>{const el=$(id);if(el&&!_posSeen.has(_posClsMap[id]))_posOb.observe(el);});
 }
 
 /* ── ADD TO HOME SCREEN ──────────────────────────────────────────────────── */
