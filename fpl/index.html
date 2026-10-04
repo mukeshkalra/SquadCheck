@@ -700,7 +700,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
   <div class="up-hint">
     <p class="up-hint-main">Just send us your team.</p>
-    <p class="up-hint-sub">Pitch View or List View · all 15 players visible</p>
+    <p class="up-hint-sub">Pitch View · whole pitch and all 4 subs visible</p>
     <details class="shot-reveal">
       <summary>What screenshot? ↓</summary>
       <div class="shot-reveal-body">
@@ -708,7 +708,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
              alt="FPL squad Pitch View screenshot — all 15 players visible including 4 substitutes"
              class="shot-reveal-img"
              loading="lazy">
-        <p class="shot-reveal-note">Open the FPL app → your Squad tab → Pitch View or List View. Screenshot when all 15 players including all 4 substitutes are on screen.</p>
+        <p class="shot-reveal-note">Open the FPL app → your Squad tab → Pitch View. Screenshot when the whole pitch and all 4 substitutes are on screen.</p>
       </div>
     </details>
   </div>
@@ -831,8 +831,8 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
     <h2 class="err-h" id="err-h">Couldn't read that screenshot</h2>
     <p class="err-body" id="err-body">We couldn't find all your players.</p>
     <ul class="err-tips" id="err-tips">
-      <li>Use the FPL app Pitch View or List View</li>
-      <li>All 15 players must be visible</li>
+      <li>Use the FPL app Pitch View</li>
+      <li>Show the whole pitch and all 4 subs</li>
       <li>Avoid cropping or adding filters</li>
     </ul>
     <button class="err-cta" onclick="goUpload()">Try another screenshot</button>
@@ -1026,25 +1026,25 @@ const ERROR_MAP = {
     emoji:'✂️',
     h:'Couldn\'t read all 15 players',
     body:'Take a fresh screenshot and make sure all 15 players — including all 4 bench players — are fully visible, sharp, and unobstructed.',
-    tips:['Include the full bench — scroll down so all 4 substitutes are visible','Avoid notifications, overlays, or cropping over player names','Use Pitch View for the clearest layout','Hold your phone steady and screenshot in good lighting']
+    tips:['Use Pitch View in the FPL app','Include the full bench — scroll down so all 4 substitutes are visible','Avoid notifications, overlays, or cropping over player names','Hold your phone steady and screenshot in good lighting']
   },
   AMBIGUOUS: {
     emoji:'👯',
     h:'Looks like two players share a name',
-    body:'We found a duplicate player name. This can happen with common surnames. Try the Pitch View — it usually separates them more clearly.',
-    tips:['Try Pitch View instead of List View','Make sure you\'re not doubling up players in the same row']
+    body:'We found a duplicate player name. This can happen with common surnames. Retake the screenshot in Pitch View, which usually separates them more clearly.',
+    tips:['Use Pitch View in the FPL app','Make sure you\'re not doubling up players in the same row']
   },
   UNSUPPORTED: {
     emoji:'🤔',
-    h:'This doesn\'t look like an FPL screenshot',
-    body:'We couldn\'t find any squad data in this image. Make sure you\'re uploading directly from the FPL app.',
-    tips:['Open the FPL app and go to your Squad tab','Choose Pitch View or List View','Screenshot that screen and upload it here']
+    h:'Couldn\'t read your squad',
+    body:'We couldn\'t read a full squad from this screenshot. Please retake it in Pitch View.',
+    tips:['Open the FPL app → Squad tab → Pitch View','Show the whole pitch and all 4 bench players','Avoid cropping, overlays, or notifications']
   },
   default: {
     emoji:'📸',
     h:'Something went wrong',
     body:'We couldn\'t process this screenshot. Try again with a fresh screenshot from the FPL app.',
-    tips:['Use Pitch View or List View from the FPL app','Make sure all 15 players are visible','Avoid cropping or filtering']
+    tips:['Use Pitch View in the FPL app','Show the whole pitch and all 4 bench players','Avoid cropping or filtering']
   }
 };
 
