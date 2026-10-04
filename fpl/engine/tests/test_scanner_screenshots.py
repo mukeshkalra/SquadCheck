@@ -142,5 +142,69 @@ class TestScannerScreenshots(unittest.TestCase):
         ])
 
 
+# ── Synthetic layout (not a recorded Vision response) ─────────────────────────
+# Mirrors a cropped new-layout pitch screenshot: plain GKP/FWD/DEF/DEF bench
+# labels, no "Substitutes" text. Coordinates follow the production diagnostics
+# convention (larger y = higher on screen).
+
+_CROPPED_ROWS = [   # (y, [(name, team token), ...])
+    (0.75, [("Tzolakis", "EVE ( H )")]),
+    (0.59, [("Vuskovic", "SUN ( A )"), ("Konsa", "LEE ( H )"), ("Calafiori", "LEE ( H )")]),
+    (0.43, [("Semenyo", "LIV ( A )"), ("Schade", "AVL ( A )"), ("Saka", "LEE ( H )"),
+            ("Groß", "SUN ( A )"), ("Rogers", "BOU ( H )")]),
+    (0.27, [("Haaland", "LIV ( A )"), ("João Pedro", "BOU ( H )")]),
+    (0.08, [("Leno", "IPS ( A )"), ("Kostoulas", "SUN ( A )"), ("Thomas", "NEW ( H )"),
+            ("Muharemović", "ARS ( A )")]),
+]
+_CROPPED_STARTERS = {"Tzolakis", "Vuskovic", "Konsa", "Calafiori", "Semenyo", "Schade",
+                     "Saka", "Groß", "Rogers", "Haaland", "João Pedro"}
+
+
+def _cropped_blocks(rows=_CROPPED_ROWS):
+    blocks = [{"text": t, "x": 0.1 + 0.2 * i, "y": 0.13, "w": 0.05, "h": 0.01}
+              for i, t in enumerate(("GKP", "FWD", "DEF", "DEF"))]
+    blocks += [{"text": "Pitch", "x": 0.15, "y": 0.92, "w": 0.07, "h": 0.01},
+               {"text": "List", "x": 0.41, "y": 0.92, "w": 0.05, "h": 0.01}]
+    for y, row in rows:
+        for i, (name, team) in enumerate(row):
+            x = 0.1 + 0.15 * i
+            blocks.append({"text": name, "x": x, "y": y, "w": 0.08, "h": 0.01})
+            blocks.append({"text": team, "x": x, "y": y - 0.025, "w": 0.08, "h": 0.013})
+    return blocks
+
+
+def _dispatch(blocks, elements):
+    from fpl.engine.scanner import _dispatch_blocks
+    buf = io.StringIO(); old = sys.stderr; sys.stderr = buf
+    try:
+        return _dispatch_blocks(blocks, elements)
+    finally:
+        sys.stderr = old
+
+
+class TestCroppedNoBenchMarker(unittest.TestCase):
+    NAMES = [n for _, row in _CROPPED_ROWS for n, _ in row]
+
+    def test_xi_inferred_from_vertical_order(self):
+        r = _dispatch(_cropped_blocks(), _make_elements(*self.NAMES))
+        self.assertEqual(r["status"], "VALID", r.get("message"))
+        self.assertEqual({p["name"] for p in r["players"] if p["is_starting"]}, _CROPPED_STARTERS)
+        self.assertEqual(sum(1 for p in r["players"] if not p["is_starting"]), 4)
+        self.assertTrue(any("inferred from vertical order" in w for w in r["warnings"]))
+
+    def test_no_guess_when_split_cuts_through_a_row(self):
+        rows = [(0.75, _CROPPED_ROWS[0][1]), (0.59, _CROPPED_ROWS[1][1]), (0.43, _CROPPED_ROWS[2][1]),
+                (0.27, _CROPPED_ROWS[3][1]), (0.265, _CROPPED_ROWS[4][1])]   # bench row ~ FWD row
+        r = _dispatch(_cropped_blocks(rows), _make_elements(*self.NAMES))
+        self.assertNotEqual(r["status"], "VALID")
+
+    def test_validate_rejects_more_than_11_starters(self):
+        from fpl.engine.scanner import scan_squad
+        players = [{"name": "P%d" % i, "position": 3, "is_starting": True} for i in range(15)]
+        r = scan_squad({"players": players})
+        self.assertEqual(r["status"], "PARTIAL")
+        self.assertIn("expected 11", r["message"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

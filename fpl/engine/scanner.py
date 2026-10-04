@@ -736,6 +736,24 @@ def _pos_from_combined_token(text: str):
     return _LIST_TAG_TO_POS.get(last)
 
 
+def _infer_bench_by_order(players: list, name_blocks: list, warnings: list) -> list:
+    """
+    No bench marker was found (e.g. a cropped screenshot), so every player was
+    marked as starting. With all 15 names present, treat the 11 highest on screen
+    as the XI and the rest as bench. Only when there is a clear vertical gap
+    between the 11th and 12th names, so the split never cuts through a row.
+    """
+    if len(players) != _SQUAD_SIZE or not all(p["is_starting"] for p in players):
+        return players
+    order = sorted(range(len(players)), key=lambda i: -name_blocks[i]["y"])   # top → bottom
+    gap = name_blocks[order[_STARTER_SIZE - 1]]["y"] - name_blocks[order[_STARTER_SIZE]]["y"]
+    if gap < _CLUSTER_TOLERANCE:
+        return players
+    bench = set(order[_STARTER_SIZE:])
+    warnings.append("No bench marker found; starting XI inferred from vertical order")
+    return [{**p, "is_starting": i not in bench} for i, p in enumerate(players)]
+
+
 def _parse_list_view(blocks: list, elements: list) -> dict:
     """
     Extract players from a List View screenshot.
@@ -819,6 +837,8 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
             new_blocks.append(b)
     players_out      = new_players
     player_name_blocks = new_blocks
+
+    players_out = _infer_bench_by_order(players_out, player_name_blocks, warnings)
 
     captain_name, vice_name = _detect_captain_badges(blocks, player_name_blocks)
 
@@ -940,6 +960,10 @@ def _validate(data: dict) -> dict:
     if starters < _STARTER_SIZE:
         return _result(PARTIAL, view_type, valid_players, warnings,
                        "Only %d starters found, expected %d" % (starters, _STARTER_SIZE))
+
+    if starters > _STARTER_SIZE:
+        return _result(PARTIAL, view_type, valid_players, warnings,
+                       "Found %d starters, expected %d" % (starters, _STARTER_SIZE))
 
     names_lower = [p["name"].lower() for p in valid_players]
     if len(names_lower) != len(set(names_lower)):
