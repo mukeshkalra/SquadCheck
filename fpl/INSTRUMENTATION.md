@@ -137,16 +137,14 @@ Fires immediately after `projection_viewed`. Records the pipeline's recommendati
 
 | Event | When | Key Properties |
 |---|---|---|
-| `position_section_viewed` | User scrolls a position row into view | `position` (GK/DEF/MID/FWD), `xPts` |
+| `position_section_viewed` | Position row scrolls into view (IntersectionObserver, 30% threshold, once per render) | `position` (1–4), `xPts` |
 | `player_card_opened` | Tap on a horizontal player card | `player_id` |
-| `player_opened` | Old vertical card open (may be dead code) | `player_id` |
-| `player_explanation_opened` | "Why?" expanded | `player_id` |
 | `player_numbers_opened` | "Full numbers" expanded | `player_id` |
 | `bench_viewed` | Bench section expanded | — |
 | `captain_switch_shown` | App suggests captain change | `from` (player_id), `to` (player_id), `gain` (xPts delta) |
 | `captain_card_viewed` | Captain card rendered (no switch needed) | `player_id`, `xPts` |
 | `recommendation_viewed` | "Changes to make" section scrolled into view (IntersectionObserver, 30% threshold) | `action`, `delta` |
-| `recommended_change_viewed` | Final Call section rendered | `action`, `delta` |
+| `recommended_change_viewed` | Final Call section rendered — fires once per result render, not per captain tap | `action`, `delta` |
 
 ---
 
@@ -207,8 +205,7 @@ projection_viewed → player_card_opened → recommendation_viewed → feedback_
 | Gap | Severity | Notes |
 |---|---|---|
 | No `upload_started` distinct from `screenshot_uploaded` | Low | File picker opens synchronously — no gap between tap and file-chosen |
-| `player_opened` may be dead code | Low | Kept for backwards compat; verify in PostHog after launch |
-| `position_section_viewed` fires on scroll, not on first render | Medium | May under-count if user doesn't scroll; captures genuine attention |
+| `position_section_viewed` may under-count if user doesn't scroll | Low | IntersectionObserver (30% threshold) — captures genuine attention rather than guaranteed render |
 | No explicit `scan_partial` event | Low | Covered by `scan_failed` with `status: PARTIAL` |
 | No server-side events | Medium | All events are client-side; server crashes or timeouts only appear as `APP_ERROR` in scan_failed |
 | Return visit detection is device/browser-scoped | Medium | Clearing localStorage resets `is_return` to false; incognito always shows `is_return: false` |

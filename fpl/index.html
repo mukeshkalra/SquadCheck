@@ -921,6 +921,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 /* ── globals ───────────────────────────────────────────────────────────── */
 let _P = null;          // payload
 let _openHCard = null;  // {playerId, posKey} for horizontal card expansion
+let _fcTracked = false; // guards recommended_change_viewed — fires once per result render
 const $ = id => document.getElementById(id);
 const esc = s => String(s??'')
   .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -948,13 +949,14 @@ const _scUtm = (()=>{
   try{return JSON.parse(sessionStorage.getItem('sc_utm')||'{}');}catch(_){return {};}
 })();
 
-// experiment_id + creative_id — optional URL params for A/B and creative attribution
+// experiment_id + creative_id — optional URL params; persisted to sessionStorage so they survive reloads
 const _scExp = (()=>{
   const p=new URLSearchParams(location.search);
   const out={};
   if(p.get('experiment_id'))out.experiment_id=p.get('experiment_id');
   if(p.get('creative_id'))out.creative_id=p.get('creative_id');
-  return out;
+  if(Object.keys(out).length){sessionStorage.setItem('sc_exp',JSON.stringify(out));return out;}
+  try{return JSON.parse(sessionStorage.getItem('sc_exp')||'{}');}catch(_){return {};}
 })();
 
 // Super properties — attached to every event
@@ -1124,7 +1126,7 @@ $('file-input').addEventListener('change', async function(){
 /* ══════════════════════ RENDERERS ══════════════════════ */
 
 function renderResult(p) {
-  // captain_id stays null — user sets it via the captain selector in renderCaptain
+  _fcTracked = false;
   // Wrap each section individually so a crash names the exact function
   const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderFinalCall];
   for (const fn of steps) {
@@ -1184,7 +1186,6 @@ function renderPlayers(p) {
   </div>
   <div class="pos-detail" id="phd-${meta.cls}" style="display:none"></div>
 </div>`;
-    track('position_section_viewed',{position:pos,xPts:+tot});
     isFirst=false;
   }
   const benchTot = bench.reduce((s,q)=>s+q.xPts,0).toFixed(1);
@@ -1376,14 +1377,13 @@ const R_MAP = [
 function dText(s){for(const[re,t]of D_MAP){if(re.test(s))return typeof t==='string'?t:t(s)}return s.split('—')[0].trim()}
 function rText(s){for(const[re,t]of R_MAP){if(re.test(s))return t(s)}return s.split('—')[0].trim()}
 
-function openCard(id){track('player_opened',{player_id:id});}
+function openCard(id){}
 function toggleWhy(e,id){
   e.stopPropagation();
   const det=$('pd-'+id),chev=$('wc-'+id);
   const open=det.style.display==='block';
   det.style.display=open?'none':'block';
   chev.className='why-chev'+(open?'':' open');
-  if(!open) track('player_explanation_opened',{player_id:id});
 }
 function toggleNums(e,id){
   e.stopPropagation();
@@ -1780,7 +1780,7 @@ function renderFinalCall(p){
     </div>`;
   }
   $('r-finalcall').innerHTML=html;
-  track('recommended_change_viewed',{action:p.action,delta:p.delta});
+  if(!_fcTracked){_fcTracked=true;track('recommended_change_viewed',{action:p.action,delta:p.delta});}
 }
 
 /* ── FEEDBACK ────────────────────────────────────────────────────────────── */
@@ -1966,6 +1966,7 @@ async function submitDisambig(){
     if(data.status==='DISAMBIG'){ showDisambig(data.ambiguous); return; }
     if(data.status!=='OK'){ showError(data.scanner_status||'default',data.message||''); return; }
     _P=data; renderResult(data); show('s-result');
+    try{if(window.posthog)posthog.register({gw:data.gameweek});}catch(_){}
     const _dStarters=(data.players||[]).filter(q=>q.is_starting);
     const _dCaptP=data.captain_id?_dStarters.find(q=>q.player_id===data.captain_id):null;
     track('disambig_resolved',{choices:Object.keys(_dqChoices).length});
@@ -1988,6 +1989,22 @@ function setupScroll(p){
     });
   },{threshold:.3});
   ids.forEach(id=>{const el=$(id);if(el)ob.observe(el);});
+
+  // position_section_viewed — fires when each position row scrolls into view (once per render)
+  const _posClsMap={'pr-gk':1,'pr-df':2,'pr-md':3,'pr-fw':4};
+  const starters=(p.players||[]).filter(q=>q.is_starting);
+  const posOb=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(!en.isIntersecting) return;
+      const posNum=_posClsMap[en.target.id];
+      if(posNum){
+        const xPts=+starters.filter(q=>q.position===posNum).reduce((s,q)=>s+q.xPts,0).toFixed(1);
+        track('position_section_viewed',{position:posNum,xPts});
+      }
+      posOb.unobserve(en.target);
+    });
+  },{threshold:.3});
+  Object.keys(_posClsMap).forEach(id=>{const el=$(id);if(el)posOb.observe(el);});
 }
 
 /* ── ADD TO HOME SCREEN ──────────────────────────────────────────────────── */
