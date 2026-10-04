@@ -706,11 +706,15 @@ def _parse_pitch_view(blocks: list, elements: list) -> dict:
             "No players detected. Ensure the screenshot shows a complete FPL Pitch View."
         )
 
-    players_out = _assign_xi_by_order(players_out, player_blocks, marker_flags, warnings)
+    players_out, split_error = _assign_xi_by_order(
+        players_out, player_blocks, marker_flags, elements, warnings)
 
     captain_name, vice_name = _detect_captain_badges(blocks, player_blocks)
 
-    result = _validate({"view_type": VIEW_PITCH, "players": players_out, "warnings": warnings})
+    if split_error:
+        result = _result(PARTIAL, VIEW_PITCH, players_out, warnings, split_error)
+    else:
+        result = _validate({"view_type": VIEW_PITCH, "players": players_out, "warnings": warnings})
     result["captain_name"]      = captain_name
     result["vice_captain_name"] = vice_name
     return result
@@ -738,7 +742,50 @@ def _pos_from_combined_token(text: str):
     return _LIST_TAG_TO_POS.get(last)
 
 
-def _assign_xi_by_order(players: list, name_blocks: list, marker_flags: list, warnings: list) -> list:
+def _bootstrap_positions(elements: list) -> dict:
+    """{norm_name → set of FPL positions (1-4)} for active players. Empty set = unknown."""
+    pos = {}
+    for e in elements:
+        if e.get("removed", False):
+            continue
+        et = e.get("element_type")
+        for field in ("web_name", "second_name", "known_name"):
+            v = (e.get(field) or "").strip()
+            if len(v) >= 3:
+                s = pos.setdefault(_norm_name(v), set())
+                if et in _VALID_POSITIONS:
+                    s.add(et)
+    return pos
+
+
+def _position_counts(names: list, positions: dict) -> set:
+    """
+    All (GKP, DEF, MID, FWD) count tuples reachable for these names. A name that
+    matches several players (or has no position data) may take any of its candidate
+    positions, so this is a superset: it can accept a bad split but never rejects a
+    good one.
+    """
+    states = {(0, 0, 0, 0)}
+    for n in names:
+        cand = positions.get(_norm_name(n)) or _VALID_POSITIONS
+        states = {t[:p - 1] + (t[p - 1] + 1,) + t[p:] for t in states for p in cand}
+    return states
+
+
+def _split_problem(xi: list, bench: list, positions: dict):
+    """None if the XI/bench split can be a valid FPL squad, else a short reason."""
+    if not any(g == 1 and 3 <= d <= 5 and 2 <= m <= 5 and 1 <= f <= 3
+               for g, d, m, f in _position_counts(xi, positions)):
+        return "the starting XI is not a valid formation"
+    if not any(g == 1 and d + m + f == 3 for g, d, m, f in _position_counts(bench, positions)):
+        return "the bench is not 1 goalkeeper and 3 outfield players"
+    if (2, 5, 5, 3) not in _position_counts(xi + bench, positions):
+        return "the squad is not 2 GKP, 5 DEF, 5 MID and 3 FWD"
+    return None
+
+
+def _assign_xi_by_order(players: list, name_blocks: list, marker_flags: list,
+                        elements: list, warnings: list):
     """
     Primary XI/bench split, independent of view type: with exactly 15 players, the
     11 highest names on screen are the XI and the other 4 are the bench.
@@ -748,11 +795,17 @@ def _assign_xi_by_order(players: list, name_blocks: list, marker_flags: list, wa
     Markers are only a cross-check: a disagreement or a boundary inside a row of
     names is reported in warnings, not acted on.
 
+    The split is then checked against bootstrap positions (valid formation, bench of
+    1 GKP + 3 outfield, squad of 2/5/5/3). If it fails, returns an error message
+    instead of guessing.
+
     With any other player count the split is not meaningful (the squad fails
     validation anyway); markers are used where present, otherwise "starting".
+
+    Returns (players, error_message_or_None).
     """
     if len(players) != _SQUAD_SIZE:
-        return [{**p, "is_starting": True if f is None else f} for p, f in zip(players, marker_flags)]
+        return [{**p, "is_starting": True if f is None else f} for p, f in zip(players, marker_flags)], None
 
     order = sorted(range(len(players)), key=lambda i: -name_blocks[i]["y"])   # top → bottom
     xi = set(order[:_STARTER_SIZE])
@@ -764,7 +817,13 @@ def _assign_xi_by_order(players: list, name_blocks: list, marker_flags: list, wa
     if conflicts:
         warnings.append("Bench marker disagrees with vertical order for %d player(s); using vertical order" % conflicts)
 
-    return [{**p, "is_starting": i in xi} for i, p in enumerate(players)]
+    out = [{**p, "is_starting": i in xi} for i, p in enumerate(players)]
+    problem = _split_problem([p["name"] for p in out if p["is_starting"]],
+                             [p["name"] for p in out if not p["is_starting"]],
+                             _bootstrap_positions(elements))
+    if problem:
+        return out, "Could not determine the starting XI: %s." % problem
+    return out, None
 
 
 def _parse_list_view(blocks: list, elements: list) -> dict:
@@ -854,11 +913,15 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
     player_name_blocks = new_blocks
 
     marker_flags = [p["is_starting"] if saw_bench_marker else None for p in players_out]
-    players_out = _assign_xi_by_order(players_out, player_name_blocks, marker_flags, warnings)
+    players_out, split_error = _assign_xi_by_order(
+        players_out, player_name_blocks, marker_flags, elements, warnings)
 
     captain_name, vice_name = _detect_captain_badges(blocks, player_name_blocks)
 
-    result = _validate({"view_type": VIEW_LIST, "players": players_out, "warnings": warnings})
+    if split_error:
+        result = _result(PARTIAL, VIEW_LIST, players_out, warnings, split_error)
+    else:
+        result = _validate({"view_type": VIEW_LIST, "players": players_out, "warnings": warnings})
     result["captain_name"]      = captain_name
     result["vice_captain_name"] = vice_name
     return result
@@ -893,9 +956,9 @@ def _dispatch_blocks(blocks: list, elements: list) -> dict:
         # screenshot" (few names) can be told apart from "squad with a few misses".
         general = _parse_list_view(blocks, elements)
         found   = len(general.get("players", []))
-        if general["status"] == VALID and found == _SQUAD_SIZE:
-            result = {**general, "view_type": VIEW_UNKNOWN,
-                      "warnings": general["warnings"] + ["View type not recognised; parsed with the general parser"]}
+        if found == _SQUAD_SIZE:
+            note = ["View type not recognised; parsed with the general parser"] if general["status"] == VALID else []
+            result = {**general, "view_type": VIEW_UNKNOWN, "warnings": general["warnings"] + note}
         else:
             result = _unsupported(
                 "Screenshot does not appear to be an FPL Pitch View or List View. "

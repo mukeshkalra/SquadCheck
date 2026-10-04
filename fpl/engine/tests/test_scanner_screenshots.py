@@ -273,5 +273,79 @@ class TestUnknownViewFallsBackToGeneralParser(unittest.TestCase):
         self.assertEqual(r["view_type"], "LIST")   # plain-label layout, as before
 
 
+_POSITIONS = {   # FPL element_type: 1=GKP 2=DEF 3=MID 4=FWD
+    "Tzolakis": 1, "Leno": 1,
+    "Vuskovic": 2, "Konsa": 2, "Calafiori": 2, "Thomas": 2, "Muharemović": 2,
+    "Semenyo": 3, "Schade": 3, "Saka": 3, "Groß": 3, "Rogers": 3,
+    "Haaland": 4, "João Pedro": 4, "Kostoulas": 4,
+}
+
+
+def _pos_elements(positions=_POSITIONS):
+    return [{"web_name": n, "second_name": n, "known_name": None, "removed": False, "element_type": t}
+            for n, t in positions.items()]
+
+
+class TestFormationCheck(unittest.TestCase):
+    NAMES = [n for _, row in _CROPPED_ROWS for n, _ in row]
+
+    def test_valid_squad_with_positions_passes(self):
+        r = _dispatch(_cropped_blocks(), _pos_elements())
+        self.assertEqual(r["status"], "VALID", r.get("message"))
+        self.assertEqual({p["name"] for p in r["players"] if p["is_starting"]}, _CROPPED_STARTERS)
+
+    def test_bench_goalkeeper_above_the_fwd_row_is_refused(self):
+        rows = [(y, [(n, t) for n, t in row if n != "Leno"]) for y, row in _CROPPED_ROWS]
+        rows[1] = (rows[1][0], rows[1][1] + [("Leno", "IPS ( A )")])
+        r = _dispatch(_cropped_blocks(rows), _pos_elements())
+        self.assertEqual(r["status"], "PARTIAL")
+        self.assertIn("Could not determine the starting XI", r["message"])
+        self.assertIn("not a valid formation", r["message"])
+
+    def test_unrecognised_view_with_invalid_formation_reports_it(self):
+        rows = [(y, [(n, t) for n, t in row if n != "Leno"]) for y, row in _CROPPED_ROWS]
+        rows[1] = (rows[1][0], rows[1][1] + [("Leno", "IPS ( A )")])
+        blocks = [b for b in _cropped_blocks(rows) if b["text"] not in ("GKP", "FWD", "DEF", "Pitch", "List")]
+        r = _dispatch(blocks, _pos_elements())
+        self.assertEqual(r["view_type"], "UNKNOWN")
+        self.assertEqual(r["status"], "PARTIAL")
+        self.assertIn("not a valid formation", r["message"])
+
+    def test_elements_without_position_data_do_not_trigger_the_check(self):
+        r = _dispatch(_cropped_blocks(), _make_elements(*self.NAMES))
+        self.assertEqual(r["status"], "VALID")
+
+    def test_split_problem_reasons(self):
+        from fpl.engine.scanner import _split_problem, _bootstrap_positions
+        pos = _bootstrap_positions(_pos_elements())
+        xi = ["Tzolakis", "Vuskovic", "Konsa", "Calafiori", "Semenyo", "Schade", "Saka", "Groß", "Rogers",
+              "Haaland", "João Pedro"]
+        bench = ["Leno", "Kostoulas", "Thomas", "Muharemović"]
+        self.assertIsNone(_split_problem(xi, bench, pos))
+        # two goalkeepers in the XI
+        self.assertIn("starting XI", _split_problem(xi[:-1] + ["Leno"], ["Kostoulas", "Thomas", "Muharemović", "Haaland"], pos))
+        # only 2 DEF in the XI
+        self.assertIn("starting XI", _split_problem(
+            ["Tzolakis", "Vuskovic", "Konsa", "Semenyo", "Schade", "Saka", "Groß", "Rogers", "Haaland",
+             "João Pedro", "Kostoulas"], ["Leno", "Calafiori", "Thomas", "Muharemović"], pos))
+        # valid XI but the bench has no goalkeeper (the second "goalkeeper" is a DEF in this data)
+        one_gk = _bootstrap_positions(_pos_elements({**_POSITIONS, "Leno": 2}))
+        self.assertIn("bench", _split_problem(xi, bench, one_gk))
+        # valid XI and bench, but the squad shape is wrong (4 DEF, 6 MID)
+        six_mid = _bootstrap_positions(_pos_elements({**_POSITIONS, "Thomas": 3}))
+        self.assertIn("squad", _split_problem(xi, bench, six_mid))
+
+    def test_ambiguous_or_unknown_names_are_never_rejected_for_position(self):
+        from fpl.engine.scanner import _split_problem, _bootstrap_positions
+        els = _pos_elements() + [{"web_name": "Thomas", "second_name": "Thomas", "known_name": None,
+                                  "removed": False, "element_type": 3}]
+        pos = _bootstrap_positions(els)
+        self.assertEqual(pos["thomas"], {2, 3})
+        xi = ["Tzolakis", "Vuskovic", "Konsa", "Calafiori", "Semenyo", "Schade", "Saka", "Groß", "Rogers",
+              "Haaland", "João Pedro"]
+        self.assertIsNone(_split_problem(xi, ["Leno", "Kostoulas", "Thomas", "Muharemović"], pos))
+        self.assertIsNone(_split_problem(xi, ["Leno", "Kostoulas", "Thomas", "Unknown Name"], {}))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
