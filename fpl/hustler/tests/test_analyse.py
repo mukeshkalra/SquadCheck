@@ -411,6 +411,43 @@ class TestContractAndSafety(unittest.TestCase):
         self.assertIn("HUMAN REQUIRED", text)
         self.assertIn(CONV.url, text)
 
+    def test_render_layout_puts_the_reddit_url_with_the_draft(self):
+        lines = A.render(run()[0]).splitlines()
+        self.assertEqual(lines[:4], ["Opportunity", f"Title: {CONV.title}", f"Reddit: {CONV.url}",
+                                     "Image: https://i.redd.it/abc.jpeg"])
+        self.assertEqual(lines[4:7], ["", "Question:", CONV.body])
+        order = [lines.index(x) for x in ("Question:", "Evidence:", "DRAFT (edit before posting):")]
+        self.assertEqual(order, sorted(order))
+
+    def test_render_keeps_url_and_image_separate_and_exact(self):
+        text = A.render(run()[0])
+        self.assertEqual(text.count(CONV.url), 1)
+        self.assertIn("Reddit: https://www.reddit.com/r/FPLRateMyTeam/comments/abc/x/", text)
+        self.assertIn("Image: https://i.redd.it/abc.jpeg", text)
+        self.assertNotEqual(CONV.url, CONV.media[0].url)
+
+    def test_render_url_is_the_input_url_not_constructed(self):
+        odd = Conversation(**{**CONV.__dict__, "url": "https://www.reddit.com/r/FPLRateMyTeam/comments/zzz/odd-slug/"})
+        result = analyse(FakeAdapter(), odd, FakeData(), scan=FULL_SCAN, llm=FakeLLM(grounded))
+        self.assertIn("Reddit: https://www.reddit.com/r/FPLRateMyTeam/comments/zzz/odd-slug/", A.render(result))
+
+    def test_render_without_post_text_or_image_still_works(self):
+        bare = Conversation(**{**CONV.__dict__, "body": "", "media": ()})
+        result = analyse(FakeAdapter(error=SourceUnavailable("x")), bare, FakeData(), scan=FULL_SCAN)
+        text = A.render(result)
+        self.assertIn("(no text in the post, image only)", text)
+        self.assertIn("Image: n/a", text)
+        self.assertIn(f"Reddit: {bare.url}", text)
+
+    def test_reddit_url_never_reaches_the_llm_or_the_draft(self):
+        result, llm = run()
+        sent = llm.calls[0][1]
+        self.assertNotIn(CONV.url, sent)
+        self.assertNotIn("reddit.com", sent)
+        self.assertNotIn(CONV.media[0].url, sent)
+        self.assertNotIn("reddit.com", result.draft_reply)
+        self.assertEqual(result.conversation.url, CONV.url)          # still carried on the result
+
     def test_does_not_modify_the_scan_result(self):
         scan_result = fx._make_scan()
         before = json.dumps(scan_result, sort_keys=True, default=str)

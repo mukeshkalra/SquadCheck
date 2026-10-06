@@ -336,10 +336,11 @@ def _ungrounded_numbers(reply, source_text):
 
 def render(analysis):
     c, ev = analysis.conversation, analysis.squad_evidence
-    lines = [f"{c.title}", c.url, f"image: {c.media[0].url if c.media else 'n/a'}"]
-    if c.body:
-        lines.append(f"post text: {c.body}")
-    lines += ["", f"scanner: {analysis.scanner_status}   evidence: {analysis.evidence_level.value}"]
+    # The Reddit URL is workflow metadata for the human; it is never part of the reply.
+    lines = ["Opportunity", f"Title: {c.title}", f"Reddit: {c.url}",
+             f"Image: {c.media[0].url if c.media else 'n/a'}", "",
+             "Question:", c.body or "(no text in the post, image only)", "",
+             "Evidence:", f"scanner: {analysis.scanner_status}   evidence: {analysis.evidence_level.value}"]
     if ev:
         lines.append(f"gameweek: {ev['gameweek']}")
         for p in sorted(ev["players"], key=lambda p: -p["xPts"]):
