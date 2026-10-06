@@ -7,7 +7,7 @@ from datetime import date, datetime, timedelta, timezone
 from fpl.hustler import models as m
 from fpl.hustler.models import (
     AnalysisResult, AnalysisStatus, CommunityPolicy, Confidence, Conversation,
-    EligibilityConfig, EvidenceLevel, Judgement, MediaRef, Opportunity,
+    EligibilityConfig, EvidenceLevel, MediaRef, Opportunity,
     OpportunityStatus, Platform, QuestionType, Source, Stance,
 )
 
@@ -26,15 +26,12 @@ def _conv(age_days=2, comments=34, **kw):
     base = dict(conversation_id="c1", source_id="r-fpl", platform=Platform.REDDIT,
                 community="FantasyPL", post_id="abc", url="https://reddit.com/r/FantasyPL/comments/abc",
                 title="Who to captain?", created_at=NOW - timedelta(days=age_days),
-                num_comments=comments)
+                num_comments=comments, media=(MediaRef("https://i.redd.it/x.jpg"),))
     return Conversation(**{**base, **kw})
 
 
-GOOD = Judgement(True, True, QuestionType.PLAYER_PROJECTION)
-
-
-def _assess(source=None, conv=None, judgement=GOOD, config=EligibilityConfig()):
-    return m.assess(source or _source(), conv or _conv(), judgement, NOW, config)
+def _assess(source=None, conv=None, config=EligibilityConfig()):
+    return m.assess(source or _source(), conv or _conv(), NOW, config)
 
 
 def _opp(oid="o1", **kw):
@@ -50,19 +47,16 @@ def _result(**kw):
 
 
 class TestEligibility(unittest.TestCase):
-    def test_all_gates_pass(self):
+    def test_both_gates_pass(self):
         a = _assess()
         self.assertTrue(a.eligible)
-        self.assertEqual(a.why()[0], "Eligible: YES")
-        self.assertIn("34 comments", a.why())
-        self.assertIn("community: 42,000 members (above 5,000 signal)", a.why())
+        self.assertEqual([g.name for g in a.gates], ["recent", "has_image"])
+        self.assertEqual(a.why(), ["Eligible: YES", "✓ 2 days old", "✓ image attached", "34 comments"])
 
     def test_each_gate_blocks(self):
         cases = {
-            "fpl_related": dict(judgement=Judgement(False, True, QuestionType.CAPTAIN_CHOICE)),
-            "answerable": dict(judgement=Judgement(True, False)),
-            "recent": dict(conv=_conv(age_days=9)),
-            "policy_compatible": dict(source=_source(policy=CommunityPolicy())),
+            "recent": dict(conv=_conv(age_days=16)),
+            "has_image": dict(conv=_conv(media=())),
         }
         for gate, kw in cases.items():
             a = _assess(**kw)
@@ -70,31 +64,27 @@ class TestEligibility(unittest.TestCase):
             self.assertEqual([g.name for g in a.gates if not g.passed], [gate])
             self.assertEqual(a.why()[0], "Eligible: NO")
 
-    def test_age_window_is_configurable(self):
-        self.assertFalse(_assess(conv=_conv(age_days=0.5)).eligible)      # too fresh
-        self.assertTrue(_assess(conv=_conv(age_days=0.5),
-                                config=EligibilityConfig(0, 7)).eligible)
-        self.assertFalse(_assess(conv=_conv(age_days=10)).eligible)
-        self.assertTrue(_assess(conv=_conv(age_days=10),
-                                config=EligibilityConfig(1, 14)).eligible)
+    def test_non_image_media_does_not_count(self):
+        self.assertFalse(_assess(conv=_conv(media=(MediaRef("https://v.redd.it/x", kind="video"),))).eligible)
 
-    def test_policy_gate_reasons(self):
-        reasons = {
-            "disabled": _source(enabled=False),
-            "not reviewed": _source(policy=CommunityPolicy(allows_replies=True, allows_ai_content=True)),
-            "does not allow replies": _source(policy=CommunityPolicy(allows_ai_content=True,
-                                                                      reviewed=date(2026, 10, 1))),
-            "AI-generated": _source(policy=CommunityPolicy(allows_replies=True,
-                                                            reviewed=date(2026, 10, 1))),
-        }
-        for text, src in reasons.items():
-            gate = _assess(source=src).gates[3]
-            self.assertFalse(gate.passed)
-            self.assertIn(text, gate.detail)
+    def test_window_is_zero_to_fifteen_days_and_configurable(self):
+        self.assertTrue(_assess(conv=_conv(age_days=0)).eligible)
+        self.assertTrue(_assess(conv=_conv(age_days=15)).eligible)
+        self.assertFalse(_assess(conv=_conv(age_days=15.1)).eligible)
+        self.assertFalse(_assess(conv=_conv(age_days=10), config=EligibilityConfig(0, 7)).eligible)
+        with self.assertRaises(ValueError):
+            EligibilityConfig(5, 1)
 
-    def test_small_community_is_not_a_gate(self):
-        self.assertTrue(_assess(source=_source(members=800)).eligible)
-        self.assertTrue(_assess(source=_source(members=None)).eligible)
+    def test_nothing_else_gates_an_opportunity(self):
+        for src in (_source(policy=CommunityPolicy()), _source(members=None), _source(members=10)):
+            a = _assess(source=src)
+            self.assertTrue(a.eligible)
+            self.assertEqual([g.name for g in a.gates], ["recent", "has_image"])
+        self.assertIs(_opp(source=_source(policy=CommunityPolicy())).status, OpportunityStatus.NEW)
+
+    def test_disabled_source_is_not_scanned(self):
+        with self.assertRaises(ValueError):
+            _assess(source=_source(enabled=False))
 
     def test_wrong_source_rejected(self):
         with self.assertRaises(ValueError):
@@ -104,11 +94,7 @@ class TestEligibility(unittest.TestCase):
         with self.assertRaises(ValueError):
             _conv(created_at=datetime(2026, 10, 3))
         with self.assertRaises(ValueError):
-            m.assess(_source(), _conv(), GOOD, datetime(2026, 10, 5))
-
-    def test_judgement_requires_question_type(self):
-        with self.assertRaises(ValueError):
-            Judgement(True, True)
+            m.assess(_source(), _conv(), datetime(2026, 10, 5))
 
 
 class TestOpportunity(unittest.TestCase):
@@ -116,12 +102,17 @@ class TestOpportunity(unittest.TestCase):
         with self.assertRaises(ValueError):
             Opportunity("o1", _assess(conv=_conv(age_days=30)))
 
-    def test_ranking_uses_only_comments_then_community_size(self):
-        small_busy = _opp("a", conv=_conv(comments=50), source=_source(members=1000))
-        big_busy = _opp("b", conv=_conv(comments=50), source=_source(members=90000))
-        quiet = _opp("c", conv=_conv(comments=5), source=_source(members=500000))
-        self.assertEqual([o.opportunity_id for o in m.rank([quiet, small_busy, big_busy])],
-                         ["b", "a", "c"])
+    def test_ranking_is_newest_first_then_comments(self):
+        old_busy = _opp("a", conv=_conv(age_days=5, comments=500))
+        new_quiet = _opp("b", conv=_conv(age_days=1, comments=2))
+        same_age_busy = _opp("c", conv=_conv(age_days=1, comments=40))
+        self.assertEqual([o.opportunity_id for o in m.rank([old_busy, new_quiet, same_age_busy])],
+                         ["c", "b", "a"])
+
+    def test_community_size_does_not_affect_ranking(self):
+        big = _opp("a", source=_source(members=900000))
+        small = _opp("b", source=_source(members=10))
+        self.assertEqual([o.opportunity_id for o in m.rank([small, big])], ["a", "b"])  # id tie-break
 
     def test_ranking_is_deterministic_on_ties(self):
         a, b = _opp("a"), _opp("b")
@@ -168,6 +159,53 @@ class TestPolicy(unittest.TestCase):
     def test_draft_checked_against_policy(self):
         r = _result(public_reply="Use SquadCheck", reply_is_personalised=True)
         self.assertEqual(len(r.draft_violations(OK_POLICY)), 2)
+
+    def test_constraints_tell_the_drafter_what_to_avoid(self):
+        self.assertEqual(CommunityPolicy().constraints(),
+                         ("no personalised advice", "no self-promotion", "no external links"))
+        self.assertEqual(CommunityPolicy(allows_personalised_advice=True, allows_self_promotion=True,
+                                         allows_external_links=True).constraints(), ())
+
+    def test_drafting_blocked_reasons(self):
+        self.assertIn("not reviewed", CommunityPolicy(allows_replies=True, allows_ai_content=True).drafting_blocked_reason())
+        self.assertIn("replies", CommunityPolicy(allows_ai_content=True, reviewed=date(2026, 10, 1)).drafting_blocked_reason())
+        self.assertIn("AI-generated", CommunityPolicy(allows_replies=True, reviewed=date(2026, 10, 1)).drafting_blocked_reason())
+        self.assertIsNone(OK_POLICY.drafting_blocked_reason())
+
+
+class TestApplyPolicy(unittest.TestCase):
+    def test_compliant_draft_passes_unchanged(self):
+        r = _result(public_reply="Salah projects 6.1 xPts")
+        self.assertIs(m.apply_policy(r, OK_POLICY), r)
+
+    def test_violating_draft_is_declined_not_rewritten(self):
+        r = _result(public_reply="Try SquadCheck at squadcheck.club", reply_is_personalised=True)
+        out = m.apply_policy(r, OK_POLICY)
+        self.assertEqual(out.public_reply, "")
+        self.assertIs(out.recommended_stance, Stance.DO_NOT_REPLY)
+        self.assertIn("Reply declined:", out.private_findings[-1])
+        self.assertIn("self-promotion", out.private_findings[-1])
+
+    def test_analysis_survives_a_declined_reply(self):
+        r = _result(public_reply="Try SquadCheck", private_findings=("Salah 6.1 xPts",))
+        out = m.apply_policy(r, OK_POLICY)
+        self.assertIs(out.analysis_status, AnalysisStatus.COMPLETE)
+        self.assertEqual(out.players_identified, r.players_identified)
+        self.assertEqual(out.private_findings[0], "Salah 6.1 xPts")
+
+    def test_blocked_community_declines_even_a_clean_draft(self):
+        out = m.apply_policy(_result(public_reply="Salah projects 6.1 xPts"), CommunityPolicy())
+        self.assertEqual(out.public_reply, "")
+        self.assertIn("not reviewed", out.private_findings[-1])
+
+    def test_blocked_community_with_no_draft_still_records_decline(self):
+        out = m.apply_policy(_result(), CommunityPolicy())
+        self.assertIs(out.recommended_stance, Stance.DO_NOT_REPLY)
+
+    def test_input_is_not_mutated(self):
+        r = _result(public_reply="Try SquadCheck")
+        m.apply_policy(r, OK_POLICY)
+        self.assertEqual(r.public_reply, "Try SquadCheck")
 
 
 class TestAnalysisEvidence(unittest.TestCase):
@@ -287,7 +325,7 @@ class TestPlatformAgnostic(unittest.TestCase):
     def test_other_platforms_use_same_model(self):
         src = _source(source_id="d1", platform=Platform.DISCORD, community="fpl-chat")
         conv = _conv(source_id="d1", platform=Platform.DISCORD, community="fpl-chat")
-        self.assertTrue(m.assess(src, conv, GOOD, NOW).eligible)
+        self.assertTrue(m.assess(src, conv, NOW).eligible)
 
     def test_only_source_mentions_reddit(self):
         src = inspect.getsource(m).lower()

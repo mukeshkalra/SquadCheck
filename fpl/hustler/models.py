@@ -4,11 +4,14 @@ Domain model for Growth Hustler v1 — contracts and invariants only.
 Rules (enforced at construction, covered by tests):
   - No publishing: nothing here holds credentials, makes network calls or has a
     "posted" state. Every reply is a private draft for a human.
-  - Eligibility is a set of hard gates, not a score. An Opportunity can only be
-    built from an assessment where every gate passed; its reasoning is the gate list.
-  - Ranking uses only comment count and community size, so the reason a post was
-    selected is always readable.
-  - Community policy is a hard constraint: a draft is checked against it.
+  - Eligibility is two hard gates, not a score: the post is 0-15 days old and has an
+    image. The source (an RMT feed) already establishes that it is an FPL request for
+    help. An Opportunity can only be built from an assessment where both gates passed;
+    its reasoning is the gate list plus the ranking inputs.
+  - Ranking is newest first, then most comments. No composite score.
+  - Community policy never hides an opportunity. It constrains the reply instead: the
+    drafter adapts to `policy.constraints()`, and `apply_policy` declines any draft
+    that is still not allowed.
   - Identity and geometry are separate: 15 distinct players is evidence on its own;
     XI/bench is optional evidence, required only by questions that need it.
   - Everything is internal: it carries `internal=True` and may never be switched off,
@@ -22,7 +25,6 @@ from enum import Enum, IntEnum
 from typing import Optional, Tuple
 
 SQUAD_SIZE = 15
-COMMUNITY_SIZE_SIGNAL = 5000   # a useful signal, never a gate
 _BRAND = "squadcheck"
 _LINK = re.compile(r"https?://|www\.|\b[\w-]+\.(?:com|club|co|io|net|org|uk)\b", re.I)
 
@@ -116,6 +118,27 @@ class CommunityPolicy:
     reviewed: Optional[date] = None
     notes: str = ""
 
+    def drafting_blocked_reason(self):
+        """Why no reply may be drafted here at all, or None. Analysis can still run."""
+        if self.reviewed is None:
+            return "community policy not reviewed"
+        if not self.allows_replies:
+            return "community policy does not allow replies"
+        if not self.allows_ai_content:
+            return "community policy does not allow AI-generated content"
+        return None
+
+    def constraints(self):
+        """What a draft must avoid in this community, for the drafter to adapt to."""
+        rules = []
+        if not self.allows_personalised_advice:
+            rules.append("no personalised advice")
+        if not self.allows_self_promotion:
+            rules.append("no self-promotion")
+        if not self.allows_external_links:
+            rules.append("no external links")
+        return tuple(rules)
+
     def violations(self, text, personalised_advice=False):
         """Rules a draft would break in this community. Empty means compatible."""
         found = []
@@ -190,24 +213,9 @@ class Conversation:
 # ── Opportunity ───────────────────────────────────────────────────────────────
 
 @dataclass(frozen=True)
-class Judgement:
-    """
-    Whether the post is FPL-related and whether SquadCheck can help.
-    Supplied by a human or a later component; this layer does not infer it.
-    """
-    fpl_related: bool
-    squadcheck_can_help: bool
-    question_type: Optional[QuestionType] = None
-
-    def __post_init__(self):
-        if self.squadcheck_can_help and self.question_type is None:
-            raise ValueError("squadcheck_can_help requires a question_type")
-
-
-@dataclass(frozen=True)
 class EligibilityConfig:
-    min_age_days: float = 1.0
-    max_age_days: float = 7.0
+    min_age_days: float = 0.0
+    max_age_days: float = 15.0
 
     def __post_init__(self):
         if not 0 <= self.min_age_days <= self.max_age_days:
@@ -225,60 +233,42 @@ class Gate:
 class Assessment:
     conversation_id: str
     gates: Tuple[Gate, ...]
-    question_type: Optional[QuestionType]
     age_days: float
     num_comments: int
     community: str
-    members: Optional[int]
 
     @property
     def eligible(self):
         return all(g.passed for g in self.gates)
 
     def why(self):
-        """Plain-language explanation: the gate results, then the ranking inputs."""
+        """Plain-language explanation: the gate results, then the ranking input."""
         lines = ["Eligible: " + ("YES" if self.eligible else "NO")]
         lines += [f"{'✓' if g.passed else '✗'} {g.detail}" for g in self.gates]
         if self.eligible:
-            size = "size unknown" if self.members is None else f"{self.members:,} members"
-            if self.members is not None and self.members > COMMUNITY_SIZE_SIGNAL:
-                size += f" (above {COMMUNITY_SIZE_SIGNAL:,} signal)"
-            lines += [f"{self.num_comments} comments", f"community: {size}"]
+            lines.append(f"{self.num_comments} comments")
         return lines
 
 
-def assess(source, conversation, judgement, now, config=EligibilityConfig()):
-    """Run the four hard gates. Any failure means the post is not an opportunity."""
+def assess(source, conversation, now, config=EligibilityConfig()):
+    """Run the two hard gates. Any failure means the post is not an opportunity."""
     _require_aware(now, "now")
+    if not source.enabled:
+        raise ValueError("Source is disabled and must not be scanned")
     if (source.source_id, source.platform) != (conversation.source_id, conversation.platform):
         raise ValueError("Conversation does not belong to this Source")
     age = (now - conversation.created_at).total_seconds() / 86400
-    policy = source.policy
-
-    if not source.enabled:
-        policy_detail, policy_ok = "community is disabled", False
-    elif policy.reviewed is None:
-        policy_detail, policy_ok = "community policy not reviewed", False
-    elif not policy.allows_replies:
-        policy_detail, policy_ok = "community policy does not allow replies", False
-    elif not policy.allows_ai_content:
-        policy_detail, policy_ok = "community policy does not allow AI-generated content", False
-    else:
-        policy_detail, policy_ok = "response permitted by community policy", True
-
+    in_window = config.min_age_days <= age <= config.max_age_days
+    has_image = any(item.kind == "image" for item in conversation.media)
     gates = (
-        Gate("fpl_related", judgement.fpl_related,
-             "FPL question" if judgement.fpl_related else "not clearly FPL-related"),
-        Gate("answerable", judgement.squadcheck_can_help,
-             "SquadCheck can answer the player-projection part" if judgement.squadcheck_can_help
-             else "SquadCheck cannot materially help"),
-        Gate("recent", config.min_age_days <= age <= config.max_age_days,
-             f"{age:.0f} days old" if config.min_age_days <= age <= config.max_age_days
+        Gate("recent", in_window,
+             f"{age:.0f} days old" if in_window
              else f"{age:.1f} days old, outside {config.min_age_days:g}-{config.max_age_days:g} day window"),
-        Gate("policy_compatible", policy_ok, policy_detail),
+        Gate("has_image", has_image,
+             "image attached" if has_image else "no image attached"),
     )
-    return Assessment(conversation.conversation_id, gates, judgement.question_type, age,
-                      conversation.num_comments, conversation.community, source.members)
+    return Assessment(conversation.conversation_id, gates, age, conversation.num_comments,
+                      conversation.community)
 
 
 @dataclass(frozen=True)
@@ -300,17 +290,13 @@ class Opportunity:
         return self.assessment.conversation_id
 
     @property
-    def question_type(self):
-        return self.assessment.question_type
-
-    @property
     def reasoning(self):
         return self.assessment.why()
 
     @property
     def rank_key(self):
-        """Most comments first, then larger community; unknown size ranks as 0."""
-        return (-self.assessment.num_comments, -(self.assessment.members or 0), self.opportunity_id)
+        """Newest first, then most comments, then id so ties are deterministic."""
+        return (self.assessment.age_days, -self.assessment.num_comments, self.opportunity_id)
 
     def advance(self, status):
         if status not in _TRANSITIONS[self.status]:
@@ -391,3 +377,20 @@ class AnalysisResult:
     def draft_violations(self, policy):
         """Community rules the draft would break; the caller must hold it back if non-empty."""
         return policy.violations(self.public_reply, self.reply_is_personalised)
+
+
+def apply_policy(result, policy):
+    """
+    Backstop applied to a finished analysis. If the community forbids drafting, or the
+    draft still breaks a rule, the reply is declined (never silently rewritten) and the
+    reason is recorded in the private findings. The analysis itself is kept.
+    """
+    reason = policy.drafting_blocked_reason()
+    if not reason and result.public_reply:
+        broken = policy.violations(result.public_reply, result.reply_is_personalised)
+        reason = "; ".join(broken) if broken else None
+    if not reason:
+        return result
+    return replace(result, public_reply="", reply_is_personalised=False,
+                   recommended_stance=Stance.DO_NOT_REPLY,
+                   private_findings=result.private_findings + (f"Reply declined: {reason}",))
