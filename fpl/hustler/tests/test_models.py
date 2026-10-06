@@ -64,6 +64,12 @@ class TestEligibility(unittest.TestCase):
             self.assertEqual([g.name for g in a.gates if not g.passed], [gate])
             self.assertEqual(a.why()[0], "Eligible: NO")
 
+    def test_unknown_comment_count_is_not_reported_as_zero(self):
+        a = _assess(conv=_conv(comments=None))
+        self.assertIn("comment count not available", a.why())
+        self.assertNotIn("0 comments", a.why())
+        self.assertTrue(a.eligible)
+
     def test_non_image_media_does_not_count(self):
         self.assertFalse(_assess(conv=_conv(media=(MediaRef("https://v.redd.it/x", kind="video"),))).eligible)
 

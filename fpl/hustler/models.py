@@ -196,7 +196,7 @@ class Conversation:
     title: str
     created_at: datetime
     body: str = ""
-    num_comments: int = 0
+    num_comments: Optional[int] = None   # None when the retrieval method cannot supply it
     score: Optional[int] = None
     media: Tuple[MediaRef, ...] = ()
 
@@ -205,7 +205,7 @@ class Conversation:
             raise ValueError("Conversation needs conversation_id, source_id, post_id and title")
         if not self.url.startswith(("http://", "https://")):
             raise ValueError("Conversation.url must be a direct post URL")
-        if self.num_comments < 0:
+        if self.num_comments is not None and self.num_comments < 0:
             raise ValueError("Conversation.num_comments cannot be negative")
         _require_aware(self.created_at, "Conversation.created_at")
 
@@ -234,7 +234,7 @@ class Assessment:
     conversation_id: str
     gates: Tuple[Gate, ...]
     age_days: float
-    num_comments: int
+    num_comments: Optional[int]
     community: str
 
     @property
@@ -246,7 +246,8 @@ class Assessment:
         lines = ["Eligible: " + ("YES" if self.eligible else "NO")]
         lines += [f"{'✓' if g.passed else '✗'} {g.detail}" for g in self.gates]
         if self.eligible:
-            lines.append(f"{self.num_comments} comments")
+            lines.append("comment count not available" if self.num_comments is None
+                         else f"{self.num_comments} comments")
         return lines
 
 
@@ -295,8 +296,8 @@ class Opportunity:
 
     @property
     def rank_key(self):
-        """Newest first, then most comments, then id so ties are deterministic."""
-        return (self.assessment.age_days, -self.assessment.num_comments, self.opportunity_id)
+        """Newest first, then most comments (unknown counts as 0), then id for determinism."""
+        return (self.assessment.age_days, -(self.assessment.num_comments or 0), self.opportunity_id)
 
     def advance(self, status):
         if status not in _TRANSITIONS[self.status]:
