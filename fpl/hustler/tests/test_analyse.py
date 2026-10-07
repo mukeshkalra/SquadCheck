@@ -8,6 +8,7 @@ from fpl.engine.tests import test_pipeline as fx
 from fpl.hustler import analyse as A
 from fpl.hustler.adapter import SourceUnavailable
 from fpl.hustler.analyse import Analysis, LLMResponse, LLMUnavailable, analyse
+from fpl.hustler.mentions import MentionStatus, PickError
 from fpl.hustler.models import Conversation, EvidenceLevel, MediaRef, Platform
 
 CONV = Conversation(
@@ -453,6 +454,230 @@ class TestContractAndSafety(unittest.TestCase):
         before = json.dumps(scan_result, sort_keys=True, default=str)
         run(scan=lambda i, e: scan_result)
         self.assertEqual(json.dumps(scan_result, sort_keys=True, default=str), before)
+
+
+# ── Mentioned players ─────────────────────────────────────────────────────────
+
+TEAMS = [{"id": i, "name": n, "short_name": s} for i, n, s in
+         ((1, "Alpha FC", "ALP"), (2, "Beta FC", "BET"), (3, "Gamma FC", "GAM"), (4, "Delta FC", "DEL"),
+          (5, "Epsilon FC", "EPS"), (9, "Theta FC", "THE"), (14, "Iota FC", "IOT"), (15, "Kappa FC", "KAP"))]
+
+
+def _player(pid, name, pos, team, first, starts=5):
+    e = fx._elem(pid, name, pos, team, 0.30, 0.15, 1.30, starts, 2)
+    e["first_name"] = first
+    return e
+
+
+CHERKI = _player(5001, "Cherki", 3, 4, "Rayan")
+KING_A = _player(7771, "King", 4, 9, "Joshua", starts=5)       # more starts
+KING_B = _player(7772, "King", 3, 3, "Tom", starts=1)
+
+
+class MentionData(FakeData):
+    def __init__(self, extra=(CHERKI, KING_A, KING_B), fail_extra=False):
+        super().__init__()
+        self.extra, self.fail_extra = list(extra), fail_extra
+
+    def bootstrap(self):
+        return {"elements": list(fx._ELEMENTS) + self.extra, "teams": TEAMS}
+
+    def summaries(self, ids):
+        self.summary_calls.append(list(ids))
+        extra_ids = {e["id"] for e in self.extra}
+        if self.fail_extra and set(ids) <= extra_ids:
+            raise ConnectionError("fpl down")
+        base = {"history": [{"minutes": 90, "starts": 1}] * 5, "fixtures": [fx._NEUTRAL_HOME]}
+        return {i: (fx._SUMMARIES[i] if i in fx._SUMMARIES else base) for i in ids}
+
+
+def conv_with(body, title="Rate my Wildcard"):
+    return Conversation(**{**CONV.__dict__, "title": title, "body": body})
+
+
+def run_mentions(body, data=None, **kw):
+    data = data or MentionData()
+    llm = FakeLLM(grounded)
+    result = analyse(FakeAdapter(), conv_with(body), data, scan=FULL_SCAN, llm=llm, **kw)
+    return result, llm, data
+
+
+UNIQUE = "AlphaMID to Cherki"
+AMBIGUOUS = "AlphaMID to Cherki and AlphaFWD to King"
+
+
+class TestMentionedPlayers(unittest.TestCase):
+    def test_unique_mention_is_projected_with_the_existing_engine(self):
+        result, llm, data = run_mentions(UNIQUE)
+        self.assertFalse(result.human_required, result.human_reason)
+        (m,) = result.squad_evidence["mentioned_players"]
+        self.assertEqual((m["player_id"], m["web_name"], m["in_squad"], m["is_starting"]), (5001, "Cherki", False, None))
+        self.assertEqual((m["relation"], m["identity"]), ("proposed replacement for AlphaMID", "unique match"))
+        for key in ("xPts", "confidence", "components", "inputs", "drivers", "risks", "player_api"):
+            self.assertIn(key, m)
+        self.assertEqual(len(result.squad_evidence["players"]), 15)           # squad evidence unchanged
+        self.assertEqual(data.summary_calls[-1], [5001])
+        sent = json.loads(llm.calls[0][1])["evidence"]
+        self.assertEqual([p["player_id"] for p in sent["mentioned_players"]], [5001])
+
+    def test_no_mentions_leaves_evidence_untouched(self):
+        result, llm, data = run_mentions("Thoughts on my team?")
+        self.assertNotIn("mentioned_players", result.squad_evidence)
+        self.assertNotIn("unassessed_mentions", result.squad_evidence)
+        self.assertEqual(result.mentions, ())
+        self.assertEqual(len(data.summary_calls), 1)                          # only the squad fetch
+
+    def test_ambiguous_mention_stops_before_the_llm(self):
+        result, llm, data = run_mentions(AMBIGUOUS)
+        self.assertTrue(result.needs_selection and result.human_required)
+        self.assertIsNone(result.draft_reply)
+        self.assertEqual(llm.calls, [])                                       # the LLM is never called
+        self.assertIn("King", result.human_reason)
+        self.assertEqual(len(result.squad_evidence["players"]), 15)           # squad evidence still returned
+        statuses = {m.text: m.status for m in result.mentions}
+        self.assertEqual(statuses, {"Cherki": MentionStatus.RESOLVED, "King": MentionStatus.AMBIGUOUS})
+        flat = [i for call in data.summary_calls for i in call]
+        self.assertFalse({7771, 7772} & set(flat))                            # no projection for either King
+        self.assertNotIn("mentioned_players", result.squad_evidence)          # nothing half-built is exposed
+
+    def test_ambiguous_output_lists_candidates_for_the_operator(self):
+        text = A.render(run_mentions(AMBIGUOUS)[0])
+        self.assertIn("King → AMBIGUOUS: matches 2 players (proposed replacement for AlphaFWD)", text)
+        self.assertIn("id 7771  Joshua King, THE, FWD", text)
+        self.assertIn("id 7772  Tom King, GAM, MID", text)
+        self.assertIn("Cherki → Rayan Cherki, DEL, MID  [unique match]", text)
+        self.assertIn("NEEDS SELECTION: 1 ambiguous mention(s). No draft generated.", text)
+        self.assertIn('Re-run with: python3 -m fpl.hustler.analyse abc --pick "King=<id>"', text)
+        self.assertNotIn("DRAFT (edit before posting)", text)
+        self.assertNotIn("HUMAN REQUIRED", text)
+
+    def test_candidate_order_is_not_a_ranking(self):
+        a = run_mentions(AMBIGUOUS)[0]
+        b = run_mentions(AMBIGUOUS, data=MentionData(extra=(CHERKI, KING_B, KING_A)))[0]
+        ids = lambda r: [c.player_id for c in next(m for m in r.mentions if m.text == "King").candidates]
+        self.assertEqual(ids(a), ids(b))
+
+    def test_skip_ambiguous_continues_without_exposing_candidates_to_the_llm(self):
+        result, llm, data = run_mentions(AMBIGUOUS, skip_ambiguous=True)
+        self.assertFalse(result.human_required, result.human_reason)
+        (call,) = llm.calls
+        sent = call[1]
+        for leak in ("7771", "7772", "Joshua King", "Tom King", "Joshua"):
+            self.assertNotIn(leak, sent, leak)
+        ev = json.loads(sent)["evidence"]
+        self.assertEqual([m["web_name"] for m in ev["mentioned_players"]], ["Cherki"])
+        (u,) = ev["unassessed_mentions"]
+        self.assertEqual(u, {"text": "King", "relation": "proposed replacement for AlphaFWD",
+                             "reason": "matches more than one player; not assessed"})
+        flat = [i for c in data.summary_calls for i in c]
+        self.assertFalse({7771, 7772} & set(flat))
+
+    def test_pick_selects_one_candidate_and_projects_only_that_player(self):
+        result, llm, data = run_mentions(AMBIGUOUS, picks={"King": 7772})
+        self.assertFalse(result.human_required, result.human_reason)
+        self.assertEqual(sorted(data.summary_calls[-1]), [5001, 7772])
+        flat = [i for c in data.summary_calls for i in c]
+        self.assertNotIn(7771, flat)
+        ev = json.loads(llm.calls[0][1])["evidence"]
+        king = next(p for p in ev["mentioned_players"] if p["web_name"] == "King")
+        self.assertEqual((king["player_id"], king["identity"]), (7772, "selected by operator"))
+        self.assertNotIn("unassessed_mentions", ev)
+        self.assertNotIn("7771", llm.calls[0][1])                             # the other King is never sent
+
+    def test_selection_is_shown_before_the_draft(self):
+        text = A.render(run_mentions(AMBIGUOUS, picks={"King": 7772})[0])
+        line = "King → Tom King, GAM, MID  [selected by operator, id 7772] (proposed replacement for AlphaFWD)"
+        self.assertIn(line, text)
+        self.assertLess(text.index(line), text.index("DRAFT (edit before posting)"))
+        self.assertNotIn("NEEDS SELECTION", text)
+
+    def test_arbitrary_or_foreign_ids_are_rejected_without_calling_the_llm(self):
+        for pid in (5001, 7771 + 10, 1001, 99999):
+            result, llm, data = run_mentions(AMBIGUOUS, picks={"King": pid})
+            self.assertTrue(result.human_required, pid)
+            self.assertIn("Invalid pick", result.human_reason)
+            self.assertIn("not a candidate", result.human_reason)
+            self.assertEqual(llm.calls, [])
+            self.assertFalse(result.needs_selection)
+
+    def test_picks_for_unknown_or_non_ambiguous_mentions_are_rejected(self):
+        for picks, expect in (({"Haaland": 1}, "no such mention"), ({"Cherki": 5001}, "not ambiguous")):
+            result, llm, _ = run_mentions(AMBIGUOUS, picks=picks)
+            self.assertIn(expect, result.human_reason)
+            self.assertEqual(llm.calls, [])
+
+    def test_pick_none_skips_a_mention_entirely(self):
+        result, llm, data = run_mentions(AMBIGUOUS, picks={"King": None})
+        self.assertFalse(result.human_required, result.human_reason)
+        ev = json.loads(llm.calls[0][1])["evidence"]
+        self.assertEqual([m["web_name"] for m in ev["mentioned_players"]], ["Cherki"])
+        self.assertNotIn("unassessed_mentions", ev)
+        self.assertIn("King → skipped by operator", A.render(result))
+
+    def test_unresolved_mention_never_blocks_and_is_reported_as_not_assessable(self):
+        result, llm, _ = run_mentions("AlphaDEF to Barry")
+        self.assertFalse(result.human_required, result.human_reason)
+        (u,) = json.loads(llm.calls[0][1])["evidence"]["unassessed_mentions"]
+        self.assertEqual((u["text"], u["reason"]), ("Barry", "no matching FPL player found"))
+        self.assertIn("Barry → not found (proposed replacement for AlphaDEF)", A.render(result))
+
+    def test_a_projection_failure_for_a_mentioned_player_does_not_stop_the_analysis(self):
+        result, llm, _ = run_mentions(UNIQUE, data=MentionData(fail_extra=True))
+        self.assertFalse(result.human_required, result.human_reason)
+        ev = json.loads(llm.calls[0][1])["evidence"]
+        self.assertNotIn("mentioned_players", ev)
+        self.assertEqual(ev["unassessed_mentions"][0]["reason"], "projection failed (ConnectionError)")
+        self.assertEqual(len(ev["players"]), 15)
+
+    def test_a_squad_player_selected_for_a_mention_is_not_duplicated_or_refetched(self):
+        from fpl.hustler.mentions import Candidate, Mention
+        squad_c, other_c = Candidate(3001, "AlphaMID", "AlphaMID", "ALP", "MID"), Candidate(7771, "Joshua King", "King", "THE", "FWD")
+        selected = Mention("AlphaMID", "mentioned", MentionStatus.SELECTED, (squad_c, other_c), 3001, "human")
+        data = MentionData()
+        base = run_mentions("Thoughts?")[0].squad_evidence
+        out = A._with_mentions(base, (selected,), data.bootstrap(), data, {p["player_id"] for p in base["players"]})
+        self.assertNotIn("mentioned_players", out)
+        self.assertEqual(data.summary_calls, [])                              # no extra projection at all
+
+    def test_prompt_explains_mentioned_and_unassessed_players(self):
+        system = " ".join(run_mentions(UNIQUE)[1].calls[0][0].split())
+        for phrase in ("mentioned_players are named in the post but are not in the squad",
+                       "use it exactly as you would for squad players",
+                       "unassessed_mentions are names in the post you have no data for",
+                       "say plainly that you cannot assess them"):
+            self.assertIn(phrase, system)
+
+    def test_unusable_mention_resolution_hands_over_to_the_human(self):
+        import unittest.mock as mock
+        with mock.patch.object(A, "find_mentions", side_effect=RuntimeError("boom")):
+            result, llm, _ = run_mentions(UNIQUE)
+        self.assertTrue(result.human_required)
+        self.assertIn("Could not resolve mentioned players", result.human_reason)
+        self.assertEqual(llm.calls, [])
+
+
+class TestCommandLine(unittest.TestCase):
+    def test_arguments(self):
+        post, picks, skip = A._parse_args(["abc"])
+        self.assertEqual((post, picks, skip), ("abc", {}, False))
+        post, picks, skip = A._parse_args(["abc", "--pick", "King=7772", "--pick", "De Cuyper=none", "--skip-ambiguous"])
+        self.assertEqual((post, picks, skip), ("abc", {"King": 7772, "De Cuyper": None}, True))
+
+    def test_bad_picks_are_reported_not_ignored(self):
+        for argv in (["abc", "--pick", "King"], ["abc", "--pick", "King=x"],
+                     ["abc", "--pick", "King=1", "--pick", "king=2"]):
+            with self.assertRaises(PickError, msg=argv):
+                A._parse_args(argv)
+
+    def test_a_post_is_required(self):
+        import contextlib
+        import io
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            A._parse_args([])
+
+    def test_needs_selection_requires_human_required(self):
+        with self.assertRaises(ValueError):
+            Analysis(CONV, "VALID", EvidenceLevel.PLAYERS_ONLY, {"x": 1}, "hi", False, needs_selection=True)
 
 
 if __name__ == "__main__":

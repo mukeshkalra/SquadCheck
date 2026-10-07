@@ -11,10 +11,16 @@ anything less -> a human is required. A draft is only kept if it is relevant, gr
 the supplied evidence and free of SquadCheck promotion and links; otherwise `draft_reply`
 is None and `human_required` explains why. Everything here is internal (never analytics).
 
-Run live with:  python3 -m fpl.hustler.analyse <post_id or post URL>
+Players named in the post but not in the squad are resolved by `mentions.py`. Exactly one
+FPL match is projected like a squad player; several matches stop the run for an explicit
+operator pick (--pick "Name=player_id") before the LLM is called. The LLM never receives
+data about an ambiguous or unresolved player, only the fact that it could not be assessed.
+
+Run live with:  python3 -m fpl.hustler.analyse <post_id or post URL> [--pick "Name=id"] [--skip-ambiguous]
 Needs GOOGLE_VISION_API_KEY (scanner) and ANTHROPIC_API_KEY (+ the anthropic package).
 """
 
+import argparse
 import importlib.util
 import json
 import os
@@ -29,6 +35,7 @@ from fpl.engine.projection import compute_xpts
 from fpl.engine.scanner import scan_squad
 
 from .adapter import RedditRmtAdapter, SourceUnavailable
+from .mentions import MentionStatus, PickError, apply_picks, find_mentions, key, parse_pick, pending
 from .models import (SQUAD_SIZE, CommunityPolicy, Conversation, EvidenceLevel, scan_evidence)
 
 _ROOT = Path(__file__).resolve().parent.parent.parent
@@ -51,6 +58,9 @@ Rules:
 - Use names and codes exactly as they appear in the data: do not expand abbreviations (a team
   code stays a code) and do not add outside knowledge such as form, news or history. State a fact
   about a player only if it appears in that same player's own data.
+- mentioned_players are named in the post but are not in the squad; they have their own data, so
+  use it exactly as you would for squad players. unassessed_mentions are names in the post you
+  have no data for: say plainly that you cannot assess them.
 - If evidence_level is players_only, the starting XI and bench are unknown: do not assume
   who starts or sits.
 - Never mention SquadCheck, never name any tool or product, never include links.
@@ -142,9 +152,13 @@ class Analysis:
     draft_reply: Optional[str]
     human_required: bool
     human_reason: str = ""
+    mentions: tuple = ()                  # Mention objects, for the operator; never sent to the LLM
+    needs_selection: bool = False         # ambiguous mentions are waiting for an operator pick
     internal: bool = True
 
     def __post_init__(self):
+        if self.needs_selection and not self.human_required:
+            raise ValueError("needs_selection implies human_required")
         if self.internal is not True:
             raise ValueError("Analysis.internal must be True")
         if self.human_required == (self.draft_reply is not None):
@@ -155,12 +169,16 @@ class Analysis:
             raise ValueError("A draft reply needs squad evidence")
 
 
-def analyse(adapter, conversation, data, scan=scan_squad, llm=None):
-    """Never raises for retrieval, scanner or LLM trouble; those hand the post to the human."""
+def analyse(adapter, conversation, data, scan=scan_squad, llm=None, picks=None, skip_ambiguous=False):
+    """
+    Never raises for retrieval, scanner or LLM trouble; those hand the post to the human.
+    `picks` is {mention text: player id or None}; `skip_ambiguous` continues without
+    resolving ambiguous mentions (they are then reported to the LLM as not assessable).
+    """
     llm = llm or AnthropicLLM()
 
-    def human(reason, status=None, evidence=None, level=EvidenceLevel.INSUFFICIENT):
-        return Analysis(conversation, status, level, evidence, None, True, reason)
+    def human(reason, status=None, evidence=None, level=EvidenceLevel.INSUFFICIENT, mentions=()):
+        return Analysis(conversation, status, level, evidence, None, True, reason, mentions)
 
     try:
         image = adapter.fetch_image(conversation)
@@ -181,16 +199,33 @@ def analyse(adapter, conversation, data, scan=scan_squad, llm=None):
         return human(f"{reason} (scanner status {status}).", status)
     level = EvidenceLevel(evidence["level"])
 
+    squad_ids = {p["player_id"] for p in evidence["players"]}
+    try:
+        mentions = find_mentions(f"{conversation.title}\n{conversation.body}", bootstrap, squad_ids)
+    except Exception as exc:
+        return human(f"Could not resolve mentioned players: {type(exc).__name__}: {exc}", status, evidence, level)
+    try:
+        mentions = apply_picks(mentions, picks or {})
+    except PickError as exc:
+        return human(f"Invalid pick: {exc}", status, evidence, level, mentions)
+    waiting = pending(mentions)
+    if waiting and not skip_ambiguous:
+        names = ", ".join(m.text for m in waiting)
+        return Analysis(conversation, status, level, evidence, None, True,
+                        f"Mentions need selection: {names}. No draft generated.",
+                        mentions, needs_selection=True)
+    evidence = _with_mentions(evidence, mentions, bootstrap, data, squad_ids)
+
     try:
         reply, why = _draft(llm, conversation, evidence)
     except LLMUnavailable as exc:
-        return human(f"No draft: {exc}.", status, evidence, level)
+        return human(f"No draft: {exc}.", status, evidence, level, mentions)
     except Exception as exc:
         return human(f"No draft: LLM call failed ({type(exc).__name__}: {_safe_message(exc)}).",
-                     status, evidence, level)
+                     status, evidence, level, mentions)
     if reply is None:
-        return human(why, status, evidence, level)
-    return Analysis(conversation, status, level, evidence, reply, False)
+        return human(why, status, evidence, level, mentions)
+    return Analysis(conversation, status, level, evidence, reply, False, "", mentions)
 
 
 _SECRET_ENV = ("ANTHROPIC_API_KEY", "GOOGLE_VISION_API_KEY")
@@ -275,6 +310,74 @@ def _build_evidence(scan_result, bootstrap, data):
     }, None
 
 
+def _with_mentions(evidence, mentions, bootstrap, data, squad_ids):
+    """
+    Evidence plus the mentioned players. Only RESOLVED and SELECTED mentions are projected,
+    with the same engine as the squad. Ambiguous and unresolved mentions are passed on as
+    text, a relation and a reason only: no candidate names, ids or numbers.
+    """
+    wanted = []
+    for m in mentions:
+        pid = m.player_id
+        if pid is not None and pid not in squad_ids and pid not in wanted:
+            wanted.append(pid)
+    projected, failure = {}, None
+    if wanted:
+        try:
+            projected = _project_extra(wanted, bootstrap, data)
+        except Exception as exc:
+            failure = type(exc).__name__
+
+    mentioned, unassessed = [], []
+    for m in mentions:
+        if m.status in (MentionStatus.RESOLVED, MentionStatus.SELECTED):
+            if m.player_id in squad_ids:
+                continue                                    # already in the squad evidence
+            player = projected.get(m.player_id)
+            if player is None:
+                unassessed.append({"text": m.text, "relation": m.relation,
+                                   "reason": f"projection failed ({failure or 'no data'})"})
+                continue
+            mentioned.append({**player, "in_squad": False, "is_starting": None, "relation": m.relation,
+                              "matched_text": m.text,
+                              "identity": "unique match" if m.status is MentionStatus.RESOLVED
+                              else "selected by operator"})
+        elif m.status is MentionStatus.AMBIGUOUS:
+            unassessed.append({"text": m.text, "relation": m.relation,
+                               "reason": "matches more than one player; not assessed"})
+        elif m.status is MentionStatus.UNRESOLVED:
+            unassessed.append({"text": m.text, "relation": m.relation,
+                               "reason": "no matching FPL player found"})
+    out = dict(evidence)
+    if mentioned:
+        out["mentioned_players"] = mentioned
+    if unassessed:
+        out["unassessed_mentions"] = unassessed
+    return out
+
+
+def _project_extra(player_ids, bootstrap, data):
+    """Existing projection engine and payload builder for players outside the squad."""
+    elements = bootstrap.get("elements", [])
+    elem_by_id = {e["id"]: e for e in elements}
+    team_by_id = {t["id"]: {"name": t.get("name", ""), "short_name": t.get("short_name", "")}
+                  for t in bootstrap.get("teams", [])}
+    summaries = data.summaries(player_ids)
+    params = data.params(bootstrap)
+    projections = []
+    for pid in player_ids:
+        summary = summaries.get(pid, {})
+        fixtures = summary.get("fixtures", [])
+        fixture = fixtures[0] if fixtures else None
+        projections.append({**compute_xpts(elem_by_id[pid], summary.get("history", []), fixture, params),
+                            "is_starting": None})
+    placeholder = {"action": "HOLD", "delta": 0.0, "substitutions": [],
+                   "submitted_xi": [], "recommended_xi": []}
+    payload = _build_payload({}, projections, placeholder, _THRESHOLD, elem_by_id, team_by_id,
+                             None, None, None)
+    return {p["player_id"]: p for p in payload["players"]}
+
+
 # ── Draft ─────────────────────────────────────────────────────────────────────
 
 def _draft(llm, conversation, evidence):
@@ -334,6 +437,23 @@ def _ungrounded_numbers(reply, source_text):
 
 # ── Output ────────────────────────────────────────────────────────────────────
 
+def _render_mention(m, projections):
+    relation = "" if m.relation == "mentioned" else f" ({m.relation})"
+    if m.status in (MentionStatus.RESOLVED, MentionStatus.SELECTED):
+        how = "unique match" if m.status is MentionStatus.RESOLVED else f"selected by operator, id {m.player_id}"
+        lines = [f"  {m.text} → {m.candidate.label()}  [{how}]{relation}"]
+        p = projections.get(m.player_id)
+        if p:
+            lines.append(f"      xPts {p['xPts']:.1f} conf {p['confidence']}")
+        return lines
+    if m.status is MentionStatus.AMBIGUOUS:
+        lines = [f"  {m.text} → AMBIGUOUS: matches {len(m.candidates)} players{relation}"]
+        return lines + [f"      id {c.player_id}  {c.label()}" for c in m.candidates]
+    if m.status is MentionStatus.UNRESOLVED:
+        return [f"  {m.text} → not found{relation}"]
+    return [f"  {m.text} → skipped by operator"]
+
+
 def render(analysis):
     c, ev = analysis.conversation, analysis.squad_evidence
     # The Reddit URL is workflow metadata for the human; it is never part of the reply.
@@ -349,17 +469,47 @@ def render(analysis):
                          f"{slot:<5} xPts {p['xPts']:.1f} conf {p['confidence']}")
         if ev["xi_known"]:
             lines.append(f"bench check: {ev['message']}")
+    if analysis.mentions:
+        projections = {p["player_id"]: p for p in (ev or {}).get("mentioned_players", [])}
+        lines += ["", "Mentioned players (not in the squad):"]
+        for m in analysis.mentions:
+            lines += _render_mention(m, projections)
     lines.append("")
-    if analysis.human_required:
+    if analysis.needs_selection:
+        waiting = pending(analysis.mentions)
+        picks = " ".join(f'--pick "{m.text}=<id>"' for m in waiting)
+        lines += [f"NEEDS SELECTION: {len(waiting)} ambiguous mention(s). No draft generated.",
+                  f"Re-run with: python3 -m fpl.hustler.analyse {c.post_id} {picks}",
+                  "(use the id from the list above; =none skips a mention; --skip-ambiguous continues without them)"]
+    elif analysis.human_required:
         lines.append(f"HUMAN REQUIRED: {analysis.human_reason}")
     else:
         lines += ["DRAFT (edit before posting):", analysis.draft_reply]
     return "\n".join(lines)
 
 
+def _parse_args(argv):
+    parser = argparse.ArgumentParser(prog="python3 -m fpl.hustler.analyse")
+    parser.add_argument("post", help="post id or post URL from the feed")
+    parser.add_argument("--pick", action="append", default=[], metavar='"Name=player_id"',
+                        help="choose the player for an ambiguous mention (=none to skip it)")
+    parser.add_argument("--skip-ambiguous", action="store_true",
+                        help="continue without resolving ambiguous mentions")
+    args = parser.parse_args(argv)
+    picks = {}
+    for raw in args.pick:
+        text, player_id = parse_pick(raw)
+        if key(text) in {key(t) for t in picks}:
+            raise PickError(f'--pick given twice for "{text}"')
+        picks[text] = player_id
+    return args.post, picks, args.skip_ambiguous
+
+
 def main(argv):
-    if not argv:
-        print("usage: python3 -m fpl.hustler.analyse <post_id or post URL>")
+    try:
+        target_id, picks, skip_ambiguous = _parse_args(argv)
+    except PickError as exc:
+        print(f"Invalid pick: {exc}")
         return 2
     from .feed import SOURCE
     adapter = RedditRmtAdapter(SOURCE)
@@ -368,12 +518,13 @@ def main(argv):
     except SourceUnavailable as exc:
         print(f"Feed unavailable: {exc}")
         return 1
-    target = next((p for p in posts if argv[0] in (p.post_id, p.url) or p.post_id in argv[0]), None)
+    target = next((p for p in posts if target_id in (p.post_id, p.url) or p.post_id in target_id), None)
     if target is None:
         print("Post not found in the current feed.")
         return 1
-    print(render(analyse(adapter, target, FplApiData())))
-    return 0
+    result = analyse(adapter, target, FplApiData(), picks=picks, skip_ambiguous=skip_ambiguous)
+    print(render(result))
+    return 3 if result.needs_selection else 0
 
 
 if __name__ == "__main__":
