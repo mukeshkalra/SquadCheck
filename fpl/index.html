@@ -960,6 +960,14 @@ const _scExp = (()=>{
 })();
 
 // Internal-traffic flag — visit /?internal=1 once per browser to tag own events; /?internal=0 clears it
+// Player photos: current CDN path first, legacy path as fallback, then hidden.
+const _photoUrl = c => `https://resources.premierleague.com/premierleague25/photos/players/110x140/${c}.png`;
+const _photoErr = img => {
+  const m = img.src.match(/premierleague25\/photos\/players\/110x140\/(\d+)\.png/);
+  if(m){ img.onerror = () => { img.style.display='none'; };
+         img.src = `https://resources.premierleague.com/premierleague/photos/players/110x140/p${m[1]}.png`; }
+  else img.style.display='none';
+};
 const _scInternal = (()=>{
   try{
     const v=new URLSearchParams(location.search).get('internal');
@@ -1232,7 +1240,7 @@ function pcHCard(pl, p, posKeyOverride) {
     : '';
   const topRow = photoCode
     ? `<div class="pc-h-top">
-        <img class="pc-h-photo" src="https://resources.premierleague.com/premierleague/photos/players/110x140/p${photoCode}.png" loading="lazy" alt="" onerror="this.style.display='none'">
+        <img class="pc-h-photo" src="${_photoUrl(photoCode)}" loading="lazy" alt="" onerror="_photoErr(this)">
         <div class="pc-h-top-r"><span class="pc-h-postag">${meta.tag}</span>${captBadge}</div>
       </div>`
     : `<div class="pc-h-top"><span class="pc-h-postag">${meta.tag}</span><div>${captBadge}</div></div>`;
@@ -1294,7 +1302,7 @@ function pcCard(pl,p){
   const id       = pl.player_id;
   const photoCode= pl.player_api?.photo_code;
   const photoHtml= photoCode
-    ? `<img class="pc-photo" src="https://resources.premierleague.com/premierleague/photos/players/110x140/p${photoCode}.png" loading="lazy" alt="" onerror="this.style.display='none'">`
+    ? `<img class="pc-photo" src="${_photoUrl(photoCode)}" loading="lazy" alt="" onerror="_photoErr(this)">`
     : '';
   return `<div class="pc ${meta.cls}" id="pc-${id}">
     <div class="pc-main" onclick="openCard(${id})">
@@ -1933,7 +1941,7 @@ function showDisambig(ambiguous){
   const groups = ambiguous.map((item,gi) => {
     const opts = item.candidates.map((c,ci) => {
       const photo = c.photo_code
-        ? `<img class="dq-photo" src="https://resources.premierleague.com/premierleague/photos/players/110x140/p${c.photo_code}.png" onerror="this.style.display='none'" loading="lazy">`
+        ? `<img class="dq-photo" src="${_photoUrl(c.photo_code)}" onerror="_photoErr(this)" loading="lazy">`
         : '';
       return `<div class="dq-opt" id="dq-${gi}-${ci}" onclick="pickDisambig(${gi},${ci},${c.player_id},'${_normName(item.name)}')">
         ${photo}
