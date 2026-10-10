@@ -580,6 +580,7 @@ def render(analysis):
         lines.append(f"HUMAN REQUIRED: {analysis.human_reason}")
     else:
         lines += ["DRAFT (edit before posting):", analysis.draft_reply]
+    lines += ["", f"Reply here: {c.url}"]       # last line, so a tail of the output always has it
     return "\n".join(lines)
 
 

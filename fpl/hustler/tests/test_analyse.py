@@ -420,9 +420,17 @@ class TestContractAndSafety(unittest.TestCase):
         order = [lines.index(x) for x in ("Question:", "Evidence:", "DRAFT (edit before posting):")]
         self.assertEqual(order, sorted(order))
 
+    def test_the_post_link_is_the_last_line_for_every_outcome(self):
+        done = run()[0]
+        stopped = run(scan=partial_scan(n=3))[0]
+        for result in (done, stopped):
+            last = A.render(result).splitlines()[-1]
+            self.assertEqual(last, f"Reply here: {CONV.url}")
+        self.assertNotIn(CONV.url, done.draft_reply)           # the link never enters the draft
+
     def test_render_keeps_url_and_image_separate_and_exact(self):
         text = A.render(run()[0])
-        self.assertEqual(text.count(CONV.url), 1)
+        self.assertEqual(text.count(CONV.url), 2)             # header line and the closing 'Reply here' line
         self.assertIn("Reddit: https://www.reddit.com/r/FPLRateMyTeam/comments/abc/x/", text)
         self.assertIn("Image: https://i.redd.it/abc.jpeg", text)
         self.assertNotEqual(CONV.url, CONV.media[0].url)
