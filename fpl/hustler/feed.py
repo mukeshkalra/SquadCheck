@@ -48,7 +48,8 @@ def render(items):
     lines = []
     for n, item in enumerate(items, 1):
         c, why = item.conversation, item.opportunity.reasoning
-        lines += [f"{n}. {c.title}", f"   {c.url}", f"   image: {c.media[0].url}",
+        post_id = c.conversation_id.rsplit(":", 1)[-1]
+        lines += [f"{n}. {c.title}", f"   id: {post_id}", f"   {c.url}", f"   image: {c.media[0].url}",
                   f"   posted: {c.created_at:%Y-%m-%d %H:%M} UTC"]
         lines += [f"   {line}" for line in why]
         if c.body:
