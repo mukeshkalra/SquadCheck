@@ -279,7 +279,7 @@ class TestDraft(unittest.TestCase):
         self.assertEqual(payload["evidence_level"], "players_only")
         self.assertEqual(len(payload["evidence"]["players"]), 15)
         for rule in ("ONLY the supplied data", "Never mention SquadCheck", "never include links",
-                     "players_only", "can_answer", "120 words"):
+                     "players_only", "can_answer", "190 words"):
             self.assertIn(rule, system)
 
     def test_prompt_forbids_expanding_abbreviations_and_outside_facts(self):
@@ -654,6 +654,173 @@ class TestMentionedPlayers(unittest.TestCase):
         self.assertTrue(result.human_required)
         self.assertIn("Could not resolve mentioned players", result.human_reason)
         self.assertEqual(llm.calls, [])
+
+
+class RichData(FakeData):
+    """Bootstrap with the plain FPL fields (price, points, minutes, form, teams, finished events)."""
+    def bootstrap(self):
+        bs = fx._make_bootstrap()
+        bs["events"] = [{"id": i, "finished": i <= 5} for i in range(1, 8)]
+        bs["teams"] = [{"id": t, "short_name": f"T{t}", "name": f"Team {t}"} for t in range(1, 30)]
+        elements = []
+        for i, e in enumerate(bs["elements"]):
+            elements.append({**e, "now_cost": 40 + i, "total_points": 10 + i, "minutes": 100 + 10 * i,
+                             "form": "2.5", "status": "a", "news": ""})
+        bs["elements"] = elements
+        return bs
+
+    def summaries(self, ids):
+        out = super().summaries(ids)
+        return {i: {**s, "fixtures": [{"event": 6, "is_home": False, "difficulty": 2,
+                                        "team_h": 11, "team_a": 12}]} for i, s in out.items()}
+
+
+def run_rich(post_body="", llm=None):
+    conv = Conversation(**{**CONV.__dict__, "body": post_body})
+    llm = llm or FakeLLM(grounded)
+    return analyse(FakeAdapter(), conv, RichData(), scan=partial_scan(), llm=llm), llm
+
+
+class TestPlainFplFacts(unittest.TestCase):
+    def test_every_squad_player_carries_plain_fpl_facts(self):
+        ev = run_rich()[0].squad_evidence
+        for p in ev["players"]:
+            facts = p["fpl"]
+            for key in ("price_m", "total_points", "minutes", "form", "status", "minutes_possible"):
+                self.assertIn(key, facts)
+            self.assertEqual(facts["minutes_possible"], 450)            # 5 finished gameweeks x 90
+            self.assertEqual(facts["next_fixture"]["gameweek"], 6)
+            self.assertFalse(facts["next_fixture"]["home"])
+
+    def test_facts_come_from_the_bootstrap_not_the_engine(self):
+        ev = run_rich()[0].squad_evidence
+        by_id = {e["id"]: e for e in RichData().bootstrap()["elements"]}
+        for p in ev["players"]:
+            e = by_id[p["player_id"]]
+            self.assertEqual(p["fpl"]["price_m"], round(e["now_cost"] / 10, 1))
+            self.assertEqual(p["fpl"]["total_points"], e["total_points"])
+            self.assertEqual(p["fpl"]["minutes"], e["minutes"])
+
+    def test_opponent_is_the_other_side_of_the_fixture(self):
+        ev = run_rich()[0].squad_evidence
+        self.assertEqual(ev["players"][0]["fpl"]["next_fixture"]["opponent"], "T11")   # away: opponent is team_h
+
+    def test_missing_fields_are_left_out_not_guessed(self):
+        facts = A._fpl_facts({"id": 1}, {}, {"events": [], "teams": []})
+        self.assertEqual(facts, {})
+
+    def test_news_and_availability_are_passed_when_present(self):
+        facts = A._fpl_facts({"id": 1, "news": "Knee knock", "chance_of_playing_next_round": 50,
+                              "status": "d"}, {}, {})
+        self.assertEqual((facts["news"], facts["chance_of_playing_next_round"], facts["status"]),
+                         ("Knee knock", 50, "d"))
+
+    def test_mentioned_players_carry_facts_too(self):
+        facts = A._attach_facts([{"player_id": fx._ELEMENTS[0]["id"]}], RichData().bootstrap(),
+                                RichData().summaries([fx._ELEMENTS[0]["id"]]))
+        self.assertIn("price_m", facts[0]["fpl"])
+
+
+class TestComparisonsAreComputedInCode(unittest.TestCase):
+    def comparisons(self, body=""):
+        result, llm = run_rich(body)
+        return json.loads(llm.calls[0][1])["comparisons"], result.squad_evidence
+
+    def test_outfield_ranked_low_to_high_and_goalkeepers_excluded(self):
+        comp, ev = self.comparisons()
+        ranked = comp["outfield_by_total_points_low_to_high"]
+        values = [r["total_points"] for r in ranked]
+        self.assertEqual(values, sorted(values))
+        gk = {p["web_name"] for p in ev["players"] if p["position"] == 1}
+        self.assertFalse(gk & {r["player"] for r in ranked})
+        self.assertEqual(len(ranked), 15 - len(gk))
+
+    def test_minutes_ranking_present(self):
+        comp, _ = self.comparisons()
+        values = [r["minutes"] for r in comp["outfield_by_minutes_low_to_high"]]
+        self.assertEqual(values, sorted(values))
+
+    def test_clubs_with_several_players_share_a_match_flag(self):
+        players = [{"web_name": n, "team": "FUL", "position": 3,
+                    "fpl": {"next_fixture": {"opponent": "IPS", "home": False, "difficulty": 2}}}
+                   for n in ("A", "B", "C")] + [
+                   {"web_name": "D", "team": "ARS", "position": 3, "fpl": {"next_fixture": {}}}]
+        clubs = A._comparisons({"players": players}, "")["clubs_with_several_players"]
+        self.assertEqual(list(clubs), ["FUL"])
+        self.assertEqual(clubs["FUL"]["count"], 3)
+        self.assertTrue(clubs["FUL"]["all_play_the_same_match"])
+
+    def test_different_fixtures_are_not_flagged_as_the_same_match(self):
+        players = [{"web_name": "A", "team": "FUL", "position": 3,
+                    "fpl": {"next_fixture": {"opponent": "IPS", "home": False}}},
+                   {"web_name": "B", "team": "FUL", "position": 3,
+                    "fpl": {"next_fixture": {"opponent": "IPS", "home": True}}}]
+        clubs = A._comparisons({"players": players}, "")["clubs_with_several_players"]
+        self.assertFalse(clubs["FUL"]["all_play_the_same_match"])
+
+    def test_bank_in_the_post_is_added_to_each_price(self):
+        comp, ev = self.comparisons("No idea who to bench + I have £1.2M spare ITB, any suggestions")
+        self.assertEqual(comp["bank_from_post_m"], 1.2)
+        first = comp["price_plus_bank_m"][0]
+        self.assertEqual(first["price_plus_bank_m"], round(first["price_m"] + 1.2, 1))
+
+    def test_no_bank_means_no_sums(self):
+        comp, _ = self.comparisons("Who should I captain?")
+        self.assertNotIn("bank_from_post_m", comp)
+        self.assertNotIn("price_plus_bank_m", comp)
+
+    def test_bank_phrasings(self):
+        for text, expected in (("£0.3m in the bank", 0.3), ("0.3 in the bank", None), ("£2.5 ITB", 2.5)):
+            out = A._comparisons({"players": [{"web_name": "A", "fpl": {"price_m": 5.0}}]}, text)
+            self.assertEqual(out.get("bank_from_post_m"), expected, text)
+
+    def test_a_derived_sum_is_grounded_in_the_prompt(self):
+        body = "£1.2M spare ITB"
+        comp, ev = self.comparisons(body)
+        total = comp["price_plus_bank_m"][0]["price_plus_bank_m"]
+        reply = f"Roughly {total} to spend."
+        llm = FakeLLM(lambda payload: answer(reply))
+        result, _ = run_rich(body, llm=llm)
+        self.assertEqual(result.draft_reply, reply)               # not discarded as ungrounded
+
+    def test_comparisons_do_not_alter_the_squad_evidence(self):
+        _, ev = self.comparisons()
+        self.assertNotIn("comparisons", ev)
+
+
+class TestReplyStructureRules(unittest.TestCase):
+    def system(self):
+        return " ".join(run_rich()[1].calls[0][0].split())
+
+    def test_answer_first_and_limitation_last(self):
+        s = self.system()
+        for phrase in ("Start with the answer to the main question",
+                       "No preamble and no disclaimer first",
+                       "covering each question the post asks, in the order it asks them",
+                       "end with one short sentence saying so"):
+            self.assertIn(phrase, s)
+
+    def test_plain_facts_not_engine_numbers(self):
+        s = self.system()
+        for phrase in ("Do not quote the engine's projections",
+                       "Back every claim about a player with the plain FPL facts",
+                       "no \"xPts\", probabilities"):
+            self.assertIn(phrase, s)
+
+    def test_comparisons_are_quoted_not_recomputed(self):
+        s = self.system()
+        for phrase in ("Quote them; do not rank, count or add anything yourself", 'say "roughly"'):
+            self.assertIn(phrase, s)
+
+    def test_labelled_general_judgement_is_allowed_but_not_facts(self):
+        s = self.system()
+        for phrase in ("label it as a judgement", "states no numbers or facts about players"):
+            self.assertIn(phrase, s)
+
+    def test_prompt_and_payload_still_exclude_the_reddit_url(self):
+        result, llm = run_rich()
+        system, user = llm.calls[0]
+        self.assertNotIn("reddit.com", system + user)
 
 
 class TestCommandLine(unittest.TestCase):

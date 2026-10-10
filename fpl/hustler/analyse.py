@@ -49,15 +49,23 @@ _DRAFT_RULES = CommunityPolicy(allows_replies=True, allows_personalised_advice=T
                                allows_ai_content=True)
 
 _SYSTEM = """You help a human write a reply to a Reddit fantasy-football (FPL) rate-my-team post.
-You get the post and SquadCheck data about the poster's squad as JSON.
+You get the post and data about the poster's squad as JSON.
 
 Rules:
 - Answer the poster's actual question, concisely and naturally, as a fellow FPL player would.
+  Use plain words: no "xPts", probabilities, "confidence" or other model jargon.
 - Use ONLY the supplied data. Never invent statistics, fixtures, injuries, prices or projections.
   Every number you write must appear in the data or in the post.
+- Back every claim about a player with the plain FPL facts in that player's own "fpl" block: price_m,
+  total_points, minutes (out of minutes_possible), form, status and news, and next_fixture (opponent,
+  home or away, difficulty out of 5). Do not quote the engine's projections (xPts, components,
+  drivers, risks); they only help you decide which players matter.
+- "comparisons" holds rankings, club groupings and price-plus-bank sums already worked out for
+  you. Quote them; do not rank, count or add anything yourself. Money after selling a player is
+  approximate (the poster's own selling price may differ), so say "roughly".
 - Use names and codes exactly as they appear in the data: do not expand abbreviations (a team
-  code stays a code) and do not add outside knowledge such as form, news or history. State a fact
-  about a player only if it appears in that same player's own data.
+  code stays a code) and do not add outside knowledge such as news or history that is not in the
+  data. State a fact about a player only if it appears in that same player's own data.
 - mentioned_players are named in the post but are not in the squad; they have their own data, so
   use it exactly as you would for squad players. unassessed_mentions are names in the post you
   have no data for: say plainly that you cannot assess them.
@@ -69,10 +77,17 @@ Rules:
   you have. Do not guess about it, and do not compare or imply anything about it beyond what the
   post itself says.
 
+Structure of the reply:
+1. Start with the answer to the main question. No preamble and no disclaimer first.
+2. Then the facts that support it, covering each question the post asks, in the order it asks them.
+3. You may add one short general judgement (for example the risk of owning several players from
+   one club) only if you label it as a judgement and it states no numbers or facts about players.
+4. If a limitation matters (for example the XI is unknown), end with one short sentence saying so.
+
 Return a JSON object with:
 - can_answer: true if the data lets you usefully address at least part of the question; false only
   if none of it can be addressed from the data, or the post is not asking about the squad.
-- reply: the draft reply, about 120 words or fewer; an empty string when can_answer is false.
+- reply: the draft reply, about 190 words or fewer; an empty string when can_answer is false.
 - reason: one short sentence stating what you covered and what you could not."""
 
 
@@ -244,6 +259,85 @@ def _safe_message(exc, limit=300):
 
 # ── Evidence ──────────────────────────────────────────────────────────────────
 
+def _gameweeks_played(bootstrap):
+    return sum(1 for ev in bootstrap.get("events", []) if ev.get("finished"))
+
+
+def _fpl_facts(element, summary, bootstrap):
+    """Plain FPL data for one player (price, points, minutes, form, status, next fixture). No engine output."""
+    facts = {}
+    if element.get("now_cost") is not None:
+        facts["price_m"] = round(element["now_cost"] / 10, 1)
+    for key in ("total_points", "minutes"):
+        if element.get(key) is not None:
+            facts[key] = element[key]
+    if element.get("form") not in (None, ""):
+        facts["form"] = float(element["form"])
+    if element.get("status"):
+        facts["status"] = element["status"]
+    if element.get("news"):
+        facts["news"] = element["news"]
+    if element.get("chance_of_playing_next_round") is not None:
+        facts["chance_of_playing_next_round"] = element["chance_of_playing_next_round"]
+    played = _gameweeks_played(bootstrap)
+    if played:
+        facts["minutes_possible"] = 90 * played
+    fixtures = summary.get("fixtures", [])
+    if fixtures:
+        f = fixtures[0]
+        short = {t["id"]: t.get("short_name", "") for t in bootstrap.get("teams", [])}
+        opponent = short.get(f.get("team_a") if f.get("is_home") else f.get("team_h"))
+        nxt = {"gameweek": f.get("event"), "opponent": opponent,
+               "home": f.get("is_home"), "difficulty": f.get("difficulty")}
+        facts["next_fixture"] = {k: v for k, v in nxt.items() if v is not None}
+    return facts
+
+
+def _attach_facts(players, bootstrap, summaries):
+    elem_by_id = {e["id"]: e for e in bootstrap.get("elements", [])}
+    return [{**p, "fpl": _fpl_facts(elem_by_id.get(p["player_id"], {}),
+                                    summaries.get(p["player_id"], {}), bootstrap)}
+            for p in players]
+
+
+_BANK = re.compile(r"£\s*(\d+(?:\.\d+)?)\s*m?\b[^.\n]{0,15}?(?:itb|in the bank|in bank)", re.IGNORECASE)
+
+
+def _comparisons(evidence, post_text):
+    """Rankings, club groupings and price-plus-bank sums, worked out in code so the LLM only quotes them."""
+    players = [p for p in evidence.get("players", []) if p.get("fpl")]
+    name = lambda p: p.get("web_name")
+    out = {}
+    outfield = [p for p in players if p.get("position") != 1]
+    for key, label in (("total_points", "outfield_by_total_points_low_to_high"),
+                       ("minutes", "outfield_by_minutes_low_to_high")):
+        ranked = sorted((p for p in outfield if key in p["fpl"]), key=lambda p: (p["fpl"][key], name(p)))
+        if ranked:
+            out[label] = [{"player": name(p), key: p["fpl"][key]} for p in ranked]
+    clubs = {}
+    for p in players:
+        clubs.setdefault(p.get("team"), []).append(p)
+    grouped = {}
+    for club, members in clubs.items():
+        if club and len(members) >= 2:
+            fixtures = [{"player": name(p), **p["fpl"]["next_fixture"]}
+                        for p in members if p["fpl"].get("next_fixture")]
+            same = len(fixtures) == len(members) and len(
+                {(f.get("opponent"), f.get("home")) for f in fixtures}) == 1
+            grouped[club] = {"count": len(members), "players": [name(p) for p in members],
+                             "next_fixtures": fixtures, "all_play_the_same_match": same}
+    if grouped:
+        out["clubs_with_several_players"] = grouped
+    match = _BANK.search(post_text or "")
+    if match:
+        bank = float(match.group(1))
+        out["bank_from_post_m"] = bank
+        out["price_plus_bank_m"] = [{"player": name(p), "price_m": p["fpl"]["price_m"],
+                                     "price_plus_bank_m": round(p["fpl"]["price_m"] + bank, 1)}
+                                    for p in players if "price_m" in p["fpl"]]
+    return out
+
+
 def _build_evidence(scan_result, bootstrap, data):
     """Returns (evidence, None) or (None, reason). Reuses the scanner, resolver and engine."""
     names, xi_known, _ = scan_evidence(scan_result)
@@ -278,7 +372,7 @@ def _build_evidence(scan_result, bootstrap, data):
             return {
                 "level": EvidenceLevel.PLAYERS_AND_XI.value, "xi_known": True,
                 "scanner_status": scan_result.get("status"), "view_type": scan_result.get("view_type"),
-                "gameweek": payload["gameweek"], "players": payload["players"],
+                "gameweek": payload["gameweek"], "players": _attach_facts(payload["players"], bootstrap, summaries),
                 "submitted_xi": payload["submitted_xi"], "recommended_xi": payload["recommended_xi"],
                 "action": payload["action"], "delta": payload["delta"],
                 "substitutions": payload["substitutions"], "message": payload["message"],
@@ -306,7 +400,7 @@ def _build_evidence(scan_result, bootstrap, data):
         "level": EvidenceLevel.PLAYERS_ONLY.value, "xi_known": False,
         "scanner_status": scan_result.get("status"), "view_type": scan_result.get("view_type"),
         "gameweek": payload["gameweek"],
-        "players": [{**p, "is_starting": None} for p in payload["players"]],
+        "players": [{**p, "is_starting": None} for p in _attach_facts(payload["players"], bootstrap, summaries)],
     }, None
 
 
@@ -375,7 +469,7 @@ def _project_extra(player_ids, bootstrap, data):
                    "submitted_xi": [], "recommended_xi": []}
     payload = _build_payload({}, projections, placeholder, _THRESHOLD, elem_by_id, team_by_id,
                              None, None, None)
-    return {p["player_id"]: p for p in payload["players"]}
+    return {p["player_id"]: p for p in _attach_facts(payload["players"], bootstrap, summaries)}
 
 
 # ── Draft ─────────────────────────────────────────────────────────────────────
@@ -386,6 +480,7 @@ def _draft(llm, conversation, evidence):
         "post": {"title": conversation.title, "body": conversation.body},
         "evidence_level": evidence["level"],
         "evidence": evidence,
+        "comparisons": _comparisons(evidence, f"{conversation.title}\n{conversation.body}"),
     }, default=str, ensure_ascii=False)
     response = llm(_SYSTEM, user)
 
