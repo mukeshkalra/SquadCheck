@@ -42,6 +42,7 @@ sys.path.insert(0, str(ROOT))
 from fpl.engine.scanner    import scan_squad, VALID, VIEW_PITCH
 from fpl.engine.projection import build_params
 from fpl.engine.pipeline   import run_pipeline
+from fpl.engine.transfer_adapter import FplDataSource, MAX_BODY_BYTES, handle as handle_transfer_plan
 
 # ── FPL API ───────────────────────────────────────────────────────────────────
 _BS_URL  = "https://fantasy.premierleague.com/api/bootstrap-static/"
@@ -255,6 +256,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
+        if self.path.rstrip("/") == "/api/transfer-plan":
+            self._transfer_plan()
+            return
         if self.path.rstrip("/") != "/api/squad-check":
             self.send_error(404)
             return
@@ -280,6 +284,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-Length", str(len(err)))
             self.end_headers()
             self.wfile.write(err)
+
+    def _transfer_plan(self):
+        """Same handler as api/transfer-plan.py; the scanner path is untouched."""
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        if length > MAX_BODY_BYTES:
+            status, payload = 413, {"status": "BAD_REQUEST", "error": "Request body too large", "details": []}
+        else:
+            status, payload = handle_transfer_plan(self.rfile.read(length), _TRANSFER_SOURCE)
+        body = json.dumps(payload, ensure_ascii=False).encode()
+        self.send_response(status)
+        self._cors()
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+        print("  transfer-plan  http=%s  status=%s" % (status, payload.get("status")))
 
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin",  "*")
@@ -415,6 +435,7 @@ class ThreadingServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
 
 
 _DEMO_FLAG = False   # set True by --demo CLI flag
+_TRANSFER_SOURCE = FplDataSource()   # caches for /api/transfer-plan
 
 
 def main():

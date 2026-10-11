@@ -7,5 +7,8 @@
       "source": "/sitemap.xml",
       "headers": [{ "key": "Content-Type", "value": "application/xml" }]
     }
-  ]
+  ],
+  "functions": {
+    "api/transfer-plan.py": { "maxDuration": 60 }
+  }
 }

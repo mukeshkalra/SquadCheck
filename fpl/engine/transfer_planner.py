@@ -273,6 +273,23 @@ def plan_transfers(
                             "(data unavailable, not a blank gameweek)"
                             % (name(p), ",".join(str(g + 1) for g in gaps[p])))
 
+    # Players whose projection is unavailable (fetch failed / timed out / malformed). They are never
+    # bought or sold by a ranked plan: valuing them at 0 would invent a gain from selling them (or a
+    # loss from buying them). Plans that keep them still see them at 0 in both hold and plan.
+    incomplete = {p for p in players if gaps[p]}
+    squad_incomplete = sorted(p for p in squad_ids if p in incomplete)
+
+    # Robustness when squad players lack projections: re-score the hold and each plan with those players
+    # valued like the best known supplied player of their position. A gain that does not survive this is not
+    # reported as a recommendation, because it may only exist because those players were valued at 0.
+    score_hi, hold_hi = score, None
+    if squad_incomplete:
+        score_hi = dict(score)
+        for p in squad_incomplete:
+            known = [q for q in players if q not in incomplete and position[q] == position[p]]
+            score_hi[p] = max([score[q] for q in known] or [0.0])
+        hold_hi = best_xi(squad_ids, score_hi, position)[0]
+
     # ── Intent ────────────────────────────────────────────────────────────────
     intent = "moves" if moves else "out_only" if out_ids else "in_only" if in_ids else None
     forced_out = set(out_ids) | {m[0] for m in moves}
@@ -374,6 +391,10 @@ def plan_transfers(
     def check(out, ins, stats=None):
         """Return the evaluated plan, or None if illegal (reason counted in `stats`)."""
         nonlocal evals
+        if incomplete and (incomplete.intersection(out) or incomplete.intersection(ins)):
+            if stats is not None:
+                stats["incomplete"] = stats.get("incomplete", 0) + 1
+            return None
         key_ = (tuple(sorted(out)), tuple(sorted(ins)))
         if key_ in plans:
             return plans[key_]
@@ -506,15 +527,24 @@ def plan_transfers(
             risks.append("Affordability is estimated from current prices, not selling prices")
         return risks
 
+    def robust_gain(plan):
+        if not squad_incomplete:
+            return None
+        squad = [p for p in squad_ids if p not in plan["out"]] + list(plan["in"])
+        return best_xi(squad, score_hi, position)[0] - penalty(plan["n_transfers"]) - hold_hi
+
     def finish(plan):
         out, ins = list(plan["out"]), list(plan["in"])
         squad = [p for p in squad_ids if p not in out] + ins
+        rg = robust_gain(plan)
         outlook = outlook_for(squad)
         confs = [players[p].get("confidence") for p in ins if players[p].get("confidence")]
         if any(gaps[p] for p in ins):
             confs.append("LOW")
         order = {"LOW": 0, "MEDIUM": 1, "HIGH": 2}
         conf = min(confs, key=lambda c: order[c]) if confs else None
+        if squad_incomplete:
+            conf = "LOW"
         k = plan["n_transfers"]
         return {
             "n_transfers": k,
@@ -535,6 +565,10 @@ def plan_transfers(
             "risks": risks_for(out, ins, outlook),
             "price_source": "estimated",
             "projected": True,
+            "data_complete": not squad_incomplete,
+            "gain_range": None if rg is None else {
+                "missing_projections_valued_at_zero": round(plan["net_score"] - hold_score, 2),
+                "missing_projections_valued_at_position_best": round(rg, 2)},
         }
 
     hold_plan = {
@@ -544,12 +578,31 @@ def plan_transfers(
         "projected_gain_vs_hold": 0.0, "bank_after": bank, "xi_ids": hold_xi,
         "outlook": {"status": "provisional_unvalidated", "note": OUTLOOK_NOTE,
                     "best_xi_xpts": [round(v, 2) for v in hold_gw], "vs_hold": [0.0] * HORIZON},
-        "confidence": None, "risks": [], "price_source": "estimated", "projected": True,
+        "confidence": "LOW" if squad_incomplete else None, "risks": [], "price_source": "estimated",
+        "projected": True, "data_complete": not squad_incomplete,
     }
 
-    best = ranked[0] if ranked and ranked[0]["net_score"] > hold_score + _EPS else None
+    def robust(plan):
+        rg = robust_gain(plan)
+        return rg is None or rg >= min_gain
+
+    top = ranked[0] if ranked and ranked[0]["net_score"] > hold_score + _EPS else None
+    best = top
+    not_robust = None
+    if top is not None and squad_incomplete and top["net_score"] - hold_score >= min_gain:
+        passing = next((pl_ for pl_ in ranked
+                        if pl_["net_score"] - hold_score >= min_gain and robust(pl_)), None)
+        if passing is None:
+            not_robust, best = top, None
+        else:
+            best = passing
     recommendation = {"action": "HOLD", "plan": hold_plan, "projected_gain": 0.0,
                       "reason": "No transfer plan is projected to beat holding"}
+    if not_robust is not None:
+        recommendation["reason"] = (
+            "Best projected gain (+%.2f) is not reliable: it depends on valuing squad players with missing "
+            "projections at 0 (it falls to %+.2f if they score like their position's best)"
+            % (not_robust["net_score"] - hold_score, robust_gain(not_robust)))
     if best is not None:
         gain = best["net_score"] - hold_score
         if gain >= min_gain:
@@ -560,6 +613,10 @@ def plan_transfers(
         else:
             recommendation["reason"] = ("Best projected gain (+%.2f) is below the %.2f threshold"
                                         % (gain, min_gain))
+    if squad_incomplete:
+        recommendation["reason"] += ("; partial data: %d squad player(s) have no projection and are valued at 0 "
+                                     "in both the hold and every plan (%s)"
+                                     % (len(squad_incomplete), ", ".join(name(p) for p in squad_incomplete)))
     rec_key = (best["out"], best["in"]) if recommendation["action"] == "TRANSFER" else None
 
     requested = None
@@ -578,6 +635,10 @@ def plan_transfers(
             elif gain < min_gain:
                 status, why = "BELOW_THRESHOLD", ("Projected gain +%.2f is below the %.2f threshold"
                                                   % (gain, min_gain))
+            elif not robust(literal_plan):
+                status, why = "BELOW_THRESHOLD", (
+                    "Projected gain +%.2f depends on valuing squad players with missing projections at 0; "
+                    "it is not reliable" % gain)
             else:
                 status, why = "RECOMMENDED", ("Projected gain of +%.2f xPts over holding "
                                               "(an estimate, not a guarantee)" % gain)
@@ -605,13 +666,21 @@ def plan_transfers(
                             "substituted for your requested plan")
             requested["with_additional_transfers"] = ext
 
+    named_incomplete = sorted(p for p in (forced_out | forced_in) if p in incomplete)
+    if intent and named_incomplete:
+        requested.update(
+            status="INCOMPLETE_DATA", plan=None, with_additional_transfers=None,
+            matches_overall_recommendation=False,
+            reason=("Cannot evaluate: no projection data for %s (data unavailable, not a blank gameweek). "
+                    "No estimate was made." % ", ".join(name(p) for p in named_incomplete)))
+
     # ── Search coverage ───────────────────────────────────────────────────────
     n_supplied = sum(len(v) for v in supplied.values())
     searched = {pos: sorted(set(in_pool[pos]) | {p for p in forced_in if position[p] == pos})
                 for pos in (1, 2, 3, 4)}
     n_searched = sum(len(v) for v in searched.values())
     squad_unsold = sorted(p for p in squad_ids if p not in out_pool)
-    pruned = n_searched < n_supplied or bool(squad_unsold)
+    pruned = n_searched < n_supplied or bool(squad_unsold) or bool(incomplete)
     search = {
         "scope": "supplied_players",
         "optimality": "not_guaranteed" if (pruned or budget_exceeded) else "optimal_over_supplied_players",
@@ -624,6 +693,8 @@ def plan_transfers(
             "candidates_excluded": n_supplied - n_searched,
             "squad_players_considered_for_sale": len(out_pool),
             "squad_players_not_considered_for_sale": squad_unsold,
+            "excluded_for_missing_projection": sorted(p for p in incomplete if p not in squad_set),
+            "squad_players_missing_projection": squad_incomplete,
             "limits": {"in_pool_per_position": in_pool_per_position, "out_pool_size": out_pool_size,
                        "pools_shrunk_to_fit_budget": shrunk},
         },
@@ -633,8 +704,17 @@ def plan_transfers(
                  "shortlist of the league. A plan outside the searched space can exist."),
     }
 
+    data_quality = {
+        "complete": not incomplete,
+        "squad_projection_missing": squad_incomplete,
+        "candidates_projection_missing": sorted(p for p in incomplete if p not in squad_set),
+        "hold_valuation": "understated" if squad_incomplete else "complete",
+        "note": ("Players without a projection are never bought or sold by a ranked plan and are valued at 0 "
+                 "wherever they stay in the squad; a named move involving one is reported as INCOMPLETE_DATA."),
+    }
     return {
         "basis": BASIS,
+        "data_quality": data_quality,
         "inputs": {"bank": bank, "free_transfers": free_transfers, "weights": list(weights),
                    "max_hits": max_hits, "hit_cost": hit_cost, "min_gain": min_gain,
                    "price_source": "now_cost (estimate; selling price may differ)",

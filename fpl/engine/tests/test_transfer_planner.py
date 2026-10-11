@@ -636,15 +636,18 @@ class TestUncertaintyAndLabelling(unittest.TestCase):
 
     def test_missing_projection_is_not_a_blank_gameweek(self):
         unknown = {**P(101, 3, 0), "xpts": [None, None, None], "confidence": "LOW"}
-        blank = P(102, 3, [0, 12, 12])
         r = plan(world([unknown]), moves=[(8, 101)])
-        text = " ".join(r["requested"]["plan"]["risks"])
-        self.assertIn("not a blank gameweek", text)
-        self.assertEqual(r["requested"]["plan"]["confidence"], "LOW")
-        self.assertEqual(r["requested"]["plan"]["transfers"][0]["in"]["projection_unavailable_gws"], [1, 2, 3])
-        text2 = " ".join(plan(world([blank]), moves=[(8, 102)], weights=(0, 1, 0))["requested"]["plan"]["risks"])
-        self.assertIn("projects 0 next GW", text2)
-        self.assertNotIn("not a blank gameweek", text2)
+        q = r["requested"]
+        self.assertEqual(q["status"], "INCOMPLETE_DATA")                 # not WORSE_THAN_HOLD / BELOW_THRESHOLD
+        self.assertIsNone(q["plan"])
+        self.assertIn("not a blank gameweek", q["reason"])
+        self.assertIn("No estimate was made", q["reason"])
+        self.assertEqual(r["recommendation"]["action"], "HOLD")
+        # a genuine blank gameweek (0.0) is a real projection and is still evaluated
+        blank = P(102, 3, [0, 12, 12])
+        q2 = plan(world([blank]), moves=[(8, 102)], weights=(0, 1, 0))["requested"]
+        self.assertNotEqual(q2["status"], "INCOMPLETE_DATA")
+        self.assertIn("projects 0 next GW", " ".join(q2["plan"]["risks"]))
 
     def test_missing_projection_on_squad_player_warns(self):
         r = plan(world(overrides={8: {"xpts": [None, 7, 7]}}))
@@ -659,6 +662,85 @@ class TestUncertaintyAndLabelling(unittest.TestCase):
         random.Random(2).shuffle(items)
         alt = plan_transfers(sq, dict(items), bank=0, free_transfers=2, moves=[(11, 101)])
         self.assertEqual(base, alt)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DEGRADED DATA SAFETY (players whose projection is unavailable)
+# ─────────────────────────────────────────────────────────────────────────────
+
+NONE3 = [None, None, None]
+
+
+class TestDegradedDataSafety(unittest.TestCase):
+    def test_squad_player_without_projection_is_never_sold_by_a_ranked_plan(self):
+        # Previously: selling MID1 (id 8, valued at 0) looked like +3.0 and was recommended at HIGH confidence.
+        pl = world([P(101, 3, 6.0)], overrides={8: {"xpts": NONE3}})
+        r = plan(pl, free_transfers=1, top_n=1000)
+        sold = {o for a in r["alternatives"] for o, _ in pairs(a)}
+        self.assertNotIn(8, sold)
+        self.assertNotIn(8, {o for o, _ in pairs(r["recommendation"]["plan"])})
+
+    def test_incomplete_squad_marks_every_plan_and_forces_low_confidence(self):
+        pl = world([P(101, 3, 14.0)], overrides={8: {"xpts": NONE3}})
+        r = plan(pl, free_transfers=1)
+        for p in [r["hold"], r["recommendation"]["plan"]] + r["alternatives"]:
+            self.assertFalse(p["data_complete"])
+            self.assertEqual(p["confidence"], "LOW")
+        self.assertIn("partial data", r["recommendation"]["reason"])
+        dq = r["data_quality"]
+        self.assertFalse(dq["complete"])
+        self.assertEqual(dq["squad_projection_missing"], [8])
+        self.assertEqual(dq["hold_valuation"], "understated")
+        self.assertEqual(r["search"]["coverage"]["squad_players_missing_projection"], [8])
+        self.assertEqual(r["search"]["optimality"], "not_guaranteed")
+
+    def test_complete_data_is_reported_as_complete(self):
+        r = plan(world([P(101, 3, 14.0)]))
+        self.assertTrue(r["data_quality"]["complete"])
+        self.assertTrue(r["hold"]["data_complete"])
+        self.assertEqual(r["data_quality"]["hold_valuation"], "complete")
+        self.assertIsNone(r["recommendation"]["plan"]["gain_range"])
+
+    def test_gain_that_exists_only_because_a_player_is_valued_at_zero_is_not_recommended(self):
+        # GKP1 (id 1) has no projection. Its true value could be anything; at 0 the hold GKP is the 3.0 backup,
+        # so a 4.0 replacement for the backup looks like +1.0. If GKP1 scores like the best GKP (4.0) it is +0.0.
+        pl = world([P(101, 1, 4.0)], overrides={1: {"xpts": NONE3}})
+        r = plan(pl, free_transfers=1, min_gain=0.5)
+        self.assertEqual(r["recommendation"]["action"], "HOLD")
+        self.assertIn("not reliable", r["recommendation"]["reason"])
+        alt = r["alternatives"][0]
+        self.assertEqual(alt["gain_range"]["missing_projections_valued_at_zero"], 1.0)
+        self.assertEqual(alt["gain_range"]["missing_projections_valued_at_position_best"], 0.0)
+
+    def test_robust_gain_is_still_recommended_with_its_range(self):
+        pl = world([P(101, 3, 14.0)], overrides={1: {"xpts": NONE3}})
+        r = plan(pl, free_transfers=1)
+        rec = r["recommendation"]
+        self.assertEqual(rec["action"], "TRANSFER")
+        self.assertGreaterEqual(rec["plan"]["gain_range"]["missing_projections_valued_at_position_best"], 0.5)
+
+    def test_candidate_without_projection_is_excluded_and_listed_not_zeroed(self):
+        pl = world([{**P(101, 3, 0), "xpts": NONE3}, P(102, 3, 9.0)])
+        r = plan(pl, free_transfers=1, top_n=1000)
+        self.assertEqual(r["data_quality"]["candidates_projection_missing"], [101])
+        self.assertEqual(r["search"]["coverage"]["excluded_for_missing_projection"], [101])
+        self.assertTrue(all(101 not in [i for _, i in pairs(a)] for a in r["alternatives"]))
+        self.assertTrue(r["hold"]["data_complete"])                    # squad is complete; only a candidate is missing
+
+    def test_named_moves_with_missing_data_are_incomplete_not_evaluated(self):
+        pl = world([{**P(101, 3, 0), "xpts": NONE3}], overrides={12: {"xpts": NONE3}})
+        for kw in ({"moves": [(8, 101)]}, {"in_ids": [101]}, {"moves": [(12, 101)]}, {"out_ids": [12]}):
+            with self.subTest(kw):
+                q = plan(pl, **kw)["requested"]
+                self.assertEqual(q["status"], "INCOMPLETE_DATA")
+                self.assertIsNone(q["plan"])
+                self.assertIsNone(q["with_additional_transfers"])
+
+    def test_zero_is_not_confused_with_missing(self):
+        pl = world([P(101, 3, [0.0, 0.0, 0.0])])
+        r = plan(pl, moves=[(8, 101)])
+        self.assertNotEqual(r["requested"]["status"], "INCOMPLETE_DATA")
+        self.assertTrue(r["data_quality"]["complete"])
 
 
 # ─────────────────────────────────────────────────────────────────────────────
