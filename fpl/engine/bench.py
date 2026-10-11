@@ -89,6 +89,61 @@ def _xi_summary(player_ids: list, by_id: dict) -> dict:
     }
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# PUBLIC LEGAL-XI EVALUATION
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _legal_formations():
+    for d in range(_POS_MIN[2], _POS_MAX[2] + 1):
+        for m in range(_POS_MIN[3], _POS_MAX[3] + 1):
+            f = _XI_SIZE - 1 - d - m
+            if _POS_MIN[4] <= f <= _POS_MAX[4]:
+                yield d, m, f
+
+
+# Every legal (DEF, MID, FWD) split behind the one goalkeeper, derived from the constraints above.
+LEGAL_FORMATIONS = tuple(_legal_formations())
+
+
+def best_legal_xi(player_ids, scores: dict, positions: dict):
+    """
+    Highest-scoring legal XI from `player_ids` (any squad size with at least one GKP).
+
+    scores    : {player_id: float}   value of each player (any units; may be zero or negative)
+    positions : {player_id: int}     1=GKP 2=DEF 3=MID 4=FWD
+
+    Returns (total, xi_ids), or (None, []) when no legal XI exists. Exact: for each legal
+    formation it takes the top-n players of each position. Ties break on lower player id, so
+    the result is deterministic. Equivalent in total to the exhaustive search in optimise_bench
+    (pinned by tests); optimise_bench itself is unchanged.
+    """
+    by_pos = {1: [], 2: [], 3: [], 4: []}
+    for pid in player_ids:
+        by_pos[positions[pid]].append(pid)
+    for pos in by_pos:
+        by_pos[pos].sort(key=lambda p: (-scores[p], p))
+    if not by_pos[1]:
+        return None, []
+    cum = {}
+    for pos, ids in by_pos.items():
+        c, run = [0.0], 0.0
+        for pid in ids:
+            run += scores[pid]
+            c.append(run)
+        cum[pos] = c
+    best, best_f = None, None
+    for d, m, f in LEGAL_FORMATIONS:
+        if d > len(by_pos[2]) or m > len(by_pos[3]) or f > len(by_pos[4]):
+            continue
+        total = cum[1][1] + cum[2][d] + cum[3][m] + cum[4][f]
+        if best is None or total > best + 1e-9:
+            best, best_f = total, (d, m, f)
+    if best is None:
+        return None, []
+    d, m, f = best_f
+    return best, by_pos[1][:1] + by_pos[2][:d] + by_pos[3][:m] + by_pos[4][:f]
+
+
 def _enumerate_valid_xis(all_ids: list, by_id: dict):
     """
     Yield every legal 11-player subset of all_ids.

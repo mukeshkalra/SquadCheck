@@ -17,7 +17,8 @@ import sys, os, unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
-from fpl.engine.bench import optimise_bench, _is_valid_xi, _formation_str
+from fpl.engine.bench import (optimise_bench, _is_valid_xi, _formation_str, _enumerate_valid_xis,
+                              best_legal_xi, LEGAL_FORMATIONS)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPERS
@@ -586,3 +587,77 @@ class TestEdgeCases(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PUBLIC LEGAL-XI EVALUATION (best_legal_xi / LEGAL_FORMATIONS)
+# ─────────────────────────────────────────────────────────────────────────────
+
+import random
+
+
+def _ids_pos(squad):
+    return [p["player_id"] for p in squad], {p["player_id"]: p["position"] for p in squad}
+
+
+class TestPublicLegalXi(unittest.TestCase):
+    def test_total_equals_exhaustive_enumeration_with_ties_zeros_negatives(self):
+        rnd = random.Random(21)
+        base = _squad()
+        ids, pos = _ids_pos(base)
+        reached = set()
+        for trial in range(900):
+            kind = trial % 3
+            sc = {i: (rnd.choice([0, 0, 1, 2]) if kind == 0 else round(rnd.uniform(-2, 10), 1) if kind == 1
+                      else round(rnd.uniform(0, 10), 1)) for i in ids}
+            by_id = {i: {"position": pos[i], "xPts": sc[i]} for i in ids}
+            brute = max(sum(sc[p] for p in xi) for xi in _enumerate_valid_xis(ids, by_id))
+            total, xi = best_legal_xi(ids, sc, pos)
+            self.assertAlmostEqual(total, brute, places=9)
+            self.assertTrue(_is_valid_xi(xi, by_id))
+            reached.add(tuple(sum(pos[p] == q for p in xi) for q in (2, 3, 4)))
+        self.assertEqual(reached, set(LEGAL_FORMATIONS))
+
+    def test_legal_formations_match_what_the_enumerator_produces(self):
+        ids, pos = _ids_pos(_squad())
+        by_id = {i: {"position": pos[i], "xPts": 1.0} for i in ids}
+        produced = {tuple(sum(pos[p] == q for p in xi) for q in (2, 3, 4))
+                    for xi in _enumerate_valid_xis(ids, by_id)}
+        self.assertEqual(produced, set(LEGAL_FORMATIONS))
+        self.assertEqual(len(LEGAL_FORMATIONS), 8)
+
+    def test_agrees_with_optimise_bench_recommended_xi(self):
+        rnd = random.Random(4)
+        for _ in range(25):
+            squad = _squad()
+            for p in squad:
+                p["xPts"] = round(rnd.uniform(0, 10), 1)
+            ids, pos = _ids_pos(squad)
+            xi442 = [1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14]
+            out = optimise_bench(squad, xi442)
+            total, _ = best_legal_xi(ids, {p["player_id"]: p["xPts"] for p in squad}, pos)
+            self.assertAlmostEqual(out["recommended_xi"]["xPts"], total, places=1)
+
+    def test_no_goalkeeper_means_no_legal_xi(self):
+        ids, pos = _ids_pos([p for p in _squad() if p["position"] != 1])
+        self.assertEqual(best_legal_xi(ids, {i: 1.0 for i in ids}, pos), (None, []))
+
+    def test_too_few_players_in_a_position_means_no_legal_xi(self):
+        squad = [p for p in _squad() if p["position"] != 4]            # no forwards
+        ids, pos = _ids_pos(squad)
+        self.assertEqual(best_legal_xi(ids, {i: 1.0 for i in ids}, pos), (None, []))
+
+    def test_works_on_squads_smaller_than_fifteen(self):
+        squad = [p for p in _squad() if p["player_id"] not in (2, 7, 12, 15)]       # 11 players
+        ids, pos = _ids_pos(squad)
+        total, xi = best_legal_xi(ids, {p["player_id"]: p["xPts"] for p in squad}, pos)
+        self.assertEqual(len(xi), 11)
+
+    def test_ties_break_on_lower_id_and_ignore_input_order(self):
+        ids, pos = _ids_pos(_squad())
+        flat = {i: 1.0 for i in ids}
+        a = best_legal_xi(ids, flat, pos)
+        b = best_legal_xi(list(reversed(ids)), flat, pos)
+        self.assertEqual(a, b)
+        self.assertIn(1, a[1])                      # of two equal GKPs, id 1 starts
+        self.assertNotIn(2, a[1])
