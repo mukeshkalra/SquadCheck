@@ -46,6 +46,7 @@ from fpl.engine.pipeline   import run_pipeline
 # ── FPL API ───────────────────────────────────────────────────────────────────
 _BS_URL  = "https://fantasy.premierleague.com/api/bootstrap-static/"
 _SUM_URL = "https://fantasy.premierleague.com/api/element-summary/{}/"
+_FX_URL  = "https://fantasy.premierleague.com/api/fixtures/"
 _HDRS    = {"User-Agent": "Mozilla/5.0 (compatible; SquadCheck/1.0; +https://squadcheck.club)"}
 
 _cache = {
@@ -54,6 +55,9 @@ _cache = {
     "summaries":    {},
     "params":       None,
     "params_ts":    0,
+    "fixtures":     None,
+    "fixtures_ts":  0,
+    "fixtures_fail_ts": 0,
 }
 _BOOTSTRAP_TTL = 300   # 5 min
 _PARAMS_TTL    = 300
@@ -80,10 +84,32 @@ def get_summary(pid):
     return _cache["summaries"][pid]
 
 
+def get_fixtures():
+    """All fixtures, cached. [] on failure (history rows are then not matched to a fixture); retried after 60s."""
+    now = time.time()
+    if _cache["fixtures"] is not None and now - _cache["fixtures_ts"] <= _PARAMS_TTL:
+        return _cache["fixtures"]
+    if now - _cache["fixtures_fail_ts"] < 60:
+        return []
+    try:
+        data = _fetch(_FX_URL)
+        if not isinstance(data, list):
+            raise ValueError("unexpected fixtures payload")
+    except Exception:
+        _cache["fixtures_fail_ts"] = now
+        return []
+    _cache["fixtures"], _cache["fixtures_ts"] = data, now
+    return data
+
+
 def get_params(bootstrap):
     now = time.time()
     if _cache["params"] is None or now - _cache["params_ts"] > _PARAMS_TTL:
-        _cache["params"] = build_params(bootstrap)
+        fixtures = get_fixtures()
+        params = build_params(bootstrap, fixtures)
+        if not fixtures:
+            return params          # not cached, so the next request retries the fixtures fetch
+        _cache["params"] = params
         _cache["params_ts"] = now
     return _cache["params"]
 

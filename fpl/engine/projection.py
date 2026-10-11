@@ -33,7 +33,7 @@ coefficient registry and evaluation framework.
 
 import math
 from statistics import median as _median
-from typing import Optional
+from typing import NamedTuple, Optional
 
 # ── FPL SCORING RULES (exact; unchanged from V0.1) ──────────────────────────
 GOAL_PTS     = {1: 6, 2: 6, 3: 5, 4: 4}
@@ -189,7 +189,34 @@ def _compute_positional_baselines(elements: list, min_starts: int = 3):
     return xG_base, xA_base
 
 
-def build_params(bootstrap: dict) -> dict:
+def _build_fixture_teams(fixtures) -> dict:
+    """{fixture_id: (team_h, team_a)} from the /fixtures endpoint. Malformed entries are skipped."""
+    out: dict = {}
+    for f in fixtures or []:
+        try:
+            out[f["id"]] = (f["team_h"], f["team_a"])
+        except (KeyError, TypeError):
+            continue
+    return out
+
+
+def _build_fixture_completed(fixtures) -> dict:
+    """
+    {fixture_id: bool} — True once the FPL API says the match is over (`finished` or
+    `finished_provisional`), False while it is not started or still in progress. A fixture
+    that does not carry either flag is left out, so callers fall back to the score rule.
+    """
+    out: dict = {}
+    for f in fixtures or []:
+        try:
+            if "finished" in f or "finished_provisional" in f:
+                out[f["id"]] = bool(f.get("finished") or f.get("finished_provisional"))
+        except (KeyError, TypeError):
+            continue
+    return out
+
+
+def build_params(bootstrap: dict, fixtures=None) -> dict:
     """
     Build the params dict from a bootstrap-static API response.
     Call once per session; pass to every compute_xpts call.
@@ -204,6 +231,13 @@ def build_params(bootstrap: dict) -> dict:
         league_avg_xgc  : float
         pos_xG_base     : {1..4: float}
         pos_xA_base     : {1..4: float}
+
+    History-validity key (optional):
+        fixture_teams   : {fixture_id: (team_h, team_a)}  from the /fixtures endpoint.
+                          Empty when `fixtures` is None, in which case no history row
+                          is ever classed as belonging to another club.
+        fixture_completed : {fixture_id: bool}  True once finished / finished_provisional.
+                          Empty when `fixtures` is None (then only the score rule applies).
     """
     elements        = bootstrap["elements"]
     team_gkp_xgc    = _build_team_gkp_xgc(elements)
@@ -220,7 +254,69 @@ def build_params(bootstrap: dict) -> dict:
         "league_avg_xgf":  league_avg_xgf,
         "pos_xG_base":     xG_base,
         "pos_xA_base":     xA_base,
+        "fixture_teams":   _build_fixture_teams(fixtures),
+        "fixture_completed": _build_fixture_completed(fixtures),
     }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HISTORY VALIDITY
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _is_unplayed(row: dict, fixture_completed: Optional[dict] = None) -> bool:
+    """
+    True when the row's fixture is not a completed match, i.e. its minutes are not a full
+    observation. Two independent pieces of evidence, either of which is enough:
+      - a score is explicitly None (not started, postponed or otherwise unresolved);
+      - the fixture is known (via `fixture_completed`, from the /fixtures flags) to be
+        unfinished: not started, or in progress. Live matches carry non-null scores and
+        part-played minutes, so scores alone cannot tell "in progress" from "finished".
+    A row with no score keys and no fixture status is not treated as unplayed (legacy shape).
+    """
+    if row.get("team_h_score", 0) is None or row.get("team_a_score", 0) is None:
+        return True
+    return (fixture_completed or {}).get(row.get("fixture")) is False
+
+
+class HistoryUse(NamedTuple):
+    current_rows: list    # completed current-club rows (+ unresolved rows): minutes / selection evidence
+    n_damp: int           # player xG/xA damping and data-confidence labels
+    n_team: int           # team xGC weight: every completed gameweek in the history, whichever club
+
+
+def _usable_history(history: list, team_id, fixture_teams: dict,
+                    fixture_completed: Optional[dict] = None) -> HistoryUse:
+    """
+    Split a player's history rows by what each row can honestly be evidence of.
+
+      current_rows — completed fixtures involving the player's current club, plus any row
+                     whose fixture cannot be resolved (existing behaviour is kept for those).
+                     Used for minutes averages, recent-start caps and the minutes label.
+      n_damp       — current_rows plus completed prior-club fixtures in which the player
+                     actually played. Sample count for the n/(n+2) damping of the player's own
+                     xG/xA and for the projection-confidence and driver/risk text.
+      n_team       — every completed row, whichever club it was for (a pre-arrival zero still
+                     counts). It weights the club's xGC, which is a team-level quantity: how
+                     much of the club's season is observed does not depend on this player's
+                     arrival date.
+
+    Left out of all counts: unplayed rows (not started, in progress, postponed). Left out of
+    current_rows and n_damp only: completed zero-minute rows from fixtures that do not
+    involve the current club (a pre-arrival zero is not evidence of non-selection).
+    A prior-club row with minutes counts towards n_damp only.
+    """
+    current, prior_played, n_team = [], 0, 0
+    for row in history:
+        if _is_unplayed(row, fixture_completed):
+            continue
+        n_team += 1
+        teams = fixture_teams.get(row.get("fixture"))
+        if teams is not None and team_id not in teams:
+            if _f(row.get("minutes", 0)) > 0:
+                prior_played += 1
+            continue
+        current.append(row)
+    return HistoryUse(current, len(current) + prior_played, n_team)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -374,11 +470,20 @@ def compute_xpts(
 
     pos    = player["element_type"]
     starts = player.get("starts", 0)
-    n_gws  = len(history)
+
+    # History validity. Three counts, each with its own meaning (see _usable_history):
+    #   n_gws  — rows usable as current-club minutes/selection evidence;
+    #   n_damp — player xG/xA damping and the data-confidence labels;
+    #   n_team — completed gameweeks observed, for the club's xGC weight.
+    # For an ordinary player with a complete history all three equal len(history).
+    use    = _usable_history(history, player["team"], params.get("fixture_teams") or {},
+                             params.get("fixture_completed") or {})
+    usable, n_damp, n_team = use.current_rows, use.n_damp, use.n_team
+    n_gws  = len(usable)
 
     # ── xMINS ─────────────────────────────────────────────────────────────────
-    gw_mins   = [h["minutes"] for h in history]
-    gw_starts = [h["starts"]  for h in history]
+    gw_mins   = [h["minutes"] for h in usable]
+    gw_starts = [h["starts"]  for h in usable]
 
     if n_gws >= 3:
         recent_avg = sum(gw_mins[-3:]) / 3.0
@@ -414,7 +519,7 @@ def compute_xpts(
 
     # ── DAMPING WEIGHT ────────────────────────────────────────────────────────
     # w = n/(n+2): prior weight=2 [heuristic]; stronger at small n, lighter as evidence grows
-    w = n_gws / (n_gws + 2.0)
+    w = n_damp / (n_damp + 2.0)
 
     # ── V0.2 FIXTURE MODEL ────────────────────────────────────────────────────
     #
@@ -474,7 +579,8 @@ def compute_xpts(
     # Never the projected player's own xGC_p90 (selection-biased for rotation players).
     team_xGC   = params["team_gkp_xgc"][player["team"]]
     league_avg = params["league_avg_xgc"]
-    xGC_d      = w * team_xGC + (1 - w) * league_avg          # damp toward league mean
+    w_team     = n_team / (n_team + 2.0)                      # completed gameweeks observed
+    xGC_d      = w_team * team_xGC + (1 - w_team) * league_avg  # damp toward league mean
     #
     # lam = our defensive baseline × opponent attacking quality / home advantage.
     # When opp_atk_q=1 (avg opponent) and home_factor=1 (neutral): lam = xGC_d.
@@ -518,12 +624,12 @@ def compute_xpts(
 
     # ── CONFIDENCE ─────────────────────────────────────────────────────────────
     mc      = _minutes_conf(status, cop_next, recent_starts_3, recent_avg, n_gws)
-    pc      = _projection_conf(n_gws, starts)
+    pc      = _projection_conf(n_damp, starts)
     overall = _overall_conf(mc, pc)
 
     drivers, risks = _drivers_risks(
         player, pos, xMins, P_app, P_60plus, p_cs, lam,
-        xG_d, xA_d, atk_scale, n_gws,
+        xG_d, xA_d, atk_scale, n_damp,
     )
 
     return {

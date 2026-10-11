@@ -36,13 +36,16 @@ from fpl.engine.pipeline   import (run_pipeline, resolve_players,
 # ── Config ────────────────────────────────────────────────────────────────────
 _FPL_BS   = "https://fantasy.premierleague.com/api/bootstrap-static/"
 _FPL_SUM  = "https://fantasy.premierleague.com/api/element-summary/{}/"
+_FPL_FX   = "https://fantasy.premierleague.com/api/fixtures/"
 _HEADERS  = {"User-Agent": "Mozilla/5.0 (compatible; SquadCheck/1.0)"}
 _MAX_BODY = 10 * 1024 * 1024   # 10 MB upload limit (security M1)
 _THRESHOLD = 0.5
 
 # Module-level cache — persists across warm Vercel invocations
-_cache: dict = {"bootstrap": None, "bs_ts": 0, "params": None, "p_ts": 0}
+_cache: dict = {"bootstrap": None, "bs_ts": 0, "params": None, "p_ts": 0,
+                "fixtures": None, "fx_ts": 0, "fx_fail_ts": 0}
 _CACHE_TTL = 300   # 5 minutes
+_FX_RETRY  = 60    # seconds to wait before retrying a failed fixtures fetch
 
 
 # ── FPL API helpers ───────────────────────────────────────────────────────────
@@ -62,10 +65,35 @@ def _bootstrap() -> dict:
     return _cache["bootstrap"]
 
 
+def _fixtures() -> list:
+    """
+    All fixtures, cached. Returns [] when the fetch fails, so history rows are simply not
+    matched to a fixture (the previous behaviour); a failure is retried after _FX_RETRY seconds.
+    """
+    now = time.time()
+    if _cache["fixtures"] is not None and now - _cache["fx_ts"] <= _CACHE_TTL:
+        return _cache["fixtures"]
+    if now - _cache["fx_fail_ts"] < _FX_RETRY:
+        return []
+    try:
+        data = _fetch(_FPL_FX)
+        if not isinstance(data, list):
+            raise ValueError("unexpected fixtures payload")
+    except Exception:
+        _cache["fx_fail_ts"] = now
+        return []
+    _cache["fixtures"], _cache["fx_ts"] = data, now
+    return data
+
+
 def _params(bootstrap: dict) -> dict:
     now = time.time()
     if not _cache["params"] or now - _cache["p_ts"] > _CACHE_TTL:
-        _cache["params"] = build_params(bootstrap)
+        fixtures = _fixtures()
+        params   = build_params(bootstrap, fixtures)
+        if not fixtures:
+            return params          # not cached: the next request retries once _FX_RETRY has passed
+        _cache["params"] = params
         _cache["p_ts"]   = now
     return _cache["params"]
 
