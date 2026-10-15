@@ -44,7 +44,14 @@ CANDIDATES_PER_POSITION = 12     # bootstrap pre-filter size per position (named
 SUMMARY_BUDGET_S = 12.0          # wall-clock allowance for all candidate summaries in one request
 MAX_BODY_BYTES = 64 * 1024
 MAX_NAMED = 5
-ALLOWED_KEYS = {"squad_ids", "bank_m", "free_transfers", "moves", "out_ids", "in_ids", "max_hits"}
+ALLOWED_KEYS = {"squad_ids", "bank_m", "free_transfers", "moves", "out_ids", "in_ids", "max_hits", "keep_ids",
+                "strategy"}
+# Optional "strategy" narrows what the planner may do; it never changes how plans are ranked (net gain).
+#   sensible    no points hits: the request must not allow any (max_hits absent or 0)
+#   everything  no narrowing: exactly the behaviour of omitting the field
+# "upside" is deliberately not accepted yet: the planner has no ceiling/upside metric (projections are
+# expected values), so there is nothing genuine to rank by. See parse_request.
+STRATEGIES = ("sensible", "everything")
 
 
 log = logging.getLogger("squadcheck.transfer")
@@ -347,6 +354,19 @@ def parse_request(raw) -> dict:
         errors.append("max_hits must be an integer from 0 to %d" % MAX_NAMED)
         max_hits = 0
 
+    strategy = None
+    if "strategy" in raw:
+        s = raw["strategy"]
+        if s == "upside":
+            errors.append('strategy "upside" is not available: the planner has no ceiling or upside metric '
+                          '(projections are expected values). Use "everything" with max_hits to include hits')
+        elif not isinstance(s, str) or s not in STRATEGIES:
+            errors.append("strategy must be one of: %s" % ", ".join(STRATEGIES))
+        else:
+            strategy = s
+            if s == "sensible" and max_hits > 0:
+                errors.append('strategy "sensible" means no points hits; remove max_hits or use "everything"')
+
     moves: List[Tuple[int, int]] = []
     if "moves" in raw:
         m = raw["moves"]
@@ -358,6 +378,8 @@ def parse_request(raw) -> dict:
     out_ids = _int_list(raw["out_ids"], "out_ids", errors) if "out_ids" in raw else []
     in_ids = _int_list(raw["in_ids"], "in_ids", errors) if "in_ids" in raw else []
 
+    keep_ids = _int_list(raw["keep_ids"], "keep_ids", errors) if "keep_ids" in raw else []
+
     if moves and (out_ids or in_ids):
         errors.append("use either moves or out_ids / in_ids, not both")
     if out_ids and in_ids:
@@ -368,6 +390,15 @@ def parse_request(raw) -> dict:
     named_in = [m[1] for m in moves] + in_ids
     if len(set(named_out)) != len(named_out) or len(set(named_in)) != len(named_in):
         errors.append("named outgoing / incoming ids must be distinct")
+    if len(set(keep_ids)) != len(keep_ids):
+        errors.append("keep_ids must be distinct")
+    if squad:
+        for p in keep_ids:
+            if p not in squad:
+                errors.append("kept player %s is not in squad_ids" % p)
+    clash = sorted(set(keep_ids) & set(named_out))
+    if clash:
+        errors.append("player(s) %s cannot be both sold and kept" % clash)
     if squad:
         for p in named_out:
             if p not in squad:
@@ -380,7 +411,8 @@ def parse_request(raw) -> dict:
         raise ApiError(400, "BAD_REQUEST", "Invalid request", errors)
     intent = "moves" if moves else "out_only" if out_ids else "in_only" if in_ids else None
     return {"squad_ids": squad, "bank": bank, "free_transfers": free, "moves": moves, "out_ids": out_ids,
-            "in_ids": in_ids, "max_hits": max_hits, "intent": intent}
+            "in_ids": in_ids, "max_hits": max_hits, "keep_ids": keep_ids, "strategy": strategy,
+            "intent": intent}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -404,6 +436,42 @@ def _next_event(bootstrap) -> Optional[int]:
         if not e.get("finished"):
             return e.get("id")
     return None
+
+
+def _team_lookup(bootstrap) -> dict:
+    """{team id: (name, short_name)} from bootstrap; empty if the teams list is absent or malformed."""
+    out = {}
+    teams = bootstrap.get("teams")
+    if isinstance(teams, list):
+        for t in teams:
+            if isinstance(t, dict) and _is_int(t.get("id")):
+                name, short = t.get("name"), t.get("short_name")
+                out[t["id"]] = (name if isinstance(name, str) and name else None,
+                                short if isinstance(short, str) and short else None)
+    return out
+
+
+def _player_meta(pid, team_id, by_id: dict, teams: dict) -> dict:
+    """Presentation metadata for one player, from FPL bootstrap only. Missing or malformed values are
+    None; nothing is guessed. The planner never sees these fields."""
+    el = by_id.get(pid) or {}
+    code = el.get("code")
+    name, short = teams.get(team_id, (None, None))
+    return {"photo_code": code if _is_int(code) and code > 0 else None,
+            "team_name": name, "team_short": short}
+
+
+def _attach_player_meta(obj, by_id: dict, teams: dict) -> None:
+    """Add photo_code / team_name / team_short, in place, to every player dict in a planner result
+    (a player dict is one with id, web_name, position and team)."""
+    if isinstance(obj, dict):
+        if {"id", "web_name", "position", "team"} <= obj.keys():
+            obj.update(_player_meta(obj["id"], obj["team"], by_id, teams))
+        for v in obj.values():
+            _attach_player_meta(v, by_id, teams)
+    elif isinstance(obj, list):
+        for v in obj:
+            _attach_player_meta(v, by_id, teams)
 
 
 def build_response(request: dict, source: FplDataSource, summary_budget_s: Optional[float] = None) -> dict:
@@ -447,9 +515,11 @@ def build_response(request: dict, source: FplDataSource, summary_budget_s: Optio
         plan = plan_transfers(
             squad, players, bank=request["bank"], free_transfers=request["free_transfers"],
             moves=request["moves"], out_ids=request["out_ids"], in_ids=request["in_ids"],
-            max_hits=request["max_hits"])
+            max_hits=request["max_hits"], keep_ids=request["keep_ids"])
     except ValueError as exc:
         raise ApiError(422, "INVALID_PLAN_INPUT", str(exc))
+    teams = _team_lookup(bootstrap)
+    _attach_player_meta(plan, by_id, teams)
     t5 = time.perf_counter()
 
     unavailable = sorted(set(fetch["failed"]) | set(fetch["timed_out"]) | set(fetch["malformed"]))
@@ -466,9 +536,11 @@ def build_response(request: dict, source: FplDataSource, summary_budget_s: Optio
         "request": {"squad_ids": squad, "bank_m": request["bank"] / 10.0, "bank": request["bank"],
                     "free_transfers": request["free_transfers"], "max_hits": request["max_hits"],
                     "intent": request["intent"], "moves": [list(m) for m in request["moves"]],
-                    "out_ids": request["out_ids"], "in_ids": request["in_ids"]},
+                    "out_ids": request["out_ids"], "in_ids": request["in_ids"],
+                    "keep_ids": request["keep_ids"], "strategy": request["strategy"]},
         "squad": [{"id": p, "web_name": by_id[p].get("web_name", ""), "position": by_id[p]["element_type"],
-                   "team": by_id[p]["team"], "price": by_id[p]["now_cost"]} for p in squad],
+                   "team": by_id[p]["team"], "price": by_id[p]["now_cost"],
+                   **_player_meta(p, by_id[p]["team"], by_id, teams)} for p in squad],
         "plan": plan,
         "data": {
             "candidates_considered": len(candidates),
@@ -505,4 +577,55 @@ def handle(body: bytes, source: FplDataSource) -> Tuple[int, dict]:
         return err.http_status, error_payload(err)
     except Exception:                             # unexpected: log the detail, return nothing internal
         log.exception("transfer-plan failed unexpectedly")
+        return 500, {"status": "ERROR", "error": "Internal error", "details": []}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PLAYER DIRECTORY  (GET /api/players)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Cache for browsers and the Vercel CDN, matching the source's 300 s bootstrap TTL. Only sent on success.
+PLAYERS_CACHE_CONTROL = "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+
+
+def build_players_response(source: FplDataSource) -> dict:
+    """Every usable FPL player for name search: id, name, club, position, price, photo code.
+
+    Reads the same cached bootstrap as /api/transfer-plan (no extra upstream request, no second
+    cache). Entries without a usable id, name, position, club or price are skipped and counted; a
+    missing photo code is reported as null, never guessed. Prices are tenths of £m, like every other
+    transfer-plan response."""
+    bootstrap = source.bootstrap()
+    teams = _team_lookup(bootstrap)
+    by_id: Dict[int, dict] = {}
+    skipped = 0
+    for e in bootstrap["elements"]:
+        name = e.get("web_name") if isinstance(e, dict) else None
+        if (not _usable(e) or not _is_int(e.get("id")) or not isinstance(name, str) or not name.strip()
+                or e["id"] in by_id):
+            skipped += 1
+            continue
+        by_id[e["id"]] = e
+    if not by_id:
+        raise ApiError(502, "UPSTREAM_ERROR", "FPL player data is incomplete")
+    players = []
+    for pid in sorted(by_id):
+        e = by_id[pid]
+        meta = _player_meta(pid, e["team"], by_id, teams)
+        players.append({"id": pid, "name": e["web_name"].strip(), "team": e["team"],
+                        "team_name": meta["team_name"], "team_short": meta["team_short"],
+                        "position": e["element_type"], "price": e["now_cost"],
+                        "photo_code": meta["photo_code"]})
+    return {"status": "OK", "gameweek": _next_event(bootstrap), "count": len(players), "skipped": skipped,
+            "price_unit": "tenths of £m (now_cost)", "players": players}
+
+
+def handle_players(source: FplDataSource) -> Tuple[int, dict]:
+    """Returns (http_status, json-serialisable payload); never raises and never exposes internals."""
+    try:
+        return 200, build_players_response(source)
+    except ApiError as err:
+        return err.http_status, error_payload(err)
+    except Exception:
+        log.exception("players directory failed unexpectedly")
         return 500, {"status": "ERROR", "error": "Internal error", "details": []}

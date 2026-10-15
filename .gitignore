@@ -21,3 +21,8 @@ fpl/engine/_vision_ocr
 fpl/test_images/
 # But track the GV response fixtures (small JSON, no secrets)
 !fpl/test_images/fixtures/
+.vercel
+.env*
+
+# Locked design handshake prototype (local only)
+fpl/prototypes/

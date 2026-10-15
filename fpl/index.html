@@ -615,6 +615,23 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .ex-method-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:2px}
 .ex-method-sub{font-size:11px;color:var(--gray2);font-weight:600}
 .ex-cta-wrap{padding:20px 22px 0}
+.ft-wrap{margin-top:28px}
+.ft-eyebrow{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--gray2);margin-bottom:10px}
+.ft-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.ft-tile{display:flex;flex-direction:column;gap:5px;padding:14px;min-width:0;background:var(--d2);
+  border:1px solid var(--border);border-radius:var(--r-sm);color:var(--white);transition:border-color .15s}
+.ft-tile:hover{border-color:var(--border2)}
+.ft-tile-no{font-size:11px;font-weight:900;color:var(--lime)}
+.ft-tile-t{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.ft-tile-d{font-size:12px;font-weight:600;color:var(--gray);line-height:1.4}
+.ft-tile.ft-plan{border-color:var(--lime-b);background:var(--lime-t)}
+.ft-new{margin-left:6px;font-size:9px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#000;background:var(--lime);border-radius:4px;padding:2px 5px;vertical-align:middle}
+.ex-plan{margin:16px 22px 0;padding:16px;border:1px solid var(--lime-b);background:var(--lime-t);border-radius:var(--r-sm)}
+.ex-plan-eg{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--lime)}
+.ex-plan-q{font-size:17px;font-weight:800;margin:6px 0 10px;line-height:1.3}
+.ex-plan-move{font-size:20px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+.ex-plan-gain{font-size:13px;font-weight:700;color:var(--lime);margin-bottom:8px}
+.ex-plan-note{font-size:12px;font-weight:600;color:var(--white);opacity:.7;line-height:1.45}
 
 /* ── SCROLL HINT ── */
 .scroll-hint{position:fixed;bottom:20px;left:0;right:0;display:flex;flex-direction:column;
@@ -654,6 +671,27 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   font-size:15px;font-weight:800;color:var(--white);
   transition:background .15s,border-color .15s}
 .a2hs-result-btn:hover{background:rgba(204,255,0,.12);border-color:rgba(204,255,0,.55)}
+/* ── results: four blocks, projection view, planner entry (Chunk 8) ── */
+.rblk{margin-top:6px}
+.rb-hd{display:flex;align-items:center;gap:10px;padding:18px 16px 0}
+.rb-no{width:24px;height:24px;border-radius:7px;background:var(--d3);display:grid;place-items:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--gray)}
+.rb-t{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.rb-new{font-size:9.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;background:var(--lime);color:#000;padding:2px 7px;border-radius:5px}
+.rb-plan .rb-no{background:var(--lime);color:#000;font-weight:800}
+.rb-top3{display:flex;gap:10px;justify-content:center;padding:4px 16px 0}
+.rb-pl{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:64px}
+.rb-ph{width:38px;height:48px;object-fit:cover;object-position:top center;border-radius:8px;background:var(--d3)}
+.rb-pn{font-size:11.5px;font-weight:700;max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rb-px{font-family:'DM Mono',monospace;font-size:12px;color:var(--lime)}
+.rb-cta{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 32px);margin:14px 16px 0;padding:13px;background:var(--lime-t);border:1.5px solid var(--lime-b);border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:var(--lime)}
+.rb-cta:hover{background:rgba(204,255,0,.16)}
+.pl-card{margin:12px 16px 0;padding:16px;border:1.5px solid var(--lime-b);border-radius:var(--r-lg);background:linear-gradient(150deg,var(--lime-t),rgba(10,10,12,0) 75%),var(--d2)}
+.pl-h{font-size:20px;font-weight:900;letter-spacing:-.02em;line-height:1.15}
+.pl-p{font-size:13.5px;color:var(--gray);margin:6px 0 14px}
+.pl-warn{font-size:12.5px;color:var(--amber);background:var(--amber-t);border:1px solid rgba(255,181,71,.3);border-radius:var(--r-sm);padding:10px 12px}
+.proj-back{display:inline-flex;align-items:center;gap:6px;margin:16px 16px 0;padding:6px 0;background:transparent;border:0;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--gray)}
+.proj-back:hover{color:var(--white)}
+.proj-sub{font-size:13px;color:var(--gray);margin:-2px 0 4px}
 </style>
 </head>
 <body>
@@ -675,7 +713,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
   <div class="live-pill">
     <span class="live-dot"></span>
-    <span class="live-text">FPL &nbsp;·&nbsp; Free &nbsp;·&nbsp; Gameweek 6</span>
+    <span class="live-text">FPL &nbsp;·&nbsp; Free</span>
   </div>
 
   <h1 class="up-h1">How's your squad<br><em>looking this GW?</em></h1>
@@ -713,6 +751,16 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
     </details>
   </div>
 
+  <div class="ft-wrap" id="features">
+    <p class="ft-eyebrow">What you get</p>
+    <div class="ft-grid">
+      <a class="ft-tile" href="#ex-hero"><span class="ft-tile-no">1</span><span class="ft-tile-t">Projection</span><span class="ft-tile-d">Projected points for your XI this gameweek, player by player.</span></a>
+      <a class="ft-tile ft-plan" href="#ex-plan"><span class="ft-tile-no">2</span><span class="ft-tile-t">Free Transfer Planner<span class="ft-new">New</span></span><span class="ft-tile-d">Should you use your free transfer? Pick a game plan and see ranked ideas for the next gameweek, with any points hit counted. It opens from your results after you check your team.</span></a>
+      <a class="ft-tile" href="#ex-bench"><span class="ft-tile-no">3</span><span class="ft-tile-t">Bench advice</span><span class="ft-tile-d">The best legal swap between your XI and your bench.</span></a>
+      <a class="ft-tile" href="#ex-captain"><span class="ft-tile-no">4</span><span class="ft-tile-t">Captain's call</span><span class="ft-tile-d">Who to give the armband, compared with your current pick.</span></a>
+    </div>
+  </div>
+
 </div>
 
 <!-- ══════════════════════ EXAMPLE RESULT ══════════════════════ -->
@@ -722,7 +770,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
     <span class="ex-eyebrow">Example Result</span>
   </div>
 
-  <div class="ex-hero">
+  <div class="ex-hero" id="ex-hero">
     <div>
       <div class="ex-pts-num">80</div>
       <div class="ex-pts-label">pts projected for your current XI</div>
@@ -734,7 +782,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   <p class="ex-upside">Your squad looks good. There's ~9 pts of upside.</p>
 
   <div class="ex-calls">
-    <div class="ex-call">
+    <div class="ex-call" id="ex-captain">
       <img class="ex-call-photo"
            src="/fpl/test_images/player-haaland.png"
            alt="Haaland">
@@ -747,7 +795,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
         <p class="ex-call-note">Switch the armband vs your current captain.</p>
       </div>
     </div>
-    <div class="ex-call">
+    <div class="ex-call" id="ex-bench">
       <img class="ex-call-photo"
            src="/fpl/test_images/player-rogers.png"
            alt="Rogers">
@@ -760,6 +808,14 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
         <p class="ex-call-note">Start him over your current bench option.</p>
       </div>
     </div>
+  </div>
+
+  <div class="ex-plan" id="ex-plan">
+    <div class="ex-plan-eg">Example only · made-up numbers · not real planner output</div>
+    <div class="ex-plan-q">Should you use your free transfer?</div>
+    <div class="ex-plan-move">Swap Defender A for Defender B</div>
+    <div class="ex-plan-gain">+1.2 pts next gameweek (example number) · uses your free transfer, no hit</div>
+    <p class="ex-plan-note">Illustration with example numbers, not your squad. The planner ranks ideas by points gained next gameweek after any hit, and shows a separate, provisional three-gameweek outlook. Your results page opens the planner once your team has been checked.</p>
   </div>
 
   <a href="/fpl/model.html" class="ex-method">
@@ -842,12 +898,30 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 <!-- ══════════════════════ RESULT FEED ══════════════════════ -->
 <section id="s-result" class="screen">
 
-  <div id="r-hero"></div>
-  <div class="div"></div>
-  <div id="r-players" class="pos-wrap"></div>
-  <div id="r-awesome"></div>
-  <div id="r-captain"></div>
-  <div id="r-attention" style="padding:0 16px"></div>
+  <!-- 1 · PROJECTION (player-by-player detail lives on its own view, #s-proj) -->
+  <div class="rblk" id="blk-proj">
+    <div class="rb-hd"><span class="rb-no">1</span><span class="rb-t">Projection</span></div>
+    <div id="r-hero"></div>
+  </div>
+
+  <!-- 2 · TRANSFER PLANNER (hands the squad to /fpl/planner.html) -->
+  <div class="rblk rb-plan" id="blk-plan">
+    <div class="rb-hd"><span class="rb-no">2</span><span class="rb-t">Transfer Planner</span><span class="rb-new">New</span></div>
+    <div id="r-planner"></div>
+  </div>
+
+  <!-- 3 · BENCH ADVICE -->
+  <div class="rblk" id="blk-bench">
+    <div class="rb-hd"><span class="rb-no">3</span><span class="rb-t">Bench advice</span></div>
+    <div id="r-attention" style="padding:0 16px"></div>
+  </div>
+
+  <!-- 4 · CAPTAIN'S CALL -->
+  <div class="rblk" id="blk-capt">
+    <div class="rb-hd"><span class="rb-no">4</span><span class="rb-t">Captain's call</span></div>
+    <div id="r-captain"></div>
+  </div>
+
   <div id="r-finalcall" style="padding:24px 16px 0"></div>
 
   <!-- HOW IT WORKS LINK -->
@@ -914,6 +988,18 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   <p class="footer">Forecasts use current-season FPL data. <a href="/fpl/model.html" style="color:var(--gray2);text-decoration:underline;text-underline-offset:3px">How it works →</a></p>
 
 </section><!-- /s-result -->
+
+<!-- ══════════════════════ PROJECTION (player by player) ══════════════════════ -->
+<section id="s-proj" class="screen">
+  <button class="proj-back" onclick="backToResults()" aria-label="Back to your results">← Results</button>
+  <div class="sec" style="padding-bottom:0">
+    <p class="sec-hdr">Who's carrying your week</p>
+    <p class="proj-sub">Every starter's projected points for this gameweek. Your captain counts twice.</p>
+  </div>
+  <div id="r-players" class="pos-wrap"></div>
+  <div id="r-awesome"></div>
+  <div class="act-wrap"><button class="again-btn" onclick="backToResults()">← Back to my results</button></div>
+</section><!-- /s-proj -->
 
 <script>
 'use strict';
@@ -1146,7 +1232,7 @@ $('file-input').addEventListener('change', async function(){
 function renderResult(p) {
   _fcTracked = false;
   // Wrap each section individually so a crash names the exact function
-  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderFinalCall];
+  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderPlanner, renderFinalCall];
   for (const fn of steps) {
     try { fn(p); }
     catch(e) {
@@ -1168,6 +1254,12 @@ function renderHero(p) {
   const base   = p.submitted_xi?.xPts ?? 0;
   const xPts   = (base + (captP?.xPts ?? 0)).toFixed(1);   // +1× for captain (already counted once)
 
+  const top3 = [...starts].sort((a,b)=>b.xPts-a.xPts).slice(0,3);
+  const strip = top3.length ? `<div class="rb-top3">${top3.map(q=>{
+    const code = q.player_api?.photo_code;
+    return `<div class="rb-pl">${code?`<img class="rb-ph" src="${_photoUrl(code)}" loading="lazy" alt="" onerror="_photoErr(this)">`:''}<span class="rb-pn">${esc(q.web_name)}</span><span class="rb-px">${Number(q.xPts).toFixed(1)}</span></div>`;
+  }).join('')}</div>` : '';
+
   $('r-hero').innerHTML = `
 <div class="hero">
   <div class="hero-pill"><span class="hero-pill-dot"></span>
@@ -1177,7 +1269,50 @@ function renderHero(p) {
   <div class="hero-pts">${esc(xPts)}</div>
   <p class="hero-pts-unit">pts this GW</p>
   <p class="hero-interp">Here's how the points roll up.</p>
+</div>${strip}<button class="rb-cta" onclick="openProjection()">See who's carrying your week <span aria-hidden="true">→</span></button>`;
+}
+
+/* ── PROJECTION VIEW ─────────────────────────────────────────────────────── */
+const openProjection  = () => show('s-proj');
+const backToResults   = () => show('s-result');
+
+/* ── TRANSFER PLANNER ENTRY ──────────────────────────────────────────────── */
+/* HANDOVER:BEGIN  (writes the squad for fpl/planner.html; the schema is documented at the top of that file) */
+const PLANNER_HANDOFF_KEY = 'squadcheck.planner.handoff.v1';
+const _PLANNER_COMPOSITION = {1:2, 2:5, 3:5, 4:3};
+function plannerHandoff(p){
+  const players = Array.isArray(p?.players) ? p.players : [];
+  const ids = players.map(q => q && q.player_id);
+  const counts = {1:0, 2:0, 3:0, 4:0};
+  players.forEach(q => { if(q && counts[q.position] !== undefined) counts[q.position]++; });
+  const legal = ids.length===15 && ids.every(x => Number.isInteger(x) && x>0) && new Set(ids).size===15
+    && [1,2,3,4].every(k => counts[k]===_PLANNER_COMPOSITION[k]);
+  if(!legal) return {ok:false, message:"We couldn't read all 15 players from your team, so the planner can't start. Check your team again."};
+  const gw = p.gameweek;
+  if(!(gw===null || gw===undefined || (Number.isInteger(gw) && gw>0 && gw<60)))
+    return {ok:false, message:"We couldn't tell which gameweek this is, so the planner can't start. Check your team again."};
+  return {ok:true, data:{v:1, squad_ids:ids.slice(), gameweek:(gw===undefined?null:gw), created:Date.now()}};
+}
+/* HANDOVER:END */
+
+function renderPlanner(p){
+  const h = plannerHandoff(p);
+  $('r-planner').innerHTML = `<div class="pl-card">
+  <p class="pl-h">Should you use your free transfer?</p>
+  <p class="pl-p">See ranked plans with the reasoning, test them, then back your call.</p>
+  ${h.ok
+    ? `<button class="share-btn" style="margin-bottom:0" onclick="openPlanner()">Plan my move <span aria-hidden="true">→</span></button>`
+    : `<p class="pl-warn" role="alert">${esc(h.message)}</p>`}
+  <p class="pl-warn" id="pl-note" role="alert" style="display:none;margin-top:10px"></p>
 </div>`;
+}
+function openPlanner(){
+  const note = msg => { const el=$('pl-note'); if(el){ el.textContent=msg; el.style.display='block'; } };
+  const h = plannerHandoff(_P);
+  if(!h.ok){ note(h.message); return; }
+  try{ sessionStorage.setItem(PLANNER_HANDOFF_KEY, JSON.stringify(h.data)); }
+  catch(_){ note("Your browser is blocking storage, so we can't open the planner from here."); return; }
+  location.href = '/fpl/planner.html';
 }
 
 /* ── PLAYERS ─────────────────────────────────────────────────────────────── */
@@ -2040,17 +2175,19 @@ function observePosRows(){
 let _a2hs=null;
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault(); _a2hs=e;
-  $('a2hs-wrap').style.display='block';
+  _a2hsShow('a2hs-wrap','block');
 });
-function showA2hs(){if(_a2hs){$('a2hs-result').style.display='block';}}
+// a2hs containers may be absent from the page: never throw, just skip.
+function _a2hsShow(id,d){const el=$(id);if(el)el.style.display=d;}
+function showA2hs(){if(_a2hs){_a2hsShow('a2hs-result','block');}}
 async function addToHome(){
   if(!_a2hs) return;
   _a2hs.prompt();
   const {outcome}=await _a2hs.userChoice;
   track('add_to_home_screen',{outcome});
   _a2hs=null;
-  $('a2hs-wrap').style.display='none';
-  $('a2hs-result').style.display='none';
+  _a2hsShow('a2hs-wrap','none');
+  _a2hsShow('a2hs-result','none');
 }
 
 // Fire after all handlers are registered so super properties are in place

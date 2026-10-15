@@ -1,0 +1,1310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- Stays noindex at launch: with no squad handover this page is only a "start from your team check" stub, so it has nothing to index. -->
+<meta name="robots" content="noindex,nofollow">
+<title>Transfer Planner · SquadCheck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  TRANSFER PLANNER (work in progress, built in chunks). This file holds the page shell, the squad handover,
+  the Game plan screen, player search, the constraints and the Explore screen. Compare, Your call and Review
+  come later.
+
+  SQUAD HANDOVER CONTRACT (writer is added to the results page in a later chunk; nothing writes it yet)
+    sessionStorage["squadcheck.planner.handoff.v1"] = JSON.stringify({
+      v: 1,
+      squad_ids: [15 unique FPL element ids],   // the scan result's players[].player_id, starters and bench
+      gameweek: 7 | null,                       // the scan result's gameweek
+      created: Date.now()                       // handovers older than 12 hours are ignored
+    })
+  Without a valid handover the page shows "start from your team check" and links back to the app.
+
+  GATE: Inspect on any plan except Hold asks the user to share on WhatsApp. We cannot see whether a message was sent,
+  so the page says so and continues on the user's word ("I've shared it"). Unlock lasts for the browser session.
+  YOUR CALL: "Back this plan" records the choice for this visit only (in memory, never in storage or on a server).
+  Sign-in is a non-persisting stub: nothing is saved, sent or retrievable later, and the page says so.
+  EDITED PLAN: "Use this version" sets the working plan. Explore shows it apart from the original ranking, never inside it.
+  TWEAKS: each of the four what-ifs is a real POST /api/transfer-plan built from the request behind the plan on screen.
+  DATA: GET /api/players (player directory) and POST /api/transfer-plan (the plans shown on Explore).
+  Every number on Explore is planner output. Three measures are kept apart and labelled:
+    gain before hits   projected_gain_before_hits   (before any points hit)
+    net gain           projected_gain_vs_hold       (after hit costs; plans are ranked by this)
+    outlook            outlook.vs_hold              (GW+1..GW+3 best-XI difference vs hold, before hits, provisional)
+  The default gain covers the next gameweek only (inputs.weights), never three gameweeks.
+
+  STRATEGY LABEL -> API (see STRATEGIES in the core below)
+    "I have a player in mind"  moves[]                    (no strategy value)
+    "Worth a hit?"             strategy "everything" + max_hits >= 1   (ranked by net gain after hit costs)
+    "Keep it sensible"         strategy "sensible"        (no points hits)
+    "Show me everything"       strategy "everything"      (the default behaviour)
+  There is no upside or ceiling metric in the planner, so nothing here claims one.
+-->
+<style>
+:root{
+  --lime:#CCFF00; --lime-t:rgba(204,255,0,.09); --lime-b:rgba(204,255,0,.28);
+  --dark:#0A0A0C; --d2:#111114; --d3:#1A1A1F; --d4:#252530;
+  --white:#F0F0F2; --gray:#8A8A96; --gray2:#5C5C68;
+  --coral:#FF6B4A; --coral-t:rgba(255,107,74,.12);
+  --amber:#FFB547; --amber-t:rgba(255,181,71,.12);
+  --border:rgba(240,240,242,.07); --border2:rgba(240,240,242,.14);
+  --r:14px; --r-sm:10px; --r-lg:20px;
+  --font:'Outfit',system-ui,sans-serif; --mono:'DM Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--dark);color:var(--white);font-family:var(--font);-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh}
+button,input{font-family:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-in{max-width:460px;margin-inline:auto;padding:12px 18px 0;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand{font-size:18px;font-weight:900;letter-spacing:-.03em}.brand span{color:var(--lime)}
+.chips{display:flex;gap:6px;align-items:center}
+.gw{font-size:12px;font-weight:800;color:var(--lime);border:1px solid var(--lime-b);background:var(--lime-t);padding:4px 11px;border-radius:99px}
+.stepper{max-width:460px;margin-inline:auto;padding:14px 12px 12px;display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+.stepper::before{content:"";position:absolute;left:10%;right:10%;top:23px;height:1px;background:var(--d4)}
+.stp{background:transparent;border:0;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;font-size:10.5px;font-weight:600;color:var(--gray2);padding:0;cursor:default}
+.stp i{width:19px;height:19px;border-radius:50%;background:var(--d3);border:1.5px solid var(--d4);display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:800}
+.stp.done{cursor:pointer}.stp.done i{background:var(--lime-t);border-color:var(--lime-b);color:var(--lime)}.stp.done{color:var(--gray)}
+.stp.on{color:var(--lime)}.stp.on i{background:var(--lime);border-color:var(--lime);color:#000;box-shadow:0 0 14px rgba(204,255,0,.4)}
+
+main{max-width:460px;margin-inline:auto;padding:22px 18px calc(48px + env(safe-area-inset-bottom,0px))}
+h1.h{font-size:32px;font-weight:900;letter-spacing:-.035em;line-height:1.05;text-wrap:balance}
+.sub{color:var(--gray);font-size:14px;margin-top:8px}
+.sec{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin:26px 2px 10px}
+.fine{font-size:11.5px;color:var(--gray2);line-height:1.5}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:16px;background:var(--lime);border:0;border-radius:var(--r-sm);font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:#000;box-shadow:0 4px 20px rgba(204,255,0,.2);transition:background .14s}
+.btn:hover{background:#d4ff1a}
+.btn:disabled{opacity:.35;pointer-events:none;box-shadow:none}
+.btn2{display:flex;align-items:center;justify-content:center;width:100%;padding:14px;background:transparent;border:1.5px solid var(--border2);border-radius:var(--r-sm);font-size:14px;font-weight:800}
+.btn2:hover{border-color:var(--lime-b);background:var(--lime-t)}
+.help{font-size:12.5px;color:var(--gray);text-align:center;margin-top:10px}
+.stack{display:flex;flex-direction:column;gap:9px;margin-top:20px}
+.card{background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.note{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:10px 12px;border-radius:var(--r-sm);background:var(--amber-t);border:1px solid rgba(255,181,71,.3);color:var(--amber);font-size:12.5px}
+.note.bad{background:var(--coral-t);border-color:rgba(255,107,74,.3);color:var(--coral)}
+
+/* player photo: same CDN and fallback as the results page */
+.phw{position:relative;display:inline-grid;place-items:center;width:var(--pw,36px);height:var(--pht,46px);border-radius:8px;background:var(--d3);border:1px solid var(--border);overflow:hidden;flex:none;font-size:10px;font-weight:800;color:var(--gray)}
+.phw::before{content:attr(data-ini)}
+.phw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.phw.sm{--pw:30px;--pht:38px}.phw.xs{--pw:26px;--pht:33px}
+
+details.squad{margin-top:16px;background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px}
+details.squad summary{font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 4px;scrollbar-width:thin}
+.strip .p{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:54px;font-size:10.5px;color:var(--gray)}
+.strip .p b{color:var(--white);font-weight:600;max-width:58px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.strats{display:flex;flex-direction:column;gap:9px;margin-top:20px}
+.strat{border:1.5px solid var(--border);background:var(--d2);border-radius:var(--r);transition:border-color .15s,background .15s}
+.strat:hover{border-color:var(--border2)}
+.strat.on{border-color:var(--lime);background:var(--lime-t);box-shadow:0 0 28px rgba(204,255,0,.1)}
+.sh{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:transparent;border:0;padding:14px}
+.ico{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--d3);color:var(--lime)}
+.strat.on .ico{background:var(--lime-t)}
+.sh .nm{font-weight:800;font-size:16px;display:block}.sh .ds{font-size:12.5px;color:var(--gray);line-height:1.35}
+.grow{flex:1;min-width:0}
+.chev{flex:none;color:var(--gray2);transition:transform .2s}.strat.on.open .chev{transform:rotate(90deg);color:var(--lime)}
+.sbody{padding:0 14px 14px}
+.mrow{background:var(--d2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;margin-top:8px}
+.mrow .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.mrow .hd .l{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
+.mrow .hd button{background:transparent;border:0;color:var(--gray);font-size:12px;font-weight:700}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:400px){.mgrid{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld>span{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.fld.s>span{color:var(--coral)}.fld.b>span{color:var(--lime)}
+.combo{position:relative}
+.cin{width:100%;background:var(--d3);border:1px solid var(--border2);border-radius:10px;padding:10px 11px;font-size:14px}
+.cin::placeholder{color:var(--gray2)}
+.clist{display:none;position:absolute;z-index:30;left:0;right:0;top:calc(100% + 4px);background:var(--d3);border:1px solid var(--border2);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.6);max-height:260px;overflow-y:auto;min-width:230px}
+.combo.open .clist{display:block}
+.copt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--border);padding:8px 10px}
+.copt:last-child{border-bottom:0}
+.copt.hi,.copt:hover{background:var(--d4)}
+.copt .nm{font-weight:700;font-size:14px;display:block}.copt .mt{font-size:11.5px;color:var(--gray)}
+.cnone{padding:12px;font-size:12.5px;color:var(--gray)}
+.chosen{display:flex;align-items:center;gap:9px;background:var(--d3);border:1px solid var(--lime-b);border-radius:10px;padding:6px 8px}
+.chosen .nm{font-weight:700;font-size:13.5px;display:block;line-height:1.2}.chosen .mt{font-size:11px;color:var(--gray)}
+.chosen button{margin-left:auto;background:transparent;border:0;color:var(--gray);font-size:18px;line-height:1;padding:4px 6px}
+.addmv{width:100%;margin-top:8px;background:transparent;border:1px dashed var(--border2);border-radius:var(--r-sm);padding:10px;font-size:13px;font-weight:700;color:var(--gray)}
+.addmv:hover{color:var(--white);border-color:var(--lime-b)}
+
+.ctl{margin-top:6px;background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:4px 14px}
+.cr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.cr:last-child{border-bottom:0}
+.cr .q{font-weight:700;font-size:14.5px}.cr .h{font-size:11.5px;color:var(--gray)}
+.step{display:flex;align-items:center;gap:4px}
+.step button{width:38px;height:38px;border-radius:10px;border:1px solid var(--border2);background:var(--d3);font-size:19px;font-weight:700}
+.step button:disabled{opacity:.3;cursor:not-allowed}
+.step output{min-width:32px;text-align:center;font-family:var(--mono);font-size:19px}
+.money{display:flex;align-items:center;gap:6px;background:var(--d3);border:1px solid var(--border2);border-radius:10px;padding:0 10px;height:38px;color:var(--gray);font-family:var(--mono)}
+.money input{width:56px;background:transparent;border:0;font-family:var(--mono);font-size:17px;text-align:right}
+.money.bad{border-color:var(--coral)}
+.seg3{display:flex;background:var(--d3);border:1px solid var(--border2);border-radius:10px;padding:3px;gap:2px}
+.seg3 button{border:0;background:transparent;border-radius:8px;padding:7px 9px;font-size:12.5px;font-weight:700;color:var(--gray);font-family:var(--mono)}
+.seg3 button.on{background:var(--lime);color:#000}
+.seg3 button:disabled{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+
+.loading{display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:70px;text-align:center}
+.ring{width:56px;height:56px;border-radius:50%;border:3px solid var(--d4);border-top-color:var(--lime);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.ring{animation:none}*{transition:none!important}}
+pre.req{background:var(--d2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px;font-family:var(--mono);font-size:11.5px;color:var(--gray);overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin-top:10px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--lime);background:var(--lime-t);border:1px solid var(--lime-b);padding:4px 10px;border-radius:99px}
+.sr{position:absolute;left:-9999px}
+.lbl{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gray2)}
+.hero2{text-align:center;padding:6px 0 2px}
+.hero2 .pill2{display:inline-block;font-size:12px;font-weight:700;color:var(--gray);border:1px solid var(--border2);padding:5px 16px;border-radius:99px;background:var(--d2)}
+.hero2 h1{font-size:42px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-top:14px;text-wrap:balance}
+.hero2 h1 span{color:var(--lime)}
+.recnote{margin-top:12px;padding:10px 12px;border-radius:var(--r-sm);background:var(--d3);font-size:12.5px;color:var(--gray);text-align:center}
+textarea{width:100%;min-height:92px;resize:vertical;background:var(--d3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px;color:var(--white);font-family:var(--font);font-size:14px;line-height:1.45;margin-top:8px}
+.projnote{display:flex;gap:10px;margin-top:14px;padding:11px 12px;border-radius:var(--r-sm);background:var(--d3);font-size:12.5px;color:var(--gray)}
+.projnote b{color:var(--white)}
+.gain{margin-top:18px;border:1.5px solid var(--lime-b);background:linear-gradient(150deg,var(--lime-t),rgba(10,10,12,0) 80%),var(--d2);border-radius:var(--r-lg);padding:16px}
+.gh{font-size:20px;font-weight:900;letter-spacing:-.025em;line-height:1.15;text-wrap:balance}
+.gb{display:flex;gap:12px;align-items:flex-start;margin-top:12px}
+.gi{flex:none;width:30px;height:30px;border-radius:10px;background:var(--lime-t);border:1px solid var(--lime-b);color:var(--lime);display:grid;place-items:center;font-size:13px}
+.gb b{font-size:14.5px;display:block;line-height:1.25}.gb p{font-size:12.5px;color:var(--gray);margin-top:2px}
+.signnote{margin-top:12px;padding:10px 12px;border-radius:var(--r-sm);background:var(--amber-t);border:1px solid rgba(255,181,71,.3);color:var(--amber);font-size:12.5px}
+.scard{border-radius:var(--r);padding:16px;background:linear-gradient(150deg,#16181a,#0d0e10);border:1px solid var(--lime-b);margin-top:12px}
+.scard .tt{font-size:24px;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-top:8px;color:var(--lime)}
+.scrimx{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:80}
+.sheetx{position:fixed;left:0;right:0;bottom:0;z-index:90;max-width:460px;margin-inline:auto;background:var(--d3);border-radius:22px 22px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--border2);max-height:90vh;overflow-y:auto}
+.sheetx h4{font-size:17px;font-weight:800;margin-bottom:10px}
+.gmark{width:22px;height:22px;border-radius:50%;background:#fff;color:#4285F4;display:grid;place-items:center;font-size:14px;font-weight:900;text-transform:none}
+.orsep{display:flex;align-items:center;gap:10px;margin:14px 0 10px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2)}
+.orsep::before,.orsep::after{content:"";flex:1;height:1px;background:var(--border2)}
+.optin{display:flex;align-items:center;gap:10px;font-size:13px;margin:0 0 12px;cursor:pointer}
+.optin input{accent-color:var(--lime);width:18px;height:18px;flex:none}
+.cin{width:100%;background:var(--d3);border:1px solid var(--border2);border-radius:10px;padding:10px 11px;font-size:14px}
+.devband{margin:-6px 0 16px;padding:8px 12px;border-radius:var(--r-sm);background:var(--amber-t);border:1px dashed rgba(255,181,71,.55);color:var(--amber);font-size:12px;font-weight:800;letter-spacing:.04em;text-align:center}
+.gw.dev{color:var(--amber);border-color:rgba(255,181,71,.5);background:var(--amber-t)}
+.cr .h.warnc{color:var(--amber)}
+.verdict{margin-top:16px;padding:14px;border-radius:var(--r);background:var(--d2);border:1px solid var(--border2)}
+.verdict b{font-size:17px;display:block;margin-top:2px}
+.verdict p{font-size:13px;color:var(--gray);margin-top:4px}
+.plans{display:flex;flex-direction:column;gap:11px;margin-top:16px}
+.plan{--c:#C9CBD6;--ct:rgba(255,255,255,.04);position:relative;width:100%;text-align:left;background:linear-gradient(150deg,var(--ct),rgba(10,10,12,0) 70%),var(--d2);border:1.5px solid color-mix(in srgb,var(--c) 40%,transparent);border-radius:var(--r-lg);padding:14px;transition:border-color .15s;cursor:pointer}
+.plan:hover{border-color:color-mix(in srgb,var(--c) 70%,transparent)}
+.plan.sel-on{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 30px color-mix(in srgb,var(--c) 22%,transparent)}
+.plan.lime{--c:var(--lime);--ct:var(--lime-t)}
+.plan.gray{--c:#9AA3B2;--ct:rgba(154,163,178,.09)}
+.plan.nosel{cursor:default;opacity:.85}
+.ph{display:flex;align-items:center;gap:11px}
+.pico{flex:none;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);font-weight:900;font-size:18px}
+.pn{font-weight:800;font-size:17px;line-height:1.15}.pt{font-size:12.5px;color:var(--gray)}
+.cost{margin-left:auto;flex:none;font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:7px;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);color:var(--c);background:color-mix(in srgb,var(--c) 10%,transparent);white-space:nowrap}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.tag{font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;border:1px solid var(--border2);color:var(--gray)}
+.tag.rec{color:#000;background:var(--lime);border-color:var(--lime)}
+.tag.warn{color:var(--amber);background:var(--amber-t);border-color:rgba(255,181,71,.35)}
+.tag.bad{color:var(--coral);background:var(--coral-t);border-color:rgba(255,107,74,.35)}
+.mv{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.mvr{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:8px;align-items:center}
+.pp{display:flex;align-items:center;gap:8px;min-width:0}
+.pp .t{min-width:0}
+.pp .pnm{font-weight:700;font-size:13.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2}
+.pp .mt{font-size:11px;color:var(--gray);display:block;overflow-wrap:anywhere}
+.ar{color:var(--gray2)}
+.why{font-size:12.5px;color:var(--gray);margin-top:10px;line-height:1.5}
+.why b{color:var(--white);font-weight:700}
+.nums{display:flex;gap:16px;align-items:flex-end;margin-top:12px;flex-wrap:wrap}
+.nums .n{display:flex;flex-direction:column}
+.nums .k{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gray2)}
+.nums b{font-family:var(--mono);font-weight:500;font-size:16px}
+.nums .main b{font-size:26px}
+.pos{color:var(--lime)}.neg{color:var(--coral)}
+.fine.mono{font-family:var(--mono);font-size:11px}
+.bannerx{margin-top:12px;padding:10px 12px;border-radius:var(--r-sm);background:var(--amber-t);border:1px solid rgba(255,181,71,.3);color:var(--amber);font-size:12.5px}
+.bannerx ul{margin:6px 0 0 18px}
+.steps3{margin:12px 0 0 20px;font-size:13.5px;color:var(--gray)}.steps3 li{margin-top:6px}.steps3 b{color:var(--white)}
+.bubble{background:var(--d3);border:1px solid var(--border2);border-radius:14px 14px 14px 4px;padding:12px 14px;font-size:13.5px;line-height:1.45}
+.lockcard{position:relative;margin-top:16px;border-radius:var(--r-lg);background:var(--d2);border:1.5px solid var(--border2);padding:14px;overflow:hidden}
+.blurme{filter:blur(6px);user-select:none;pointer-events:none}
+.lockbadge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,10,12,.45);font-weight:800;font-size:14px}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:#25D366;border:0;border-radius:var(--r-sm);font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:#04200f}
+.btn-wa:hover{filter:brightness(1.06)}
+.mcard{margin-top:10px;background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:12px}
+.mcard .ml{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px}
+.mc2{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);gap:8px;align-items:start}
+.mid{color:var(--gray2);padding-top:34px;text-align:center}
+.side{display:flex;flex-direction:column;gap:4px;min-width:0}
+.side .k{font-size:10px;font-weight:900;letter-spacing:.1em}.side.o .k{color:var(--coral)}.side.i .k{color:var(--lime)}
+.side .pnm{font-weight:800;font-size:15px;line-height:1.2;overflow-wrap:anywhere}
+.side .mt{font-size:11.5px;color:var(--gray);overflow-wrap:anywhere}
+.numgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.nb{background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.nb.main{grid-column:1/-1;border-color:var(--lime-b)}.nb.wide{grid-column:1/-1}
+.nb .k{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gray2)}
+.nb b{font-family:var(--mono);font-weight:500;font-size:20px}.nb.main b{font-size:30px}.nb b.sm{font-size:13px;overflow-wrap:anywhere}
+.nb .s{font-size:11.5px;color:var(--gray)}
+.facs .fac{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--border)}
+.facs .fac:last-of-type{border-bottom:0}
+.fk{flex:none;width:20px;height:20px;border-radius:50%;background:var(--lime-t);border:1px solid var(--lime-b);color:var(--lime);display:grid;place-items:center;font-size:11px;margin-top:2px}
+.fac b{font-size:13.5px;display:block}.fac p{font-size:12.5px;color:var(--gray);overflow-wrap:anywhere}
+.lims{margin:6px 0 0 18px;font-size:12.5px;color:var(--gray)}.lims li{margin-top:4px;overflow-wrap:anywhere}
+.chal{display:flex;flex-direction:column;gap:8px}
+.cbx{background:var(--d2);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden}
+.cbx.open{border-color:var(--lime-b);background:var(--lime-t)}
+.cb{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px;background:transparent;border:0;font-size:14px;font-weight:600}
+.cb:disabled{opacity:.45;cursor:not-allowed}
+.cbx.open .chev{transform:rotate(90deg);color:var(--lime)}
+.cpanel{padding:0 13px 13px}
+.what{font-size:12.5px;color:var(--gray);margin-bottom:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{background:var(--d3);border:1px solid var(--border2);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:700;color:var(--gray)}
+.chip.on{background:var(--lime-t);border-color:var(--lime-b);color:var(--lime)}
+.sim{margin-top:10px;border:1.5px solid var(--lime-b);background:var(--lime-t);border-radius:var(--r);padding:12px;font-size:13px}
+.simtag{display:inline-block;font-size:9.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#000;background:var(--lime);border-radius:5px;padding:2px 7px}
+.sim h4{font-size:15px;margin:8px 0 2px}
+.srow{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;padding:7px 0;border-top:1px solid var(--border);font-size:12.5px;align-items:center}
+.srow.hd{border:0;padding:6px 0 0}
+.srow .l{color:var(--gray)}.srow .a{font-family:var(--mono);color:var(--gray);text-align:right;overflow-wrap:anywhere}.srow .b{font-family:var(--mono);text-align:right;overflow-wrap:anywhere}
+.vline{margin-top:10px}.vline.up{color:var(--lime)}.vline.down{color:var(--coral)}
+.simact{display:flex;gap:8px;margin-top:12px}
+.simact button{flex:1;padding:11px;border-radius:var(--r-sm);font-size:13px;font-weight:800;border:1px solid var(--border2);background:transparent}
+.simact button.p{background:var(--lime);color:#000;border-color:var(--lime)}
+.simact button:disabled{opacity:.35;cursor:not-allowed}
+.ringsm{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid var(--d4);border-top-color:var(--lime);animation:spin 1s linear infinite;vertical-align:-2px;margin-right:6px}
+.lnkb{background:transparent;border:0;color:var(--gray);font-size:12.5px;font-weight:700;text-decoration:underline;text-underline-offset:3px;padding:2px 0}
+.lnkb:hover{color:var(--lime)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in"><a class="brand" href="./" aria-label="SquadCheck home">Squad<span>Check</span></a><div class="chips" id="chips"></div></div>
+  <nav class="stepper" id="stepper" aria-label="Planner steps"></nav>
+</header>
+<main id="main" aria-live="polite"></main>
+<noscript><main><h1 class="h">Transfer Planner</h1><p class="sub">This page needs JavaScript.</p></main></noscript>
+
+<script>
+/* CORE:BEGIN  (pure logic, no DOM: unit-tested by fpl/engine/tests/test_planner_page.py) */
+const PlannerCore = (function () {
+  const POS = {1: 'GKP', 2: 'DEF', 3: 'MID', 4: 'FWD'};
+  const COMPOSITION = {1: 2, 2: 5, 3: 5, 4: 3};
+  const MAX_MOVES = 3;                 // free transfers + hits, a UI cap (the planner itself is not capped)
+  const HANDOFF_KEY = 'squadcheck.planner.handoff.v1';
+  const STATE_KEY = 'squadcheck.planner.state.v1';
+  const HANDOFF_MAX_AGE_MS = 12 * 3600 * 1000;
+  // UI label -> API. "hit" is "Worth a hit?": hits allowed, ranked by net gain after hit costs.
+  const STRATEGIES = {
+    mind:     {api: null,         label: 'I have a player in mind'},
+    hit:      {api: 'everything', label: 'Worth a hit?'},
+    sensible: {api: 'sensible',   label: 'Keep it sensible'},
+    all:      {api: 'everything', label: 'Show me everything'}
+  };
+
+  // The sample-squad shortcut is for local development only: ?dev=1 does nothing on any real host.
+  const devMode = (search, hostname) => new URLSearchParams(search).get('dev') === '1' && (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]');
+  const isInt = v => typeof v === 'number' && Number.isInteger(v);
+  const norm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  function parseHandoff(raw, now) {
+    let o = raw;
+    if (typeof raw === 'string') { try { o = JSON.parse(raw); } catch (e) { return {ok: false, reason: 'unreadable'}; } }
+    if (!o || typeof o !== 'object' || o.v !== 1) return {ok: false, reason: 'unreadable'};
+    const ids = o.squad_ids;
+    if (!Array.isArray(ids) || ids.length !== 15 || ids.some(x => !isInt(x) || x <= 0) || new Set(ids).size !== 15)
+      return {ok: false, reason: 'squad'};
+    if (o.gameweek !== null && o.gameweek !== undefined && !(isInt(o.gameweek) && o.gameweek > 0 && o.gameweek < 60))
+      return {ok: false, reason: 'unreadable'};
+    if (typeof o.created !== 'number' || !isFinite(o.created) || o.created > now + 60000) return {ok: false, reason: 'unreadable'};
+    if (now - o.created > HANDOFF_MAX_AGE_MS) return {ok: false, reason: 'stale'};
+    return {ok: true, squad_ids: ids.slice(), gameweek: o.gameweek == null ? null : o.gameweek, dev: o.dev === true};
+  }
+
+  /** Validate the /api/players payload; keep only usable entries. */
+  function indexDirectory(payload) {
+    if (!payload || payload.status !== 'OK' || !Array.isArray(payload.players)) return {ok: false};
+    const players = [], byId = {};
+    for (const p of payload.players) {
+      if (!p || !isInt(p.id) || typeof p.name !== 'string' || !p.name.trim() || ![1, 2, 3, 4].includes(p.position)
+          || !isInt(p.team) || !isInt(p.price) || p.price <= 0 || byId[p.id]) continue;
+      const d = {id: p.id, name: p.name.trim(), team: p.team, pos: p.position, price: p.price,
+                 teamShort: typeof p.team_short === 'string' ? p.team_short : null,
+                 teamName: typeof p.team_name === 'string' ? p.team_name : null,
+                 code: isInt(p.photo_code) && p.photo_code > 0 ? p.photo_code : null, key: norm(p.name.trim())};
+      byId[d.id] = d; players.push(d);
+    }
+    return players.length >= 15 ? {ok: true, players, byId, gameweek: isInt(payload.gameweek) ? payload.gameweek : null} : {ok: false};
+  }
+
+  /** The squad must exist in the directory and be a legal FPL squad. Returns a list of problems. */
+  function validateSquad(ids, byId) {
+    const problems = [], counts = {1: 0, 2: 0, 3: 0, 4: 0}, clubs = {};
+    for (const id of ids) {
+      const p = byId[id];
+      if (!p) { problems.push('Player ' + id + ' is not in the FPL player list.'); continue; }
+      counts[p.pos]++; clubs[p.team] = (clubs[p.team] || 0) + 1;
+    }
+    if (problems.length) return problems;
+    for (const pos of [1, 2, 3, 4])
+      if (counts[pos] !== COMPOSITION[pos]) problems.push('Expected ' + COMPOSITION[pos] + ' ' + POS[pos] + 's, found ' + counts[pos] + '.');
+    if (Math.max(...Object.values(clubs)) > 3) problems.push('More than 3 players from one club.');
+    return problems;
+  }
+
+  /** "1.0" / "0.5" -> tenths of £m. Multiples of 0.1 between 0 and 100 only. */
+  function parseBank(text) {
+    const t = String(text == null ? '' : text).trim();
+    if (!t) return {ok: false, blank: true, msg: 'Enter your money in the bank, like 0.5'};
+    if (!/^\d{1,3}(\.\d{1,2})?$/.test(t)) return {ok: false, msg: 'Enter your bank in £m, like 0.5'};
+    const v = parseFloat(t), tenths = Math.round(v * 10);
+    if (v > 100) return {ok: false, msg: 'The bank can be at most £100m'};
+    if (Math.abs(v * 10 - tenths) > 1e-6) return {ok: false, msg: 'Use steps of £0.1m'};
+    return {ok: true, tenths, value: tenths / 10};
+  }
+
+  const capHits = ft => Math.max(0, MAX_MOVES - ft);
+
+  function strategyBlock(s) {
+    if (s.strategy === 'sensible' && s.ft === 0)
+      return {available: false, reason: 'Sensible plans use your free transfers, and you have none.'};
+    if (s.strategy === 'hit' && capHits(s.ft) < 1)
+      return {available: false, reason: 'With ' + s.ft + ' free transfers every move is already free, so there is no hit to weigh.'};
+    return {available: true, reason: null};
+  }
+
+  /** Hits actually allowed. Sensible is always 0; with no free transfer, or on "Worth a hit?", at least 1. */
+  function effHits(s) {
+    if (s.strategy === 'sensible') return 0;
+    let h = s.hits;
+    if (h === null || h === undefined) h = (s.ft === 0 || s.strategy === 'hit') ? 1 : 0;
+    if (s.ft === 0 || s.strategy === 'hit') h = Math.max(h, 1);
+    return Math.min(h, capHits(s.ft));
+  }
+  const maxMoves = s => Math.max(1, Math.min(MAX_MOVES, s.ft + effHits(s)));
+
+  function hitOptions(s) {
+    const cap = capHits(s.ft), top = Math.max(cap, 0);
+    const out = [];
+    for (let h = 0; h <= top; h++) {
+      let disabled = false;
+      if (s.strategy === 'sensible') disabled = h !== 0;
+      else if (s.ft === 0 && h === 0) disabled = true;
+      else if (s.strategy === 'hit' && h === 0 && cap >= 1) disabled = true;
+      const selected = s.strategy === 'sensible' ? h === 0 : s.hits === h;
+      out.push({h, label: h ? '−' + (h * 4) : 'No', disabled, selected});
+    }
+    return out;
+  }
+
+  /** Name-only search. Sell: the user's squad. Buy: every other player, optionally one position. */
+  function search(o) {
+    const q = norm((o.q || '').trim()), ex = new Set(o.exclude || []), squad = new Set(o.squadIds);
+    if (o.kind === 'buy' && !q) return [];
+    let pool = o.kind === 'sell' ? o.squadIds.map(id => o.byId[id]).filter(Boolean)
+                                 : o.players.filter(p => !squad.has(p.id));
+    pool = pool.filter(p => !ex.has(p.id) && (!o.pos || p.pos === o.pos) && (!q || p.key.includes(q)));
+    pool.sort((a, b) => ((q && a.key.startsWith(q)) ? 0 : 1) - ((q && b.key.startsWith(q)) ? 0 : 1)
+                        || a.key.localeCompare(b.key) || b.price - a.price || a.id - b.id);
+    return pool.slice(0, o.limit || 8);
+  }
+
+  const doneMoves = s => s.moves.filter(m => m.out && m.inn).map(m => [m.out, m.inn]);
+
+  /** The exact body the planner API will receive, or the reasons it cannot be built yet. */
+  function buildPlanRequest(s) {
+    const problems = [];
+    if (!s.strategy || !STRATEGIES[s.strategy]) problems.push('Pick a game plan.');
+    const bank = parseBank(s.bank);
+    if (!bank.ok) problems.push(bank.msg);
+    if (!isInt(s.ft) || s.ft < 0 || s.ft > 3) problems.push('Free transfers must be 0 to 3.');
+    if (problems.length) return {ok: false, problems};
+    const block = strategyBlock(s);
+    if (!block.available) return {ok: false, problems: [block.reason]};
+    const hits = effHits(s);
+    const body = {squad_ids: s.squad_ids.slice(), bank_m: bank.value, free_transfers: s.ft};
+    const api = STRATEGIES[s.strategy].api;
+    if (api) body.strategy = api;
+    if (hits > 0) body.max_hits = hits;
+    if (s.strategy === 'mind') {
+      const half = s.moves.filter(m => (m.out || m.inn) && !(m.out && m.inn));
+      if (half.length) problems.push('Finish or remove the move with only one player chosen.');
+      const moves = doneMoves(s);
+      if (!moves.length) problems.push('Choose a player to sell and one to buy.');
+      if (moves.length > maxMoves(s)) problems.push('More moves than your free transfers and hits allow.');
+      if (!problems.length) body.moves = moves;
+    }
+    return problems.length ? {ok: false, problems} : {ok: true, body};
+  }
+
+  /** Dev helper: a legal squad from the directory (2/5/5/3, at most 3 per club). */
+  function sampleSquad(players) {
+    const out = [], need = Object.assign({}, COMPOSITION), clubs = {};
+    for (const p of players.slice().sort((a, b) => a.id - b.id)) {
+      if (need[p.pos] > 0 && (clubs[p.team] || 0) < 3) { out.push(p.id); need[p.pos]--; clubs[p.team] = (clubs[p.team] || 0) + 1; }
+      if (out.length === 15) break;
+    }
+    return out.length === 15 ? out : null;
+  }
+
+
+  /* ── Explore: turn the planner's real response into cards. Nothing here is invented: every figure is a response field. ── */
+  const MINUS = '−';
+  const num = v => typeof v === 'number' && isFinite(v);
+  const sg = n => (n <= -0.05 ? MINUS : '+') + Math.abs(n).toFixed(1);
+  const CONF = {HIGH: 'High', MEDIUM: 'Medium', LOW: 'Low'};
+
+  /** What the default gain covers. The planner weights only the next gameweek unless told otherwise. */
+  function gainBasis(weights, gw) {
+    const w = Array.isArray(weights) ? weights : [1, 0, 0];
+    const live = w.map((x, i) => (num(x) && x > 1e-9 ? i : -1)).filter(i => i >= 0);
+    if (live.length === 1 && live[0] === 0) return {key: 'next', label: gw ? 'the next gameweek (GW' + gw + ')' : 'the next gameweek'};
+    return {key: 'weighted', label: 'a weighted view of the next gameweeks'};
+  }
+
+  const pm = d => ({id: d.id, name: String(d.web_name || d.name || d.id), pos: d.position, team: d.team_short || null,
+    price: num(d.price) ? d.price : null, code: isInt(d.photo_code) && d.photo_code > 0 ? d.photo_code : null,
+    xp: Array.isArray(d.xpts) && num(d.xpts[0]) ? d.xpts[0] : null, status: typeof d.status === 'string' ? d.status : null,
+    conf: CONF[d.confidence] || null, gaps: Array.isArray(d.projection_unavailable_gws) ? d.projection_unavailable_gws : []});
+  const sig = p => (p.transfers || []).map(t => t.out.id + '>' + t.in.id).sort().join('|');
+  const pts = v => Math.abs(v).toFixed(1) + (Math.abs(v).toFixed(1) === '1.0' ? ' point' : ' points');
+
+  function planModel(p, ctx) {
+    const moves = (p.transfers || []).map(t => ({out: pm(t.out), inn: pm(t.in)}));
+    const n = moves.length, hits = p.hits || 0, hitPts = p.hit_points || 0;
+    const before = num(p.projected_gain_before_hits) ? p.projected_gain_before_hits : null;
+    const net = num(p.projected_gain_vs_hold) ? p.projected_gain_vs_hold : null;
+    const o = p.outlook && Array.isArray(p.outlook.vs_hold) && p.outlook.vs_hold.length === 3 && p.outlook.vs_hold.every(num) ? p.outlook.vs_hold : null;
+    const risks = (Array.isArray(p.risks) ? p.risks : []).filter(r => typeof r === 'string' && !/^Affordability/.test(r));
+    const title = n === 0 ? 'Hold' : n === 1 ? 'Swap ' + moves[0].out.name + ' for ' + moves[0].inn.name
+      : n + ' moves, ' + (hits === 0 ? 'no hit' : hits === 1 ? 'one hit' : hits + ' hits');
+    let why, watch;
+    if (n === 0) {
+      why = 'Every plan is measured against this. Unused free transfers can carry over, up to the FPL limit.';
+      watch = 'You miss out if a better move was available.';
+    } else {
+      why = before === null ? 'Projected gain unavailable.'
+        : (before >= 0 ? 'Projected to score ' + pts(before) + ' more than holding' : 'Projected to score ' + pts(before) + ' fewer than holding') +
+          ' for ' + ctx.basis.label + (hits && net !== null ? ', ' + sg(net) + ' after the ' + hitPts + '-point hit' : '') + '.';
+      const best = moves.filter(m => m.out.xp !== null && m.inn.xp !== null)
+        .sort((a, b) => (b.inn.xp - b.out.xp) - (a.inn.xp - a.out.xp))[0];
+      if (best && best.inn.xp - best.out.xp > 0.04)
+        why += ' ' + best.inn.name + ' is projected ' + (best.inn.xp - best.out.xp).toFixed(1) + ' more points than ' + best.out.name + ' next gameweek.';
+      watch = risks.length ? risks.slice(0, 2).join(' ') : 'The model flagged no specific risks. It is still a projection.';
+    }
+    return {title, n, hits, hitPts, before, net, outlook: o, outlookStatus: p.outlook && p.outlook.status || null, moves, why, watch, risks,
+            costLabel: n === 0 ? 'Hold' : hits ? MINUS + hitPts + ' hit' : 'No hit', bankAfter: num(p.bank_after) ? p.bank_after : null,
+            confidence: CONF[p.confidence] || null, freeLeft: num(p.free_transfers_remaining) ? p.free_transfers_remaining : null,
+            belowBar: n > 0 && net !== null && net < ctx.minGain - 1e-9, dataComplete: p.data_complete !== false, sig: sig(p),
+            ftUsed: num(p.free_transfers_used) ? p.free_transfers_used : null, xiIds: Array.isArray(p.xi_ids) ? p.xi_ids.filter(isInt) : null};
+  }
+
+  const STATUS_LABEL = {RECOMMENDED: ['Meets the bar', ''], BELOW_THRESHOLD: ['Below the bar', 'warn'], WORSE_THAN_HOLD: ['Projected worse than Hold', 'bad'],
+                        INFEASIBLE: ['Can’t be done as asked', 'bad'], INCOMPLETE_DATA: ['Not enough data', 'bad']};
+
+  /** Cards in display order: your move, its extra-transfers variant, the planner's ranked plans (top `limit`), then Hold. */
+  function buildCards(resp, limit) {
+    limit = limit || 3;
+    const plan = resp.plan, gw = isInt(resp.gameweek) ? resp.gameweek : null, inputs = plan.inputs || {};
+    const ctx = {gw, basis: gainBasis(inputs.weights, gw), minGain: num(inputs.min_gain) ? inputs.min_gain : 0.5};
+    const rec = plan.recommendation || {};
+    const recSig = rec.action === 'TRANSFER' && rec.plan ? sig(rec.plan) : null;
+    const alts = Array.isArray(plan.alternatives) ? plan.alternatives : [];
+    const cards = [];
+    let mineSig = null;
+    const req = plan.requested;
+    if (req) {
+      const model = req.plan ? planModel(req.plan, ctx) : null;
+      mineSig = model ? model.sig : null;
+      const idx = model ? alts.findIndex(a => sig(a) === mineSig) : -1;
+      cards.push({id: 'mine', kind: 'mine', status: req.status, statusLabel: (STATUS_LABEL[req.status] || [req.status || '', ''])[0],
+                  statusTone: (STATUS_LABEL[req.status] || ['', ''])[1], reason: req.reason || '', model, rank: idx >= 0 ? idx + 1 : null,
+                  recommended: !!req.matches_overall_recommendation});
+      if (req.with_additional_transfers)
+        cards.push({id: 'extra', kind: 'extra', label: req.with_additional_transfers.label || '', model: planModel(req.with_additional_transfers, ctx), recommended: false});
+    }
+    alts.slice(0, limit).forEach((a, i) => {
+      if (mineSig && sig(a) === mineSig) return;                       // already shown as "Your move"
+      cards.push({id: 'r' + (i + 1), kind: 'rank', rank: i + 1, model: planModel(a, ctx), recommended: recSig === sig(a)});
+    });
+    cards.push({id: 'hold', kind: 'hold', model: planModel(plan.hold, ctx), recommended: rec.action === 'HOLD'});
+    const squadPos = {};
+    (Array.isArray(resp.squad) ? resp.squad : []).forEach(s => { if (s && isInt(s.id) && [1, 2, 3, 4].includes(s.position)) squadPos[s.id] = s.position; });
+    return {cards, gw, basis: ctx.basis, minGain: ctx.minGain, totalRanked: alts.length, shownRanked: Math.min(limit, alts.length),
+            info: {hitCost: num(inputs.hit_cost) ? inputs.hit_cost : null, priceSource: typeof inputs.price_source === 'string' ? inputs.price_source : '', squadPos},
+            verdict: {action: rec.action || null, reason: rec.reason || ''},
+            degraded: {status: resp.status, reasons: (resp.data && Array.isArray(resp.data.degraded_reasons) ? resp.data.degraded_reasons : []).filter(x => typeof x === 'string')},
+            dataQuality: plan.data_quality ? {complete: plan.data_quality.complete !== false, note: String(plan.data_quality.note || '')} : {complete: true, note: ''},
+            warnings: (Array.isArray(plan.warnings) ? plan.warnings : []).filter(x => typeof x === 'string')};
+  }
+
+  /** Interpret an HTTP status and parsed body from POST /api/transfer-plan. Server errors never show raw detail. */
+  function parsePlanResponse(status, json) {
+    if (status >= 200 && status < 300) {
+      const ok = json && (json.status === 'OK' || json.status === 'DEGRADED') && json.plan && Array.isArray(json.plan.alternatives) &&
+                 json.plan.hold && json.plan.recommendation;
+      if (!ok) return {ok: false, kind: 'shape', message: 'We got an answer we couldn’t read. Please try again.'};
+      return {ok: true, resp: json, view: buildCards(json)};
+    }
+    if ([400, 409, 413, 422].includes(status)) {
+      const msg = json && typeof json.error === 'string' ? json.error : 'The planner couldn’t use those settings.';
+      const details = json && Array.isArray(json.details) ? json.details.filter(d => typeof d === 'string').slice(0, 3) : [];
+      return {ok: false, kind: 'request', message: msg + (details.length ? ' ' + details.join(' ') : '')};
+    }
+    return {ok: false, kind: 'upstream', message: 'FPL’s data isn’t available right now. Please try again in a moment.'};
+  }
+
+  /* ── Chunk 6: the share gate, "what goes into this", and the four tweaks ── */
+  const UNLOCK_KEY = 'squadcheck.planner.unlocked.v1';
+  const SITE = 'https://squadcheck.club';
+  const shareText = (title, gw) => 'I’m weighing ' + title + (gw ? ' for GW' + gw : '') + ' on SquadCheck. Would you do it? ' + SITE;
+  const waLink = text => 'https://wa.me/?text=' + encodeURIComponent(text);
+  const STATUS = {a: 'Available', d: 'Doubtful', i: 'Injured', s: 'Suspended', u: 'Unavailable', n: 'Not available'};
+  const money = t => (t === null || t === undefined ? '—' : '£' + (t / 10).toFixed(1) + 'm');
+
+  /** Formation of the best XI the planner picked after the move, from the XI ids and the positions in the response. */
+  function formation(m, squadPos) {
+    if (!Array.isArray(m.xiIds) || m.xiIds.length !== 11 || !squadPos) return null;
+    const pos = Object.assign({}, squadPos), c = {2: 0, 3: 0, 4: 0};
+    m.moves.forEach(mv => { pos[mv.inn.id] = mv.inn.pos; });
+    for (const id of m.xiIds) { const p = pos[id]; if (![1, 2, 3, 4].includes(p)) return null; if (p !== 1) c[p]++; }
+    return c[2] + '-' + c[3] + '-' + c[4];
+  }
+
+  /** "What goes into this suggestion": every line is read from the planner response for this plan. */
+  function whatGoesIn(card, view) {
+    const m = card.model, out = [], gw = view.gw ? 'GW' + view.gw : 'the next gameweek', info = view.info || {};
+    const xpLines = m.moves.filter(mv => mv.out.xp !== null && mv.inn.xp !== null)
+      .map(mv => mv.inn.name + ' ' + mv.inn.xp.toFixed(1) + ' vs ' + mv.out.name + ' ' + mv.out.xp.toFixed(1));
+    if (m.n === 0) {
+      out.push({k: 'What Hold is', v: 'Your squad as it is, scored with the same projections as every other plan, so each plan can be compared with it.'});
+    } else if (xpLines.length) {
+      out.push({k: 'Projected points for ' + gw, v: 'xPts, ' + xpLines.join('; ') + '.'});
+    }
+    const f = formation(m, info.squadPos);
+    out.push({k: 'Your best XI after the move', v: f ? 'The planner re-picked the strongest legal XI from your 15 (' + f + '), so bench changes count too.' : 'The planner re-picks the strongest legal XI from your 15, so bench changes count too.'});
+    out.push({k: 'Points hits', v: m.hits ? m.hits + ' hit' + (m.hits === 1 ? '' : 's') + ' at ' + (num(info.hitCost) ? info.hitCost : 4) + ' points each = ' + MINUS + m.hitPts + ', taken off the gain.' : 'No points hit: this fits your free transfers.'});
+    out.push({k: 'Money', v: (m.bankAfter !== null ? 'Bank after the move: ' + money(m.bankAfter) + '. ' : '') + (/estimate/i.test(info.priceSource || '') || !info.priceSource ? 'Current prices are used, not your selling prices, so this is an estimate.' : info.priceSource)});
+    out.push({k: 'Club limit', v: 'No more than 3 players from one club.'});
+    const flags = m.moves.filter(mv => mv.inn.status && mv.inn.status !== 'a').map(mv => mv.inn.name + ': ' + (STATUS[mv.inn.status] || mv.inn.status));
+    if (m.n > 0) out.push({k: 'Availability', v: flags.length ? 'FPL availability flags on players you would buy. ' + flags.join('; ') + '.' : 'No availability flags on the players you would buy.'});
+    const confs = m.moves.filter(mv => mv.inn.conf).map(mv => mv.inn.name + ': ' + mv.inn.conf);
+    if (m.confidence || confs.length) out.push({k: 'Projection confidence', v: (m.confidence ? m.confidence + ' overall' : '') + (confs.length ? (m.confidence ? '. ' : '') + confs.join('; ') : '') + '. This is how sure the projection model is about the incoming players.'});
+    out.push({k: 'Data completeness', v: m.dataComplete && view.dataQuality.complete ? 'Every player in this plan has a projection.' : (view.dataQuality.note || 'Some players are missing a projection.')});
+    return out;
+  }
+  /* ── Your call ── */
+  const REASONS = {Fixtures: 'The next few fixtures favour this move.', Minutes: 'I trust the minutes more than the alternative.', Form: 'Recent form backs it.',
+                   Budget: 'It fits my bank without forcing anything else.', 'Gut feel': 'It is my gut call and I am happy to own it.'};
+  const BENEFITS = [['A verdict, not a guess', 'After the gameweek, your call compared with doing nothing, in points.'],
+                    ['No more \u201Cwhat if?\u201D', 'What Hold would have scored, so you know whether the move was worth it.'],
+                    ['A record you can point to', 'Your calls, week by week, in one place.']];
+  /** What the call screen and the share card say, built only from the plan's own figures. */
+  function callCard(card, view) {
+    const m = card.model, gwl = view.gw ? 'GW' + view.gw : 'the next gameweek';
+    const moves = m.moves.map(mv => mv.out.name + ' \u2192 ' + mv.inn.name);
+    const title = m.n === 0 ? 'Hold' : m.title;
+    const proj = m.n === 0 ? 'Holding this week.' : m.net === null ? 'Projection unavailable.'
+      : 'Planner projection: ' + sg(m.net) + ' points vs holding for ' + view.basis.label + (m.hits ? ', after the ' + m.hitPts + '-point hit' : '') + '. A projection, not a promise.';
+    const risks = m.risks.length ? m.risks.slice(0, 3) : [m.n === 0 ? 'You miss out if a better move was available.' : 'The model flagged no specific risks. It is still a projection.'];
+    return {title, moves, proj, risks, gwl, text: ['SquadCheck \u00B7 ' + gwl, 'My call: ' + title].concat(moves, [proj, 'Would you back it?', SITE]).join('\n')};
+  }
+  const NOT_FACTORED = [
+    'Your actual selling prices. Current prices are used, so affordability is an estimate.',
+    'Gameweeks 2 and 3. They appear only as a separate, provisional outlook that has not been backtested, and are not part of the headline gain.',
+    'Players without a projection. They are never bought or sold in a ranked plan.'
+  ];
+
+  /** Body for one tweak, built from the request behind the plan on screen. Never changes the user's other choices. */
+  function tweakRequest(base, tweak, ctx) {
+    const body = JSON.parse(JSON.stringify(base)), problems = [];
+    const ft = body.free_transfers, hitsNow = body.max_hits || 0, moves = ctx.moves || [];
+    const named = new Set((body.moves || []).map(m => m[0]).concat(body.out_ids || []));
+    if (tweak.kind === 'keep') {
+      if (!moves.some(m => m[0] === tweak.out)) problems.push('Choose one of the players you would sell.');
+      else if (named.has(tweak.out)) problems.push('You asked to sell this player, so you can’t also keep them.');
+      else body.keep_ids = Array.from(new Set((body.keep_ids || []).concat([tweak.out])));
+    } else if (tweak.kind === 'nohit') {
+      if (!ctx.hits) problems.push('This plan already has no hit.');
+      else { delete body.max_hits; if (body.strategy === 'everything') body.strategy = 'sensible'; }
+    } else if (tweak.kind === 'hit') {
+      if (ft + hitsNow + 1 > MAX_MOVES) problems.push('Already at the ' + MAX_MOVES + '-move limit (free transfers plus hits).');
+      else { body.max_hits = hitsNow + 1; if (body.strategy === 'sensible') body.strategy = 'everything'; }
+    } else if (tweak.kind === 'bring') {
+      const i = tweak.index, mv = moves[i];
+      if (!mv) problems.push('Choose which player to replace.');
+      else if (!isInt(tweak.inn)) problems.push('Choose a replacement player.');
+      else if (body.squad_ids.includes(tweak.inn)) problems.push('That player is already in your squad.');
+      else if (moves.some((m, j) => j !== i && m[1] === tweak.inn) || tweak.inn === mv[1]) problems.push('Choose someone who isn’t already in this plan.');
+      else if (ctx.pos && ctx.pos(tweak.inn) !== ctx.inPos[i]) problems.push('A replacement must play the same position.');
+      else {
+        const next = moves.map((m, j) => j === i ? [m[0], tweak.inn] : m.slice());
+        const need = Math.max(0, next.length - ft);
+        if (ft + Math.max(hitsNow, need) > MAX_MOVES) problems.push('That is more than the ' + MAX_MOVES + '-move limit.');
+        else { body.moves = next; delete body.out_ids; delete body.in_ids; if (Math.max(hitsNow, need) > 0) body.max_hits = Math.max(hitsNow, need); }
+      }
+    } else problems.push('Unknown change.');
+    return problems.length ? {ok: false, problems} : {ok: true, body};
+  }
+  /** Why a tweak cannot be offered at all for this plan (null = offered). */
+  function tweakBlocked(base, kind, ctx) {
+    if (kind === 'nohit' && !ctx.hits) return 'This plan already has no hit.';
+    if (kind === 'hit' && base.free_transfers + (base.max_hits || 0) + 1 > MAX_MOVES) return 'Already at the ' + MAX_MOVES + '-move limit (free transfers plus hits).';
+    return null;
+  }
+
+  /** The card to compare against: your literal moves when moves were named, otherwise the planner's best plan, else Hold. */
+  function pickAfter(view, kind, hadMoves) {
+    if (kind === 'bring' || hadMoves) return view.cards.find(c => c.kind === 'mine') || null;
+    return view.cards.find(c => c.kind === 'rank') || view.cards.find(c => c.kind === 'hold') || null;
+  }
+  function compareModels(b, a) {
+    const f = v => (v === null ? '—' : sg(v)), hit = m => (m.hitPts ? MINUS + m.hitPts : '0');
+    const d = (a.net === null ? 0 : a.net) - (b.net === null ? 0 : b.net);
+    const verdict = Math.abs(d) < 0.05 ? 'No change in net gain.' : d > 0 ? 'Net gain improves by ' + d.toFixed(1) + ' points.' : 'Net gain drops by ' + Math.abs(d).toFixed(1) + ' points.';
+    return {rows: [['Plan', b.title, a.title], ['Net gain vs hold (next gameweek)', f(b.net), f(a.net)], ['Gain before hits', f(b.before), f(a.before)],
+                   ['Hit cost', hit(b), hit(a)], ['Bank after (estimate)', money(b.bankAfter), money(a.bankAfter)]],
+            verdict, tone: Math.abs(d) < 0.05 ? 'flat' : d > 0 ? 'up' : 'down'};
+  }
+  function tweakOutcome(view, kind, hadMoves, before) {
+    const after = pickAfter(view, kind, hadMoves);
+    if (!after) return {after: null, reason: 'The planner did not return a plan for this change.'};
+    if (!after.model) return {after: null, reason: after.reason || 'That change can’t be done.', status: after.statusLabel};
+    return Object.assign({after, status: after.statusLabel || ''}, compareModels(before, after.model));
+  }
+
+  return {POS, COMPOSITION, MAX_MOVES, HANDOFF_KEY, STATE_KEY, UNLOCK_KEY, STRATEGIES, norm, parseHandoff, indexDirectory,
+          validateSquad, parseBank, capHits, strategyBlock, effHits, maxMoves, hitOptions, search, doneMoves,
+          buildPlanRequest, sampleSquad, sg, gainBasis, buildCards, parsePlanResponse, shareText, waLink, STATUS, money, formation,
+          devMode, whatGoesIn, NOT_FACTORED, REASONS, BENEFITS, callCard, tweakRequest, tweakBlocked, pickAfter, compareModels, tweakOutcome};
+})();
+/* CORE:END */
+</script>
+
+<script>
+(function () {
+  'use strict';
+  const C = PlannerCore;
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const DEV = C.devMode(location.search, location.hostname);
+  const STEPS = ['Game plan', 'Explore', 'Compare', 'Your call', 'Review'];
+
+  const S = {phase: 'loading', msg: '', gameweek: null, dir: null, squad_ids: [], strategy: null, ft: 1, ftTouched: false, bank: '',
+             hits: null, moves: [{out: null, inn: null}], dev: false, request: null, view: null, sel: null, cache: {}, work: null, work0: null, twk: null, twkOpen: null, twkSel: {out: null, index: 0, inn: null},
+             twkId: 0, twkCtl: null, unlocked: false, gateOpened: false, popupBlocked: false, copied: false, shown: null,
+             call: null, sheet: false, sharePreview: false, signinNote: false, copiedCard: false,
+             reqId: 0, ctl: null, wait: null, t0: 0};
+
+  /* ── storage (always optional) ── */
+  const store = {
+    get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* storage blocked: the page still works */ } },
+    remove(k) { try { sessionStorage.removeItem(k); } catch (e) { /* ignore */ } }
+  };
+  const squadKey = () => S.squad_ids.join(',');
+  function saveState() {
+    store.set(C.STATE_KEY, JSON.stringify({k: squadKey(), strategy: S.strategy, ft: S.ft, ftTouched: S.ftTouched, bank: S.bank, hits: S.hits, moves: S.moves}));
+  }
+  function restoreState() {
+    let o; try { o = JSON.parse(store.get(C.STATE_KEY) || 'null'); } catch (e) { return; }
+    if (!o || o.k !== squadKey()) return;
+    if (o.strategy === null || C.STRATEGIES[o.strategy]) S.strategy = o.strategy;
+    if (Number.isInteger(o.ft) && o.ft >= 0 && o.ft <= 3) S.ft = o.ft;
+    S.ftTouched = o.ftTouched === true;
+    if (typeof o.bank === 'string' && o.bank.length < 8) S.bank = o.bank;
+    if (o.hits === null || (Number.isInteger(o.hits) && o.hits >= 0 && o.hits <= 3)) S.hits = o.hits;
+    const ok = id => id === null || (Number.isInteger(id) && S.dir.byId[id]);
+    if (Array.isArray(o.moves) && o.moves.length && o.moves.length <= 3 &&
+        o.moves.every(m => m && ok(m.out) && ok(m.inn) && (m.out === null || S.squad_ids.includes(m.out)) && (m.inn === null || !S.squad_ids.includes(m.inn))))
+      S.moves = o.moves.map(m => ({out: m.out, inn: m.inn}));
+    clamp();
+  }
+
+  /* ── player rendering ── */
+  window.__phErr = function (img) {
+    const m = img.src.match(/premierleague25\/photos\/players\/110x140\/(\d+)\.png/);
+    if (m && !img.getAttribute('data-t')) { img.setAttribute('data-t', '1'); img.src = 'https://resources.premierleague.com/premierleague/photos/players/110x140/p' + m[1] + '.png'; }
+    else img.style.display = 'none';
+  };
+  const ini = n => n.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase();
+  const photo = (p, cls) => '<span class="phw ' + (cls || '') + '" data-ini="' + ini(p.name) + '">' + (p.code
+    ? '<img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/' + p.code + '.png" loading="lazy" alt="" onerror="window.__phErr(this)">' : '') + '</span>';
+  const meta = p => esc((p.teamShort || '') + (p.teamShort ? ' · ' : '') + C.POS[p.pos] + ' · £' + (p.price / 10).toFixed(1) + 'm');
+  const P = id => S.dir.byId[id];
+
+  /* ── state rules ── */
+  function clamp() {
+    const cap = C.capHits(S.ft);
+    if (S.hits !== null && S.hits > cap) S.hits = cap;
+    if (S.ft === 0 && S.hits === 0) S.hits = null;          // "No" is unavailable with no free transfer
+    const mm = C.maxMoves(model());
+    if (S.moves.length > mm) S.moves = S.moves.slice(0, mm);
+    S.moves.forEach(m => { if (m.out && m.inn && P(m.out).pos !== P(m.inn).pos) m.inn = null; });
+  }
+  const model = () => ({strategy: S.strategy, ft: S.ft, bank: S.bank, hits: S.hits, moves: S.moves, squad_ids: S.squad_ids});
+
+  /* ── views ── */
+  const ICON = {
+    mind: '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="7.5" r="3.2"/><path d="M4.5 18c.6-3.4 3.3-5.2 6.5-5.2s5.9 1.8 6.5 5.2"/></svg>',
+    hit: '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M11 6.5v5M11 15v.1"/></svg>',
+    sensible: '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2l7 2.5v5.7c0 4.2-2.8 7.4-7 9.3-4.2-1.9-7-5.1-7-9.3V4.5L11 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7.8 11l2.2 2.2 4.2-4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    all: '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3.5c4 0 5 10 9 10H19M3 16h3.5c1.6 0 2.6-1.6 3.6-3.4M15.5 6H19M17 4l2 2-2 2M17 14l2 2-2 2"/></svg>',
+    chev: '<svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>'
+  };
+  const CARDS = [
+    ['mind', 'I have a player in mind', 'Tell us who you want to buy, sell or both.'],
+    ['hit', 'Worth a hit?', 'Allow points hits. Every plan is ranked by net gain after the hit costs.'],
+    ['sensible', 'Keep it sensible', 'Find a strong move without a points hit.'],
+    ['all', 'Show me everything', 'Explore the strongest options, including Hold.']
+  ];
+
+  function comboHtml(id, kind, value, pos, exclude) {
+    if (value) {
+      const p = P(value);
+      return '<div class="chosen">' + photo(p, 'sm') + '<span><span class="nm">' + esc(p.name) + '</span><span class="mt">' + meta(p) +
+             '</span></span><button type="button" data-act="cclear" data-id="' + id + '" aria-label="Clear ' + esc(p.name) + '">×</button></div>';
+    }
+    const label = kind === 'sell' ? 'Search your squad' : (pos ? 'Search ' + C.POS[pos] + 's by name' : 'Search any player');
+    return '<div class="combo" id="cb-' + id + '"><input class="cin" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cl-' + id +
+           '" autocomplete="off" spellcheck="false" data-combo="' + id + '" data-kind="' + kind + '" data-pos="' + (pos || '') + '" placeholder="' + label +
+           '" aria-label="' + (kind === 'sell' ? 'Player to sell' : 'Player to buy') + '"><div class="clist" id="cl-' + id + '" role="listbox"></div></div>';
+  }
+  function optionsHtml(id, results, q, kind, pos) {
+    if (!results.length) return '<div class="cnone">' + (kind === 'buy' && !q.trim() ? 'Start typing a name.' : 'No ' + (pos ? C.POS[pos] + ' ' : '') + 'player matches that name.') + '</div>';
+    return results.map((p, i) => '<button type="button" class="copt" role="option" id="op-' + id + '-' + i + '" data-act="cpick" data-id="' + id + '" data-v="' + p.id + '">' +
+      photo(p, 'sm') + '<span><span class="nm">' + esc(p.name) + '</span><span class="mt">' + meta(p) + '</span></span></button>').join('');
+  }
+
+  function stepperHtml() {
+    const cur = ({ready: 1, ploading: 2, explore: 2, xerror: 2, gate: 2, compare: 3, call: 4})[S.phase] || 1, live = cur > 1 || S.phase === 'ready';
+    return STEPS.map((s, i) => {
+      const n = i + 1, cls = !live ? '' : n === cur ? ' on' : n < cur ? ' done' : '';
+      return '<button class="stp' + cls + '" type="button"' + (cls.includes('done') ? ' data-act="step" data-v="' + n + '"' : cls.includes('on') ? '' : ' tabindex="-1" aria-disabled="true"') +
+             (n === cur && live ? ' aria-current="step"' : '') + '><i>' + n + '</i>' + s + '</button>';
+    }).join('');
+  }
+
+  function bankHint(bank) {
+    if (bank.ok) return 'Check your FPL Transfers page';
+    if (bank.blank) return 'Required. Check your FPL Transfers page';
+    return '<span style="color:var(--coral)">' + esc(bank.msg) + '</span>';
+  }
+
+  function readyHtml() {
+    const m = model(), opts = C.hitOptions(m), mm = C.maxMoves(m), block = C.strategyBlock(m);
+    const bank = C.parseBank(S.bank);
+    const req = C.buildPlanRequest(m);
+    const strip = S.squad_ids.map(id => P(id)).map(p => '<div class="p">' + photo(p, 'sm') + '<b>' + esc(p.name) + '</b><span>' + esc(p.teamShort || '') + '</span></div>').join('');
+    const cards = CARDS.map(([key, name, desc]) => {
+      const on = S.strategy === key, b = C.strategyBlock(Object.assign({}, m, {strategy: key}));
+      let body = '';
+      if (on && key === 'mind') {
+        body = '<div class="sbody">' + S.moves.map((mv, i) => {
+          const pos = mv.out ? P(mv.out).pos : null;
+          const sex = S.moves.map(x => x.out).filter(Boolean), bex = S.moves.map(x => x.inn).filter(Boolean);
+          return '<div class="mrow"><div class="hd"><span class="l">Move ' + (i + 1) + '</span>' + (S.moves.length > 1 ? '<button type="button" data-act="rmmove" data-v="' + i + '">Remove</button>' : '') +
+            '</div><div class="mgrid"><div class="fld s"><span>Sell</span>' + comboHtml('sell' + i, 'sell', mv.out, null, sex) + '</div><div class="fld b"><span>Buy</span>' + comboHtml('buy' + i, 'buy', mv.inn, pos, bex) + '</div></div></div>';
+        }).join('') + (S.moves.length < mm ? '<button type="button" class="addmv" data-act="addmove">+ Add another move</button>'
+          : '<p class="fine" style="margin-top:8px">Limit reached: ' + mm + ' move' + (mm > 1 ? 's' : '') + ' with your free transfers and hits. Raise either below to add more.</p>') + '</div>';
+      }
+      if (on && !b.available) body += '<div class="sbody"><div class="note bad">' + esc(b.reason) + '</div></div>';
+      return '<div class="strat' + (on ? ' on' : '') + (on && key === 'mind' ? ' open' : '') + '"><button type="button" class="sh" data-act="strat" data-v="' + key + '" aria-pressed="' + on + '"><span class="ico">' + ICON[key] +
+             '</span><span class="grow"><span class="nm">' + name + '</span><span class="ds">' + desc + '</span></span>' + (key === 'mind' ? ICON.chev : '') + '</button>' + body + '</div>';
+    }).join('');
+    const hitHelp = S.strategy === 'sensible' ? 'Keep it sensible means no points hit.' : S.ft === 0 ? 'With no free transfer every move costs −4, so "No" is unavailable.'
+      : S.strategy === 'hit' ? 'Worth a hit? needs at least one hit allowed.' : 'Max 3 moves in total, including hits.';
+    const help = !S.strategy ? 'Pick a game plan to continue.' : (!req.ok ? req.problems[0] : '');
+    return '<h1 class="h">What’s your game plan?</h1><p class="sub">Pick a starting point. You can change this any time. We’ll use your scanned squad.</p>' +
+      '<details class="squad"><summary><span>Your squad (15)</span><span class="fine">tap to check</span></summary><div class="strip">' + strip + '</div></details>' +
+      '<div class="strats">' + cards + '</div>' +
+      '<p class="sec">Adjust your constraints</p><div class="ctl">' +
+        '<div class="cr"><div><div class="q">Free transfers available</div><div class="h' + (S.ftTouched ? '' : ' warnc') + '" id="fthint">' + (S.ftTouched ? 'Check your FPL Transfers page' : 'We\u2019ve assumed ' + S.ft + '. Check your FPL Transfers page.') + '</div></div><div class="step"><button type="button" data-act="ft" data-v="-1" aria-label="Fewer free transfers"' + (S.ft <= 0 ? ' disabled' : '') + '>−</button><output aria-live="polite">' + S.ft + '</output><button type="button" data-act="ft" data-v="1" aria-label="More free transfers"' + (S.ft >= 3 ? ' disabled' : '') + '>+</button></div></div>' +
+        '<div class="cr"><div><div class="q">Money in the bank</div><div class="h" id="bankhint">' + bankHint(bank) + '</div></div><label class="money' + (bank.ok || bank.blank ? '' : ' bad') + '">£<input id="bank" type="text" inputmode="decimal" value="' + esc(S.bank) + '" placeholder="0.5" aria-label="Money in the bank in millions, required" aria-required="true" autocomplete="off">m</label></div>' +
+        '<div class="cr"><div><div class="q">Allow a points hit?</div><div class="h">' + hitHelp + '</div></div><div class="seg3" role="group" aria-label="Points hits allowed">' +
+          opts.map(o => '<button type="button" data-act="hits" data-v="' + o.h + '" class="' + (o.selected ? 'on' : '') + '"' + (o.disabled ? ' disabled' : '') + ' aria-pressed="' + o.selected + '">' + o.label + '</button>').join('') + '</div></div>' +
+      '</div>' +
+      '<div class="stack"><button class="btn" type="button" data-act="next"' + (req.ok ? '' : ' disabled') + '>Explore options <span aria-hidden="true">→</span></button><p class="help" style="margin-top:0">' + esc(help) + '</p></div>' +
+      '<p class="fine" style="margin-top:14px;text-align:center">Projections, not guarantees.</p>';
+  }
+
+  // The wording is a cautious upper bound taken from the server's time limits (25 s request budget, 60 s function limit).
+  // It is not a measured or typical time, and must not be presented as one.
+  const loadingPlansHtml = () => '<div class="loading" role="status"><div class="ring"></div><div><h1 class="h" style="font-size:24px">Checking your options</h1>' +
+    '<p class="sub" id="waitmsg">This can take up to a minute the first time.</p></div><button class="btn2" type="button" data-act="cancel" style="max-width:240px">Cancel</button></div>';
+
+  const xp1 = x => (x === null ? '' : x.toFixed(1) + ' xPts');
+  function personHtml(p) {
+    return '<div class="pp">' + photo({name: p.name, code: p.code}, 'sm') + '<span class="t"><span class="pnm">' + esc(p.name) + '</span><span class="mt">' +
+      esc((p.team ? p.team + ' · ' : '') + (C.POS[p.pos] || '') + (p.price !== null ? ' · £' + (p.price / 10).toFixed(1) + 'm' : '')) + '</span>' +
+      (p.xp !== null ? '<span class="mt">' + esc(xp1(p.xp)) + '</span>' : '') + '</span></div>';
+  }
+  function cardHtml(c, v) {
+    const m = c.model, sel = S.sel === c.id, selectable = !!m;
+    if (!m) {   // "your move" that could not be evaluated: say why, with the planner's own reason
+      return '<div class="plan lime nosel"><div class="ph"><span class="pico">★</span><div class="grow"><div class="pn">Your move</div><div class="pt">Your picks, evaluated on their own terms.</div></div></div>' +
+        '<div class="tags"><span class="tag ' + c.statusTone + '">' + esc(c.statusLabel) + '</span></div><p class="why">' + esc(c.reason) + '</p></div>';
+    }
+    const gwl = i => (v.gw ? 'GW' + (v.gw + i) : 'GW+' + (i + 1));
+    const cls = c.kind === 'hold' ? 'gray' : (c.kind === 'mine' || c.kind === 'work' || c.rank === 1) ? 'lime' : '';
+    const badge = c.kind === 'hold' ? '❚❚' : c.kind === 'mine' ? '★' : c.kind === 'extra' ? '+' : c.kind === 'work' ? '✎' : c.rank;
+    const title = c.kind === 'mine' ? 'Your move' : c.kind === 'extra' ? 'Your move, plus extra transfers' : m.title;
+    const tag = c.kind === 'hold' ? 'The baseline every plan is measured against.'
+      : c.kind === 'mine' ? m.title + (c.rank ? ' · ranked #' + c.rank + ' overall' : '')
+      : c.kind === 'extra' ? 'Shown separately; never substituted for your move.'
+      : c.kind === 'work' ? 'Edited: ' + c.applied.join(', ') + '. Not part of the original ranking.'
+      : 'Ranked #' + c.rank + ' by net gain after hit costs.';
+    const tags = [];
+    if (c.recommended) tags.push('<span class="tag rec">Recommended by the planner</span>');
+    if (c.kind === 'mine') tags.push('<span class="tag ' + c.statusTone + '">' + esc(c.statusLabel) + '</span>');
+    if (m.belowBar) tags.push('<span class="tag warn">Below the ' + v.minGain.toFixed(1) + '-point bar</span>');
+    if (!m.dataComplete) tags.push('<span class="tag warn">Some projections missing</span>');
+    let body;
+    if (c.kind === 'hold') {
+      body = '<p class="why"><b>What it does.</b> Keep your squad as it is' + (m.freeLeft !== null ? ' and your ' + m.freeLeft + ' free transfer' + (m.freeLeft === 1 ? '' : 's') : '') + '.</p>' +
+             '<p class="why"><b>Why it’s here.</b> ' + esc(m.why) + '</p><p class="why"><b>Watch out.</b> ' + esc(m.watch) + '</p>';
+    } else {
+      body = '<div class="mv">' + m.moves.map(mv => '<div class="mvr">' + personHtml(mv.out) + '<svg class="ar" width="18" height="12" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h19M14 1l6 6-6 6"/></svg>' + personHtml(mv.inn) + '</div>').join('') + '</div>' +
+        '<p class="why"><b>Why it ranks here.</b> ' + esc(m.why) + '</p><p class="why"><b>Watch out.</b> ' + esc(m.watch) + '</p>' +
+        '<div class="nums"><div class="n main"><span class="k">Net gain vs hold</span><b class="' + (m.net !== null && m.net < 0 ? 'neg' : 'pos') + '">' + (m.net === null ? '—' : C.sg(m.net)) + '</b></div>' +
+        (m.hits ? '<div class="n"><span class="k">Before hits</span><b>' + (m.before === null ? '—' : C.sg(m.before)) + '</b></div><div class="n"><span class="k">Hit cost</span><b class="neg">−' + m.hitPts + '</b></div>' : '') + '</div>' +
+        '<p class="fine" style="margin-top:6px">Projected for ' + esc(v.basis.label) + (m.hits ? '' : '. No hit, so the gain before hits is the same') + '. Not a guarantee.</p>' +
+        (m.outlook ? '<p class="fine mono" style="margin-top:4px">Outlook vs hold, before hits: ' + m.outlook.map((x, i) => gwl(i) + ' ' + C.sg(x)).join(' · ') + '. Provisional.</p>'
+                     : '<p class="fine" style="margin-top:4px">Three-gameweek outlook unavailable.</p>') +
+        '<p class="fine" style="margin-top:4px">' + (m.bankAfter !== null ? 'Bank after (estimate): £' + (m.bankAfter / 10).toFixed(1) + 'm' : '') + (m.confidence ? ' · Projection confidence: ' + m.confidence : '') + '</p>';
+    }
+    return '<div class="plan ' + cls + (sel ? ' sel-on' : '') + '" role="button" tabindex="0" aria-pressed="' + sel + '" data-act="pickplan" data-v="' + c.id + '">' +
+      '<div class="ph"><span class="pico">' + badge + '</span><div class="grow"><div class="pn">' + esc(title) + '</div><div class="pt">' + esc(tag) + '</div></div><span class="cost">' + esc(m.costLabel) + '</span></div>' +
+      (tags.length ? '<div class="tags">' + tags.join('') + '</div>' : '') + body + '</div>';
+  }
+  function exploreHtml() {
+    const v = S.view, edited = S.work && S.work.applied.length ? S.work : null;
+    if (S.sel === 'work' && !edited) S.sel = (v.cards.find(c => c.model) || {}).id || null;
+    const sel = S.sel === 'work' ? {model: wm()} : v.cards.find(c => c.id === S.sel);
+    const editedBlock = edited ? '<p class="sec">Your edited plan</p><p class="fine" style="margin:-4px 2px 10px">Made from your original plan with: ' + esc(edited.applied.join(', ')) + '. It comes from a new planner run, so it is not in the ranked list below, and the original ranking is unchanged.</p>' +
+      '<div class="plans" style="margin-top:0">' + cardHtml({id: 'work', kind: 'work', model: workCard().model, applied: edited.applied, recommended: false}, edited.view) + '</div><p class="sec">Original ranked plans</p>' : '';
+    const verdictTitle = v.verdict.action === 'TRANSFER' ? 'Make a transfer' : v.verdict.action === 'HOLD' ? 'Hold' : '—';
+    const banners = (v.degraded.status === 'DEGRADED' && v.degraded.reasons.length ? '<div class="bannerx">Some data was unavailable, so treat these plans with extra care.<ul>' + v.degraded.reasons.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul></div>' : '') +
+      (!v.dataQuality.complete ? '<div class="bannerx">' + esc(v.dataQuality.note) + '</div>' : '');
+    return '<h1 class="h" style="font-size:26px">Your options for GW' + (v.gw || '') + '</h1><p class="sub">Ranked by projected net gain after hit costs. Hold is the baseline. Tap a plan to select it.</p>' +
+      '<p class="fine" style="margin-top:8px">Gains are projections for ' + esc(v.basis.label) + ', not guarantees. Player xPts are for the next gameweek. The outlook on each card is separate: it covers three gameweeks, ignores hits, and is provisional.</p>' +
+      banners + '<div class="verdict"><span class="lbl">The planner’s call</span><b>' + verdictTitle + '</b><p>' + esc(v.verdict.reason) + '</p></div>' +
+      editedBlock + '<div class="plans">' + v.cards.map(c => cardHtml(c, v)).join('') + '</div>' +
+      (v.totalRanked > v.shownRanked ? '<p class="fine" style="margin-top:10px">Showing the top ' + v.shownRanked + ' of ' + v.totalRanked + ' ranked plans.</p>' : '') +
+      (v.totalRanked === 0 ? '<p class="fine" style="margin-top:10px">No transfer plan was found for these settings, so Hold is the only option.</p>' : '') +
+      (edited && S.sel !== 'work' ? '<p class="fine" style="margin-top:10px">Inspecting an original plan replaces your edited plan.</p>' : '') +
+      '<div class="stack"><button class="btn" type="button" data-act="inspect"' + (sel && sel.model ? '' : ' disabled') + '>' + (S.sel === 'work' ? 'Continue with my edited plan' : 'Inspect this plan') + ' <span aria-hidden="true">→</span></button>' +
+      '<button class="btn2" type="button" data-act="edit">← Change my game plan</button></div>';
+  }
+  function xerrorHtml() {
+    return '<h1 class="h" style="font-size:26px">We couldn’t get your plans</h1><p class="sub">' + esc(S.msg) + '</p>' +
+      '<div class="stack"><button class="btn" type="button" data-act="retryplans">Try again</button><button class="btn2" type="button" data-act="edit">← Change my game plan</button></div>';
+  }
+  const WAICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 00-8.5 14.9L2 22l5.2-1.5A9.9 9.9 0 1012.04 2zm5.8 14.1c-.25.7-1.4 1.3-1.95 1.35-.5.05-1.1.07-1.8-.12-.4-.13-.95-.3-1.6-.6-2.8-1.2-4.6-4-4.75-4.2-.14-.18-1.15-1.5-1.15-2.9s.72-2.05 1-2.35c.26-.28.56-.35.75-.35h.55c.18 0 .42-.07.65.5.25.58.84 2 .9 2.15.07.15.12.32.02.5-.1.2-.15.32-.3.5-.15.17-.3.38-.45.5-.15.15-.3.3-.13.6.17.3.78 1.28 1.67 2.07 1.15 1 2.1 1.33 2.4 1.48.3.15.47.12.65-.07.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05.98.3.15.5.22.57.35.08.12.08.72-.17 1.42z"/></svg>';
+  const workCard = () => S.work.view.cards.find(c => c.id === S.work.cardId);
+  const wm = () => workCard().model;
+  const flag = s => (s && s !== 'a' ? '<span class="tag warn">' + esc(C.STATUS[s] || s) + '</span>' : '');
+  const TWEAK_NAMES = {keep: 'kept a player', nohit: 'without the hit', hit: 'one more hit allowed', bring: 'different player bought'};
+
+  function gateHtml() {
+    const m = wm(), text = C.shareText(m.title, S.view.gw);
+    return '<span class="pill">One step to unlock</span><h1 class="h" style="margin-top:12px;font-size:26px">Share to unlock the full breakdown</h1>' +
+      '<p class="sub">The full breakdown, what goes into it and the what-ifs open after you share your pick. Here is exactly what to do:</p>' +
+      '<ol class="steps3"><li>Tap <b>Share on WhatsApp</b>. WhatsApp opens with a message ready to send.</li><li>Send it to a friend or a group.</li><li>Come back here and tap <b>I’ve shared it</b>.</li></ol>' +
+      '<p class="lbl" style="margin:16px 0 8px">The message</p><div class="bubble">' + esc(text) + '</div>' +
+      '<div class="lockcard"><div class="blurme" aria-hidden="true"><b>' + esc(m.title) + '</b> <span class="cost">' + esc(m.costLabel) + '</span><p>+0.0 · +0.0 · +0.0</p></div><div class="lockbadge">Locked until you continue</div></div>' +
+      '<div class="stack"><button class="btn-wa" type="button" data-act="wa">' + WAICON + (S.gateOpened ? 'Open WhatsApp again' : 'Share on WhatsApp') + '</button>' +
+      (S.gateOpened ? '<p class="help" style="margin:0;text-align:left">' + (S.popupBlocked ? 'We couldn’t open WhatsApp from here. Copy the message and send it yourself.' : 'WhatsApp should have opened in a new tab. Send the message there.') + '</p>' +
+        '<button class="btn2" type="button" data-act="wacopy">' + (S.copied ? 'Copied' : 'Copy the message') + '</button>' +
+        '<button class="btn" type="button" data-act="wadone">I’ve shared it, continue <span aria-hidden="true">→</span></button>' : '') +
+      '<button class="btn2" type="button" data-act="toexplore">← Back to your options</button></div>' +
+      '<p class="fine" style="margin-top:12px;text-align:center">We can’t tell whether a message was sent. Continuing is on trust.</p>';
+  }
+
+  function personDetail(p, role) {
+    return '<div class="side ' + role + '"><span class="k">' + (role === 'o' ? 'SELL' : 'BUY') + '</span>' + photo({name: p.name, code: p.code}, 'sm') + '<span class="pnm">' + esc(p.name) + '</span>' +
+      '<span class="mt">' + esc((p.team ? p.team + ' · ' : '') + (C.POS[p.pos] || '') + (p.price !== null ? ' · £' + (p.price / 10).toFixed(1) + 'm' : '')) + '</span>' +
+      (p.xp !== null ? '<span class="mt">' + esc(xp1(p.xp)) + (S.view.gw ? ' (GW' + S.view.gw + ')' : '') + '</span>' : '') + flag(p.status) + '</div>';
+  }
+  function numsPanel(m, v) {
+    const gw = v.gw ? 'GW' + v.gw : 'the next gameweek';
+    return '<div class="numgrid">' +
+      '<div class="nb main"><span class="k">Net gain vs hold</span><b class="' + (m.net !== null && m.net < 0 ? 'neg' : 'pos') + '">' + (m.net === null ? '—' : C.sg(m.net)) + '</b><span class="s">' + esc(gw) + ', after hit costs. Plans are ranked by this.</span></div>' +
+      '<div class="nb"><span class="k">Gain before hits</span><b>' + (m.before === null ? '—' : C.sg(m.before)) + '</b><span class="s">' + esc(gw) + ', before any hit is charged.</span></div>' +
+      '<div class="nb"><span class="k">Hit cost</span><b class="' + (m.hitPts ? 'neg' : '') + '">' + (m.hitPts ? '−' + m.hitPts : '0') + '</b><span class="s">' + (m.hits ? m.hits + ' hit' + (m.hits === 1 ? '' : 's') + '.' : 'No hit.') + '</span></div>' +
+      '<div class="nb"><span class="k">Bank after</span><b>' + C.money(m.bankAfter) + '</b><span class="s">Estimate, at current prices.</span></div>' +
+      '<div class="nb wide"><span class="k">Three-gameweek outlook vs hold</span>' + (m.outlook
+        ? '<b class="mono sm">' + m.outlook.map((x, i) => (v.gw ? 'GW' + (v.gw + i) : 'GW+' + (i + 1)) + ' ' + C.sg(x)).join(' · ') + '</b><span class="s">Before hits. Provisional: weeks 2 and 3 have not been backtested.</span>'
+        : '<span class="s">Three-gameweek outlook unavailable.</span>') + '</div></div>';
+  }
+
+  /* ── tweaks ── */
+  const tweakCtx = () => { const m = wm(); return {moves: m.moves.map(x => [x.out.id, x.inn.id]), inPos: m.moves.map(x => x.inn.pos), hits: m.hits, pos: id => (S.dir.byId[id] || {}).pos}; };
+  function tweakLabel(kind, m) {
+    return kind === 'keep' ? (m.n > 1 ? 'Keep one of the players I’d sell' : 'Keep ' + esc(m.moves[0].out.name) + ' instead of selling')
+      : kind === 'nohit' ? 'Do it without a points hit' : kind === 'hit' ? 'Allow one more points hit' : 'Buy someone else instead';
+  }
+  function twkReady(kind) { return kind === 'keep' ? S.twkSel.out !== null : kind === 'bring' ? S.twkSel.inn !== null : true; }
+  function twkResultHtml(t) {
+    const o = t.outcome, close = '<button type="button" data-act="twkclose">' + (o.after ? 'Not now' : 'Close') + '</button>';
+    if (!o.after) return '<div class="sim"><span class="simtag">From a new planner run</span><h4>No plan to compare</h4><p class="vline">' + esc(o.reason) + '</p><div class="simact">' + close + '</div></div>';
+    const a = o.after.model;
+    return '<div class="sim"><span class="simtag">From a new planner run</span><div class="srow hd"><span></span><span class="a lbl">Now</span><span class="b lbl" style="color:var(--lime)">After</span></div>' +
+      o.rows.map(r => '<div class="srow"><span class="l">' + esc(r[0]) + '</span><span class="a">' + esc(r[1]) + '</span><span class="b">' + esc(r[2]) + '</span></div>').join('') +
+      '<p class="vline ' + o.tone + '">' + esc(o.verdict) + '</p>' +
+      (t.kind === 'keep' ? '<p class="fine" style="margin-top:6px">This is the planner’s best plan with that player kept. It can differ from the plan you were looking at.</p>' : '') +
+      '<p class="fine" style="margin-top:6px">' + (a.outlook ? 'Three-gameweek outlook for this version, before hits, provisional: ' + a.outlook.map((x, i) => (S.view.gw ? 'GW' + (S.view.gw + i) : 'GW+' + (i + 1)) + ' ' + C.sg(x)).join(' · ') + '.' : 'Three-gameweek outlook unavailable.') + '</p>' +
+      '<div class="simact"><button class="p" type="button" data-act="twkuse">Use this version</button>' + close + '</div></div>';
+  }
+  function twkPanelHtml(kind, m) {
+    const t = S.twk && S.twk.kind === kind ? S.twk : null, busy = t && t.state === 'loading';
+    const desc = {keep: 'Asks the planner to recalculate the best plan with the player you pick kept in your squad. The answer may be a different transfer plan or Hold, not simply this plan minus one move.', nohit: 'Asks the planner for the best plan with no points hit.',
+                  hit: 'Asks the planner what happens if you allow one more points hit.', bring: 'Asks the planner to check your moves with a different player bought in.'}[kind];
+    let chooser = '';
+    if (kind === 'keep' && m.n > 1) chooser = '<div class="chips">' + m.moves.map(mv => '<button type="button" class="chip' + (S.twkSel.out === mv.out.id ? ' on' : '') + '" data-act="twkpick" data-v="' + mv.out.id + '">Keep ' + esc(mv.out.name) + '</button>').join('') + '</div>';
+    if (kind === 'bring') {
+      const mv = m.moves[S.twkSel.index] || m.moves[0];
+      if (m.n > 1) chooser = '<div class="chips">' + m.moves.map((x, i) => '<button type="button" class="chip' + (S.twkSel.index === i ? ' on' : '') + '" data-act="twkidx" data-v="' + i + '">Replace ' + esc(x.inn.name) + '</button>').join('') + '</div>';
+      chooser += '<div style="margin-top:8px">' + comboHtml('bring', 'buy', S.twkSel.inn, mv.inn.pos, []) + '</div>';
+    }
+    let state;
+    if (busy) state = '<div class="sim" role="status"><span class="ringsm"></span> Asking the planner…</div><div class="simact"><button type="button" data-act="twkcancel">Cancel</button></div>';
+    else if (t && t.state === 'error') state = '<div class="note bad" role="alert">' + esc(t.msg) + '</div><div class="simact"><button class="p" type="button" data-act="twkretry">Try again</button><button type="button" data-act="twkclose">Close</button></div>';
+    else if (t && t.state === 'done') state = twkResultHtml(t);
+    else state = '<div class="simact"><button class="p" type="button" data-act="twkrun"' + (twkReady(kind) ? '' : ' disabled') + '>Check it</button></div>';
+    return '<p class="what">' + desc + '</p>' + chooser + state;
+  }
+  function tweakSection() {
+    const m = wm(), base = S.work.request, ctx = tweakCtx(), busy = S.twk && S.twk.state === 'loading';
+    const tiles = ['keep', 'nohit', 'hit', 'bring'].map(kind => {
+      const open = S.twkOpen === kind, blocked = C.tweakBlocked(base, kind, ctx);
+      return '<div class="cbx' + (open ? ' open' : '') + '" id="twk-' + kind + '"><button type="button" class="cb" data-act="twk" data-v="' + kind + '" aria-expanded="' + open + '"' + ((blocked || (busy && !open)) ? ' disabled' : '') +
+        '><span class="grow">' + tweakLabel(kind, m) + '</span>' + ICON.chev + '</button>' + (blocked ? '<p class="fine" style="padding:0 13px 10px">' + esc(blocked) + '</p>' : '') +
+        (open ? '<div class="cpanel">' + twkPanelHtml(kind, m) + '</div>' : '') + '</div>';
+    }).join('');
+    return '<p class="sec">Tweak it and see what changes</p><p class="sub" style="margin:-4px 2px 10px">Each option asks the planner again with one thing changed. Nothing changes here until you tap Use this version.</p><div class="chal">' + tiles + '</div>';
+  }
+
+  function compareHtml() {
+    const c = workCard(), m = c.model, v = S.view;
+    const title = c.kind === 'mine' ? 'Your move' : c.kind === 'extra' ? 'Your move, plus extra transfers' : m.title;
+    const edited = S.work.applied.length ? '<div class="tags">' + S.work.applied.map(a => '<span class="tag rec">Edited: ' + esc(a) + '</span>').join('') + '<button type="button" class="lnkb" data-act="twkreset">Back to the original plan</button></div>' : '';
+    const moves = m.n === 0 ? '<div class="card" style="margin-top:12px;color:var(--gray);font-size:14px">No transfer. You keep all 15 players' + (m.freeLeft !== null ? ' and your ' + m.freeLeft + ' free transfer' + (m.freeLeft === 1 ? '' : 's') : '') + '.</div>'
+      : m.moves.map((mv, i) => '<div class="mcard"><div class="ml"><span>Move ' + (i + 1) + ' of ' + m.n + '</span></div><div class="mc2">' + personDetail(mv.out, 'o') + '<div class="mid">→</div>' + personDetail(mv.inn, 'i') + '</div></div>').join('');
+    const facts = C.whatGoesIn(c, v);
+    const risks = m.risks.length ? '<p class="sec">What the planner flagged</p><ul class="lims">' + m.risks.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul>' : '';
+    return '<button class="back" type="button" data-act="toexplore">← All plans</button><div class="ph" style="margin-top:6px"><span class="pico">' + (c.kind === 'hold' ? '❚❚' : c.kind === 'mine' ? '★' : c.rank || '+') + '</span><div class="grow"><h1 class="h" style="font-size:24px">' + esc(title) + '</h1>' +
+      '<div class="pt">' + (c.kind === 'rank' ? 'Ranked #' + c.rank + ' by net gain after hit costs.' : c.kind === 'hold' ? 'The baseline every plan is measured against.' : m.title) + '</div></div><span class="cost">' + esc(m.costLabel) + '</span></div>' + edited +
+      moves + (m.n ? numsPanel(m, v) : '') + risks +
+      '<p class="sec">What goes into this suggestion</p><div class="card facs">' + facts.map(f => '<div class="fac"><span class="fk">✓</span><div><b>' + esc(f.k) + '</b><p>' + esc(f.v) + '</p></div></div>').join('') +
+      '<p class="lbl" style="margin:12px 0 6px">Not factored in</p><ul class="lims">' + C.NOT_FACTORED.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' +
+      (m.n ? tweakSection() : '') +
+      '<div class="stack"><button class="btn" type="button" data-act="backplan">Back this plan <span aria-hidden="true">→</span></button><button class="btn2" type="button" data-act="toexplore">Compare with other plans</button></div>' +
+      '<p class="fine" style="margin-top:12px;text-align:center">All figures are planner projections, not guarantees.</p>';
+  }
+  function ensureCall(c) {
+    const key = c.model.sig + '|' + c.model.title;
+    if (!S.call || S.call.key !== key) S.call = {key, why: '', reasons: []};     // a different plan starts a fresh call
+  }
+  function signinSheetHtml() {
+    return '<div class="scrimx" data-act="sheetclose"></div><div class="sheetx" role="dialog" aria-modal="true" aria-label="Save your call"><h4>Save your call</h4>' +
+      '<div class="signnote" role="note">Sign-in isn’t available yet. Nothing on this page saves or sends anything, and we don’t keep what you type here.</div>' +
+      '<label class="optin" style="margin-top:14px"><input type="checkbox" checked><span>Email me my GW' + (S.view.gw || '') + ' review once the points are in</span></label>' +
+      '<button class="btn" type="button" data-act="signinstub"><span class="gmark" aria-hidden="true">G</span>Continue with Google</button>' +
+      '<div class="orsep"><span>or use email</span></div><input class="cin" type="email" inputmode="email" placeholder="you@email.com" autocomplete="off" aria-label="Email">' +
+      '<button class="btn2" type="button" data-act="signinstub" style="margin-top:8px">Email me a sign-in link</button>' +
+      '<p class="center" style="text-align:center;margin-top:10px"><button class="lnkb" type="button" data-act="sheetclose">Not now</button></p></div>';
+  }
+  function callHtml() {
+    const c = workCard(), m = c.model, v = S.view, k = C.callCard(c, v);
+    ensureCall(c);
+    const moves = m.n === 0 ? '<div class="card" style="margin-top:14px;color:var(--gray);font-size:14px">No transfer. You keep all 15 players.</div>'
+      : m.moves.map((mv, i) => '<div class="mcard"><div class="ml"><span>Move ' + (i + 1) + ' of ' + m.n + '</span></div><div class="mc2">' + personDetail(mv.out, 'o') + '<div class="mid">→</div>' + personDetail(mv.inn, 'i') + '</div></div>').join('');
+    const chips = '<div class="chips">' + Object.keys(C.REASONS).map(r => '<button type="button" class="chip' + (S.call.reasons.includes(r) ? ' on' : '') + '" data-act="reason" data-v="' + esc(r) + '" aria-pressed="' + S.call.reasons.includes(r) + '">' + esc(r) + '</button>').join('') + '</div>';
+    const share = S.sharePreview ? '<div class="scard"><div class="row" style="display:flex;justify-content:space-between"><b>Squad<span style="color:var(--lime)">Check</span></b><span class="gw">' + esc(k.gwl) + '</span></div>' +
+      '<p class="fine" style="margin-top:12px;color:var(--gray)">My call</p><div class="tt">' + esc(k.title) + '</div>' + k.moves.map(x => '<p style="font-weight:700;margin-top:6px">' + esc(x) + '</p>').join('') +
+      '<p class="fine" style="margin-top:10px;color:var(--gray)">' + esc(k.proj) + '</p><p style="margin-top:10px;font-weight:800">Would you back it?</p></div>' +
+      '<div class="stack"><button class="btn2" type="button" data-act="copycard">' + (S.copiedCard ? 'Copied' : 'Copy the text') + '</button></div>' +
+      '<p class="fine" style="margin-top:8px;text-align:center">Preview only. Sharing is optional and nothing is sent from here.</p>' : '';
+    return '<button class="back" type="button" data-act="tocompare">← Back to the plan</button>' +
+      '<div class="hero2"><span class="pill2">Your call · ' + esc(k.gwl) + '</span><h1>This is <span>my call.</span></h1><p class="sub">You’re backing ' + esc(k.title) + '.</p></div>' +
+      '<div class="recnote" role="status">Recorded for this visit only. It isn’t saved to an account, and refreshing or closing this page clears it.</div>' +
+      moves + (m.n ? numsPanel(m, v) : '') +
+      '<p class="sec">Why I’m backing it</p><label for="why" class="fine" style="display:block">In your own words (optional)</label><textarea id="why" placeholder="Why this plan?">' + esc(S.call.why) + '</textarea>' + chips +
+      '<p class="sec">Main risk</p><ul class="lims">' + k.risks.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul>' +
+      '<div class="projnote"><span>⚠</span><span><b>A projection, not a promise.</b> The figures above are planner projections. Real results can land well above or below them.</span></div>' +
+      '<div class="gain"><p class="gh">Lock it in. Find out if you were right.</p><p class="fine" style="margin-top:6px">Sign-in isn’t live yet, so nothing is saved today. This is what an account will give you:</p>' +
+      C.BENEFITS.map(b => '<div class="gb"><span class="gi">✓</span><div><b>' + esc(b[0]) + '</b><p>' + esc(b[1]) + '</p></div></div>').join('') +
+      '<p class="fine" style="margin-top:14px">For now your call is kept in this browser tab only.</p></div>' +
+      (S.signinNote ? '<div class="signnote" role="status">Sign-in isn’t live yet, so nothing was saved. Your call stays in this tab only.</div>' : '') +
+      '<div class="stack"><button class="btn" type="button" data-act="locksheet">Lock in my call</button><button class="btn2" type="button" data-act="sharetoggle" aria-expanded="' + S.sharePreview + '">' + (S.sharePreview ? 'Hide share card' : 'Preview share card') + '</button>' +
+      '<button class="btn2" type="button" data-act="toexplore">Compare with other plans</button></div>' + share +
+      '<p class="fine" style="margin-top:12px;text-align:center">All figures are planner projections, not guarantees.</p>' + (S.sheet ? signinSheetHtml() : '');
+  }
+
+  function emptyHtml() {
+    return '<h1 class="h">Start from your team check</h1><p class="sub">The Transfer Planner works from the squad we read from your screenshot. Check your team first, then come back here.</p>' +
+      '<div class="stack"><a class="btn" href="./">Check my team’s points — Free</a>' +
+      (DEV ? '<button class="btn2" type="button" data-act="sample">Load a sample squad (dev only)</button>' : '') + '</div>';
+  }
+  function errorHtml() {
+    return '<h1 class="h">We couldn’t load the planner</h1><p class="sub">' + esc(S.msg) + '</p><div class="stack"><button class="btn" type="button" data-act="retry">Try again</button><a class="btn2" href="./">Back to SquadCheck</a></div>';
+  }
+  function loadingHtml() { return '<div class="loading" role="status"><div class="ring"></div><p class="sub" style="margin:0">Loading your squad…</p></div>'; }
+
+  function render() {
+    $('#chips').innerHTML = (S.dev ? '<span class="gw dev">SAMPLE</span>' : '') + (S.gameweek ? '<span class="gw">GW' + S.gameweek + '</span>' : '');
+    $('#stepper').innerHTML = stepperHtml();
+    const y = window.scrollY;
+    const band = S.dev && S.phase !== 'empty' ? '<div class="devband" role="note">SAMPLE SQUAD · development only · these are not your players</div>' : '';
+    $('#main').innerHTML = band + ({loading: loadingHtml, empty: emptyHtml, error: errorHtml, ready: readyHtml, ploading: loadingPlansHtml,
+                                    explore: exploreHtml, xerror: xerrorHtml, gate: gateHtml, compare: compareHtml, call: callHtml}[S.phase])();
+    window.scrollTo(0, S.phase !== S.shown ? 0 : y); S.shown = S.phase;      // a new screen starts at the top; updates in place keep the scroll
+  }
+
+  /* ── data ── */
+  async function boot() {
+    S.phase = 'loading'; render();
+    S.dev = false; S.t0 = 0; S.unlocked = store.get(C.UNLOCK_KEY) === '1';
+    const ho = C.parseHandoff(store.get(C.HANDOFF_KEY), Date.now());
+    if (ho.ok && ho.dev && !DEV) { store.remove(C.HANDOFF_KEY); store.remove(C.STATE_KEY); ho.ok = false; }   // a sample squad never enters the normal journey
+    if (!ho.ok) { S.phase = 'empty'; render(); if (DEV) loadDirectoryOnly(); return; }
+    const dir = await loadDirectory(); if (!dir) return;
+    const problems = C.validateSquad(ho.squad_ids, dir.byId);
+    if (problems.length) { S.phase = 'error'; S.msg = 'We couldn’t read your squad (' + problems[0] + ') Please check your team again.'; render(); return; }
+    S.dir = dir; S.squad_ids = ho.squad_ids; S.gameweek = ho.gameweek || dir.gameweek; S.dev = ho.dev;
+    restoreState(); S.phase = 'ready'; render();
+  }
+  async function loadDirectory() {
+    try {
+      const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 20000);
+      const r = await fetch('/api/players', {signal: ctl.signal}); clearTimeout(t);
+      const dir = C.indexDirectory(r.ok ? await r.json() : null);
+      if (!dir.ok) throw new Error('bad directory');
+      return dir;
+    } catch (e) {
+      S.phase = 'error'; S.msg = 'The FPL player list isn’t available right now. Please try again in a moment.'; render(); return null;
+    }
+  }
+  async function loadDirectoryOnly() { const d = await loadDirectory(); if (d) { S.dir = d; S.phase = 'empty'; render(); } }
+  async function useSample() {
+    if (!S.dir) { const d = await loadDirectory(); if (!d) return; S.dir = d; }
+    const ids = C.sampleSquad(S.dir.players); if (!ids) return;
+    store.set(C.HANDOFF_KEY, JSON.stringify({v: 1, squad_ids: ids, gameweek: S.dir.gameweek, created: Date.now(), dev: true}));
+    boot();
+  }
+
+  /* ── requests (shared by Explore and the tweaks) ── */
+  async function fetchPlans(key, signal) {
+    try {
+      const r = await fetch('/api/transfer-plan', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: key, signal});
+      let j = null; try { j = await r.json(); } catch (e) { /* not JSON */ }
+      return C.parsePlanResponse(r.status, j);
+    } catch (e) {
+      const aborted = e && e.name === 'AbortError';
+      return {ok: false, kind: aborted ? 'timeout' : 'network', message: aborted ? 'This is taking longer than expected. Please try again.' : 'We couldn’t reach SquadCheck. Check your connection and try again.'};
+    }
+  }
+  const cacheGet = key => { const e = S.cache[key]; return e && Date.now() - e.t < 240000 ? e.parsed : null; };
+  const cacheSet = (key, parsed) => {
+    S.cache[key] = {t: Date.now(), parsed};
+    const ks = Object.keys(S.cache); if (ks.length > 10) delete S.cache[ks.sort((a, b) => S.cache[a].t - S.cache[b].t)[0]];
+  };
+
+  /* ── tweaks: each one is a real planner request; nothing is shown as the new answer until it arrives ── */
+  function twkSpec() { const k = S.twkOpen; return k === 'keep' ? {kind: k, out: S.twkSel.out} : k === 'bring' ? {kind: k, index: S.twkSel.index, inn: S.twkSel.inn} : {kind: k}; }
+  function cancelTweak() { S.twkId++; if (S.twkCtl) S.twkCtl.abort(); S.twkCtl = null; if (S.twk && S.twk.state === 'loading') S.twk = null; }
+  function finishTweak(kind, body, parsed) {
+    S.twk = {state: 'done', kind, body, parsed, outcome: C.tweakOutcome(parsed.view, kind, Array.isArray(body.moves), wm())};
+    render();
+  }
+  async function runTweak(force) {
+    if (S.twk && S.twk.state === 'loading') return;                          // never two tweak requests at once
+    const kind = S.twkOpen, built = C.tweakRequest(S.work.request, twkSpec(), tweakCtx());
+    if (!built.ok) { S.twk = {state: 'error', kind, msg: built.problems[0]}; render(); return; }
+    const key = JSON.stringify(built.body), cached = force ? null : cacheGet(key), id = ++S.twkId;
+    if (cached) { finishTweak(kind, built.body, cached); return; }
+    if (S.twkCtl) S.twkCtl.abort();
+    const ctl = new AbortController(); S.twkCtl = ctl;
+    const timer = setTimeout(() => ctl.abort(), 65000);
+    S.twk = {state: 'loading', kind, body: built.body}; render();
+    const parsed = await fetchPlans(key, ctl.signal);
+    clearTimeout(timer);
+    if (id !== S.twkId) return;                                              // cancelled or replaced: ignore the late answer
+    if (!parsed.ok) { S.twk = {state: 'error', kind, msg: parsed.message}; render(); return; }
+    cacheSet(key, parsed); finishTweak(kind, built.body, parsed);
+  }
+  function openInspect(c) {
+    cancelTweak();
+    S.work0 = S.work = {request: S.request, resp: S.resp, view: S.view, cardId: c.id, applied: []};
+    S.twk = null; S.twkOpen = null; S.twkSel = {out: c.model.moves.length === 1 ? c.model.moves[0].out.id : null, index: 0, inn: null};
+    if (!S.unlocked && c.kind !== 'hold') { S.gateOpened = false; S.popupBlocked = false; S.copied = false; S.phase = 'gate'; }   // Hold is never gated
+    else S.phase = 'compare';
+    render();
+  }
+
+  /* ── plans (POST /api/transfer-plan) ── */
+  function stopWait() { if (S.wait) { clearInterval(S.wait); S.wait = null; } }
+  function showView(parsed) {
+    S.resp = parsed.resp; S.view = parsed.view;
+    const first = S.view.cards.find(c => c.model);
+    S.sel = first ? first.id : null;
+    S.phase = 'explore'; render();
+  }
+  async function loadPlans(force) {
+    const key = JSON.stringify(S.request), now = Date.now();
+    if (S.work0 && JSON.stringify(S.work0.request) !== key) { S.work = S.work0 = null; S.call = null; S.twk = null; S.twkOpen = null; }   // new settings: the old working plan no longer applies
+    const hit = force ? null : cacheGet(key);
+    if (hit) { showView(hit); return; }
+    const id = ++S.reqId;
+    if (S.ctl) S.ctl.abort();
+    const ctl = new AbortController(); S.ctl = ctl;
+    const timer = setTimeout(() => ctl.abort(), 65000);
+    S.phase = 'ploading'; S.t0 = now; render();
+    stopWait();
+    S.wait = setInterval(() => { const el = $('#waitmsg'); if (el) el.textContent = (Date.now() - S.t0) > 10000 ? 'Still working. Thanks for waiting.' : 'This can take up to a minute the first time.'; }, 1000);
+    const parsed = await fetchPlans(key, ctl.signal);
+    clearTimeout(timer);
+    if (id !== S.reqId) return;                    // the user left while waiting
+    stopWait(); S.t0 = 0;
+    if (parsed.ok) { cacheSet(key, parsed); showView(parsed); }
+    else { S.phase = 'xerror'; S.msg = parsed.message; render(); }
+  }
+  function leavePlans() { S.reqId++; if (S.ctl) S.ctl.abort(); stopWait(); S.t0 = 0; cancelTweak(); }
+
+  /* ── combobox (managed by hand so typing never re-renders the field) ── */
+  const combo = {id: null, hi: 0, results: []};
+  function comboOpen(input) {
+    const id = input.dataset.combo, kind = input.dataset.kind, pos = +input.dataset.pos || null;
+    const ex = id === 'bring' ? (S.work ? wm().moves.map(x => x.inn.id) : []) : S.moves.map(m => kind === 'sell' ? m.out : m.inn).filter(Boolean);
+    combo.id = id; combo.hi = 0;
+    combo.results = C.search({kind, q: input.value, pos, exclude: ex, squadIds: S.squad_ids, byId: S.dir.byId, players: S.dir.players});
+    const box = $('#cb-' + id), list = $('#cl-' + id);
+    list.innerHTML = optionsHtml(id, combo.results, input.value, kind, pos);
+    box.classList.add('open'); input.setAttribute('aria-expanded', 'true');
+    highlight(id);
+  }
+  function comboClose(id) {
+    const box = $('#cb-' + id); if (!box) return;
+    box.classList.remove('open'); const i = box.querySelector('input'); if (i) { i.setAttribute('aria-expanded', 'false'); i.removeAttribute('aria-activedescendant'); }
+  }
+  function highlight(id) {
+    const list = $('#cl-' + id); if (!list) return;
+    list.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('hi', i === combo.hi));
+    const input = $('#cb-' + id + ' input'), el = list.querySelectorAll('.copt')[combo.hi];
+    if (el) { input.setAttribute('aria-activedescendant', el.id); el.scrollIntoView({block: 'nearest'}); } else input.removeAttribute('aria-activedescendant');
+  }
+  function pick(id, pid) {
+    if (id === 'bring') { S.twkSel.inn = pid; S.twk = null; render(); return; }
+    const kind = id.slice(0, -1), i = +id.slice(-1);
+    if (kind === 'sell') { S.moves[i].out = pid; const inn = S.moves[i].inn; if (inn && P(inn).pos !== P(pid).pos) S.moves[i].inn = null; }
+    else S.moves[i].inn = pid;
+    saveState(); render();
+  }
+
+  /* ── events ── */
+  function act(a, v, el) {
+    switch (a) {
+      case 'strat': S.strategy = v; clamp(); saveState(); render(); break;
+      case 'ft': S.ft = Math.max(0, Math.min(3, S.ft + (+v))); S.ftTouched = true; clamp(); saveState(); render(); break;
+      case 'hits': S.hits = +v; clamp(); saveState(); render(); break;
+      case 'addmove': if (S.moves.length < C.maxMoves(model())) S.moves.push({out: null, inn: null}); saveState(); render(); break;
+      case 'rmmove': S.moves.splice(+v, 1); if (!S.moves.length) S.moves = [{out: null, inn: null}]; saveState(); render(); break;
+      case 'cpick': pick(el.dataset.id, +v); break;
+      case 'cclear': { if (el.dataset.id === 'bring') { S.twkSel.inn = null; S.twk = null; render(); break; } const id = el.dataset.id, i = +id.slice(-1); if (id.startsWith('sell')) S.moves[i].out = null; else S.moves[i].inn = null; saveState(); render(); break; }
+      case 'next': { const r = C.buildPlanRequest(model()); if (r.ok) { S.request = r.body; loadPlans(false); } break; }
+      case 'retryplans': loadPlans(true); break;
+      case 'cancel': case 'edit': leavePlans(); S.phase = 'ready'; render(); break;
+      case 'pickplan': { if (v === 'work') { if (S.work && S.work.applied.length) { S.sel = 'work'; render(); } break; } const c = S.view.cards.find(x => x.id === v); if (c && c.model) { S.sel = v; render(); } break; }
+      case 'inspect': {
+        if (S.sel === 'work' && S.work && S.work.applied.length) { S.twk = null; S.twkOpen = null; S.phase = 'compare'; render(); break; }   // keep the edited plan
+        const c = S.view.cards.find(x => x.id === S.sel); if (c && c.model) openInspect(c); break;
+      }
+      case 'toexplore': cancelTweak(); if (S.work && S.work.applied.length) S.sel = 'work'; S.sheet = false; S.phase = 'explore'; render(); break;
+      case 'tocompare': S.phase = 'compare'; render(); break;
+      case 'backplan': ensureCall(workCard()); S.sharePreview = false; S.sheet = false; S.signinNote = false; S.copiedCard = false; S.phase = 'call'; render(); break;
+      case 'wa': {
+        const text = C.shareText(wm().title, S.view.gw); let w = null;
+        try { w = window.open(C.waLink(text), '_blank'); if (w) w.opener = null; } catch (e) { w = null; }
+        S.gateOpened = true; S.popupBlocked = !w; render(); break;
+      }
+      case 'wacopy': {
+        const text = C.shareText(wm().title, S.view.gw);
+        try { navigator.clipboard.writeText(text).then(() => { S.copied = true; render(); }, () => { S.copied = false; }); } catch (e) { S.copied = false; }
+        break;
+      }
+      case 'wadone': S.unlocked = true; store.set(C.UNLOCK_KEY, '1'); S.phase = 'compare'; render(); break;
+      case 'twk': {
+        const wasOpen = S.twkOpen === v;
+        if (S.twk && S.twk.state === 'loading') { if (wasOpen) { cancelTweak(); S.twkOpen = null; render(); } break; }
+        S.twkOpen = wasOpen ? null : v; S.twk = null;
+        S.twkSel = {out: wm().moves.length === 1 ? wm().moves[0].out.id : null, index: 0, inn: null}; render(); break;
+      }
+      case 'twkpick': S.twkSel.out = +v; S.twk = null; render(); break;
+      case 'twkidx': S.twkSel.index = +v; S.twkSel.inn = null; S.twk = null; render(); break;
+      case 'twkrun': runTweak(false); break;
+      case 'twkretry': runTweak(true); break;
+      case 'twkcancel': cancelTweak(); render(); break;
+      case 'twkclose': S.twk = null; S.twkOpen = null; render(); break;
+      case 'twkuse': {
+        const t = S.twk;
+        if (t && t.state === 'done' && t.outcome.after) {
+          S.work = {request: t.body, resp: t.parsed.resp, view: t.parsed.view, cardId: t.outcome.after.id, applied: S.work.applied.concat([TWEAK_NAMES[t.kind]])};
+          S.twk = null; S.twkOpen = null; S.twkSel = {out: null, index: 0, inn: null}; render();
+        }
+        break;
+      }
+      case 'twkreset': cancelTweak(); S.work = S.work0; S.twk = null; S.twkOpen = null; render(); break;
+      case 'reason': { const r = S.call; if (!r) break; const i = r.reasons.indexOf(v); if (i > -1) r.reasons.splice(i, 1); else { r.reasons.push(v); const ph = C.REASONS[v]; if (ph && !r.why.includes(ph)) r.why = (r.why ? r.why + ' ' : '') + ph; } render(); break; }
+      case 'sharetoggle': S.sharePreview = !S.sharePreview; S.copiedCard = false; render(); break;
+      case 'copycard': { const k = C.callCard(workCard(), S.view); try { navigator.clipboard.writeText(k.text).then(() => { S.copiedCard = true; render(); }, () => { /* blocked */ }); } catch (e) { /* clipboard unavailable */ } break; }
+      case 'locksheet': S.sheet = true; render(); break;
+      case 'sheetclose': S.sheet = false; render(); break;
+      case 'signinstub': S.sheet = false; S.signinNote = true; render(); break;       // a stub: nothing is saved or sent
+      case 'step': if (+v === 1) { leavePlans(); S.phase = 'ready'; render(); } else if (+v === 2 && S.view) { cancelTweak(); S.phase = 'explore'; render(); } else if (+v === 3 && S.work) { S.phase = 'compare'; render(); } break;
+      case 'retry': boot(); break;
+      case 'sample': useSample(); break;
+    }
+  }
+  document.addEventListener('pointerdown', e => { if (e.target.closest('.clist')) e.preventDefault(); });   // keep focus in the field while choosing
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el || el.tagName === 'INPUT') return;
+    act(el.dataset.act, el.dataset.v, el);
+  });
+  document.addEventListener('focusin', e => { if (e.target.matches && e.target.matches('input[data-combo]')) comboOpen(e.target); });
+  document.addEventListener('focusout', e => { if (e.target.matches && e.target.matches('input[data-combo]')) setTimeout(() => comboClose(e.target.dataset.combo), 120); });
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.matches && t.matches('input[data-combo]')) comboOpen(t);
+    else if (t.id === 'why' && S.call) { S.call.why = t.value; }
+    else if (t.id === 'bank') { S.bank = t.value; saveState(); const ok = C.parseBank(S.bank).ok; t.parentElement.classList.toggle('bad', !ok && S.bank.trim() !== ''); refreshCta(); }
+  });
+  document.addEventListener('keydown', e => {
+    const t = e.target;
+    if (e.key === 'Escape' && S.sheet) { S.sheet = false; render(); return; }
+    if ((e.key === 'Enter' || e.key === ' ') && t.matches && t.matches('.plan[data-act="pickplan"]')) { e.preventDefault(); act('pickplan', t.dataset.v, t); return; }
+    if (!(t.matches && t.matches('input[data-combo]'))) return;
+    const id = t.dataset.combo, n = combo.results.length;
+    if (e.key === 'ArrowDown') { e.preventDefault(); if (n) { combo.hi = (combo.hi + 1) % n; highlight(id); } }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); if (n) { combo.hi = (combo.hi - 1 + n) % n; highlight(id); } }
+    else if (e.key === 'Enter') { e.preventDefault(); if (n) pick(id, combo.results[combo.hi].id); }
+    else if (e.key === 'Escape') { comboClose(id); }
+  });
+  function refreshCta() {   // bank typing must not re-render the field and drop focus
+    const r = C.buildPlanRequest(model()), b = document.querySelector('[data-act="next"]'), h = document.querySelector('.stack .help');
+    if (b) b.disabled = !r.ok;
+    if (h) h.textContent = r.ok ? '' : (S.strategy ? r.problems[0] : 'Pick a game plan to continue.');
+    const sub = document.querySelector('#bankhint'), bank = C.parseBank(S.bank);
+    if (sub) sub.innerHTML = bankHint(bank);
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>

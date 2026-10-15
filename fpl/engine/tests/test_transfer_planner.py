@@ -949,5 +949,168 @@ class TestAdapters(unittest.TestCase):
         self.assertEqual(out[3001]["xpts"][1], 0.0)            # genuine blank GW6
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# GAIN BEFORE HITS VERSUS NET GAIN
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestGainBeforeHits(unittest.TestCase):
+    def test_free_transfer_plan_has_equal_gain_before_and_after_hits(self):
+        r = plan(world([P(101, 1, 14)]))
+        p = r["recommendation"]["plan"]
+        self.assertEqual(p["hit_points"], 0)
+        self.assertAlmostEqual(p["projected_gain_before_hits"], p["projected_gain_vs_hold"], places=2)
+        self.assertAlmostEqual(r["recommendation"]["projected_gain_before_hits"],
+                               r["recommendation"]["projected_gain"], places=2)
+
+    def test_hit_is_the_only_difference_between_the_two_gains(self):
+        r = plan(world([P(101, 1, 14)]), free_transfers=0, max_hits=1)
+        p = r["recommendation"]["plan"]
+        self.assertEqual(p["hit_points"], 4)
+        self.assertAlmostEqual(p["projected_gain_before_hits"] - p["projected_gain_vs_hold"], 4, places=2)
+        self.assertAlmostEqual(r["recommendation"]["projected_gain_before_hits"]
+                               - r["recommendation"]["projected_gain"], 4, places=2)
+
+    def test_relationship_holds_for_every_alternative(self):
+        r = plan(world([P(101, 1, 14), P(102, 3, 11), P(103, 4, 12)]), free_transfers=1, max_hits=2, top_n=10)
+        self.assertTrue(r["alternatives"])
+        for alt in r["alternatives"]:
+            self.assertAlmostEqual(alt["projected_gain_before_hits"] - alt["hit_points"],
+                                   alt["projected_gain_vs_hold"], places=2)
+            self.assertGreaterEqual(alt["projected_gain_before_hits"], alt["projected_gain_vs_hold"] - 1e-9)
+
+    def test_hold_gains_are_zero_and_existing_fields_are_unchanged(self):
+        r = plan(world(), free_transfers=0)
+        self.assertEqual(r["hold"]["projected_gain_vs_hold"], 0.0)
+        self.assertEqual(r["hold"]["projected_gain_before_hits"], 0.0)
+        self.assertEqual(r["recommendation"]["projected_gain_before_hits"], 0.0)
+        q = plan(world([P(101, 1, 14)]), free_transfers=0, max_hits=1)
+        p = q["recommendation"]["plan"]
+        self.assertAlmostEqual(p["projected_gain_vs_hold"], p["net_score"] - q["hold"]["score"], places=2)
+        self.assertAlmostEqual(q["recommendation"]["projected_gain"], p["projected_gain_vs_hold"], places=2)
+
+    def test_ranking_still_uses_the_net_gain(self):
+        r = plan(world([P(101, 1, 14), P(102, 3, 11)]), free_transfers=1, max_hits=1, top_n=10)
+        nets = [a["projected_gain_vs_hold"] for a in r["alternatives"]]
+        self.assertEqual(nets, sorted(nets, reverse=True))
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PRESENTATION METADATA STAYS OUT OF THE PLANNER
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestNoPresentationDependency(unittest.TestCase):
+    def test_planner_works_without_photo_or_team_name_fields_and_does_not_invent_them(self):
+        r = plan(world([P(101, 1, 14)]))
+        players = []
+
+        def walk(o):
+            if isinstance(o, dict):
+                if {"id", "web_name", "position", "team"} <= o.keys():
+                    players.append(o)
+                for v in o.values():
+                    walk(v)
+            elif isinstance(o, list):
+                for v in o:
+                    walk(v)
+        walk(r)
+        self.assertTrue(players)
+        for d in players:
+            for key in ("photo_code", "team_name", "team_short"):
+                self.assertNotIn(key, d)
+
+    def test_extra_presentation_fields_on_input_are_ignored(self):
+        base = plan(world([P(101, 1, 14)]))
+        decorated = world([{**P(101, 1, 14), "photo_code": 5, "team_name": "X", "team_short": "XX"}])
+        for i in SQUAD:
+            decorated[i] = {**decorated[i], "photo_code": 1000 + i, "team_name": "T%d" % i}
+        out = plan(decorated)
+        self.assertEqual(pairs(out["recommendation"]["plan"]), pairs(base["recommendation"]["plan"]))
+        self.assertEqual(out["recommendation"]["projected_gain"], base["recommendation"]["projected_gain"])
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KEEP PLAYERS
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestKeepPlayers(unittest.TestCase):
+    """Two goalkeepers are interchangeable for a 14-xPts incoming keeper, so without a constraint the
+    tie goes to the lowest id (1). Keeping 1 must move the sale to 2, not hide the result."""
+
+    def setUp(self):
+        self.pl = world([P(101, 1, 14)])
+
+    def test_default_and_empty_keep_are_identical(self):
+        a = plan(self.pl)
+        b = plan(self.pl, keep_ids=[])
+        a["inputs"].pop("keep_ids"), b["inputs"].pop("keep_ids")
+        self.assertEqual(a["search"]["coverage"].pop("squad_players_kept"), [])
+        self.assertEqual(b["search"]["coverage"].pop("squad_players_kept"), [])
+        self.assertEqual(a, b)
+
+    def test_unconstrained_plan_sells_player_one(self):
+        self.assertEqual(pairs(plan(self.pl)["recommendation"]["plan"]), [(1, 101)])
+
+    def test_kept_player_is_not_sold_and_the_next_best_sale_is_used(self):
+        r = plan(self.pl, keep_ids=[1])
+        self.assertEqual(pairs(r["recommendation"]["plan"]), [(2, 101)])
+        for alt in r["alternatives"]:
+            self.assertNotIn(1, [t["out"]["id"] for t in alt["transfers"]])
+
+    def test_keeping_every_possible_sale_leaves_no_plan_not_a_made_up_one(self):
+        r = plan(self.pl, keep_ids=[1, 2])
+        self.assertEqual(r["recommendation"]["action"], "HOLD")
+        self.assertEqual(r["alternatives"], [])
+
+    def test_keep_everyone_is_hold(self):
+        r = plan(world([P(101, 1, 14), P(102, 3, 12)]), keep_ids=list(SQUAD))
+        self.assertEqual(r["recommendation"]["action"], "HOLD")
+        self.assertEqual(r["alternatives"], [])
+
+    def test_keep_is_echoed_and_does_not_downgrade_optimality(self):
+        r = plan(self.pl, keep_ids=[3], **WIDE)
+        self.assertEqual(r["inputs"]["keep_ids"], [3])
+        self.assertEqual(r["search"]["coverage"]["squad_players_kept"], [3])
+        self.assertNotIn(3, r["search"]["coverage"]["squad_players_not_considered_for_sale"])
+        self.assertEqual(r["search"]["optimality"], "optimal_over_supplied_players")
+        self.assertFalse(r["search"]["pruned"])
+
+    def test_incoming_only_request_picks_the_best_exit_among_players_not_kept(self):
+        r = plan(self.pl, in_ids=[101], keep_ids=[1])
+        self.assertEqual(r["requested"]["intent"], "in_only")
+        self.assertEqual(pairs(r["requested"]["plan"]), [(2, 101)])
+
+    def test_outgoing_request_is_unaffected_by_keeping_someone_else(self):
+        r = plan(self.pl, out_ids=[2], keep_ids=[1])
+        self.assertEqual(pairs(r["requested"]["plan"]), [(2, 101)])
+
+    def test_kept_player_never_appears_in_any_plan_over_random_worlds(self):
+        rnd = random.Random(21)
+        for _ in range(25):
+            extra = [P(100 + i, rnd.choice((1, 2, 3, 4)), round(rnd.uniform(1, 13), 1),
+                       price=rnd.choice((40, 50, 60)), team=100 + i) for i in range(1, 9)]
+            pl = world(extra)
+            keep = rnd.sample(SQUAD, 4)
+            free = rnd.choice((1, 2))
+            free_r = plan(pl, bank=20, free_transfers=free, max_hits=1, top_n=10, **WIDE)
+            kept_r = plan(pl, bank=20, free_transfers=free, max_hits=1, top_n=10, keep_ids=keep, **WIDE)
+            for alt in kept_r["alternatives"]:
+                self.assertFalse({t["out"]["id"] for t in alt["transfers"]} & set(keep))
+            best_free = free_r["alternatives"][0]["projected_gain_vs_hold"] if free_r["alternatives"] else 0
+            best_kept = kept_r["alternatives"][0]["projected_gain_vs_hold"] if kept_r["alternatives"] else 0
+            self.assertLessEqual(best_kept, best_free + 1e-9)
+
+    def test_invalid_keep_requests_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, "not in the squad"):
+            plan(self.pl, keep_ids=[101])
+        with self.assertRaisesRegex(ValueError, "not in the squad"):
+            plan(self.pl, keep_ids=[99])
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            plan(self.pl, keep_ids=[1, 1])
+        with self.assertRaisesRegex(ValueError, "both sold and kept"):
+            plan(self.pl, out_ids=[1], keep_ids=[1])
+        with self.assertRaisesRegex(ValueError, "both sold and kept"):
+            plan(self.pl, moves=[(1, 101)], keep_ids=[1])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -29,6 +29,19 @@ named players plus extra transfers; it is never substituted for the literal plan
 Squad value = best legal XI from the 15 under the weighted xPts score, so the scanner's
 starter/bench split is never used. All numbers are projections, not guarantees.
 
+Gain definitions (over the weighted score above; the default weighting is next GW only)
+    projected_gain_before_hits  score(plan) - score(hold): what the new squad is projected to add,
+                                before any points hit is charged
+    projected_gain_vs_hold      net_score(plan) - score(hold)
+                                = projected_gain_before_hits - hit_points
+                                (existing field; ranking and the recommendation use this one)
+    outlook.vs_hold             per-GW best-XI difference against hold, also before hits (provisional)
+
+keep_ids=[...]  squad players who must not be sold. A real search constraint, not a label: they are
+                removed from every outgoing pool, moves / out_ids may not include them, and the
+                result echoes them in inputs.keep_ids and search.coverage.squad_players_kept.
+                They do not count as pruning, so optimality is reported for the constrained space.
+
 Search scope: only the players supplied in `players`, pruned to bounded pools. The result's
 `search.coverage` says what was and was not searched; `search.optimality` is only
 "optimal_over_supplied_players" when nothing supplied was pruned.
@@ -119,7 +132,7 @@ def _validate_players(players):
 
 def _validate(squad_ids, players, bank, free_transfers, out_ids, in_ids, moves, weights,
               max_hits, hit_cost, min_gain, top_n, in_pool_per_position, out_pool_size,
-              max_evals, free_transfer_cap):
+              max_evals, free_transfer_cap, keep_ids=()):
     if len(squad_ids) != 15 or len(set(squad_ids)) != 15:
         raise ValueError("squad must be 15 unique player ids; got %d (%d unique)"
                          % (len(squad_ids), len(set(squad_ids))))
@@ -181,6 +194,14 @@ def _validate(squad_ids, players, bank, free_transfers, out_ids, in_ids, moves, 
             raise ValueError("in player %s missing from player data" % pid)
     if len(set(named_out)) != len(named_out) or len(set(named_in)) != len(named_in):
         raise ValueError("duplicate ids among the named outgoing / incoming players")
+    for pid in keep_ids:
+        if not _is_int(pid) or pid not in squad_ids:
+            raise ValueError("keep player %r is not in the squad" % (pid,))
+    if len(set(keep_ids)) != len(keep_ids):
+        raise ValueError("duplicate ids in keep_ids")
+    clash = sorted(set(keep_ids) & set(named_out))
+    if clash:
+        raise ValueError("player(s) %s cannot be both sold and kept" % clash)
 
 
 def _xpts(info):
@@ -220,6 +241,7 @@ def plan_transfers(
     max_evals:      int = 60000,
     top_n:          int = 5,
     free_transfer_cap: int = MAX_FREE_TRANSFERS,
+    keep_ids:       Sequence[int] = (),
 ) -> dict:
     """
     Parameters
@@ -238,13 +260,16 @@ def plan_transfers(
     out_pool_size   : squad players considered for sale in open-ended search (15 = all).
     max_evals       : soft budget on squad evaluations; pools shrink (never below the
                     named players) until the planned search fits.
+    keep_ids        : squad players that must not be sold (search constraint; see module doc).
     """
     squad_ids, out_ids, in_ids = list(squad_ids), list(out_ids), list(in_ids)
+    keep_ids = list(keep_ids)
     moves = [tuple(m) if isinstance(m, (tuple, list)) else m for m in moves]
     weights = tuple(weights)
     _validate(squad_ids, players, bank, free_transfers, out_ids, in_ids, moves, weights,
               max_hits, hit_cost, min_gain, top_n, in_pool_per_position, out_pool_size,
-              max_evals, free_transfer_cap)
+              max_evals, free_transfer_cap, keep_ids)
+    keep_set = set(keep_ids)
     wsum = float(sum(weights))
     weights = tuple(w / wsum for w in weights)
 
@@ -317,7 +342,8 @@ def plan_transfers(
         return pool
 
     def build_out_pool(size):
-        rest = sorted((p for p in squad_ids if p not in forced_out), key=lambda p: (score[p], p))
+        rest = sorted((p for p in squad_ids if p not in forced_out and p not in keep_set),
+                      key=lambda p: (score[p], p))
         return sorted(forced_out) + rest[:max(0, size - len(forced_out))]
 
     def slots_for(out, fi):
@@ -360,7 +386,8 @@ def plan_transfers(
                             [len(forced_out)] if allowed else [], [], in_pool))
             elif intent == "in_only":
                 out.append(("literal", frozenset(), frozenset(forced_in),
-                            [len(forced_in)] if allowed else [], list(squad_ids), empty_pool))
+                            [len(forced_in)] if allowed else [],
+                            [p for p in squad_ids if p not in keep_set], empty_pool))
         return out
 
     def total_cost(out_pool, in_pool):
@@ -556,6 +583,7 @@ def plan_transfers(
             "score": round(plan["score"], 2),
             "net_score": round(plan["net_score"], 2),
             "projected_gain_vs_hold": round(plan["net_score"] - hold_score, 2),
+            "projected_gain_before_hits": round(plan["score"] - hold_score, 2),
             "bank_after": plan["bank_after"],
             "xi_ids": best_xi(squad, score, position)[1],
             "outlook": {"status": "provisional_unvalidated", "note": OUTLOOK_NOTE,
@@ -575,7 +603,8 @@ def plan_transfers(
         "n_transfers": 0, "free_transfers_used": 0, "free_transfers_remaining": free_transfers,
         "hits": 0, "hit_points": 0, "transfers": [],
         "score": round(hold_score, 2), "net_score": round(hold_score, 2),
-        "projected_gain_vs_hold": 0.0, "bank_after": bank, "xi_ids": hold_xi,
+        "projected_gain_vs_hold": 0.0, "projected_gain_before_hits": 0.0, "bank_after": bank,
+        "xi_ids": hold_xi,
         "outlook": {"status": "provisional_unvalidated", "note": OUTLOOK_NOTE,
                     "best_xi_xpts": [round(v, 2) for v in hold_gw], "vs_hold": [0.0] * HORIZON},
         "confidence": "LOW" if squad_incomplete else None, "risks": [], "price_source": "estimated",
@@ -597,6 +626,7 @@ def plan_transfers(
         else:
             best = passing
     recommendation = {"action": "HOLD", "plan": hold_plan, "projected_gain": 0.0,
+                      "projected_gain_before_hits": 0.0,
                       "reason": "No transfer plan is projected to beat holding"}
     if not_robust is not None:
         recommendation["reason"] = (
@@ -608,6 +638,7 @@ def plan_transfers(
         if gain >= min_gain:
             recommendation = {
                 "action": "TRANSFER", "plan": finish(best), "projected_gain": round(gain, 2),
+                "projected_gain_before_hits": round(best["score"] - hold_score, 2),
                 "reason": ("Projected gain of +%.2f xPts over holding (an estimate, not a guarantee; "
                            "threshold %.2f)" % (gain, min_gain))}
         else:
@@ -679,7 +710,7 @@ def plan_transfers(
     searched = {pos: sorted(set(in_pool[pos]) | {p for p in forced_in if position[p] == pos})
                 for pos in (1, 2, 3, 4)}
     n_searched = sum(len(v) for v in searched.values())
-    squad_unsold = sorted(p for p in squad_ids if p not in out_pool)
+    squad_unsold = sorted(p for p in squad_ids if p not in out_pool and p not in keep_set)
     pruned = n_searched < n_supplied or bool(squad_unsold) or bool(incomplete)
     search = {
         "scope": "supplied_players",
@@ -693,6 +724,7 @@ def plan_transfers(
             "candidates_excluded": n_supplied - n_searched,
             "squad_players_considered_for_sale": len(out_pool),
             "squad_players_not_considered_for_sale": squad_unsold,
+            "squad_players_kept": sorted(keep_set),
             "excluded_for_missing_projection": sorted(p for p in incomplete if p not in squad_set),
             "squad_players_missing_projection": squad_incomplete,
             "limits": {"in_pool_per_position": in_pool_per_position, "out_pool_size": out_pool_size,
@@ -718,7 +750,8 @@ def plan_transfers(
         "inputs": {"bank": bank, "free_transfers": free_transfers, "weights": list(weights),
                    "max_hits": max_hits, "hit_cost": hit_cost, "min_gain": min_gain,
                    "price_source": "now_cost (estimate; selling price may differ)",
-                   "intent": intent, "out_ids": out_ids, "in_ids": in_ids, "moves": moves},
+                   "intent": intent, "out_ids": out_ids, "in_ids": in_ids, "moves": moves,
+                   "keep_ids": keep_ids},
         "hold": hold_plan,
         "recommendation": recommendation,
         "requested": requested,

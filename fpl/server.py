@@ -42,7 +42,8 @@ sys.path.insert(0, str(ROOT))
 from fpl.engine.scanner    import scan_squad, VALID, VIEW_PITCH
 from fpl.engine.projection import build_params
 from fpl.engine.pipeline   import run_pipeline
-from fpl.engine.transfer_adapter import FplDataSource, MAX_BODY_BYTES, handle as handle_transfer_plan
+from fpl.engine.transfer_adapter import (FplDataSource, MAX_BODY_BYTES, PLAYERS_CACHE_CONTROL,
+                                         handle as handle_transfer_plan, handle_players)
 
 # ── FPL API ───────────────────────────────────────────────────────────────────
 _BS_URL  = "https://fantasy.premierleague.com/api/bootstrap-static/"
@@ -255,7 +256,36 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self._cors()
         self.end_headers()
 
+    def do_GET(self):
+        if self.path.split("?", 1)[0].rstrip("/") == "/api/players":
+            self._players()
+            return
+        super().do_GET()                    # everything else is the static site, as before
+
+    def _players(self):
+        """Same handler as api/players.py; shares the transfer-plan source (one bootstrap cache)."""
+        status, payload = handle_players(_TRANSFER_SOURCE)
+        body = json.dumps(payload, ensure_ascii=False).encode()
+        self.send_response(status)
+        self._cors()
+        self.send_header("Cache-Control", PLAYERS_CACHE_CONTROL if status == 200 else "no-store")
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+        print("  players  http=%s  count=%s" % (status, payload.get("count", "-")))
+
     def do_POST(self):
+        if self.path.split("?", 1)[0].rstrip("/") == "/api/players":
+            body = json.dumps({"status": "METHOD_NOT_ALLOWED", "error": "Use GET", "details": []}).encode()
+            self.send_response(405)
+            self._cors()
+            self.send_header("Allow", "GET, OPTIONS")
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
         if self.path.rstrip("/") == "/api/transfer-plan":
             self._transfer_plan()
             return

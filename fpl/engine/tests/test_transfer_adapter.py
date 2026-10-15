@@ -930,6 +930,151 @@ class TestSummaryCache(unittest.TestCase):
 # TRANSPORTS: deployment handler and local server
 # ─────────────────────────────────────────────────────────────────────────────
 
+# ─────────────────────────────────────────────────────────────────────────────
+# PLAYER METADATA, GAIN BEFORE HITS, KEEP PLAYERS
+# ─────────────────────────────────────────────────────────────────────────────
+
+def collect_players(obj, out=None):
+    """Every player dict (id, web_name, position, team) anywhere in a payload."""
+    out = [] if out is None else out
+    if isinstance(obj, dict):
+        if {"id", "web_name", "position", "team"} <= obj.keys():
+            out.append(obj)
+        for v in obj.values():
+            collect_players(v, out)
+    elif isinstance(obj, list):
+        for v in obj:
+            collect_players(v, out)
+    return out
+
+
+def fake_with_codes():
+    fake = FakeFpl()
+    for e in fake.bootstrap["elements"]:
+        e["code"] = 9000 + e["id"]
+    return fake
+
+
+class TestPlayerMetadata(unittest.TestCase):
+    MOVE = [[12, 126]]
+
+    def test_every_player_in_the_response_carries_photo_code_and_team_names(self):
+        status, p, _ = run(fake_with_codes(), moves=self.MOVE)
+        self.assertEqual(status, 200)
+        self.assertIsNotNone(p["plan"]["requested"]["plan"])
+        players = collect_players(p["plan"]) + p["squad"]
+        self.assertGreater(len(collect_players(p["plan"]["requested"]["plan"])), 1)
+        for d in players:
+            self.assertEqual(d["photo_code"], 9000 + d["id"], d)
+            self.assertEqual(d["team_name"], "Club %d" % d["team"])
+            self.assertEqual(d["team_short"], "C%d" % d["team"])
+
+    def test_missing_or_malformed_codes_become_none_without_failing_the_request(self):
+        fake = fake_with_codes()
+        by_id = {e["id"]: e for e in fake.bootstrap["elements"]}
+        del by_id[12]["code"]
+        by_id[126]["code"] = "9126"
+        by_id[8]["code"] = 0
+        by_id[9]["code"] = None
+        status, p, _ = run(fake, moves=self.MOVE)
+        self.assertEqual(status, 200)
+        got = {d["id"]: d["photo_code"] for d in collect_players(p["plan"]) + p["squad"]}
+        for pid in (12, 126, 8, 9):
+            if pid in got:
+                self.assertIsNone(got[pid], pid)
+        self.assertEqual(got[1], 9001)
+        self.assertIsNone(next(d for d in p["squad"] if d["id"] == 12)["photo_code"])
+
+    def test_unknown_team_gives_none_names_for_that_club_only(self):
+        fake = fake_with_codes()
+        fake.bootstrap["teams"] = [t for t in fake.bootstrap["teams"] if t["id"] != 6]
+        status, p, _ = run(fake, moves=self.MOVE)
+        self.assertEqual(status, 200)
+        for d in collect_players(p["plan"]) + p["squad"]:
+            if d["team"] == 6:
+                self.assertIsNone(d["team_name"])
+                self.assertIsNone(d["team_short"])
+            else:
+                self.assertEqual(d["team_short"], "C%d" % d["team"])
+
+    def test_missing_or_malformed_teams_list_never_breaks_the_response(self):
+        for broken in (None, "nope", [{"id": "x"}, {"name": "no id"}, 7, {"id": 3, "name": 5, "short_name": ""}]):
+            fake = fake_with_codes()
+            if broken is None:
+                del fake.bootstrap["teams"]
+            else:
+                fake.bootstrap["teams"] = broken
+            status, p, _ = run(fake, moves=self.MOVE)
+            self.assertEqual(status, 200, broken)
+            for d in collect_players(p["plan"]) + p["squad"]:
+                self.assertIsNone(d["team_name"], broken)
+                self.assertIsNone(d["team_short"], broken)
+                self.assertEqual(d["photo_code"], 9000 + d["id"])
+
+    def test_bootstrap_without_any_codes_still_works(self):
+        status, p, _ = run(FakeFpl(), moves=self.MOVE)
+        self.assertEqual(status, 200)
+        for d in collect_players(p["plan"]) + p["squad"]:
+            self.assertIsNone(d["photo_code"])
+            self.assertIn("team_name", d)
+
+
+class TestGainBeforeHitsInResponse(unittest.TestCase):
+    def test_before_hits_minus_hit_points_is_the_net_gain_for_every_plan(self):
+        status, p, _ = run(free_transfers=0, max_hits=2)
+        alts = p["plan"]["alternatives"]
+        self.assertTrue(alts)
+        for alt in alts:
+            self.assertAlmostEqual(alt["projected_gain_before_hits"] - alt["hit_points"],
+                                   alt["projected_gain_vs_hold"], delta=0.011)
+        self.assertTrue(any(a["hit_points"] > 0 for a in alts))
+
+    def test_no_hit_plans_have_identical_gains(self):
+        status, p, _ = run(free_transfers=2)
+        for alt in p["plan"]["alternatives"]:
+            self.assertEqual(alt["hit_points"], 0)
+            self.assertAlmostEqual(alt["projected_gain_before_hits"], alt["projected_gain_vs_hold"], delta=0.011)
+        self.assertEqual(p["plan"]["hold"]["projected_gain_before_hits"], 0.0)
+
+
+class TestKeepPlayersRequest(unittest.TestCase):
+    def errors(self, **kw):
+        with self.assertRaises(ApiError) as cm:
+            parse_request(json.loads(body(**kw)))
+        return " | ".join(cm.exception.details)
+
+    def test_keep_ids_parsed_and_defaulted(self):
+        self.assertEqual(parse_request(json.loads(body()))["keep_ids"], [])
+        self.assertEqual(parse_request(json.loads(body(keep_ids=[3, 4])))["keep_ids"], [3, 4])
+
+    def test_invalid_keep_ids_report_every_problem(self):
+        self.assertIn("keep_ids must be a list of integer player ids", self.errors(keep_ids="3"))
+        self.assertIn("keep_ids must be a list of integer player ids", self.errors(keep_ids=[1.5]))
+        self.assertIn("kept player 121 is not in squad_ids", self.errors(keep_ids=[121]))
+        self.assertIn("keep_ids must be distinct", self.errors(keep_ids=[3, 3]))
+        self.assertIn("cannot be both sold and kept", self.errors(keep_ids=[12], out_ids=[12]))
+        self.assertIn("cannot be both sold and kept", self.errors(keep_ids=[12], moves=[[12, 126]]))
+
+    def test_keep_is_echoed_in_request_and_plan(self):
+        status, p, _ = run(free_transfers=2, keep_ids=[12, 13])
+        self.assertEqual(status, 200)
+        self.assertEqual(p["request"]["keep_ids"], [12, 13])
+        self.assertEqual(p["plan"]["inputs"]["keep_ids"], [12, 13])
+        self.assertEqual(p["plan"]["search"]["coverage"]["squad_players_kept"], [12, 13])
+
+    def test_kept_players_are_never_sold_end_to_end(self):
+        status, base, _ = run(free_transfers=2, max_hits=1)
+        sold = {t["out"]["id"] for a in base["plan"]["alternatives"] for t in a["transfers"]}
+        self.assertTrue(sold, "fixture should produce at least one sale")
+        status, p, _ = run(free_transfers=2, max_hits=1, keep_ids=sorted(sold))
+        self.assertEqual(status, 200)
+        sold_now = {t["out"]["id"] for a in p["plan"]["alternatives"] for t in a["transfers"]}
+        self.assertFalse(sold_now & sold)
+
+    def test_unknown_field_is_still_rejected(self):
+        self.assertIn("unknown field", self.errors(keep=[1]))
+
+
 class _Server:
     def __init__(self, handler_cls):
         self.httpd = HTTPServer(("127.0.0.1", 0), handler_cls)
