@@ -68,7 +68,7 @@ def idx(payload):
 
 
 def state(**kw):
-    s = {"strategy": None, "ft": 1, "bank": "1.0", "hits": None, "moves": [{"out": None, "inn": None}],
+    s = {"strategy": None, "ft": 1, "bank": "1.0", "hits": 0, "moves": [{"out": None, "inn": None}],
          "squad_ids": SQUAD}
     s.update(kw)
     return s
@@ -201,7 +201,7 @@ class TestRules(unittest.TestCase):
 
     def test_nothing_is_selected_by_default(self):
         for ft in range(4):
-            self.assertFalse(any(o["selected"] for o in self.opts(ft=ft)))
+            self.assertFalse(any(o["selected"] for o in self.opts(ft=ft, hits=None)))
 
     def test_sensible_allows_only_no(self):
         for ft in (1, 2):
@@ -464,7 +464,7 @@ const out = {};
     out[step.name] = {html: html(), cta: (html().match(/data-act="next"( disabled)?/) || [])[1] ? 'disabled' : (html().includes('data-act="next"') ? 'enabled' : 'none'),
                       help: ((html().match(/<p class="help" style="margin-top:0">(.*?)<\\/p>/) || [])[1]) || '',
                       state: storage['squadcheck.planner.state.v1'] || null, posts: (input.posts || []).length,
-                      stepper: els['#stepper'].innerHTML, ctaLive: (els['[data-act="next"]'] || {}).disabled,
+                      stepper: els['#stepper'].innerHTML, ctaLive: (els['[data-act="next"]'] || {}).disabled, helpLive: (els['.stack .help'] || {}).textContent,
                       opened: (input.opened || []).slice(), copied: input.copied || null, unlocked: storage['squadcheck.planner.unlocked.v1'] || null,
                       storageAll: JSON.stringify(storage)};
   }
@@ -481,6 +481,11 @@ def smoke(steps=(), **kw):
     import time
     data["handoff"]["created"] = int(time.time() * 1000)
     data.update(kw)
+    steps = data["steps"]
+    acts = [x.get("act") for x in steps]
+    if "next" in acts and "hits" not in acts[:acts.index("next")] and not kw.get("raw_steps"):
+        # The points-hit choice is required, so a journey that reaches Explore must have made it. "No" stands in for the old silent default.
+        steps.insert(acts.index("next"), {"name": "_hits", "act": "hits", "v": "0"})
     if data.get("handoff") and data["handoff"].get("created") == 0:
         data["handoff"]["created"] = int(time.time() * 1000)
     return node(SMOKE, data)
@@ -513,7 +518,7 @@ class TestPageFlow(unittest.TestCase):
         self.assertNotIn("strat on", h)                        # nothing selected by default
         self.assertNotIn("Chase upside", h)
         self.assertIn("Free transfers available", h)
-        self.assertIn("Pick a game plan to continue.", h)
+        self.assertIn("To continue: pick a game plan, enter your money in the bank, choose whether to allow a points hit.", h)
         self.assertIn("disabled", h[h.index('data-act="next"'):h.index('data-act="next"') + 40])
         for banned in ("upside", "ceiling"):
             self.assertNotIn(banned, h.lower())
@@ -543,7 +548,7 @@ class TestPageFlow(unittest.TestCase):
         self.assertIn("strat on", r["ft0"]["html"])
 
     def test_hit_blocked_at_three_free_transfers(self):
-        r = smoke(steps=[{"name": "bank", "bank": "0.5"}, {"name": "h", "act": "strat", "v": "hit"}, {"name": "up", "act": "ft", "v": 1},
+        r = smoke(steps=[{"name": "bank", "bank": "0.5"}, {"name": "s", "act": "strat", "v": "hit"}, {"name": "h", "act": "hits", "v": "1"}, {"name": "up", "act": "ft", "v": 1},
                          {"name": "up2", "act": "ft", "v": 1}])
         self.assertEqual(r["h"]["cta"], "enabled")
         self.assertEqual(r["up2"]["cta"], "disabled")
@@ -552,6 +557,7 @@ class TestPageFlow(unittest.TestCase):
     def test_player_in_mind_expands_in_place_and_builds_the_request(self):
         r = smoke(planResponse={"status": 200, "json": real_plan(free_transfers=1, moves=[[12, 126]])[1]}, steps=[
             {"name": "bank", "bank": "0.5"},
+            {"name": "hits", "act": "hits", "v": "0"},
             {"name": "mind", "act": "strat", "v": "mind"},
             {"name": "sell", "act": "cpick", "v": 12, "id": "sell0"},
             {"name": "buy", "act": "cpick", "v": 126, "id": "buy0"},
@@ -840,14 +846,46 @@ class TestExplorePage(unittest.TestCase):
         return smoke(planResponse=kw.pop("planResponse", self.ok), steps=steps, **kw)
 
     def test_bank_is_blank_and_required_by_default(self):
-        r = smoke(steps=[{"name": "s", "act": "strat", "v": "all"}, {"name": "typed", "bank": "0.5"}, {"name": "cleared", "bank": ""}])
+        r = smoke(steps=[{"name": "s", "act": "strat", "v": "all"}, {"name": "hit", "act": "hits", "v": "0"}, {"name": "typed", "bank": "0.5"}, {"name": "cleared", "bank": ""}])
         h = r["initial"]["html"]
         self.assertIn('id="bank" type="text" inputmode="decimal" value=""', h)
-        self.assertIn("Required. Check your FPL Transfers page", h)
+        self.assertIn("Required. Example: 0.5. Check your FPL Transfers page", h)
+        self.assertIn('placeholder=""', h)                                    # no look-alike default value in the box
         self.assertEqual(r["s"]["cta"], "disabled")
-        self.assertIn("Enter your money in the bank", r["s"]["help"])
+        self.assertIn("enter your money in the bank", r["s"]["help"])
         self.assertIs(r["typed"]["ctaLive"], False)                  # typing updates the button without re-rendering the field
         self.assertIs(r["cleared"]["ctaLive"], True)
+
+    def test_bank_and_points_hit_are_marked_required_and_the_button_says_why_it_is_inactive(self):
+        r = smoke(steps=[{"name": "s", "act": "strat", "v": "all"}, {"name": "bank", "bank": "0.5"}, {"name": "hit", "act": "hits", "v": "0"}])
+        h = r["s"]["html"]
+        self.assertEqual(h.count('<span class="req">Required</span>'), 2)             # both fields say so
+        self.assertRegex(h, r'class="cr need" id="row-bank"')                         # and both are highlighted while missing
+        self.assertRegex(h, r'class="cr need" id="row-hits"')
+        self.assertNotIn("game plan", r["s"]["help"].lower())                           # a plan is chosen, so it is not named
+        self.assertEqual(r["s"]["help"], "To continue: enter your money in the bank, choose whether to allow a points hit.")
+        self.assertIn('Choose one. "No" means no points hit.', h)
+        self.assertEqual(r["s"]["cta"], "disabled")
+        self.assertIn("enter your money in the bank, choose whether to allow a points hit", r["s"]["help"])
+        self.assertEqual(r["bank"]["helpLive"], "To continue: choose whether to allow a points hit.")   # bank typed: only the hit is still named
+        self.assertIs(r["bank"]["ctaLive"], True)
+        self.assertEqual(r["hit"]["cta"], "enabled")                                   # both answered: the button is live, with no reason shown
+        self.assertEqual(r["hit"]["help"], "")
+        self.assertNotRegex(r["hit"]["html"], r'class="cr need" id="row-(bank|hits)"')
+
+    def test_keep_it_sensible_needs_no_hit_choice_but_everything_else_does(self):
+        base = {"ft": 1, "bank": "0.5", "hits": None}
+        self.assertTrue(core(("buildPlanRequest", state(strategy="sensible", **base)))[0]["ok"])
+        for strategy in ("all", "hit", "mind"):
+            r = core(("buildPlanRequest", state(strategy=strategy, **base)))[0]
+            self.assertFalse(r["ok"], strategy)
+            self.assertIn("Choose whether to allow a points hit.", r["problems"], strategy)
+        for h in (0, 1):
+            self.assertNotIn("Choose whether to allow a points hit.", core(("buildPlanRequest", state(strategy="all", ft=1, bank="0.5", hits=h)))[0].get("problems", []))
+
+    def test_no_amount_is_prefilled_or_suggested_inside_the_bank_box(self):
+        h = smoke()["initial"]["html"]
+        self.assertIn('id="bank" type="text" inputmode="decimal" value="" placeholder=""', h)
 
     def test_explore_is_blocked_until_the_bank_is_valid(self):
         for bank in ("", "abc", "1.05", "-2", "101"):
@@ -1347,6 +1385,8 @@ class Flow(unittest.TestCase):
     def head(self, strategy="all", ft_down=0, extra=()):
         steps = [{"name": "bank", "bank": "0.5"}, {"name": "strat", "act": "strat", "v": strategy}]
         steps += [{"name": "ft%d" % i, "act": "ft", "v": -1} for i in range(ft_down)]
+        if ft_down:                                  # with no free transfer "No" is unavailable: the user must choose a hit
+            steps.append({"name": "hits", "act": "hits", "v": "1"})
         return steps + [{"name": "next", "act": "next"}] + list(extra)
 
     def to_compare(self, **kw):

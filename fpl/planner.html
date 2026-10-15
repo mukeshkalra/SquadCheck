@@ -150,6 +150,11 @@ details.squad summary{font-size:13px;font-weight:700;color:var(--gray);cursor:po
 .money{display:flex;align-items:center;gap:6px;background:var(--d3);border:1px solid var(--border2);border-radius:10px;padding:0 10px;height:38px;color:var(--gray);font-family:var(--mono)}
 .money input{width:56px;background:transparent;border:0;font-family:var(--mono);font-size:17px;text-align:right}
 .money.bad{border-color:var(--coral)}
+.req{margin-left:7px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--gray2)}
+.cr.need .req{color:var(--amber)}
+.cr.need .h{color:var(--amber)}
+.cr.need .money{border-color:var(--amber)}
+.cr.need .seg3{border-color:var(--amber)}
 .seg3{display:flex;background:var(--d3);border:1px solid var(--border2);border-radius:10px;padding:3px;gap:2px}
 .seg3 button{border:0;background:transparent;border-radius:8px;padding:7px 9px;font-size:12.5px;font-weight:700;color:var(--gray);font-family:var(--mono)}
 .seg3 button.on{background:var(--lime);color:#000}
@@ -386,6 +391,8 @@ const PlannerCore = (function () {
     if (s.ft === 0 || s.strategy === 'hit') h = Math.max(h, 1);
     return Math.min(h, capHits(s.ft));
   }
+  // The points-hit choice is required: nothing is assumed for the user. ("Keep it sensible" means no hits, so it needs no choice.)
+  const hitUnchosen = s => s.strategy !== 'sensible' && (s.hits === null || s.hits === undefined);
   const maxMoves = s => Math.max(1, Math.min(MAX_MOVES, s.ft + effHits(s)));
 
   function hitOptions(s) {
@@ -422,6 +429,7 @@ const PlannerCore = (function () {
     if (!s.strategy || !STRATEGIES[s.strategy]) problems.push('Pick a game plan.');
     const bank = parseBank(s.bank);
     if (!bank.ok) problems.push(bank.msg);
+    if (hitUnchosen(s)) problems.push('Choose whether to allow a points hit.');
     if (!isInt(s.ft) || s.ft < 0 || s.ft > 3) problems.push('Free transfers must be 0 to 3.');
     if (problems.length) return {ok: false, problems};
     const block = strategyBlock(s);
@@ -679,7 +687,7 @@ const PlannerCore = (function () {
   }
 
   return {POS, COMPOSITION, MAX_MOVES, HANDOFF_KEY, STATE_KEY, UNLOCK_KEY, STRATEGIES, norm, parseHandoff, indexDirectory,
-          validateSquad, parseBank, capHits, strategyBlock, effHits, maxMoves, hitOptions, search, doneMoves,
+          validateSquad, parseBank, capHits, strategyBlock, effHits, maxMoves, hitUnchosen, hitOptions, search, doneMoves,
           buildPlanRequest, sampleSquad, sg, gainBasis, buildCards, parsePlanResponse, shareText, waLink, STATUS, money, formation,
           devMode, whatGoesIn, NOT_FACTORED, REASONS, BENEFITS, callCard, tweakRequest, tweakBlocked, pickAfter, compareModels, tweakOutcome};
 })();
@@ -792,8 +800,18 @@ const PlannerCore = (function () {
 
   function bankHint(bank) {
     if (bank.ok) return 'Check your FPL Transfers page';
-    if (bank.blank) return 'Required. Check your FPL Transfers page';
+    if (bank.blank) return 'Required. Example: 0.5. Check your FPL Transfers page';
     return '<span style="color:var(--coral)">' + esc(bank.msg) + '</span>';
+  }
+
+  // Say exactly what is still needed, so a disabled button is never a mystery.
+  function helpText(req) {
+    if (req.ok) return '';
+    const m = model(), bank = C.parseBank(S.bank), need = [];
+    if (!S.strategy) need.push('pick a game plan');
+    if (!bank.ok) need.push(bank.blank ? 'enter your money in the bank' : 'fix the bank amount');
+    if (C.hitUnchosen(m)) need.push('choose whether to allow a points hit');
+    return need.length ? 'To continue: ' + need.join(', ') + '.' : req.problems[0];
   }
 
   function readyHtml() {
@@ -818,15 +836,15 @@ const PlannerCore = (function () {
              '</span><span class="grow"><span class="nm">' + name + '</span><span class="ds">' + desc + '</span></span>' + (key === 'mind' ? ICON.chev : '') + '</button>' + body + '</div>';
     }).join('');
     const hitHelp = S.strategy === 'sensible' ? 'Keep it sensible means no points hit.' : S.ft === 0 ? 'With no free transfer every move costs −4, so "No" is unavailable.'
-      : S.strategy === 'hit' ? 'Worth a hit? needs at least one hit allowed.' : 'Max 3 moves in total, including hits.';
-    const help = !S.strategy ? 'Pick a game plan to continue.' : (!req.ok ? req.problems[0] : '');
+      : C.hitUnchosen(m) ? 'Choose one. "No" means no points hit.' : S.strategy === 'hit' ? 'Worth a hit? needs at least one hit allowed.' : 'Max 3 moves in total, including hits.';
+    const help = helpText(req);
     return '<h1 class="h">What’s your game plan?</h1><p class="sub">Pick a starting point. You can change this any time. We’ll use your scanned squad.</p>' +
       '<details class="squad"><summary><span>Your squad (15)</span><span class="fine">tap to check</span></summary><div class="strip">' + strip + '</div></details>' +
       '<div class="strats">' + cards + '</div>' +
       '<p class="sec">Adjust your constraints</p><div class="ctl">' +
         '<div class="cr"><div><div class="q">Free transfers available</div><div class="h' + (S.ftTouched ? '' : ' warnc') + '" id="fthint">' + (S.ftTouched ? 'Check your FPL Transfers page' : 'We\u2019ve assumed ' + S.ft + '. Check your FPL Transfers page.') + '</div></div><div class="step"><button type="button" data-act="ft" data-v="-1" aria-label="Fewer free transfers"' + (S.ft <= 0 ? ' disabled' : '') + '>−</button><output aria-live="polite">' + S.ft + '</output><button type="button" data-act="ft" data-v="1" aria-label="More free transfers"' + (S.ft >= 3 ? ' disabled' : '') + '>+</button></div></div>' +
-        '<div class="cr"><div><div class="q">Money in the bank</div><div class="h" id="bankhint">' + bankHint(bank) + '</div></div><label class="money' + (bank.ok || bank.blank ? '' : ' bad') + '">£<input id="bank" type="text" inputmode="decimal" value="' + esc(S.bank) + '" placeholder="0.5" aria-label="Money in the bank in millions, required" aria-required="true" autocomplete="off">m</label></div>' +
-        '<div class="cr"><div><div class="q">Allow a points hit?</div><div class="h">' + hitHelp + '</div></div><div class="seg3" role="group" aria-label="Points hits allowed">' +
+        '<div class="cr' + (bank.ok ? '' : ' need') + '" id="row-bank"><div><div class="q">Money in the bank<span class="req">Required</span></div><div class="h" id="bankhint">' + bankHint(bank) + '</div></div><label class="money' + (bank.ok || bank.blank ? '' : ' bad') + '">£<input id="bank" type="text" inputmode="decimal" value="' + esc(S.bank) + '" placeholder="" aria-label="Money in the bank in millions, required" aria-required="true" autocomplete="off">m</label></div>' +
+        '<div class="cr' + (C.hitUnchosen(m) ? ' need' : '') + '" id="row-hits"><div><div class="q">Allow a points hit?<span class="req">Required</span></div><div class="h">' + hitHelp + '</div></div><div class="seg3" role="group" aria-label="Points hits allowed">' +
           opts.map(o => '<button type="button" data-act="hits" data-v="' + o.h + '" class="' + (o.selected ? 'on' : '') + '"' + (o.disabled ? ' disabled' : '') + ' aria-pressed="' + o.selected + '">' + o.label + '</button>').join('') + '</div></div>' +
       '</div>' +
       '<div class="stack"><button class="btn" type="button" data-act="next"' + (req.ok ? '' : ' disabled') + '>Explore options <span aria-hidden="true">→</span></button><p class="help" style="margin-top:0">' + esc(help) + '</p></div>' +
@@ -1298,9 +1316,10 @@ const PlannerCore = (function () {
   function refreshCta() {   // bank typing must not re-render the field and drop focus
     const r = C.buildPlanRequest(model()), b = document.querySelector('[data-act="next"]'), h = document.querySelector('.stack .help');
     if (b) b.disabled = !r.ok;
-    if (h) h.textContent = r.ok ? '' : (S.strategy ? r.problems[0] : 'Pick a game plan to continue.');
+    if (h) h.textContent = helpText(r);
     const sub = document.querySelector('#bankhint'), bank = C.parseBank(S.bank);
     if (sub) sub.innerHTML = bankHint(bank);
+    const rb = document.querySelector('#row-bank'); if (rb) rb.classList.toggle('need', !bank.ok);
   }
 
   boot();

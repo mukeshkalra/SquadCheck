@@ -165,7 +165,7 @@ class TestStructure(unittest.TestCase):
         self.assertIn("<span>✓ Free</span>", up)
 
     def test_no_new_analytics_events_were_added(self):
-        before = subprocess.run(["git", "show", "HEAD:fpl/index.html"], cwd=ROOT, capture_output=True, text=True)
+        before = subprocess.run(["git", "show", "fb219e6:fpl/index.html"], cwd=ROOT, capture_output=True, text=True)
         if before.returncode:
             self.skipTest("no git history available")
         events = lambda s: set(re.findall(r"track\('([a-z_]+)'", s))

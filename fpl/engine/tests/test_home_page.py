@@ -13,8 +13,12 @@ ROOT = Path(__file__).resolve().parents[3]
 HTML = (ROOT / "fpl" / "index.html").read_text(encoding="utf-8")
 
 
+# The last commit before the planner work: the home page is compared against it, not against HEAD.
+BASE = "fb219e6"
+
+
 def head_html():
-    r = subprocess.run(["git", "show", "HEAD:fpl/index.html"], cwd=ROOT, capture_output=True, text=True)
+    r = subprocess.run(["git", "show", BASE + ":fpl/index.html"], cwd=ROOT, capture_output=True, text=True)
     if r.returncode:
         raise unittest.SkipTest("no git history available")
     return r.stdout
@@ -67,6 +71,16 @@ class TestFeatureTiles(unittest.TestCase):
             self.assertRegex(href, r"^#[a-z-]+$")
 
 
+class TestSubheadline(unittest.TestCase):
+    def test_sub_headline_mentions_the_transfer_planner_without_overpromising(self):
+        sub = text(re.search(r'<p class="up-sub">.*?</p>', UP, re.S).group(0))
+        self.assertIn("Transfer Planner", sub)
+        for kept in ("points forecast", "captain pick", "bench swap"):
+            self.assertIn(kept, sub)
+        for word in ("sign in", "account", "saved", "email"):
+            self.assertNotIn(word, sub.lower())
+
+
 class TestExampleCards(unittest.TestCase):
     def test_all_four_features_have_an_example(self):
         for i in ("ex-hero", "ex-plan", "ex-bench", "ex-captain"):
@@ -109,7 +123,8 @@ class TestUploadFlowAndEventsUnchanged(unittest.TestCase):
         for i in ("ex-hero", "ex-bench", "ex-captain"):                                 # ids added to existing example elements
             new = new.replace(' id="%s"' % i, "")
         norm = lambda x: re.sub(r"\s+", " ", x)
-        new = new.replace("Free</span>\n  </div>", "Free &nbsp;·&nbsp; Gameweek 6</span>\n  </div>") if "Gameweek 6" not in new else new   # the one deliberate edit: stale hard-coded gameweek removed
+        new = new.replace("Free</span>\n  </div>", "Free &nbsp;·&nbsp; Gameweek 6</span>\n  </div>")   # deliberate edit 1: stale hard-coded gameweek removed
+        new = new.replace('Your FPL points forecast, captain pick and bench swap — in seconds. Plus a free Transfer Planner for your next move.', 'Your FPL points forecast. Your captain pick. Your best XI and bench swap — in seconds.')                 # deliberate edit 2: sub-headline mentions the Transfer Planner
         self.assertEqual(norm(old), norm(new))
 
     def test_upload_controls_and_trust_line_survive(self):
