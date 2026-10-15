@@ -30,6 +30,7 @@ import time
 import urllib.request
 from typing import Callable, Dict, List, Optional, Tuple
 
+from fpl.engine import head_to_head
 from fpl.engine.projection import build_params
 from fpl.engine.transfer_planner import (
     MAX_FREE_TRANSFERS, plan_transfers, project_players, shortlist_candidates,
@@ -520,6 +521,10 @@ def build_response(request: dict, source: FplDataSource, summary_budget_s: Optio
         raise ApiError(422, "INVALID_PLAN_INPUT", str(exc))
     teams = _team_lookup(bootstrap)
     _attach_player_meta(plan, by_id, teams)
+    try:        # presentation only: a failure here must never take the plan down
+        head_to_head.attach(plan, by_id, summaries, players, params, teams, gameweek)
+    except Exception:
+        log.exception("head-to-head comparison failed; plan returned without it")
     t5 = time.perf_counter()
 
     unavailable = sorted(set(fetch["failed"]) | set(fetch["timed_out"]) | set(fetch["malformed"]))

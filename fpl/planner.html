@@ -248,6 +248,18 @@ textarea{width:100%;min-height:92px;resize:vertical;background:var(--d3);border:
 .side .k{font-size:10px;font-weight:900;letter-spacing:.1em}.side.o .k{color:var(--coral)}.side.i .k{color:var(--lime)}
 .side .pnm{font-weight:800;font-size:15px;line-height:1.2;overflow-wrap:anywhere}
 .side .mt{font-size:11.5px;color:var(--gray);overflow-wrap:anywhere}
+.h2h{margin-top:12px;border-top:1px solid var(--border);padding-top:10px}
+.h2h .hh,.h2h .hr{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:baseline;font-size:12.5px;padding:5px 0}
+.h2h .hh{font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.h2h .hh .o{color:var(--coral)}.h2h .hh .i{color:var(--lime)}
+.h2h .hr{border-top:1px solid var(--border)}.h2h .hr .l{color:var(--gray)}.h2h .hr .v{overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.h2h .hr .v.win{color:var(--lime);font-weight:800}
+.h2h .pc{margin-top:8px;font-size:12.5px;color:var(--gray)}.h2h .pc b{color:var(--white)}.h2h .pc ul{margin:4px 0 0 18px}.h2h .pc li{margin-top:3px;overflow-wrap:anywhere}
+.h2h .fn{margin-top:8px;font-size:12px;color:var(--amber)}
+.vbox{margin-top:12px;border-radius:var(--r);padding:12px;border:1px solid var(--border2);background:var(--d2)}
+.vbox b{font-size:15px}.vbox p{font-size:12.5px;color:var(--gray);margin-top:3px}
+.vbox.vd-clear{border-color:var(--lime-b);background:var(--lime-t)}.vbox.vd-marginal,.vbox.vd-none{border-color:rgba(255,181,71,.35);background:var(--amber-t)}
+.tag.vd-clear{color:var(--lime);border-color:var(--lime-b);background:var(--lime-t)}.tag.vd-small{color:var(--white)}
+.tag.vd-marginal,.tag.vd-none{color:var(--amber);background:var(--amber-t);border-color:rgba(255,181,71,.35)}
 .numgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .nb{background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .nb.main{grid-column:1/-1;border-color:var(--lime-b)}.nb.wide{grid-column:1/-1}
@@ -483,7 +495,7 @@ const PlannerCore = (function () {
   const pts = v => Math.abs(v).toFixed(1) + (Math.abs(v).toFixed(1) === '1.0' ? ' point' : ' points');
 
   function planModel(p, ctx) {
-    const moves = (p.transfers || []).map(t => ({out: pm(t.out), inn: pm(t.in)}));
+    const moves = (p.transfers || []).map(t => ({out: pm(t.out), inn: pm(t.in), cmp: t.compare && Array.isArray(t.compare.rows) ? t.compare : null}));
     const n = moves.length, hits = p.hits || 0, hitPts = p.hit_points || 0;
     const before = num(p.projected_gain_before_hits) ? p.projected_gain_before_hits : null;
     const net = num(p.projected_gain_vs_hold) ? p.projected_gain_vs_hold : null;
@@ -505,7 +517,7 @@ const PlannerCore = (function () {
         why += ' ' + best.inn.name + ' is projected ' + (best.inn.xp - best.out.xp).toFixed(1) + ' more points than ' + best.out.name + ' next gameweek.';
       watch = risks.length ? risks.slice(0, 2).join(' ') : 'The model flagged no specific risks. It is still a projection.';
     }
-    return {title, n, hits, hitPts, before, net, outlook: o, outlookStatus: p.outlook && p.outlook.status || null, moves, why, watch, risks,
+    return {title, n, hits, hitPts, before, net, outlook: o, verdict: p.verdict && typeof p.verdict.label === 'string' ? p.verdict : null, outlookStatus: p.outlook && p.outlook.status || null, moves, why, watch, risks,
             costLabel: n === 0 ? 'Hold' : hits ? MINUS + hitPts + ' hit' : 'No hit', bankAfter: num(p.bank_after) ? p.bank_after : null,
             confidence: CONF[p.confidence] || null, freeLeft: num(p.free_transfers_remaining) ? p.free_transfers_remaining : null,
             belowBar: n > 0 && net !== null && net < ctx.minGain - 1e-9, dataComplete: p.data_complete !== false, sig: sig(p),
@@ -880,6 +892,7 @@ const PlannerCore = (function () {
     const tags = [];
     if (c.recommended) tags.push('<span class="tag rec">Recommended by the planner</span>');
     if (c.kind === 'mine') tags.push('<span class="tag ' + c.statusTone + '">' + esc(c.statusLabel) + '</span>');
+    if (m.verdict && m.n > 0) tags.push('<span class="tag vd-' + esc(m.verdict.tier) + '">' + esc(m.verdict.label) + '</span>');
     if (m.belowBar) tags.push('<span class="tag warn">Below the ' + v.minGain.toFixed(1) + '-point bar</span>');
     if (!m.dataComplete) tags.push('<span class="tag warn">Some projections missing</span>');
     let body;
@@ -949,6 +962,23 @@ const PlannerCore = (function () {
       '<span class="mt">' + esc((p.team ? p.team + ' · ' : '') + (C.POS[p.pos] || '') + (p.price !== null ? ' · £' + (p.price / 10).toFixed(1) + 'm' : '')) + '</span>' +
       (p.xp !== null ? '<span class="mt">' + esc(xp1(p.xp)) + (S.view.gw ? ' (GW' + S.view.gw + ')' : '') + '</span>' : '') + flag(p.status) + '</div>';
   }
+  function h2hHtml(mv) {
+    const c = mv.cmp;
+    if (!c) return '';
+    const cell = (r, side) => '<span class="v' + (r.edge === side ? ' win' : '') + '">' + esc(r[side]) + '</span>';
+    const list = (t, a) => a && a.length ? '<div class="pc"><b>' + t + '</b><ul>' + a.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' : '';
+    return '<div class="h2h"><div class="hh"><span></span><span class="o">' + esc(mv.out.name) + '</span><span class="i">' + esc(mv.inn.name) + '</span></div>' +
+      c.rows.map(r => '<div class="hr"><span class="l">' + esc(r.label) + '</span>' + cell(r, 'out') + cell(r, 'in') + '</div>').join('') +
+      (c.fixture_note ? '<p class="fn">' + esc(c.fixture_note) + '</p>' : '') +
+      list('In favour of the move', c.for) + list('Against the move', c.against) +
+      '<p class="fine" style="margin-top:8px">Highlighted = the better side on that line. Price and ownership are shown without a verdict.</p></div>';
+  }
+  function verdictHtml(m) {
+    const vd = m.verdict;
+    if (!vd || !m.n) return '';
+    return '<div class="vbox vd-' + esc(vd.tier) + '"><b>' + esc(vd.label) + '</b><p>' + esc(vd.text) + '</p>' +
+      (vd.calibrated ? '' : '<p class="fine" style="margin-top:6px">These labels are rules of thumb. They have not yet been checked against past results.</p>') + '</div>';
+  }
   function numsPanel(m, v) {
     const gw = v.gw ? 'GW' + v.gw : 'the next gameweek';
     return '<div class="numgrid">' +
@@ -1013,12 +1043,12 @@ const PlannerCore = (function () {
     const title = c.kind === 'mine' ? 'Your move' : c.kind === 'extra' ? 'Your move, plus extra transfers' : m.title;
     const edited = S.work.applied.length ? '<div class="tags">' + S.work.applied.map(a => '<span class="tag rec">Edited: ' + esc(a) + '</span>').join('') + '<button type="button" class="lnkb" data-act="twkreset">Back to the original plan</button></div>' : '';
     const moves = m.n === 0 ? '<div class="card" style="margin-top:12px;color:var(--gray);font-size:14px">No transfer. You keep all 15 players' + (m.freeLeft !== null ? ' and your ' + m.freeLeft + ' free transfer' + (m.freeLeft === 1 ? '' : 's') : '') + '.</div>'
-      : m.moves.map((mv, i) => '<div class="mcard"><div class="ml"><span>Move ' + (i + 1) + ' of ' + m.n + '</span></div><div class="mc2">' + personDetail(mv.out, 'o') + '<div class="mid">→</div>' + personDetail(mv.inn, 'i') + '</div></div>').join('');
+      : m.moves.map((mv, i) => '<div class="mcard"><div class="ml"><span>Move ' + (i + 1) + ' of ' + m.n + '</span></div><div class="mc2">' + personDetail(mv.out, 'o') + '<div class="mid">→</div>' + personDetail(mv.inn, 'i') + '</div>' + h2hHtml(mv) + '</div>').join('');
     const facts = C.whatGoesIn(c, v);
     const risks = m.risks.length ? '<p class="sec">What the planner flagged</p><ul class="lims">' + m.risks.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul>' : '';
     return '<button class="back" type="button" data-act="toexplore">← All plans</button><div class="ph" style="margin-top:6px"><span class="pico">' + (c.kind === 'hold' ? '❚❚' : c.kind === 'mine' ? '★' : c.rank || '+') + '</span><div class="grow"><h1 class="h" style="font-size:24px">' + esc(title) + '</h1>' +
       '<div class="pt">' + (c.kind === 'rank' ? 'Ranked #' + c.rank + ' by net gain after hit costs.' : c.kind === 'hold' ? 'The baseline every plan is measured against.' : m.title) + '</div></div><span class="cost">' + esc(m.costLabel) + '</span></div>' + edited +
-      moves + (m.n ? numsPanel(m, v) : '') + risks +
+      verdictHtml(m) + moves + (m.n ? numsPanel(m, v) : '') + risks +
       '<p class="sec">What goes into this suggestion</p><div class="card facs">' + facts.map(f => '<div class="fac"><span class="fk">✓</span><div><b>' + esc(f.k) + '</b><p>' + esc(f.v) + '</p></div></div>').join('') +
       '<p class="lbl" style="margin:12px 0 6px">Not factored in</p><ul class="lims">' + C.NOT_FACTORED.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' +
       (m.n ? tweakSection() : '') +

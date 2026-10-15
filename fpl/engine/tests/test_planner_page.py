@@ -665,7 +665,7 @@ class TestExploreCards(unittest.TestCase):
         for word in ("ceiling", "upside"):
             self.assertNotIn(word, text)
         keys = set(self.ranked(v)[0]["model"])
-        self.assertEqual(keys, {"title", "n", "hits", "hitPts", "before", "net", "outlook", "outlookStatus", "moves", "why", "watch",
+        self.assertEqual(keys, {"title", "n", "hits", "hitPts", "before", "net", "outlook", "outlookStatus", "verdict", "moves", "why", "watch",
                                 "risks", "costLabel", "bankAfter", "confidence", "freeLeft", "belowBar", "dataComplete", "sig", "ftUsed", "xiIds"})
 
     def test_default_gain_is_labelled_as_next_gameweek_only(self):
