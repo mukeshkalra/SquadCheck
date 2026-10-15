@@ -52,6 +52,15 @@ HOME_ADV = 1.10   # [heuristic]
 # ── POSITIONAL DEFAULTS (new players; V0.1 heuristics, unchanged) ────────────
 _POS_DEFAULT_MINS = {1: 60, 2: 55, 3: 50, 4: 45}
 
+# ── MINUTES RECOVERY FLOOR (returning proven starters) ──────────────────────
+# A proven starter who is fully fit and started his latest game has not lost his place because of a gap
+# in the last three games. Without this, one or two missed games drag the rolling average (and the
+# "one start in the last 3" cap) far below his real role. All four constants are heuristics.
+RECOVERY_MIN_STARTS      = 5     # [heuristic] starts for the current club before he counts as "proven"
+RECOVERY_MIN_AVG_PER_START = 70  # [heuristic] his average minutes per start must exceed this
+RECOVERY_LAST_MIN_MINS   = 60    # [heuristic] he must have played at least this long in his latest game
+RECOVERY_MAX_FLOOR       = 85    # [heuristic] the floor never exceeds this, whatever his average
+
 # ── BONUS CAP ────────────────────────────────────────────────────────────────
 _BONUS_CAP = 1.5   # [heuristic]
 
@@ -319,6 +328,32 @@ def _usable_history(history: list, team_id, fixture_teams: dict,
     return HistoryUse(current, len(current) + prior_played, n_team)
 
 
+def _recovery_floor(usable: list, status, cop_next) -> Optional[float]:
+    """
+    Minutes floor for a returning proven starter, or None when the rule does not apply.
+
+    All of these must hold:
+      - fully fit: status "a" and no chance-of-playing flag below 100 (no flag counts as fit);
+      - his latest completed game for the current club was a start of at least RECOVERY_LAST_MIN_MINS;
+      - at least RECOVERY_MIN_STARTS starts for the club, averaging more than RECOVERY_MIN_AVG_PER_START
+        minutes per start.
+    The floor is his own average minutes per start, capped at RECOVERY_MAX_FLOOR. It only ever raises
+    the rolling-average estimate; a player already projected above it is untouched.
+    """
+    if status != "a" or (cop_next is not None and cop_next < 100) or not usable:
+        return None
+    last = usable[-1]
+    if not last.get("starts") or _f(last.get("minutes", 0)) < RECOVERY_LAST_MIN_MINS:
+        return None
+    start_mins = [_f(h.get("minutes", 0)) for h in usable if h.get("starts")]
+    if len(start_mins) < RECOVERY_MIN_STARTS:
+        return None
+    avg = sum(start_mins) / len(start_mins)
+    if avg <= RECOVERY_MIN_AVG_PER_START:
+        return None
+    return min(avg, float(RECOVERY_MAX_FLOOR))
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # CONFIDENCE
 # ─────────────────────────────────────────────────────────────────────────────
@@ -502,6 +537,13 @@ def compute_xpts(
     if recent_starts_3 == 0: base_xMins = min(base_xMins, 25.0)   # [heuristic]
     if recent_starts_3 == 1: base_xMins = min(base_xMins, 60.0)   # [heuristic]
 
+    # A returning proven starter is restored to his usual role. Applied after the caps above, which would
+    # otherwise hold him at 60 (one start in the last 3) or 25 (none).
+    recovery = _recovery_floor(usable, status, cop_next)
+    recovered = recovery is not None and recovery > base_xMins
+    if recovered:
+        base_xMins = recovery
+
     cop_fraction = (cop_next / 100.0) if cop_next is not None else 1.0
     xMins = max(0.0, min(90.0, cop_fraction * base_xMins))
 
@@ -631,6 +673,9 @@ def compute_xpts(
         player, pos, xMins, P_app, P_60plus, p_cs, lam,
         xG_d, xA_d, atk_scale, n_damp,
     )
+
+    if recovered:
+        drivers.append("Back in the side after a short gap — minutes restored to his usual %d per start" % round(recovery))
 
     return {
         "player_id":        player["id"],

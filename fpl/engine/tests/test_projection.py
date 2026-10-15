@@ -824,3 +824,85 @@ class TestScoringMechanics(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MINUTES RECOVERY FLOOR (returning proven starters)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestMinutesRecovery(unittest.TestCase):
+    """A fit, proven starter who started his latest game is not held down by a gap in the last three games."""
+
+    PARAMS = {"team_gkp_xgc": {1: 1.20, 2: 1.60}, "team_gkp_starts": {1: 6, 2: 6}, "league_avg_xgc": 1.50,
+              "team_xgf": {1: 1.9, 2: 1.5}, "league_avg_xgf": 1.57, "pos_xG_base": {1: .01, 2: .02, 3: .10, 4: .30},
+              "pos_xA_base": {1: .01, 2: .05, 3: .12, 4: .12}, "fixture_teams": {}, "fixture_completed": {}}
+    FIXTURE = {"is_home": True, "team_h": 1, "team_a": 2}
+
+    def run_player(self, mins, status="a", cop=None, pos=4):
+        hist = [{"minutes": m, "starts": 1 if m >= 45 else 0} for m in mins]
+        pl = {"id": 1, "web_name": "X", "element_type": pos, "team": 1, "status": status, "chance_of_playing_next_round": cop,
+              "starts": sum(h["starts"] for h in hist), "expected_goals_per_90": 0.6, "expected_assists_per_90": 0.2,
+              "bonus": 9, "saves_per_90": 0}
+        return compute_xpts(pl, hist, self.FIXTURE, self.PARAMS)
+
+    RETURN = [90, 90, 90, 90, 0, 0, 90]          # two missed games, then back in the side
+
+    def test_a_returning_proven_starter_is_restored(self):
+        r = self.run_player(self.RETURN)
+        self.assertEqual(r["inputs"]["xMins"], 85.0)                       # his 90/start, capped at 85
+        self.assertGreaterEqual(r["xPts"], 5.9)                                 # was 3.4 with the gap dragging the average
+        self.assertTrue(any("minutes restored" in d for d in r["drivers"]))
+
+    def test_the_100_percent_flag_gives_the_same_answer_as_no_flag(self):
+        self.assertEqual(self.run_player(self.RETURN, cop=100)["xPts"], self.run_player(self.RETURN, cop=None)["xPts"])
+
+    def test_the_floor_is_his_own_average_per_start_and_never_above_85(self):
+        r = self.run_player([80, 80, 80, 80, 0, 0, 80])
+        self.assertEqual(r["inputs"]["xMins"], 80.0)
+        self.assertEqual(self.run_player([90] * 7 + [90])["inputs"]["xMins"], 90.0)   # no gap: untouched, not capped to 85
+
+    def test_one_missed_game_is_enough_to_trigger_it(self):
+        r = self.run_player([90, 90, 90, 90, 90, 0, 90])
+        self.assertEqual(r["inputs"]["xMins"], 85.0)                       # rolling estimate was about 66
+
+    def test_latest_game_must_be_a_start_of_at_least_60_minutes(self):
+        for tail in ([0, 0, 0], [0, 0, 25], [90, 0, 59]):
+            r = self.run_player([90, 90, 90, 90, 90] + tail)
+            self.assertFalse(any("minutes restored" in d for d in r["drivers"]), tail)
+
+    def test_he_must_be_a_proven_starter(self):
+        few = self.run_player([90, 90, 90, 90, 0, 0, 90][3:])                # 2 starts only
+        self.assertFalse(any("minutes restored" in d for d in few["drivers"]))
+        four = self.run_player([90, 90, 90, 90, 0, 0, 90][1:])               # 4 starts
+        self.assertFalse(any("minutes restored" in d for d in four["drivers"]))
+        short = self.run_player([65, 65, 65, 65, 65, 0, 65])                 # starts, but 65 a start: not above 70
+        self.assertFalse(any("minutes restored" in d for d in short["drivers"]))
+
+    def test_he_must_be_fully_fit(self):
+        for status, cop in (("d", 75), ("a", 75), ("a", 50), ("i", 0), ("s", 0)):
+            r = self.run_player(self.RETURN, status=status, cop=cop)
+            self.assertFalse(any("minutes restored" in d for d in r["drivers"]), (status, cop))
+
+    def test_it_only_raises_never_lowers(self):
+        r = self.run_player([90] * 7)
+        self.assertEqual(r["inputs"]["xMins"], 90.0)
+        self.assertFalse(any("minutes restored" in d for d in r["drivers"]))
+
+    def test_everything_else_is_unchanged_when_the_rule_does_not_apply(self):
+        # a rotated player who is not a proven starter keeps the old behaviour exactly
+        r = self.run_player([30, 30, 60, 0, 0, 60])
+        self.assertEqual(r["inputs"]["xMins"], 23.5)                         # 0.65 * 20 + 0.35 * 30, as before
+
+    def test_confidence_stays_honest_about_the_gap(self):
+        # one start in the last three is still a minutes doubt, even though the projection is restored
+        self.assertEqual(self.run_player(self.RETURN)["_minutes_conf"], "LOW")
+
+    def test_unavailable_players_stay_out(self):
+        r = self.run_player(self.RETURN, status="i", cop=0)
+        self.assertEqual(r["xPts"], 0.0)
+
+    def test_the_other_scoring_components_scale_with_the_restored_minutes(self):
+        lo = self.run_player([90, 90, 90, 90, 0, 0, 25])                      # not restored (last game too short)
+        hi = self.run_player(self.RETURN)
+        self.assertGreater(hi["components"]["xGoalPts"], lo["components"]["xGoalPts"])
+        self.assertAlmostEqual(hi["components"]["xAppPts"], 1.0 + (85 - 30) / 60.0, places=6)
