@@ -57,6 +57,8 @@ _EXPECTED_EVENTS = {
     "planner_tweak_opened", "planner_tweak_run", "planner_tweak_result", "planner_tweak_failed", "planner_tweak_used",
     "planner_save_prompt_opened", "planner_save_prompt_accepted", "planner_share_card_previewed",
     "planner_share_card_copied", "planner_error",
+    "result_tile_toggled", "results_restored", "results_restore_failed", "planner_back_to_results",
+    "planner_feedback_loved", "planner_feedback_useful", "planner_feedback_ok", "planner_feedback_bad",
 }
 
 

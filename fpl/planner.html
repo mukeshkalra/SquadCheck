@@ -74,6 +74,9 @@ a{color:inherit;text-decoration:none}
 .nav{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 .nav-in{max-width:460px;margin-inline:auto;padding:12px 18px 0;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .brand{font-size:18px;font-weight:900;letter-spacing:-.03em}.brand span{color:var(--lime)}
+.backres{font-size:14px;font-weight:800;color:var(--lime)}.backres[hidden],.brand[hidden]{display:none}
+.fbq{font-size:14px;font-weight:800;margin-top:20px}.fbg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.fbb{padding:14px 6px;background:var(--d2);border:1px solid var(--border2);border-radius:12px;font-size:14px;font-weight:800;color:var(--white);cursor:pointer}.fbb.sel{border-color:var(--lime);background:var(--lime-t)}
 .chips{display:flex;gap:6px;align-items:center}
 .gw{font-size:12px;font-weight:800;color:var(--lime);border:1px solid var(--lime-b);background:var(--lime-t);padding:4px 11px;border-radius:99px}
 .stepper{max-width:460px;margin-inline:auto;padding:14px 12px 12px;display:grid;grid-template-columns:repeat(5,1fr);position:relative}
@@ -309,7 +312,7 @@ textarea{width:100%;min-height:92px;resize:vertical;background:var(--d3);border:
 <body>
 
 <header class="nav">
-  <div class="nav-in"><a class="brand" href="./" aria-label="SquadCheck home">Squad<span>Check</span></a><div class="chips" id="chips"></div></div>
+  <div class="nav-in"><a class="brand" id="brand" href="./" aria-label="SquadCheck home">Squad<span>Check</span></a><a class="backres" id="backres" href="./?view=results" hidden>← Your results</a><div class="chips" id="chips"></div></div>
   <nav class="stepper" id="stepper" aria-label="Planner steps"></nav>
 </header>
 <main id="main" aria-live="polite"></main>
@@ -721,6 +724,9 @@ const PlannerCore = (function () {
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const DEV = C.devMode(location.search, location.hostname);
+  const RESULTS_KEY = 'squadcheck.results.v1';
+  const hasResults = () => { try { return !!sessionStorage.getItem(RESULTS_KEY); } catch (e) { return false; } };
+  if (hasResults()) { $('#brand').hidden = true; $('#backres').hidden = false; }
   const SIGNIN_LIVE = false;   // flip to true when sign-in ships: shows the benefits block, "Lock in my call" and the save sheet (all kept intact below)
 
   /* ── analytics: same PostHog project, session id and ?internal=1 flag as the results page, so a planner visit
@@ -1107,7 +1113,7 @@ const PlannerCore = (function () {
   }
   function ensureCall(c) {
     const key = c.model.sig + '|' + c.model.title;
-    if (!S.call || S.call.key !== key) S.call = {key, why: '', reasons: []};     // a different plan starts a fresh call
+    if (!S.call || S.call.key !== key) S.call = {key, why: '', reasons: [], fb: null};     // a different plan starts a fresh call
   }
   function signinSheetHtml() {
     return '<div class="scrimx" data-act="sheetclose"></div><div class="sheetx" role="dialog" aria-modal="true" aria-label="Save your call"><h4>Save your call</h4>' +
@@ -1117,6 +1123,13 @@ const PlannerCore = (function () {
       '<div class="orsep"><span>or use email</span></div><input class="cin" type="email" inputmode="email" placeholder="you@email.com" autocomplete="off" aria-label="Email">' +
       '<button class="btn2" type="button" data-act="signinstub" style="margin-top:8px">Email me a sign-in link</button>' +
       '<p class="center" style="text-align:center;margin-top:10px"><button class="lnkb" type="button" data-act="sheetclose">Not now</button></p></div>';
+  }
+  function feedbackHtml() {
+    const fb = S.call && S.call.fb;
+    const opts = [['loved', '❤️ Loved it'], ['useful', '👍 Useful'], ['ok', '😐 Just okay'], ['bad', '👎 Not useful']];
+    return '<p class="fbq">How did the Transfer Planner feel?</p><div class="fbg">' + opts.map(o => '<button type="button" class="fbb' + (fb === o[0] ? ' sel' : '') + '" data-act="pfb" data-v="' + o[0] + '" aria-pressed="' + (fb === o[0]) + '"' + (fb ? ' disabled' : '') + '>' + o[1] + '</button>').join('') + '</div>' +
+      (fb ? '<p class="fine" style="margin-top:10px;text-align:center;color:var(--lime)" role="status">Thanks. That helps us improve the planner.</p>' : '') +
+      (hasResults() ? '<a class="btn2" href="./?view=results" style="display:block;text-align:center;margin-top:14px">← Back to your results</a>' : '');
   }
   function callHtml() {
     const c = workCard(), m = c.model, v = S.view, k = C.callCard(c, v);
@@ -1141,7 +1154,7 @@ const PlannerCore = (function () {
       '<p class="fine" style="margin-top:14px">For now your call is kept in this browser tab only.</p></div>' : '') +
       (SIGNIN_LIVE && S.signinNote ? '<div class="signnote" role="status">Sign-in isn’t live yet, so nothing was saved. Your call stays in this tab only.</div>' : '') +
       '<div class="stack">' + (SIGNIN_LIVE ? '<button class="btn" type="button" data-act="locksheet">Lock in my call</button>' : '') + '<button class="btn2" type="button" data-act="sharetoggle" aria-expanded="' + S.sharePreview + '">' + (S.sharePreview ? 'Hide share card' : 'Preview share card') + '</button>' +
-      '<button class="btn2" type="button" data-act="toexplore">Compare with other plans</button></div>' + share +
+      '<button class="btn2" type="button" data-act="toexplore">Compare with other plans</button></div>' + share + feedbackHtml() +
       '<p class="fine" style="margin-top:12px;text-align:center">All figures are planner projections, not guarantees.</p>' + (SIGNIN_LIVE && S.sheet ? signinSheetHtml() : '');
   }
 
@@ -1373,6 +1386,7 @@ const PlannerCore = (function () {
       case 'reason': { const r = S.call; if (!r) break; const i = r.reasons.indexOf(v); if (i > -1) r.reasons.splice(i, 1); else { r.reasons.push(v); const ph = C.REASONS[v]; if (ph && !r.why.includes(ph)) r.why = (r.why ? r.why + ' ' : '') + ph; } render(); break; }
       case 'sharetoggle': S.sharePreview = !S.sharePreview; S.copiedCard = false; render(); break;
       case 'copycard': { const k = C.callCard(workCard(), S.view); try { navigator.clipboard.writeText(k.text).then(() => { S.copiedCard = true; render(); }, () => { /* blocked */ }); } catch (e) { /* clipboard unavailable */ } break; }
+      case 'pfb': if (S.call && !S.call.fb && ['loved', 'useful', 'ok', 'bad'].includes(v)) { S.call.fb = v; track('planner_feedback_' + v, {rating: v, ...planCtx()}); render(); } break;
       case 'locksheet': S.sheet = true; render(); break;
       case 'sheetclose': S.sheet = false; render(); break;
       case 'signinstub': S.sheet = false; S.signinNote = true; render(); break;       // a stub: nothing is saved or sent
@@ -1381,6 +1395,7 @@ const PlannerCore = (function () {
       case 'sample': useSample(); break;
     }
   }
+  { const br = $('#backres'); if (br && br.addEventListener) br.addEventListener('click', () => track('planner_back_to_results', {phase: S.phase})); }
   document.addEventListener('pointerdown', e => { if (e.target.closest('.clist')) e.preventDefault(); });   // keep focus in the field while choosing
   document.addEventListener('click', e => {
     const el = e.target.closest('[data-act]'); if (!el || el.tagName === 'INPUT') return;

@@ -444,6 +444,7 @@ global.fetch = async (url, opts) => {
 };
 if (input.handoff) storage['squadcheck.planner.handoff.v1'] = JSON.stringify(input.handoff);
 if (input.unlocked) storage['squadcheck.planner.unlocked.v1'] = '1';
+if (input.results) storage['squadcheck.results.v1'] = '{}';
 """ + CORE + UI + """
 const tick = () => new Promise(r => setTimeout(r, 15));
 const html = () => els['#main'].innerHTML;
@@ -469,7 +470,8 @@ const out = {};
                       storageAll: JSON.stringify(storage)};
   }
   out.initial = {html: html(), fetches: input.fetchLog || 0, stepper: els['#stepper'].innerHTML, chips: els['#chips'].innerHTML,
-                 posts: input.posts || [], opened: input.opened || [], copied: input.copied || null, handoffStored: 'squadcheck.planner.handoff.v1' in storage};
+                 posts: input.posts || [], opened: input.opened || [], copied: input.copied || null, handoffStored: 'squadcheck.planner.handoff.v1' in storage,
+                 backres: (els['#backres'] || {}).hidden, brand: (els['#brand'] || {}).hidden};
   console.log(JSON.stringify(out));
 })();
 """
@@ -1784,6 +1786,26 @@ class TestYourCall(Flow):
         for b in ("A verdict, not a guess", "No more “what if?”", "A record you can point to"):
             self.assertIn(b, h)
         self.assertIn('data-act="locksheet"', h)
+
+    def test_feedback_is_asked_once_and_stores_no_text(self):
+        r = self.call({"name": "fb", "act": "pfb", "v": "loved"}, {"name": "fb2", "act": "pfb", "v": "bad"})
+        h = htmllib.unescape(r["back"]["html"])
+        self.assertIn("How did the Transfer Planner feel?", h)
+        for label in ("Loved it", "Useful", "Just okay", "Not useful"):
+            self.assertIn(label, h)
+        self.assertNotIn("Thanks. That helps us improve the planner.", h)
+        done = htmllib.unescape(r["fb"]["html"])
+        self.assertIn("Thanks. That helps us improve the planner.", done)
+        self.assertRegex(done, r'class="fbb sel" data-act="pfb" data-v="loved" aria-pressed="true" disabled')
+        self.assertNotIn('data-v="bad" aria-pressed="true"', htmllib.unescape(r["fb2"]["html"]))        # the second tap is ignored
+        self.assertNotIn("loved", r["fb"]["storageAll"])
+
+    def test_the_way_back_to_results_only_shows_when_results_were_kept(self):
+        self.assertEqual(smoke(results=True)["initial"]["backres"], False)
+        self.assertEqual(smoke(results=True)["initial"]["brand"], True)
+        self.assertIsNone(smoke()["initial"].get("backres"))
+        self.assertNotIn("Back to your results", htmllib.unescape(self.call()["back"]["html"]))
+        self.assertRegex(htmllib.unescape(self.call(results=True)["back"]["html"]), r'href="\./\?view=results"[^>]*>← Back to your results')
 
     def test_the_main_risk_comes_from_the_planner(self):
         payload = json.loads(json.dumps(self.base))

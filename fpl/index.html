@@ -716,6 +716,23 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .rb-px{font-family:'DM Mono',monospace;font-size:12px;color:var(--lime)}
 .rb-cta{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 32px);margin:14px 16px 0;padding:13px;background:var(--lime-t);border:1.5px solid var(--lime-b);border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:var(--lime)}
 .rb-cta:hover{background:rgba(204,255,0,.16)}
+.ct-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 16px 0}
+.ct{position:relative;text-align:left;min-width:0;padding:13px 30px 13px 13px;background:var(--d2);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);font-family:'Outfit',sans-serif;color:var(--white);cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:border-color .2s,background .2s,transform .15s}
+.ct:active{transform:scale(.98)}
+.ct.on{border-color:var(--lime-b);background:var(--lime-t)}
+.ct-k{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
+.ct-v{font-size:17px;font-weight:800;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ct-v.pos{color:var(--green)}
+.ct-d{font-size:12px;color:var(--gray);line-height:1.35}
+.ct-chev{position:absolute;right:13px;top:16px;width:7px;height:7px;border-right:2px solid var(--gray);border-bottom:2px solid var(--gray);transform:rotate(45deg);transition:transform .25s,border-color .2s,top .25s}
+.ct.on .ct-chev{transform:rotate(-135deg);border-color:var(--lime);top:20px}
+.cp{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .3s ease,visibility 0s .3s}
+.cp.open{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .3s ease,visibility 0s}
+.cp-in{overflow:hidden;min-height:0}
+.cp .div{display:none}
+.cp .sec{padding-top:12px}
+.ct-hint{font-size:12px;color:var(--gray);text-align:center;margin:8px 16px 0}
+@media (prefers-reduced-motion:reduce){.cp,.ct,.ct-chev{transition:none}}
 .pl-card{margin:12px 16px 0;padding:16px;border:1.5px solid var(--lime-b);border-radius:var(--r-lg);background:linear-gradient(150deg,var(--lime-t),rgba(10,10,12,0) 75%),var(--d2)}
 .pl-h{font-size:20px;font-weight:900;letter-spacing:-.02em;line-height:1.15}
 .pl-p{font-size:13.5px;color:var(--gray);margin:6px 0 14px}
@@ -940,22 +957,21 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
     <div id="r-hero"></div>
   </div>
 
-  <!-- 2 · TRANSFER PLANNER (hands the squad to /fpl/planner.html) -->
-  <div class="rblk rb-plan" id="blk-plan">
-    <div class="rb-hd"><span class="rb-no">2</span><span class="rb-t">Transfer Planner</span><span class="rb-new">New</span></div>
+  <!-- YOUR CALLS: planner entry, then Bench and Captain as tap-to-open tiles -->
+  <div class="rblk" id="blk-calls">
+    <div class="rb-hd"><span class="rb-t">Your calls this week</span></div>
     <div id="r-planner"></div>
-  </div>
-
-  <!-- 3 · BENCH ADVICE -->
-  <div class="rblk" id="blk-bench">
-    <div class="rb-hd"><span class="rb-no">3</span><span class="rb-t">Bench advice</span></div>
-    <div id="r-attention" style="padding:0 16px"></div>
-  </div>
-
-  <!-- 4 · CAPTAIN'S CALL -->
-  <div class="rblk" id="blk-capt">
-    <div class="rb-hd"><span class="rb-no">4</span><span class="rb-t">Captain's call</span></div>
-    <div id="r-captain"></div>
+    <div class="ct-row" id="r-calls">
+      <button type="button" class="ct" id="ct-bench" aria-expanded="false" aria-controls="cp-bench" onclick="toggleCall('bench')">
+        <span class="ct-k">Bench swap</span><span class="ct-v" id="ct-bench-v"></span><span class="ct-d" id="ct-bench-d"></span><span class="ct-chev" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="ct" id="ct-capt" aria-expanded="false" aria-controls="cp-capt" onclick="toggleCall('capt')">
+        <span class="ct-k">Captain</span><span class="ct-v" id="ct-capt-v"></span><span class="ct-d" id="ct-capt-d"></span><span class="ct-chev" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="cp" id="cp-bench"><div class="cp-in"><div id="r-attention" style="padding:0 16px"></div></div></div>
+    <div class="cp" id="cp-capt"><div class="cp-in"><div id="r-captain"></div></div></div>
+    <p class="ct-hint">Tap Bench or Captain to see the detail.</p>
   </div>
 
   <div id="r-finalcall" style="padding:24px 16px 0"></div>
@@ -1284,7 +1300,7 @@ $('file-input').addEventListener('change', async function(){
 function renderResult(p) {
   _fcTracked = false;
   // Wrap each section individually so a crash names the exact function
-  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderPlanner, renderFinalCall];
+  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderPlanner, renderCalls, renderFinalCall];
   for (const fn of steps) {
     try { fn(p); }
     catch(e) {
@@ -1347,6 +1363,28 @@ function plannerHandoff(p){
 }
 /* HANDOVER:END */
 
+/* ── YOUR CALLS: tap-to-open Bench and Captain ──────────────────────────── */
+const _callSum={bench:null,capt:null};
+const _CALL_IDS={bench:['ct-bench','cp-bench'],capt:['ct-capt','cp-capt']};
+function renderCalls(p){
+  for(const k of ['bench','capt']){
+    const s=_callSum[k]||{v:'—',d:''};
+    const v=$('ct-'+k+'-v');
+    v.textContent=s.v; v.classList.toggle('pos',!!s.pos);
+    $('ct-'+k+'-d').textContent=s.d;
+  }
+}
+function toggleCall(which){
+  const open=!$(_CALL_IDS[which][1]).classList.contains('open');
+  for(const k in _CALL_IDS){
+    const on=k===which&&open;
+    $(_CALL_IDS[k][1]).classList.toggle('open',on);
+    $(_CALL_IDS[k][0]).classList.toggle('on',on);
+    $(_CALL_IDS[k][0]).setAttribute('aria-expanded',on);
+  }
+  track('result_tile_toggled',{tile:which,open,gw:_P?.gameweek??null,action:_P?.action??null});
+}
+
 function renderPlanner(p){
   const h = plannerHandoff(p);
   $('r-planner').innerHTML = `<div class="pl-card">
@@ -1366,7 +1404,21 @@ function openPlanner(){
   if(!h.ok){ note(h.message); return; }
   try{ sessionStorage.setItem(PLANNER_HANDOFF_KEY, JSON.stringify(h.data)); }
   catch(_){ track('planner_handover_failed',{reason:'storage'}); note("Your browser is blocking storage, so we can't open the planner from here."); return; }
+  try{ sessionStorage.setItem(RESULTS_KEY, JSON.stringify(_P)); }catch(_){ /* too large or blocked: the planner then just has no way back */ }
   location.href = '/fpl/planner.html';
+}
+/* The planner's "Your results" link comes back to ?view=results. The payload was kept in this tab only, so it is gone once the tab closes. */
+const RESULTS_KEY='squadcheck.results.v1';
+function restoreResults(){
+  if(new URLSearchParams(location.search).get('view')!=='results') return false;
+  let data=null;
+  try{ data=JSON.parse(sessionStorage.getItem(RESULTS_KEY)||'null'); }catch(_){ data=null; }
+  const ok=data&&data.status==='OK'&&Array.isArray(data.players)&&data.players.length===15;
+  try{ history.replaceState(null,'',location.pathname); }catch(_){}
+  if(!ok){ track('results_restore_failed',{}); return false; }
+  _P=data; renderResult(data); show('s-result');
+  track('results_restored',{gw:data.gameweek??null,action:data.action??null});
+  return true;
 }
 
 /* ── PLAYERS ─────────────────────────────────────────────────────────────── */
@@ -1729,12 +1781,13 @@ function selectCaptain(playerId){
   renderPlayers(_P);
   observePosRows();
   renderCaptain(_P);
+  renderCalls(_P);
   renderFinalCall(_P);
 }
 
 function renderCaptain(p){
   const starts=(p.players||[]).filter(q=>q.is_starting);
-  if(!starts.length){$('r-captain').innerHTML='';return;}
+  if(!starts.length){$('r-captain').innerHTML='';_callSum.capt={v:'Not available',d:'No starting XI'};return;}
 
   const sorted=[...starts].sort((a,b)=>b.xPts-a.xPts);
   const best=sorted[0];                                          // highest xPts
@@ -1748,6 +1801,7 @@ function renderCaptain(p){
         <div class="capt-sel-name">${esc(pl.web_name)}</div>
         <div class="capt-sel-pts">${pl.xPts.toFixed(1)} xPts</div>
       </div>`).join('');
+    _callSum.capt={v:'Choose',d:'Tap to pick your captain'};
     $('r-captain').innerHTML=`<div class="div"></div>
 <div class="sec">
   <p class="sec-hdr">Captain pick</p>
@@ -1807,6 +1861,7 @@ function renderCaptain(p){
       </div>
       ${altCards?`<div class="capt-alts">${altCards}</div>`:''}
       <p class="capt-note">Change your captain to ${esc(best.web_name)} in the FPL app — costs nothing, just tap their name and select captain.</p>`;
+    _callSum.capt={v:best.web_name,d:`+${gainWith2x} pts over ${detected.web_name}`,pos:true};
     track('captain_switch_shown',{from:detected.player_id,to:best.player_id,gain:gainBase});
   } else {
     // ── No switch: current captain is already optimal (or undetected) ────
@@ -1830,6 +1885,7 @@ function renderCaptain(p){
       </div>
       ${alts.length?`<div class="capt-alts">${altCards}</div>`:''}
       <p class="capt-note">Set ${esc(pick.web_name)} as your captain in the FPL app — this forecast already includes their 2× multiplier.</p>`;
+    _callSum.capt={v:pick.web_name,d:'Keep as your captain'};
     track('captain_card_viewed',{player_id:pick.player_id,xPts:pick.xPts});
   }
 
@@ -1854,6 +1910,10 @@ function renderAttention(p){
   let html='';
   if(p.action==='SWAP'){html=buildSwap(p);}
   else{html=buildHold(p);}
+  const _sub=(p.substitutions||[])[0];
+  const _swap=p.action==='SWAP'&&_sub&&(p.players||[]).some(q=>q.player_id===_sub.out.player_id)&&(p.players||[]).some(q=>q.player_id===_sub.in.player_id);
+  _callSum.bench=_swap?{v:`${_sub.in.web_name} in`,d:`for ${_sub.out.web_name}, +${p.delta.toFixed(1)} pts`,pos:true}
+    :{v:'None needed',d:p.delta>0?`Best option adds ${p.delta.toFixed(1)} pts`:'No bench player beats a starter'};
   $('r-attention').innerHTML=`<div class="div"></div><div class="sec">${html}</div>`;
 }
 
@@ -2318,11 +2378,11 @@ async function submitBench(){
 
 /* ── SCROLL TRACKING ─────────────────────────────────────────────────────── */
 function setupScroll(p){
-  const ids=['r-awesome','r-attention','r-finalcall','r-planner'];
+  const ids=['r-awesome','r-calls','r-finalcall','r-planner'];
   const ob=new IntersectionObserver(entries=>{
     entries.forEach(en=>{
       if(!en.isIntersecting) return;
-      if(en.target.id==='r-attention') track('recommendation_viewed',{action:p.action,delta:p.delta});
+      if(en.target.id==='r-calls') track('recommendation_viewed',{action:p.action,delta:p.delta});
       if(en.target.id==='r-planner') track('planner_cta_viewed',{gw:p.gameweek??null});
       ob.unobserve(en.target);
     });
@@ -2377,6 +2437,7 @@ async function addToHome(){
 
 // Fire after all handlers are registered so super properties are in place
 track('page_viewed', {referrer: document.referrer||null});
+restoreResults();
 </script>
 </body>
 </html>

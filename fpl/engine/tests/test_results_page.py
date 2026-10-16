@@ -123,21 +123,21 @@ class TestStructure(unittest.TestCase):
 
     def test_the_results_page_has_the_four_blocks_in_order(self):
         res = self.section("s-result")
-        order = [res.index(i) for i in ('id="blk-proj"', 'id="blk-plan"', 'id="blk-bench"', 'id="blk-capt"')]
+        # Redesign (2026-10-16): Projection, then "Your calls this week" = planner card + tap-to-open Bench and Captain tiles.
+        order = [res.index(i) for i in ('id="blk-proj"', 'id="blk-calls"', 'id="r-planner"', 'id="ct-bench"', 'id="ct-capt"')]
         self.assertEqual(order, sorted(order))
-        for title in ("Projection", "Transfer Planner", "Bench advice", "Captain's call"):
-            self.assertIn('<span class="rb-t">%s</span>' % title, res)
-        for n, block in enumerate(("blk-proj", "blk-plan", "blk-bench", "blk-capt"), 1):
-            self.assertIn('id="%s"' % block, res)
-            self.assertRegex(res, r'id="%s">\s*<div class="rb-hd"><span class="rb-no">%d</span>' % (block, n))
+        self.assertIn('<span class="rb-t">Projection</span>', res)
+        self.assertIn('<span class="rb-t">Your calls this week</span>', res)
+        self.assertRegex(res, r'id="blk-proj">\s*<div class="rb-hd"><span class="rb-no">1</span>')
+        for tile in ("ct-bench", "ct-capt"):
+            self.assertRegex(res, r'<button type="button" class="ct" id="%s" aria-expanded="false" aria-controls="' % tile)
 
     def test_each_existing_renderer_still_has_its_container_inside_the_right_block(self):
         res = self.section("s-result")
         pos = lambda s: res.index(s)
-        self.assertTrue(pos('id="blk-proj"') < pos('id="r-hero"') < pos('id="blk-plan"'))
-        self.assertTrue(pos('id="blk-plan"') < pos('id="r-planner"') < pos('id="blk-bench"'))
-        self.assertTrue(pos('id="blk-bench"') < pos('id="r-attention"') < pos('id="blk-capt"'))
-        self.assertTrue(pos('id="blk-capt"') < pos('id="r-captain"') < pos('id="r-finalcall"'))
+        self.assertTrue(pos('id="blk-proj"') < pos('id="r-hero"') < pos('id="blk-calls"'))
+        self.assertTrue(pos('id="blk-calls"') < pos('id="r-planner"') < pos('id="r-calls"'))
+        self.assertTrue(pos('id="r-calls"') < pos('id="cp-bench"') < pos('id="r-attention"') < pos('id="cp-capt"') < pos('id="r-captain"') < pos('id="r-finalcall"'))
 
     def test_player_by_player_detail_lives_on_its_own_view_with_a_way_back(self):
         res, proj = self.section("s-result"), self.section("s-proj")

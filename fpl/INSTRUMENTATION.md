@@ -143,7 +143,7 @@ Fires immediately after `projection_viewed`. Records the pipeline's recommendati
 | `bench_viewed` | Bench section expanded | — |
 | `captain_switch_shown` | App suggests captain change | `from` (player_id), `to` (player_id), `gain` (xPts delta) |
 | `captain_card_viewed` | Captain card rendered (no switch needed) | `player_id`, `xPts` |
-| `recommendation_viewed` | "Changes to make" section scrolled into view (IntersectionObserver, 30% threshold) | `action`, `delta` |
+| `recommendation_viewed` | The "Your calls this week" tiles (planner, bench swap, captain) scrolled into view (IntersectionObserver, 30% threshold). Until 2026-10-16 this watched the full Bench section, which is now behind a tap | `action`, `delta` |
 | `recommended_change_viewed` | Final Call section rendered — fires once per result render, not per captain tap | `action`, `delta` |
 
 ---
@@ -276,6 +276,10 @@ New properties on existing events: `via_manual_bench: true` on `projection_viewe
 | `planner_save_prompt_opened` / `_accepted` | Sign-in stub opened / "Continue" tapped (sign-in is not live: this is demand, nothing is saved) | plan context |
 | `planner_share_card_previewed` / `_copied` | The shareable call card | plan context |
 | `planner_error` | Player list or squad could not load | `where`, `message` |
+| `result_tile_toggled` | Results page: Bench or Captain tile opened / closed | `tile` (`bench`/`capt`), `open`, `gw`, `action` |
+| `results_restored` / `results_restore_failed` | "Your results" link from the planner: results re-shown from this tab / nothing left to show | `gw`, `action` |
+| `planner_back_to_results` | "← Your results" link tapped in the planner header | `phase` |
+| `planner_feedback_loved` / `_useful` / `_ok` / `_bad` | "How did the Transfer Planner feel?" on the "My call" screen (once per plan) | `rating`, plan context |
 
 Plan context = `rank`, `kind`, `recommended`, `verdict` (`clear`/`small`/`marginal`/`none`), `gain`, `n_moves`, `hits`, `edited`.
 
