@@ -43,6 +43,20 @@ _EXPECTED_EVENTS = {
     "action_changed_xi", "action_kept_xi", "action_deciding_xi",
     "feedback_reason", "share_native_image", "share_native", "share_download",
     "add_to_home_screen",
+    # bench / captain step (squad read, XI and bench not)
+    "bench_step_shown", "bench_step_progress", "bench_step_invalid", "bench_step_captain_skipped",
+    "bench_step_reupload_clicked", "bench_step_submitted", "bench_step_failed", "bench_step_completed",
+    # landing page interest
+    "home_tile_clicked", "upload_cta_clicked", "methodology_link_clicked",
+    # results page -> Transfer Planner
+    "planner_cta_viewed", "plan_my_move_clicked", "planner_cta_unavailable", "planner_handover_failed",
+    # Transfer Planner page
+    "planner_opened", "planner_screen_viewed", "planner_action", "planner_bank_entered", "planner_player_search",
+    "planner_plans_requested", "planner_plans_loaded", "planner_plans_failed", "planner_plan_inspected",
+    "planner_share_clicked", "planner_share_message_copied", "planner_share_confirmed", "planner_plan_backed",
+    "planner_tweak_opened", "planner_tweak_run", "planner_tweak_result", "planner_tweak_failed", "planner_tweak_used",
+    "planner_save_prompt_opened", "planner_save_prompt_accepted", "planner_share_card_previewed",
+    "planner_share_card_copied", "planner_error",
 }
 
 
@@ -142,6 +156,65 @@ def get_funnel(lookback_days=30):
             "action_changed":  _g(r, "action_changed"),
             "action_kept":     _g(r, "action_kept"),
             "action_deciding": _g(r, "action_deciding"),
+        },
+    }
+
+
+# ── get_flow_funnels ──────────────────────────────────────────────────────────
+
+def get_flow_funnels(lookback_days=30):
+    """
+    Session-level funnels for the flows added after the core funnel: results page -> Transfer Planner,
+    and the bench/captain step. Each step is {"n","d","pct"} against the previous step (d = that
+    step's own denominator, stated in the key). Structured data only; no interpretation.
+    """
+    sql = f"""
+    SELECT
+      uniqIf(properties.session_id, event = 'planner_cta_viewed')                         AS cta_viewed,
+      uniqIf(properties.session_id, event = 'plan_my_move_clicked')                       AS clicked,
+      uniqIf(properties.session_id, event = 'planner_opened' AND properties.state = 'ready') AS opened,
+      uniqIf(properties.session_id, event = 'planner_plans_requested')                    AS requested,
+      uniqIf(properties.session_id, event = 'planner_plans_loaded')                       AS loaded,
+      uniqIf(properties.session_id, event = 'planner_plan_inspected')                     AS inspected,
+      uniqIf(properties.session_id, event = 'planner_share_confirmed')                    AS share_confirmed,
+      uniqIf(properties.session_id, event = 'planner_screen_viewed' AND properties.phase = 'compare') AS compare_viewed,
+      uniqIf(properties.session_id, event = 'planner_plan_backed')                        AS backed,
+      uniqIf(properties.session_id, event = 'planner_save_prompt_opened')                 AS save_prompt_opened,
+      uniqIf(properties.session_id, event = 'planner_save_prompt_accepted')               AS save_prompt_accepted,
+      uniqIf(properties.session_id, event IN ('planner_error', 'planner_plans_failed'))   AS planner_errors,
+      uniqIf(properties.session_id, event = 'bench_step_shown')                           AS bench_shown,
+      uniqIf(properties.session_id, event = 'bench_step_submitted')                       AS bench_submitted,
+      uniqIf(properties.session_id, event = 'bench_step_completed')                       AS bench_completed,
+      uniqIf(properties.session_id, event = 'bench_step_failed')                          AS bench_failed,
+      uniqIf(properties.session_id, event = 'bench_step_reupload_clicked')                AS bench_reupload
+    FROM events
+    WHERE timestamp >= now() - interval {int(lookback_days)} day
+    """
+    rows = rows_to_dicts(run_query(sql))
+    r = rows[0] if rows else {}
+    g = lambda k: _g(r, k)
+    return {
+        "lookback_days": lookback_days,
+        "planner": {
+            "cta_viewed":      g("cta_viewed"),
+            "clicked":         _rate(g("clicked"), g("cta_viewed")),
+            "opened":          _rate(g("opened"), g("clicked")),
+            "plans_requested": _rate(g("requested"), g("opened")),
+            "plans_loaded":    _rate(g("loaded"), g("requested")),
+            "plan_inspected":  _rate(g("inspected"), g("loaded")),
+            "compare_viewed":  _rate(g("compare_viewed"), g("inspected")),
+            "plan_backed":     _rate(g("backed"), g("compare_viewed")),
+            "save_prompt_opened":   _rate(g("save_prompt_opened"), g("backed")),
+            "save_prompt_accepted": _rate(g("save_prompt_accepted"), g("save_prompt_opened")),
+            "share_confirmed": g("share_confirmed"),
+            "sessions_with_errors": g("planner_errors"),
+        },
+        "bench_step": {
+            "shown":     g("bench_shown"),
+            "submitted": _rate(g("bench_submitted"), g("bench_shown")),
+            "completed": _rate(g("bench_completed"), g("bench_submitted")),
+            "failed_sessions": g("bench_failed"),
+            "reupload_instead": _rate(g("bench_reupload"), g("bench_shown")),
         },
     }
 

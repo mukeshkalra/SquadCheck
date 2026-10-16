@@ -220,3 +220,64 @@ projection_viewed → player_card_opened → recommendation_viewed → feedback_
 3. In `fpl/index.html`, replace `__POSTHOG_KEY__` with your key.
 4. Deploy. Verify in PostHog Live Events that `page_viewed` appears.
 5. Build the funnel queries above in PostHog → Funnels.
+
+---
+
+## Flow events added after the core funnel (additive)
+
+No existing event, name or property changed. The core funnel (`page_viewed → screenshot_uploaded → scan_valid → projection_viewed → decision_reached`) is untouched.
+New properties on existing events: `via_manual_bench: true` on `projection_viewed` and `decision_reached` when the result came from the bench/captain step (same idea as `via_disambig`).
+
+`planner.html` shares the results page's `session_id` (same `sessionStorage` key), the `internal` flag (`?internal=1`) and the UTM props, so one session joins up across both pages. It tags every event `page: 'planner'`. It sends to PostHog **only on `www.squadcheck.club` / `squadcheck.club`**; previews and localhost log to the console (`[SC]`) instead. No event carries text the user typed.
+
+### Landing page
+| Event | When | Properties |
+|---|---|---|
+| `home_tile_clicked` | A "What you get" tile is tapped | `tile` (`hero`/`plan`/`bench`/`captain`) |
+| `upload_cta_clicked` | The upload button label is tapped (before a file is chosen) | `where` (`hero`/`examples`) |
+| `methodology_link_clicked` | "How we calculate your score" | `from` |
+
+### Bench / captain step (squad read, XI and bench not)
+`scan_failed` still fires first, exactly as before.
+| Event | When | Properties |
+|---|---|---|
+| `bench_step_shown` | The step appears | `players` |
+| `bench_step_progress` | Any move between its screens | `from`, `to` (0 notice, 1 bench, 2 captain, 3 review) |
+| `bench_step_invalid` | An illegal bench was built (once per kind) | `kind` (`goalkeepers`/`formation`) |
+| `bench_step_captain_skipped` | "Skip: I haven't decided" | — |
+| `bench_step_reupload_clicked` | "Upload the Pick Team screen instead" | — |
+| `bench_step_submitted` | "Check my team" | `captain_set`, `vice_set` |
+| `bench_step_failed` | Server rejected it, or the request errored | `message` |
+| `bench_step_completed` | A result came back | `gw`, `action`, `delta`, `captain_set` |
+
+### Results page to planner
+| Event | When | Properties |
+|---|---|---|
+| `planner_cta_viewed` | The Plan-my-move card scrolls into view (30%) | `gw` |
+| `plan_my_move_clicked` | Button tapped | `gw`, `action`, `delta`, `ok` |
+| `planner_cta_unavailable` | The card shows an error instead of the button | `gw` |
+| `planner_handover_failed` | Browser blocked storage | `reason` |
+
+### Transfer Planner page
+| Event | When | Properties |
+|---|---|---|
+| `planner_opened` | Page boot finished | `state` (`ready`/`no_handover`), `reason` (`missing`/`stale`/`squad`/`unreadable`), `gw`, `dev`, `restored` |
+| `planner_screen_viewed` | The screen changes | `phase` (`ready`/`ploading`/`explore`/`gate`/`compare`/`call`/`xerror`/`error`/`empty`), plus plan context on explore/gate/compare/call |
+| `planner_action` | Every button press (catch-all) | `act`, `v` (short enum/id, never typed text), `phase` |
+| `planner_bank_entered` | First valid bank | `bank_m` |
+| `planner_player_search` | First time the player search is typed in | `field` |
+| `planner_plans_requested` | Plans asked for | `strategy`, `free_transfers`, `max_hits`, `cached`, `retry` |
+| `planner_plans_loaded` | Plans shown | `gw`, `status`, `n_ranked`, `top_gain`, `top_verdict`, `recommended_action`, `cached`, `ms` |
+| `planner_plans_failed` | Request failed | `reason`, `ms` |
+| `planner_plan_inspected` | "Inspect" | `rank`, `kind`, `recommended`, `verdict`, `gain`, `gated` |
+| `planner_share_clicked` / `_message_copied` / `_confirmed` | The WhatsApp gate steps (confirmation is on trust) | plan context |
+| `planner_tweak_opened` / `_run` / `_result` / `_failed` / `_used` | The "what if" tweaks | `kind`, plus `tone`, `has_plan` on result |
+| `planner_plan_backed` | "Back this plan" | plan context incl. `edited` |
+| `planner_save_prompt_opened` / `_accepted` | Sign-in stub opened / "Continue" tapped (sign-in is not live: this is demand, nothing is saved) | plan context |
+| `planner_share_card_previewed` / `_copied` | The shareable call card | plan context |
+| `planner_error` | Player list or squad could not load | `where`, `message` |
+
+Plan context = `rank`, `kind`, `recommended`, `verdict` (`clear`/`small`/`marginal`/`none`), `gain`, `n_moves`, `hits`, `edited`.
+
+### Analyst
+`fpl/analytics/queries.py::get_flow_funnels` returns session-level funnels for the planner and the bench step (each step against the previous step). `report.py` includes them as facts. All new events are classified as CONDITIONAL or BEHAVIOURAL, so an unseen one is "not observed", never a bug by itself. Test: `fpl/analytics/tests/test_flows.py` checks every event a page sends is registered.

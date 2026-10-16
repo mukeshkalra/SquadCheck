@@ -65,8 +65,8 @@ def _next_investigation(facts, observations, gaps):
     return "No gap needs follow-up; re-run the analysis as the sample grows."
 
 
-def build_report(funnel, health):
-    r = run_rules(funnel, health)
+def build_report(funnel, health, flows=None):
+    r = run_rules(funnel, health, flows)
     report = Report(facts=r["facts"], observations=r["observations"], gaps=r["gaps"])
     report.hypotheses = generate(r["facts"] + r["observations"] + r["gaps"])
     report.confidence = _confidence(r["facts"], r["observations"], r["gaps"])
@@ -103,8 +103,12 @@ def render_markdown(report):
 
 
 def main(funnel_days=30, health_days=7):
-    from ..queries import get_event_health, get_funnel
-    print(render_markdown(build_report(get_funnel(funnel_days), get_event_health(health_days))))
+    from ..queries import get_event_health, get_flow_funnels, get_funnel
+    try:
+        flows = get_flow_funnels(funnel_days)
+    except Exception:          # the core report must never depend on the newer funnels
+        flows = None
+    print(render_markdown(build_report(get_funnel(funnel_days), get_event_health(health_days), flows)))
 
 
 if __name__ == "__main__":

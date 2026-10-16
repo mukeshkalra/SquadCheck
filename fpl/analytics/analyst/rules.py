@@ -200,6 +200,42 @@ def gaps(funnel, health):
     return out
 
 
-def run_rules(funnel, health):
-    return {"facts": facts(funnel, health), "observations": observations(funnel, health),
+def flow_facts(flows):
+    """Facts for the planner and bench-step funnels (get_flow_funnels). Empty when flows is not supplied."""
+    out = []
+    w = _window(flows, "get_flow_funnels")
+    if not w:
+        return out
+    pl, bs = flows.get("planner", {}), flows.get("bench_step", {})
+    seen = pl.get("cta_viewed") or 0
+    steps = [k for k in ("clicked", "opened", "plans_requested", "plans_loaded", "plan_inspected", "compare_viewed", "plan_backed")
+             if k in pl]
+    if seen:
+        out.append(Finding("F_planner_funnel",
+                           f"Transfer Planner: {seen} session(s) saw the planner button on the results page. "
+                           "Step rates, each against the previous step.",
+                           tuple(_ev("get_flow_funnels", f"planner.{k}", pl[k]) for k in steps),
+                           rates=tuple(_rate(k, pl[k], w) for k in steps), n=seen))
+        save = pl.get("save_prompt_opened", {})
+        if (save.get("d") or 0) > 0:
+            out.append(Finding("F_planner_save_intent",
+                               "Sessions that backed a plan and then opened the save prompt (sign-in is not live, so this is demand, not saves).",
+                               (_ev("get_flow_funnels", "planner.save_prompt_opened", save),),
+                               rates=(_rate("save_prompt_opened", save, w), _rate("save_prompt_accepted", pl["save_prompt_accepted"], w)),
+                               n=save["d"]))
+    else:
+        out.append(Finding("F_planner_none",
+                           f"No session in the last {w.lookback_days}d saw the planner button, or the planner events are not arriving.",
+                           (_ev("get_flow_funnels", "planner.cta_viewed", seen),), n=0))
+    shown = bs.get("shown") or 0
+    if shown:
+        out.append(Finding("F_bench_step",
+                           f"Bench/captain step: shown to {shown} session(s). Rates against the previous step; reupload_instead is against sessions shown.",
+                           tuple(_ev("get_flow_funnels", f"bench_step.{k}", bs[k]) for k in ("submitted", "completed", "reupload_instead") if k in bs),
+                           rates=tuple(_rate(k, bs[k], w) for k in ("submitted", "completed", "reupload_instead") if k in bs), n=shown))
+    return out
+
+
+def run_rules(funnel, health, flows=None):
+    return {"facts": facts(funnel, health) + flow_facts(flows), "observations": observations(funnel, health),
             "gaps": gaps(funnel, health)}

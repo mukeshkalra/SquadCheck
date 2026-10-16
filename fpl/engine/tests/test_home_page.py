@@ -140,8 +140,12 @@ class TestUploadFlowAndEventsUnchanged(unittest.TestCase):
         self.assertLess(UP.index('id="features"'), UP.index('class="ex-wrap"'))
 
     def test_analytics_event_names_are_exactly_the_committed_ones(self):
-        events = lambda s: sorted(set(re.findall(r"track\('([a-z_]+)'", s)))
-        self.assertEqual(events(HTML), events(head_html()))
+        # Instrumentation was extended on purpose (see fpl/INSTRUMENTATION.md): every committed event must still be sent,
+        # unrenamed, and every new one must be registered with the analyst.
+        from fpl.analytics.queries import _EXPECTED_EVENTS
+        events = lambda s: set(re.findall(r"track\('([a-z_]+)'", s))
+        self.assertLessEqual(events(head_html()), events(HTML))
+        self.assertEqual(sorted(e for e in events(HTML) - events(head_html()) if e not in _EXPECTED_EVENTS), [])
 
     def test_no_event_handlers_were_added_to_the_new_blocks(self):
         self.assertNotRegex(TILES + PLAN_EX, r"\bon[a-z]+=")

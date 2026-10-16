@@ -42,6 +42,14 @@
     "Show me everything"       strategy "everything"      (the default behaviour)
   There is no upside or ceiling metric in the planner, so nothing here claims one.
 -->
+<!-- PostHog (same project and key as the results page). Initialised on the live site only, so previews and localhost never send events. -->
+<script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+const _SC_PH_KEY='phc_CdHQAbFPHR2GxMNTkcZfeckyPk3xqAPS64skEU5jUoDL';
+if(_SC_PH_KEY&&_SC_PH_KEY!=='__POSTHOG_KEY__'&&(location.hostname==='www.squadcheck.club'||location.hostname==='squadcheck.club')){
+  posthog.init(_SC_PH_KEY,{api_host:'https://eu.i.posthog.com',person_profiles:'identified_only',autocapture:false,capture_pageview:false,session_recording:{maskAllInputs:true}});
+}
+</script>
 <style>
 :root{
   --lime:#CCFF00; --lime-t:rgba(204,255,0,.09); --lime-b:rgba(204,255,0,.28);
@@ -713,6 +721,34 @@ const PlannerCore = (function () {
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const DEV = C.devMode(location.search, location.hostname);
+
+  /* ── analytics: same PostHog project, session id and ?internal=1 flag as the results page, so a planner visit
+        joins the same session. Sends from the live site only; everywhere else events are dropped. Never throws. ── */
+  const _sc = (() => {
+    const get = (area, k) => { try { return window[area].getItem(k); } catch (e) { return null; } };   // storage access itself can throw
+    const sid = get('sessionStorage', 'sc_sid') || (() => {
+      const id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2, 11) + '-' + Date.now().toString(36);
+      try { sessionStorage.setItem('sc_sid', id); } catch (e) { /* storage blocked */ }
+      return id;
+    })();
+    let utm = {}, exp = {};
+    try { utm = JSON.parse(get('sessionStorage', 'sc_utm') || '{}'); } catch (e) { /* ignore */ }
+    try { exp = JSON.parse(get('sessionStorage', 'sc_exp') || '{}'); } catch (e) { /* ignore */ }
+    try {
+      const v = new URLSearchParams(location.search).get('internal');
+      if (v === '1') localStorage.setItem('sc_internal', '1'); else if (v === '0') localStorage.removeItem('sc_internal');
+    } catch (e) { /* ignore */ }
+    return {session_id: sid, is_return: !!get('localStorage', 'sc_fv'), sc_version: '2.0', ...utm, ...exp, ...(get('localStorage', 'sc_internal') === '1' ? {internal: true} : {})};
+  })();
+  const LIVE_HOST = location.hostname === 'www.squadcheck.club' || location.hostname === 'squadcheck.club';
+  const track = (e, p) => {
+    try {
+      const props = {..._sc, page: 'planner', ...(p || {})};
+      if (LIVE_HOST && window.posthog && typeof posthog.capture === 'function') posthog.capture(e, props);
+      if (window.__SC_TRACE && typeof window.__SC_TRACE.push === 'function') window.__SC_TRACE.push([e, props]);   // test hook: nothing sets it on the live site
+    } catch (err) { /* analytics must never break the page */ }
+  };
+  try { if (LIVE_HOST && window.posthog && typeof posthog.register === 'function') posthog.register(_sc); } catch (e) { /* ignore */ }
   const STEPS = ['Game plan', 'Explore', 'Compare', 'Your call', 'Review'];
 
   const S = {phase: 'loading', msg: '', gameweek: null, dir: null, squad_ids: [], strategy: null, ft: 1, ftTouched: false, bank: '',
@@ -939,6 +975,19 @@ const PlannerCore = (function () {
   const WAICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 00-8.5 14.9L2 22l5.2-1.5A9.9 9.9 0 1012.04 2zm5.8 14.1c-.25.7-1.4 1.3-1.95 1.35-.5.05-1.1.07-1.8-.12-.4-.13-.95-.3-1.6-.6-2.8-1.2-4.6-4-4.75-4.2-.14-.18-1.15-1.5-1.15-2.9s.72-2.05 1-2.35c.26-.28.56-.35.75-.35h.55c.18 0 .42-.07.65.5.25.58.84 2 .9 2.15.07.15.12.32.02.5-.1.2-.15.32-.3.5-.15.17-.3.38-.45.5-.15.15-.3.3-.13.6.17.3.78 1.28 1.67 2.07 1.15 1 2.1 1.33 2.4 1.48.3.15.47.12.65-.07.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05.98.3.15.5.22.57.35.08.12.08.72-.17 1.42z"/></svg>';
   const workCard = () => S.work.view.cards.find(c => c.id === S.work.cardId);
   const wm = () => workCard().model;
+  /* what the user is looking at, for events (never throws, never includes anything typed by the user) */
+  const planCtx = () => {
+    try {
+      const c = S.work ? workCard() : S.view && S.view.cards.find(x => x.id === S.sel); if (!c) return {};
+      const m = c.model || {};
+      return {rank: c.rank || null, kind: c.kind, recommended: !!c.recommended, verdict: m.verdict ? m.verdict.tier : null,
+              gain: typeof m.net === 'number' ? m.net : null, n_moves: typeof m.n === 'number' ? m.n : null, hits: typeof m.hits === 'number' ? m.hits : null,
+              edited: S.work ? S.work.applied.length : 0};
+    } catch (e) { return {}; }
+  };
+  const ACT_EVENTS = {wa: 'planner_share_clicked', wacopy: 'planner_share_message_copied', wadone: 'planner_share_confirmed', backplan: 'planner_plan_backed',
+    locksheet: 'planner_save_prompt_opened', signinstub: 'planner_save_prompt_accepted', sharetoggle: 'planner_share_card_previewed',
+    copycard: 'planner_share_card_copied', twkuse: 'planner_tweak_used', twk: 'planner_tweak_opened', twkrun: 'planner_tweak_run', twkretry: 'planner_tweak_run'};
   const flag = s => (s && s !== 'a' ? '<span class="tag warn">' + esc(C.STATUS[s] || s) + '</span>' : '');
   const TWEAK_NAMES = {keep: 'kept a player', nohit: 'without the hit', hit: 'one more hit allowed', bring: 'different player bought'};
 
@@ -1112,6 +1161,7 @@ const PlannerCore = (function () {
     const band = S.dev && S.phase !== 'empty' ? '<div class="devband" role="note">SAMPLE SQUAD · development only · these are not your players</div>' : '';
     $('#main').innerHTML = band + ({loading: loadingHtml, empty: emptyHtml, error: errorHtml, ready: readyHtml, ploading: loadingPlansHtml,
                                     explore: exploreHtml, xerror: xerrorHtml, gate: gateHtml, compare: compareHtml, call: callHtml}[S.phase])();
+    if (S.phase !== S.shown) track('planner_screen_viewed', {phase: S.phase, ...(['explore', 'gate', 'compare', 'call'].includes(S.phase) ? planCtx() : {})});
     window.scrollTo(0, S.phase !== S.shown ? 0 : y); S.shown = S.phase;      // a new screen starts at the top; updates in place keep the scroll
   }
 
@@ -1121,12 +1171,13 @@ const PlannerCore = (function () {
     S.dev = false; S.t0 = 0; S.unlocked = store.get(C.UNLOCK_KEY) === '1';
     const ho = C.parseHandoff(store.get(C.HANDOFF_KEY), Date.now());
     if (ho.ok && ho.dev && !DEV) { store.remove(C.HANDOFF_KEY); store.remove(C.STATE_KEY); ho.ok = false; }   // a sample squad never enters the normal journey
-    if (!ho.ok) { S.phase = 'empty'; render(); if (DEV) loadDirectoryOnly(); return; }
+    if (!ho.ok) { S.phase = 'empty'; render(); track('planner_opened', {state: 'no_handover', reason: store.get(C.HANDOFF_KEY) == null ? 'missing' : ho.reason, dev: DEV}); if (DEV) loadDirectoryOnly(); return; }
     const dir = await loadDirectory(); if (!dir) return;
     const problems = C.validateSquad(ho.squad_ids, dir.byId);
-    if (problems.length) { S.phase = 'error'; S.msg = 'We couldn’t read your squad (' + problems[0] + ') Please check your team again.'; render(); return; }
+    if (problems.length) { S.phase = 'error'; S.msg = 'We couldn’t read your squad (' + problems[0] + ') Please check your team again.'; render(); track('planner_error', {where: 'squad', message: String(problems[0]).slice(0, 120)}); return; }
     S.dir = dir; S.squad_ids = ho.squad_ids; S.gameweek = ho.gameweek || dir.gameweek; S.dev = ho.dev;
     restoreState(); S.phase = 'ready'; render();
+    track('planner_opened', {state: 'ready', gw: S.gameweek, dev: S.dev, restored: !!(S.strategy || S.bank)});
   }
   async function loadDirectory() {
     try {
@@ -1136,7 +1187,7 @@ const PlannerCore = (function () {
       if (!dir.ok) throw new Error('bad directory');
       return dir;
     } catch (e) {
-      S.phase = 'error'; S.msg = 'The FPL player list isn’t available right now. Please try again in a moment.'; render(); return null;
+      S.phase = 'error'; S.msg = 'The FPL player list isn’t available right now. Please try again in a moment.'; render(); track('planner_error', {where: 'directory'}); return null;
     }
   }
   async function loadDirectoryOnly() { const d = await loadDirectory(); if (d) { S.dir = d; S.phase = 'empty'; render(); } }
@@ -1169,6 +1220,7 @@ const PlannerCore = (function () {
   function cancelTweak() { S.twkId++; if (S.twkCtl) S.twkCtl.abort(); S.twkCtl = null; if (S.twk && S.twk.state === 'loading') S.twk = null; }
   function finishTweak(kind, body, parsed) {
     S.twk = {state: 'done', kind, body, parsed, outcome: C.tweakOutcome(parsed.view, kind, Array.isArray(body.moves), wm())};
+    track('planner_tweak_result', {kind, tone: S.twk.outcome.tone || null, has_plan: !!S.twk.outcome.after});
     render();
   }
   async function runTweak(force) {
@@ -1184,11 +1236,13 @@ const PlannerCore = (function () {
     const parsed = await fetchPlans(key, ctl.signal);
     clearTimeout(timer);
     if (id !== S.twkId) return;                                              // cancelled or replaced: ignore the late answer
-    if (!parsed.ok) { S.twk = {state: 'error', kind, msg: parsed.message}; render(); return; }
+    if (!parsed.ok) { S.twk = {state: 'error', kind, msg: parsed.message}; render(); track('planner_tweak_failed', {kind, reason: parsed.kind || 'error'}); return; }
     cacheSet(key, parsed); finishTweak(kind, built.body, parsed);
   }
   function openInspect(c) {
     cancelTweak();
+    track('planner_plan_inspected', {rank: c.rank || null, kind: c.kind, recommended: !!c.recommended, verdict: c.model && c.model.verdict ? c.model.verdict.tier : null,
+                                     gain: c.model && typeof c.model.net === 'number' ? c.model.net : null, gated: !S.unlocked && c.kind !== 'hold'});
     S.work0 = S.work = {request: S.request, resp: S.resp, view: S.view, cardId: c.id, applied: []};
     S.twk = null; S.twkOpen = null; S.twkSel = {out: c.model.moves.length === 1 ? c.model.moves[0].out.id : null, index: 0, inn: null};
     if (!S.unlocked && c.kind !== 'hold') { S.gateOpened = false; S.popupBlocked = false; S.copied = false; S.phase = 'gate'; }   // Hold is never gated
@@ -1198,9 +1252,13 @@ const PlannerCore = (function () {
 
   /* ── plans (POST /api/transfer-plan) ── */
   function stopWait() { if (S.wait) { clearInterval(S.wait); S.wait = null; } }
-  function showView(parsed) {
+  function showView(parsed, meta) {
     S.resp = parsed.resp; S.view = parsed.view;
     const first = S.view.cards.find(c => c.model);
+    const top = S.view.cards.find(c => c.kind === 'rank');
+    track('planner_plans_loaded', {gw: S.view.gw, status: S.view.degraded.status, n_ranked: S.view.totalRanked, strategy: S.strategy, free_transfers: S.ft, max_hits: S.hits,
+      top_gain: top && top.model && typeof top.model.net === 'number' ? top.model.net : null, top_verdict: top && top.model && top.model.verdict ? top.model.verdict.tier : null,
+      recommended_action: S.view.verdict.action, cached: !!(meta && meta.cached), ms: meta && meta.ms != null ? meta.ms : null});
     S.sel = first ? first.id : null;
     S.phase = 'explore'; render();
   }
@@ -1208,20 +1266,21 @@ const PlannerCore = (function () {
     const key = JSON.stringify(S.request), now = Date.now();
     if (S.work0 && JSON.stringify(S.work0.request) !== key) { S.work = S.work0 = null; S.call = null; S.twk = null; S.twkOpen = null; }   // new settings: the old working plan no longer applies
     const hit = force ? null : cacheGet(key);
-    if (hit) { showView(hit); return; }
+    if (hit) { track('planner_plans_requested', {strategy: S.strategy, free_transfers: S.ft, max_hits: S.hits, cached: true}); showView(hit, {cached: true}); return; }
     const id = ++S.reqId;
     if (S.ctl) S.ctl.abort();
     const ctl = new AbortController(); S.ctl = ctl;
     const timer = setTimeout(() => ctl.abort(), 65000);
     S.phase = 'ploading'; S.t0 = now; render();
+    track('planner_plans_requested', {strategy: S.strategy, free_transfers: S.ft, max_hits: S.hits, cached: false, retry: !!force});
     stopWait();
     S.wait = setInterval(() => { const el = $('#waitmsg'); if (el) el.textContent = (Date.now() - S.t0) > 10000 ? 'Still working. Thanks for waiting.' : 'This can take up to a minute the first time.'; }, 1000);
     const parsed = await fetchPlans(key, ctl.signal);
     clearTimeout(timer);
     if (id !== S.reqId) return;                    // the user left while waiting
     stopWait(); S.t0 = 0;
-    if (parsed.ok) { cacheSet(key, parsed); showView(parsed); }
-    else { S.phase = 'xerror'; S.msg = parsed.message; render(); }
+    if (parsed.ok) { cacheSet(key, parsed); showView(parsed, {cached: false, ms: Date.now() - now}); }
+    else { S.phase = 'xerror'; S.msg = parsed.message; render(); track('planner_plans_failed', {reason: parsed.kind || 'error', ms: Date.now() - now}); }
   }
   function leavePlans() { S.reqId++; if (S.ctl) S.ctl.abort(); stopWait(); S.t0 = 0; cancelTweak(); }
 
@@ -1257,6 +1316,8 @@ const PlannerCore = (function () {
 
   /* ── events ── */
   function act(a, v, el) {
+    track('planner_action', {act: a, v: v == null ? null : String(v).slice(0, 40), phase: S.phase});
+    if (ACT_EVENTS[a]) track(ACT_EVENTS[a], {...planCtx(), ...(a === 'twk' ? {kind: v} : a === 'twkrun' || a === 'twkretry' ? {kind: S.twkOpen} : {})});
     switch (a) {
       case 'strat': S.strategy = v; clamp(); saveState(); render(); break;
       case 'ft': S.ft = Math.max(0, Math.min(3, S.ft + (+v))); S.ftTouched = true; clamp(); saveState(); render(); break;
@@ -1328,9 +1389,9 @@ const PlannerCore = (function () {
   document.addEventListener('focusout', e => { if (e.target.matches && e.target.matches('input[data-combo]')) setTimeout(() => comboClose(e.target.dataset.combo), 120); });
   document.addEventListener('input', e => {
     const t = e.target;
-    if (t.matches && t.matches('input[data-combo]')) comboOpen(t);
+    if (t.matches && t.matches('input[data-combo]')) { if (!S.searched) { S.searched = true; track('planner_player_search', {field: t.dataset.combo}); } comboOpen(t); }
     else if (t.id === 'why' && S.call) { S.call.why = t.value; }
-    else if (t.id === 'bank') { S.bank = t.value; saveState(); const ok = C.parseBank(S.bank).ok; t.parentElement.classList.toggle('bad', !ok && S.bank.trim() !== ''); refreshCta(); }
+    else if (t.id === 'bank') { S.bank = t.value; saveState(); const ok = C.parseBank(S.bank).ok; if (ok && !S.bankTracked) { S.bankTracked = true; track('planner_bank_entered', {bank_m: C.parseBank(S.bank).value}); } t.parentElement.classList.toggle('bad', !ok && S.bank.trim() !== ''); refreshCta(); }
   });
   document.addEventListener('keydown', e => {
     const t = e.target;

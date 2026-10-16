@@ -26,7 +26,7 @@ HTML = (ROOT / "fpl" / "planner.html").read_text(encoding="utf-8")
 NODE = shutil.which("node")
 
 CORE = re.search(r"/\* CORE:BEGIN.*?\*/(.*?)/\* CORE:END \*/", HTML, re.S).group(1)
-UI = re.findall(r"<script>(.*?)</script>", HTML, re.S)[1]
+UI = next(b for b in re.findall(r"<script>(.*?)</script>", HTML, re.S) if "const C = PlannerCore" in b)   # the page script (the PostHog snippet is another)
 
 
 def directory(**changes):
@@ -1845,7 +1845,7 @@ class TestYourCall(Flow):
             self.assertNotIn("secret reason", dump)                                                           # nothing the user typed is stored
             self.assertNotIn("squadcheck.planner.call", dump)
         keys = set(json.loads(r["go"]["storageAll"]))
-        self.assertTrue(keys <= {"squadcheck.planner.handoff.v1", "squadcheck.planner.state.v1", "squadcheck.planner.unlocked.v1"}, keys)
+        self.assertTrue(keys <= {"squadcheck.planner.handoff.v1", "squadcheck.planner.state.v1", "squadcheck.planner.unlocked.v1", "sc_sid"}, keys)   # sc_sid = analytics session id
 
     def test_the_call_follows_the_working_plan_not_the_original(self):
         keep = self.ok(real_plan(free_transfers=1, strategy="everything", keep_ids=[self.out_id])[1])
@@ -1864,7 +1864,11 @@ class TestYourCall(Flow):
         self.assertEqual(s.count('aria-disabled="true"'), 1)
 
     def test_nothing_on_the_page_uses_persistent_storage_beyond_the_session(self):
-        self.assertNotIn("localStorage", TestStaticContract.CODE)
+        # The only persistent-storage use is the analytics block: the shared ?internal=1 flag and first-visit marker.
+        # It stores no planner or user data, so everything else must stay free of localStorage.
+        analytics = re.search(r"const _sc = \(\(\) => \{.*?\n  \}\)\(\);", TestStaticContract.CODE, re.S).group(0)
+        self.assertNotIn("localStorage", TestStaticContract.CODE.replace(analytics, ""))
+        self.assertEqual(sorted(set(re.findall(r"localStorage\.\w+\('([a-z_]+)'", analytics))), ["sc_internal"])
         self.assertNotIn("indexedDB", TestStaticContract.CODE)
         self.assertNotIn("document.cookie", TestStaticContract.CODE)
         for claim in ("Call saved", "saved to your account", "Saved to your account"):

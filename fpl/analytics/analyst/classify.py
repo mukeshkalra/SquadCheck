@@ -19,6 +19,10 @@ CORE = frozenset(_FUNNEL_STEPS)
 CONDITIONAL = frozenset({
     "scan_ambiguous", "scan_failed", "disambig_shown", "disambig_resolved",
     "captain_switch_shown",
+    "bench_step_shown", "bench_step_progress", "bench_step_invalid", "bench_step_captain_skipped",
+    "bench_step_reupload_clicked", "bench_step_submitted", "bench_step_failed", "bench_step_completed",
+    "planner_cta_unavailable", "planner_handover_failed", "planner_plans_failed", "planner_tweak_failed",
+    "planner_error",
 })
 
 BEHAVIOURAL = frozenset({
@@ -28,6 +32,14 @@ BEHAVIOURAL = frozenset({
     "feedback_ok", "feedback_bad", "feedback_reason", "action_changed_xi",
     "action_kept_xi", "action_deciding_xi", "share_native_image", "share_native",
     "share_download", "add_to_home_screen",
+    "home_tile_clicked", "upload_cta_clicked", "methodology_link_clicked",
+    "planner_cta_viewed", "plan_my_move_clicked",
+    "planner_opened", "planner_screen_viewed", "planner_action", "planner_bank_entered", "planner_player_search",
+    "planner_plans_requested", "planner_plans_loaded", "planner_plan_inspected",
+    "planner_share_clicked", "planner_share_message_copied", "planner_share_confirmed", "planner_plan_backed",
+    "planner_tweak_opened", "planner_tweak_run", "planner_tweak_result", "planner_tweak_used",
+    "planner_save_prompt_opened", "planner_save_prompt_accepted", "planner_share_card_previewed",
+    "planner_share_card_copied",
 })
 
 

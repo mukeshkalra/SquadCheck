@@ -164,12 +164,16 @@ class TestStructure(unittest.TestCase):
         self.assertIn("<span>✓ No FPL ID</span>", up)
         self.assertIn("<span>✓ Free</span>", up)
 
-    def test_no_new_analytics_events_were_added(self):
+    def test_existing_analytics_events_are_kept_and_new_ones_registered(self):
         before = subprocess.run(["git", "show", "fb219e6:fpl/index.html"], cwd=ROOT, capture_output=True, text=True)
         if before.returncode:
             self.skipTest("no git history available")
+        # Instrumentation was extended on purpose (see fpl/INSTRUMENTATION.md): nothing removed or renamed,
+        # and every added event is registered with the analyst.
+        from fpl.analytics.queries import _EXPECTED_EVENTS
         events = lambda s: set(re.findall(r"track\('([a-z_]+)'", s))
-        self.assertEqual(events(HTML), events(before.stdout))                              # instrumentation is a later, separate task
+        self.assertLessEqual(events(before.stdout), events(HTML))
+        self.assertEqual(sorted(e for e in events(HTML) - events(before.stdout) if e not in _EXPECTED_EVENTS), [])
 
     def test_no_account_or_saving_promises_were_introduced(self):
         res = self.section("s-result") + self.section("s-proj")

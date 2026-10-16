@@ -1113,6 +1113,15 @@ const track = (e, p={}) => {
   }catch(_){}
 };
 
+/* ── landing-page interest events (additive; existing events unchanged) ── */
+document.addEventListener('click',e=>{
+  const tile=e.target.closest&&e.target.closest('.ft-tile');
+  if(tile){track('home_tile_clicked',{tile:(tile.getAttribute('href')||'').replace('#ex-','')});return;}
+  const cta=e.target.closest&&e.target.closest('label.up-cta');
+  if(cta){track('upload_cta_clicked',{where:cta.closest('.ex-cta-wrap')?'examples':'hero'});return;}
+  if(e.target.closest&&e.target.closest('a.ex-method'))track('methodology_link_clicked',{from:'examples'});
+});
+
 /* ── screens ────────────────────────────────────────────────────────────── */
 function show(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -1348,13 +1357,15 @@ function renderPlanner(p){
     : `<p class="pl-warn" role="alert">${esc(h.message)}</p>`}
   <p class="pl-warn" id="pl-note" role="alert" style="display:none;margin-top:10px"></p>
 </div>`;
+  if(!h.ok) track('planner_cta_unavailable',{gw:p?.gameweek??null});
 }
 function openPlanner(){
   const note = msg => { const el=$('pl-note'); if(el){ el.textContent=msg; el.style.display='block'; } };
   const h = plannerHandoff(_P);
+  track('plan_my_move_clicked',{gw:_P?.gameweek??null,action:_P?.action??null,delta:_P?.delta??null,ok:h.ok});
   if(!h.ok){ note(h.message); return; }
   try{ sessionStorage.setItem(PLANNER_HANDOFF_KEY, JSON.stringify(h.data)); }
-  catch(_){ note("Your browser is blocking storage, so we can't open the planner from here."); return; }
+  catch(_){ track('planner_handover_failed',{reason:'storage'}); note("Your browser is blocking storage, so we can't open the planner from here."); return; }
   location.href = '/fpl/planner.html';
 }
 
@@ -2180,16 +2191,17 @@ let _bn = {roster:[],bench:[],cap:null,vc:null,mode:'cap',step:0,error:''};
 const BN_POS = {1:'GK',2:'DEF',3:'MID',4:'FWD'};
 
 function showBench(roster){
-  _bn = {roster, bench:[], cap:null, vc:null, mode:'cap', step:0, error:''};
+  _bn = {roster, bench:[], cap:null, vc:null, mode:'cap', step:0, error:'', seen:{}};
   renderBench(); show('s-bench');
+  track('bench_step_shown',{players:roster.length});
 }
 function _bnXI(){ return _bn.roster.map((r,i)=>i).filter(i=>!_bn.bench.includes(i)); }
 function _bnLegal(){
   const R=_bn.roster, g=_bn.bench.filter(i=>R[i].position===1).length;
   if(_bn.bench.length<4) return {ok:false,tone:'',msg:`<b>${_bn.bench.length} of 4</b> bench players chosen. Your bench is 1 goalkeeper and 3 outfield players.`};
-  if(g!==1) return {ok:false,tone:'bad',msg:`<b>That isn't a legal bench.</b> A bench has exactly 1 goalkeeper (you picked ${g}).`};
+  if(g!==1) return {ok:false,tone:'bad',kind:'goalkeepers',msg:`<b>That isn't a legal bench.</b> A bench has exactly 1 goalkeeper (you picked ${g}).`};
   const xi=_bnXI(), c=p=>xi.filter(i=>R[i].position===p).length, d=c(2), m=c(3), f=c(4);
-  if(d<3||m<2||f<1) return {ok:false,tone:'bad',msg:`<b>${d}-${m}-${f} isn't a legal formation.</b> You need at least 3 defenders, 2 midfielders and 1 forward starting.`};
+  if(d<3||m<2||f<1) return {ok:false,tone:'bad',kind:'formation',msg:`<b>${d}-${m}-${f} isn't a legal formation.</b> You need at least 3 defenders, 2 midfielders and 1 forward starting.`};
   return {ok:true,tone:'ok',msg:`<b>Your XI: ${d}-${m}-${f}</b>. Looks legal.`};
 }
 function _bnShirt(i,badge){
@@ -2217,6 +2229,7 @@ function _bnBadge(i){ return i===_bn.cap?'<span class="bn-badge">C</span>':i===_
 
 function renderBench(){
   const R=_bn.roster, root=$('bn-root'); let h='';
+  if(_bn.step===1){ const lv=_bnLegal(); if(lv.kind && !_bn.seen[lv.kind]){ _bn.seen[lv.kind]=1; track('bench_step_invalid',{kind:lv.kind}); } }
   const cnt=p=>R.filter(r=>r.position===p).length;
   if(_bn.step===0){
     h=`<div class="bn-card"><h2 class="bn-h">We read your 15 players, but not your bench</h2>
@@ -2258,10 +2271,10 @@ function renderBench(){
 
 $('bn-root').addEventListener('click',e=>{
   const t=e.target.closest('button'); if(!t) return;
-  if(t.dataset.go!==undefined){ _bn.step=+t.dataset.go; renderBench(); window.scrollTo(0,0); return; }
+  if(t.dataset.go!==undefined){ const to=+t.dataset.go; track('bench_step_progress',{from:_bn.step,to}); _bn.step=to; renderBench(); window.scrollTo(0,0); return; }
   if(t.dataset.mode){ _bn.mode=t.dataset.mode; renderBench(); return; }
-  if(t.dataset.act==='skipcap'){ _bn.cap=_bn.vc=null; _bn.step=3; renderBench(); window.scrollTo(0,0); return; }
-  if(t.dataset.act==='reupload'){ goUpload(); return; }
+  if(t.dataset.act==='skipcap'){ track('bench_step_captain_skipped'); _bn.cap=_bn.vc=null; _bn.step=3; renderBench(); window.scrollTo(0,0); return; }
+  if(t.dataset.act==='reupload'){ track('bench_step_reupload_clicked'); goUpload(); return; }
   if(t.dataset.act==='submit'){ submitBench(); return; }
   if(t.dataset.i!==undefined){
     const i=+t.dataset.i;
@@ -2279,6 +2292,7 @@ $('bn-root').addEventListener('click',e=>{
 
 async function submitBench(){
   const R=_bn.roster, nm=i=>i===null?null:R[i].name;
+  track('bench_step_submitted',{captain_set:_bn.cap!==null,vice_set:_bn.vc!==null});
   startLoading(null);
   try {
     const res = await fetch('/api/squad-check',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -2287,26 +2301,29 @@ async function submitBench(){
     const data = await res.json();
     if(data.error) throw new Error(data.error);
     stopLoading();
-    if(data.status!=='OK'){ _bn.error=data.message||'Please check your bench and captain.'; _bn.step=3; renderBench(); show('s-bench'); return; }
+    if(data.status!=='OK'){ _bn.error=data.message||'Please check your bench and captain.'; _bn.step=3; renderBench(); show('s-bench'); track('bench_step_failed',{message:String(_bn.error).slice(0,120)}); return; }
     _P=data; renderResult(data); show('s-result');
     try{if(window.posthog)posthog.register({gw:data.gameweek});}catch(_){}
     const _mStarters=(data.players||[]).filter(q=>q.is_starting);
     const _mCaptP=data.captain_id?_mStarters.find(q=>q.player_id===data.captain_id):null;
-    track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action,captain_name:_mCaptP?.web_name||null});
-    track('decision_reached',{gw:data.gameweek,action:data.action,xPts:data.submitted_xi?.xPts,delta:data.delta??null});
+    track('bench_step_completed',{gw:data.gameweek,action:data.action,delta:data.delta??null,captain_set:_bn.cap!==null});
+    track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action,captain_name:_mCaptP?.web_name||null,via_manual_bench:true});
+    track('decision_reached',{gw:data.gameweek,action:data.action,xPts:data.submitted_xi?.xPts,delta:data.delta??null,via_manual_bench:true});
   } catch(err){
     stopLoading();
+    track('bench_step_failed',{message:String(err.message||'Unknown error').slice(0,120)});
     showError('default', err.message||'Unknown error');
   }
 }
 
 /* ── SCROLL TRACKING ─────────────────────────────────────────────────────── */
 function setupScroll(p){
-  const ids=['r-awesome','r-attention','r-finalcall'];
+  const ids=['r-awesome','r-attention','r-finalcall','r-planner'];
   const ob=new IntersectionObserver(entries=>{
     entries.forEach(en=>{
       if(!en.isIntersecting) return;
       if(en.target.id==='r-attention') track('recommendation_viewed',{action:p.action,delta:p.delta});
+      if(en.target.id==='r-planner') track('planner_cta_viewed',{gw:p.gameweek??null});
       ob.unobserve(en.target);
     });
   },{threshold:.3});
