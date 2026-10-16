@@ -488,7 +488,7 @@ def smoke(steps=(), **kw):
         steps.insert(acts.index("next"), {"name": "_hits", "act": "hits", "v": "0"})
     if data.get("handoff") and data["handoff"].get("created") == 0:
         data["handoff"]["created"] = int(time.time() * 1000)
-    return node(SMOKE, data)
+    return node(SMOKE.replace("const SIGNIN_LIVE = false", "const SIGNIN_LIVE = true") if data.pop("signin_live", False) else SMOKE, data)
 
 
 class TestPageFlow(unittest.TestCase):
@@ -1762,15 +1762,23 @@ class TestYourCall(Flow):
         self.assertIn("Why I’m backing it", h)
 
     def test_nothing_claims_the_call_is_saved_or_retrievable(self):
-        h = htmllib.unescape(self.call()["back"]["html"])
+        h = htmllib.unescape(self.call(signin_live=True)["back"]["html"])
         self.assertIn("Recorded for this visit only. It isn’t saved to an account, and refreshing or closing this page clears it.", h)
         self.assertIn("Sign-in isn’t live yet, so nothing is saved today.", h)
         self.assertIn("For now your call is kept in this browser tab only.", h)
         for claim in ("call saved", "saved to your account", "we’ll email you", "we will email", "you can come back", "retrieve"):
             self.assertNotIn(claim, h.lower())
 
-    def test_the_benefits_block_is_present_and_framed_as_what_an_account_will_give(self):
+    def test_sign_in_surfaces_are_hidden_until_sign_in_is_live(self):
         h = htmllib.unescape(self.call()["back"]["html"])
+        for hidden in ("Lock it in. Find out if you were right.", "Sign-in isn’t live yet", "locksheet", "Lock in my call", "sheetx",
+                       "Email me my", "Continue with Google", "what an account will give you"):
+            self.assertNotIn(hidden, h)
+        self.assertIn("Recorded for this visit only.", h)
+        self.assertIn("Preview share card", h)
+
+    def test_the_benefits_block_is_present_and_framed_as_what_an_account_will_give(self):
+        h = htmllib.unescape(self.call(signin_live=True)["back"]["html"])
         self.assertIn("Lock it in. Find out if you were right.", h)
         self.assertIn("This is what an account will give you:", h)
         for b in ("A verdict, not a guess", "No more “what if?”", "A record you can point to"):
@@ -1830,7 +1838,7 @@ class TestYourCall(Flow):
 
     def test_sign_in_is_a_stub_that_saves_nothing(self):
         r = self.call({"name": "type", "why": "secret reason"}, {"name": "open", "act": "locksheet"}, {"name": "go", "act": "signinstub"},
-                      {"name": "again", "act": "locksheet"}, {"name": "esc", "key": "Escape"})
+                      {"name": "again", "act": "locksheet"}, {"name": "esc", "key": "Escape"}, signin_live=True)
         h = htmllib.unescape(r["open"]["html"])
         self.assertIn("Sign-in isn’t available yet. Nothing on this page saves or sends anything", h)
         self.assertLess(h.index("Continue with Google"), h.index("Email me a sign-in link"))                    # Google first

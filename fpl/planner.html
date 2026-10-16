@@ -721,6 +721,7 @@ const PlannerCore = (function () {
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const DEV = C.devMode(location.search, location.hostname);
+  const SIGNIN_LIVE = false;   // flip to true when sign-in ships: shows the benefits block, "Lock in my call" and the save sheet (all kept intact below)
 
   /* ── analytics: same PostHog project, session id and ?internal=1 flag as the results page, so a planner visit
         joins the same session. Sends from the live site only; everywhere else events are dropped. Never throws. ── */
@@ -1135,13 +1136,13 @@ const PlannerCore = (function () {
       '<p class="sec">Why I’m backing it</p><label for="why" class="fine" style="display:block">In your own words (optional)</label><textarea id="why" placeholder="Why this plan?">' + esc(S.call.why) + '</textarea>' + chips +
       '<p class="sec">Main risk</p><ul class="lims">' + k.risks.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul>' +
       '<div class="projnote"><span>⚠</span><span><b>A projection, not a promise.</b> The figures above are planner projections. Real results can land well above or below them.</span></div>' +
-      '<div class="gain"><p class="gh">Lock it in. Find out if you were right.</p><p class="fine" style="margin-top:6px">Sign-in isn’t live yet, so nothing is saved today. This is what an account will give you:</p>' +
+      (SIGNIN_LIVE ? '<div class="gain"><p class="gh">Lock it in. Find out if you were right.</p><p class="fine" style="margin-top:6px">Sign-in isn’t live yet, so nothing is saved today. This is what an account will give you:</p>' +
       C.BENEFITS.map(b => '<div class="gb"><span class="gi">✓</span><div><b>' + esc(b[0]) + '</b><p>' + esc(b[1]) + '</p></div></div>').join('') +
-      '<p class="fine" style="margin-top:14px">For now your call is kept in this browser tab only.</p></div>' +
-      (S.signinNote ? '<div class="signnote" role="status">Sign-in isn’t live yet, so nothing was saved. Your call stays in this tab only.</div>' : '') +
-      '<div class="stack"><button class="btn" type="button" data-act="locksheet">Lock in my call</button><button class="btn2" type="button" data-act="sharetoggle" aria-expanded="' + S.sharePreview + '">' + (S.sharePreview ? 'Hide share card' : 'Preview share card') + '</button>' +
+      '<p class="fine" style="margin-top:14px">For now your call is kept in this browser tab only.</p></div>' : '') +
+      (SIGNIN_LIVE && S.signinNote ? '<div class="signnote" role="status">Sign-in isn’t live yet, so nothing was saved. Your call stays in this tab only.</div>' : '') +
+      '<div class="stack">' + (SIGNIN_LIVE ? '<button class="btn" type="button" data-act="locksheet">Lock in my call</button>' : '') + '<button class="btn2" type="button" data-act="sharetoggle" aria-expanded="' + S.sharePreview + '">' + (S.sharePreview ? 'Hide share card' : 'Preview share card') + '</button>' +
       '<button class="btn2" type="button" data-act="toexplore">Compare with other plans</button></div>' + share +
-      '<p class="fine" style="margin-top:12px;text-align:center">All figures are planner projections, not guarantees.</p>' + (S.sheet ? signinSheetHtml() : '');
+      '<p class="fine" style="margin-top:12px;text-align:center">All figures are planner projections, not guarantees.</p>' + (SIGNIN_LIVE && S.sheet ? signinSheetHtml() : '');
   }
 
   function emptyHtml() {
