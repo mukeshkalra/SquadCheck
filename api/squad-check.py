@@ -19,6 +19,7 @@ import cgi
 import os
 import json
 import time
+import urllib.error
 import urllib.request
 import concurrent.futures
 from pathlib import Path
@@ -44,16 +45,16 @@ _THRESHOLD = 0.5
 
 # Module-level cache — persists across warm Vercel invocations
 _cache: dict = {"bootstrap": None, "bs_ts": 0, "params": None, "p_ts": 0,
-                "fixtures": None, "fx_ts": 0, "fx_fail_ts": 0}
+                "fixtures": None, "fx_ts": 0, "fx_fail_ts": 0, "summaries": {}}
 _CACHE_TTL = 300   # 5 minutes
 _FX_RETRY  = 60    # seconds to wait before retrying a failed fixtures fetch
 
 
 # ── FPL API helpers ───────────────────────────────────────────────────────────
 
-def _fetch(url: str) -> dict:
+def _fetch(url: str, timeout: float = 15) -> dict:
     req = urllib.request.Request(url, headers=_HEADERS)
-    with urllib.request.urlopen(req, timeout=15) as r:
+    with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read())
 
 
@@ -99,12 +100,52 @@ def _params(bootstrap: dict) -> dict:
     return _cache["params"]
 
 
-def _summaries(player_ids: list) -> dict:
-    """Fetch all 15 element-summaries in parallel to fit within Vercel's 10s limit."""
+_SUM_TTL         = 300   # seconds a player's history is reused (warm invocations)
+_SUM_TIMEOUT     = 8     # per attempt; one retry follows a network-level failure
+_SUM_WORKERS     = 6     # the FPL site slows or drops bursts of 15 parallel requests
+_SUM_MAX_MISSING = 3     # more gaps than this and the projections would be too thin to trust
+_NET_ERRORS      = (urllib.error.URLError, TimeoutError, ConnectionError, OSError)
+
+
+def _fetch_summary(pid: int) -> dict:
+    """One player's history: from the cache, else the FPL API with one retry on a network failure."""
+    hit = _cache["summaries"].get(pid)
+    if hit and time.time() - hit[0] <= _SUM_TTL:
+        return hit[1]
+    last = None
+    for attempt in range(2):
+        try:
+            data = _fetch(_FPL_SUM.format(pid), timeout=_SUM_TIMEOUT)
+            _cache["summaries"][pid] = (time.time(), data)
+            return data
+        except _NET_ERRORS as exc:          # bad JSON is not retried: it would not change
+            last = exc
+            if attempt == 0:
+                time.sleep(0.4)
+    raise last
+
+
+def _summaries_with_gaps(player_ids: list):
+    """
+    ({player_id: history}, [player ids whose history could not be fetched]).
+    The pipeline already projects a player with no history from the season data alone.
+    """
     def _one(pid):
-        return pid, _fetch(_FPL_SUM.format(pid))
-    with concurrent.futures.ThreadPoolExecutor(max_workers=15) as ex:
-        return dict(ex.map(_one, player_ids))
+        try:
+            return pid, _fetch_summary(pid), None
+        except _NET_ERRORS + (ValueError,) as exc:      # network failure, or a non-JSON reply (rate-limit page)
+            return pid, None, exc
+    with concurrent.futures.ThreadPoolExecutor(max_workers=_SUM_WORKERS) as ex:
+        rows = list(ex.map(_one, player_ids))
+    return {pid: d for pid, d, _ in rows if d is not None}, [pid for pid, d, _ in rows if d is None]
+
+
+def _summaries(player_ids: list) -> dict:
+    """All histories, or an error when too many are missing (the Hustler uses this form)."""
+    got, missing = _summaries_with_gaps(player_ids)
+    if len(missing) > _SUM_MAX_MISSING:
+        raise RuntimeError("FPL's data service is slow right now. Please try again in a minute.")
+    return got
 
 
 # ── Request handler ───────────────────────────────────────────────────────────
@@ -290,7 +331,9 @@ class handler(BaseHTTPRequestHandler):
         scan_result["captain_id"]      = name_to_id.get(_norm_name(capt_name))      if capt_name else None
         scan_result["vice_captain_id"] = name_to_id.get(_norm_name(vice_name))      if vice_name else None
 
-        element_summaries = _summaries(all_ids)
+        element_summaries, _missing = _summaries_with_gaps(all_ids)
+        if len(_missing) > _SUM_MAX_MISSING:
+            raise RuntimeError("FPL's data service is slow right now. Please try again in a minute.")
 
         result = run_pipeline(
             scan_result       = scan_result,
@@ -300,6 +343,9 @@ class handler(BaseHTTPRequestHandler):
             threshold         = _THRESHOLD,
         )
         result["_diag_log"] = _diag_log
+        if _missing:
+            by_id = {e["id"]: e.get("web_name", "") for e in bootstrap.get("elements", [])}
+            result["data_gaps"] = [by_id.get(i, str(i)) for i in _missing]   # players projected without recent history
         return result
 
     def log_message(self, *_):
