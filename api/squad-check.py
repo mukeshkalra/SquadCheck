@@ -30,6 +30,7 @@ sys.path.insert(0, str(ROOT))
 
 from fpl.engine.scanner    import scan_squad, VALID
 from fpl.engine.projection import build_params
+from fpl.engine.manual_squad import roster_offer, manual_scan_result, ManualSquadError
 from fpl.engine.pipeline   import (run_pipeline, resolve_players,
                                     resolve_squad_smart, _norm_name)
 
@@ -143,7 +144,9 @@ class handler(BaseHTTPRequestHandler):
 
     # ── Form parsing ─────────────────────────────────────────────────────────
     def _parse_form(self):
-        """Read body once; return (image_bytes, player_choices dict)."""
+        """Read body once; return (image_bytes, player_choices dict, manual_squad dict or None).
+        A JSON body {"manual_squad": {...}} is the bench/captain step for squads the scanner could
+        not split into XI and bench; it carries no image."""
         ct = self.headers.get("Content-Type", "")
         cl = int(self.headers.get("Content-Length", 0))
 
@@ -152,8 +155,17 @@ class handler(BaseHTTPRequestHandler):
 
         body = self.rfile.read(cl)
 
+        if "application/json" in ct:
+            try:
+                manual = json.loads(body).get("manual_squad")
+            except Exception:
+                manual = None
+            if not isinstance(manual, dict):
+                raise ValueError("Unrecognised JSON request")
+            return None, {}, manual
+
         if "multipart/form-data" not in ct:
-            return body, {}
+            return body, {}, None
 
         form = cgi.FieldStorage(
             fp      = io.BytesIO(body),
@@ -168,11 +180,11 @@ class handler(BaseHTTPRequestHandler):
                 choices = json.loads(form["player_choices"].value)
             except Exception:
                 pass
-        return image, choices
+        return image, choices, None
 
     # ── Pipeline ──────────────────────────────────────────────────────────────
     def _process(self) -> dict:
-        image_bytes, player_choices = self._parse_form()
+        image_bytes, player_choices, manual_squad = self._parse_form()
 
         # Capture scanner stderr ([diag] lines) into the response for debugging.
         # Never captures GOOGLE_VISION_API_KEY or image contents.
@@ -182,17 +194,11 @@ class handler(BaseHTTPRequestHandler):
         elements  = bootstrap.get("elements", [])
 
         import io as _io
-        _diag_buf    = _io.StringIO()
-        _real_stderr = sys.stderr
-        sys.stderr   = _diag_buf
-        try:
-            scan_result = scan_squad(image_bytes, elements)
-        finally:
-            sys.stderr = _real_stderr
-        _diag_log = _diag_buf.getvalue().strip()
+        _diag_log = ""
+        scan_result = {}
 
-        def _fail_response(scanner_status, message):
-            return {
+        def _fail_response(scanner_status, message, with_roster=False):
+            out = {
                 "status":          "SCAN_FAIL",
                 "scanner_status":  scanner_status,
                 "view_type":       scan_result.get("view_type", "UNKNOWN"),
@@ -215,12 +221,36 @@ class handler(BaseHTTPRequestHandler):
                     for p in scan_result.get("players", [])
                 ],
             }
+            if with_roster:
+                roster = roster_offer(scan_result, bootstrap)
+                if roster:
+                    out["manual_roster"] = roster
+            return out
+
+        if manual_squad is not None:
+            # Bench / captain chosen by the user: no OCR, same resolve + pipeline below.
+            try:
+                scan_result = manual_scan_result(manual_squad, bootstrap)
+            except ManualSquadError as exc:
+                return _fail_response("PARTIAL", str(exc))
+        else:
+            # Capture scanner stderr ([diag] lines) into the response for debugging.
+            # Never captures GOOGLE_VISION_API_KEY or image contents.
+            _diag_buf    = _io.StringIO()
+            _real_stderr = sys.stderr
+            sys.stderr   = _diag_buf
+            try:
+                scan_result = scan_squad(image_bytes, elements)
+            finally:
+                sys.stderr = _real_stderr
+            _diag_log = _diag_buf.getvalue().strip()
 
         # Gate 1 — scanner must produce a structurally valid squad
         if scan_result.get("status") != VALID:
             return _fail_response(
                 scan_result.get("status"),
                 scan_result.get("message", ""),
+                with_roster=True,
             )
 
         # Gate 2 — smart resolution with squad constraints + user overrides

@@ -484,6 +484,37 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   letter-spacing:.03em;color:#000;margin-top:8px;
   box-shadow:0 4px 24px rgba(204,255,0,.25);transition:background .15s}
 .dq-cta:disabled{opacity:.4;cursor:not-allowed}
+/* ── BENCH / CAPTAIN STEP (squad read, but XI and bench not) ── */
+.bn-wrap{padding:calc(var(--nav-h) + 24px) 16px 60px;max-width:430px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.bn-steps{display:flex;gap:6px}.bn-steps i{flex:1;height:4px;border-radius:2px;background:var(--d4)}.bn-steps i.on{background:var(--lime)}
+.bn-h{font-size:24px;font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.bn-sub{font-size:14px;color:var(--gray);line-height:1.5}.bn-sub b{color:var(--white)}
+.bn-card{background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px}
+.bn-pitch{background:linear-gradient(#10321c,#0d2a18);border:1px solid var(--border);border-radius:16px;padding:14px 4px;display:flex;flex-direction:column;gap:12px}
+.bn-row{display:flex;justify-content:center;gap:4px}
+.bn-pl{width:60px;background:none;border:0;color:inherit;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0}
+.bn-sh{width:40px;height:40px;border-radius:50%;background:var(--d3);border:2px solid var(--border2);display:grid;place-items:center;font-size:11px;font-weight:800;position:relative}
+.bn-nm{font-size:11px;font-weight:700;background:var(--d2);border-radius:5px;padding:2px 4px;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid var(--border)}
+.bn-pl:focus-visible .bn-sh{outline:2px solid var(--lime);outline-offset:2px}
+.bn-badge{position:absolute;top:-6px;right:-6px;width:19px;height:19px;border-radius:50%;font-size:10px;font-weight:900;display:grid;place-items:center;background:var(--lime);color:#000}
+.bn-badge.v{background:var(--white)}
+.bn-bench{border:1.5px dashed var(--lime-b);background:var(--lime-t);border-radius:14px;padding:10px 4px 12px}
+.bn-bt{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--lime);padding:0 10px 8px;display:flex;justify-content:space-between}
+.bn-slots{display:flex;justify-content:center;gap:4px}
+.bn-slot{width:60px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--gray)}
+.bn-slot .bn-empty{width:40px;height:40px;border-radius:50%;border:2px dashed var(--border2);display:grid;place-items:center}
+.bn-status{font-size:13px;border-radius:10px;padding:9px 12px;border:1px solid var(--border);background:var(--d2)}
+.bn-status.ok{border-color:var(--lime-b)}.bn-status.ok b{color:var(--lime)}.bn-status.bad{border-color:rgba(255,107,74,.45)}.bn-status.bad b{color:var(--coral)}
+.bn-cta{width:100%;padding:15px;background:var(--lime);border:none;border-radius:var(--r);font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;color:#000;cursor:pointer}
+.bn-cta:disabled{opacity:.4;cursor:not-allowed}
+.bn-alt{width:100%;padding:12px;background:var(--d2);border:1px solid var(--border2);border-radius:var(--r);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--white);cursor:pointer}
+.bn-link{background:none;border:0;color:var(--gray);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:4px}
+.bn-seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--d2);border:1px solid var(--border);border-radius:12px;padding:4px}
+.bn-seg button{font:inherit;font-weight:800;font-size:14px;border:0;border-radius:9px;padding:10px;background:none;color:var(--gray);cursor:pointer}
+.bn-seg button.on{background:var(--lime);color:#000}
+.bn-sum{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:14px}
+.bn-sum b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray2);font-weight:800}
+.bn-hint{font-size:12px;color:var(--gray);text-align:center}
 .fc-change-note b{color:var(--white)}
 
 /* ── HOW IT WORKS LINK ── */
@@ -880,6 +911,11 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 </div>
 </section>
 
+<!-- ══════════════════════ BENCH / CAPTAIN STEP ══════════════════════ -->
+<section id="s-bench" class="screen">
+<div class="bn-wrap" id="bn-root"></div>
+</section>
+
 <!-- ══════════════════════ ERROR ══════════════════════ -->
 <section id="s-error" class="screen">
   <div class="err-card">
@@ -1183,7 +1219,14 @@ $('file-input').addEventListener('change', async function(){
       track('scan_ambiguous',{count:(data.ambiguous||[]).length});
       showDisambig(data.ambiguous); return;
     }
-    if(data.status!=='OK') { showError(data.scanner_status||'default',data.message||''); return; }
+    if(data.status!=='OK') {
+      if(Array.isArray(data.manual_roster) && data.manual_roster.length===15){
+        // 15 players read but not the XI/bench: ask for bench and captain. Same scan_failed event as before.
+        track('scan_failed',{status:data.scanner_status||'default',message:data.message||''});
+        showBench(data.manual_roster); return;
+      }
+      showError(data.scanner_status||'default',data.message||''); return;
+    }
     _P = data;
     console.log('[SC] payload status:', data.status, 'action:', data.action,
                 'players:', data.players?.length, 'subs:', data.substitutions?.length);
@@ -2125,6 +2168,131 @@ async function submitDisambig(){
     const _dCaptP=data.captain_id?_dStarters.find(q=>q.player_id===data.captain_id):null;
     track('disambig_resolved',{choices:Object.keys(_dqChoices).length});
     track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action,via_disambig:true,captain_name:_dCaptP?.web_name||null});
+    track('decision_reached',{gw:data.gameweek,action:data.action,xPts:data.submitted_xi?.xPts,delta:data.delta??null});
+  } catch(err){
+    stopLoading();
+    showError('default', err.message||'Unknown error');
+  }
+}
+
+/* ── BENCH / CAPTAIN STEP ───────────────────────────────────────────────── */
+let _bn = {roster:[],bench:[],cap:null,vc:null,mode:'cap',step:0,error:''};
+const BN_POS = {1:'GK',2:'DEF',3:'MID',4:'FWD'};
+
+function showBench(roster){
+  _bn = {roster, bench:[], cap:null, vc:null, mode:'cap', step:0, error:''};
+  renderBench(); show('s-bench');
+}
+function _bnXI(){ return _bn.roster.map((r,i)=>i).filter(i=>!_bn.bench.includes(i)); }
+function _bnLegal(){
+  const R=_bn.roster, g=_bn.bench.filter(i=>R[i].position===1).length;
+  if(_bn.bench.length<4) return {ok:false,tone:'',msg:`<b>${_bn.bench.length} of 4</b> bench players chosen. Your bench is 1 goalkeeper and 3 outfield players.`};
+  if(g!==1) return {ok:false,tone:'bad',msg:`<b>That isn't a legal bench.</b> A bench has exactly 1 goalkeeper (you picked ${g}).`};
+  const xi=_bnXI(), c=p=>xi.filter(i=>R[i].position===p).length, d=c(2), m=c(3), f=c(4);
+  if(d<3||m<2||f<1) return {ok:false,tone:'bad',msg:`<b>${d}-${m}-${f} isn't a legal formation.</b> You need at least 3 defenders, 2 midfielders and 1 forward starting.`};
+  return {ok:true,tone:'ok',msg:`<b>Your XI: ${d}-${m}-${f}</b>. Looks legal.`};
+}
+function _bnShirt(i,badge){
+  const r=_bn.roster[i];
+  return `<span class="bn-sh">${esc(r.team||BN_POS[r.position])}${badge||''}</span><span class="bn-nm">${esc(r.name)}</span>`;
+}
+function _bnPitch(idxs,badgeFn){
+  const R=_bn.roster;
+  return '<div class="bn-pitch">'+[1,2,3,4].map(pos=>{
+    const row=idxs.filter(i=>R[i].position===pos);
+    return row.length?`<div class="bn-row">${row.map(i=>`<button class="bn-pl" data-i="${i}" aria-label="${esc(R[i].name)}, ${BN_POS[pos]}">${_bnShirt(i,badgeFn?badgeFn(i):'')}</button>`).join('')}</div>`:'';
+  }).join('')+'</div>';
+}
+function _bnBench(){
+  const R=_bn.roster, b=_bn.bench.slice().sort((x,y)=>R[x].position-R[y].position);
+  const slots=['Goalkeeper','Outfield','Outfield','Outfield'].map((l,k)=>{
+    const i=b[k];
+    return i!==undefined?`<button class="bn-pl" data-i="${i}" aria-label="Remove ${esc(R[i].name)} from bench">${_bnShirt(i)}</button>`
+      :`<div class="bn-slot"><span class="bn-empty">+</span>${l}</div>`;
+  }).join('');
+  return `<div class="bn-bench"><div class="bn-bt"><span>Your bench</span><span>${_bn.bench.length}/4</span></div><div class="bn-slots">${slots}</div></div>`;
+}
+function _bnBar(n){ return `<div class="bn-steps" aria-label="Step ${n} of 3">${[1,2,3].map(k=>`<i class="${k<=n?'on':''}"></i>`).join('')}</div>`; }
+function _bnBadge(i){ return i===_bn.cap?'<span class="bn-badge">C</span>':i===_bn.vc?'<span class="bn-badge v">V</span>':''; }
+
+function renderBench(){
+  const R=_bn.roster, root=$('bn-root'); let h='';
+  const cnt=p=>R.filter(r=>r.position===p).length;
+  if(_bn.step===0){
+    h=`<div class="bn-card"><h2 class="bn-h">We read your 15 players, but not your bench</h2>
+      <p class="bn-sub">That screen doesn't show who starts, so we can't tell your starting XI from your bench. Two quick taps and we can check your team. It takes about 20 seconds.</p></div>
+      <div class="bn-status ok"><b>15 of 15 players found</b>: ${cnt(1)} GK, ${cnt(2)} DEF, ${cnt(3)} MID, ${cnt(4)} FWD.</div>
+      <button class="bn-cta" data-go="1">Tell us your bench →</button>
+      <button class="bn-alt" data-act="reupload">Upload the Pick Team screen instead</button>
+      <p class="bn-hint">On the Pick Team screen in FPL the bench shows below the pitch, so we read it for you.</p>`;
+  } else if(_bn.step===1){
+    const v=_bnLegal();
+    h=`${_bnBar(1)}<h2 class="bn-h">Who's on your bench?</h2>
+      <p class="bn-sub">Tap the <b>4 players</b> who are not starting this gameweek. Tap again to undo.</p>
+      ${_bnPitch(_bnXI())}${_bnBench()}
+      <div class="bn-status ${v.tone}" role="status">${v.msg}</div>
+      <button class="bn-cta" data-go="2" ${v.ok?'':'disabled'}>Next: captain →</button>
+      <button class="bn-link" data-go="0">← Back</button>`;
+  } else if(_bn.step===2){
+    const ok=_bn.cap!==null&&_bn.vc!==null;
+    h=`${_bnBar(2)}<h2 class="bn-h">Captain and vice-captain</h2>
+      <p class="bn-sub">Pick from your starting XI. The captain's points count double.</p>
+      <div class="bn-seg" role="group" aria-label="Choosing"><button class="${_bn.mode==='cap'?'on':''}" data-mode="cap">Captain (C)</button><button class="${_bn.mode==='vc'?'on':''}" data-mode="vc">Vice (V)</button></div>
+      ${_bnPitch(_bnXI(),_bnBadge)}
+      <div class="bn-status ${ok?'ok':''}" role="status">${ok?`<b>Captain ${esc(R[_bn.cap].name)}</b>, vice-captain ${esc(R[_bn.vc].name)}.`:_bn.cap!==null?'Now choose your <b>vice-captain</b>.':'Choose your <b>captain</b> first.'}</div>
+      <button class="bn-cta" data-go="3" ${ok?'':'disabled'}>Next: review →</button>
+      <button class="bn-alt" data-act="skipcap">Skip: I haven't decided my captain</button>
+      <button class="bn-link" data-go="1">← Back to bench</button>`;
+  } else {
+    const xi=_bnXI(), c=p=>xi.filter(i=>R[i].position===p).length;
+    const b=_bn.bench.slice().sort((x,y)=>R[x].position-R[y].position).map(i=>esc(R[i].name)).join(' · ');
+    h=`${_bnBar(3)}<h2 class="bn-h">Check this is right</h2>
+      <div class="bn-card"><div class="bn-sum"><div><b>Formation</b>${c(2)}-${c(3)}-${c(4)}</div><div><b>Captain</b>${_bn.cap!==null?esc(R[_bn.cap].name):'Not set'}</div><div><b>Vice-captain</b>${_bn.vc!==null?esc(R[_bn.vc].name):'Not set'}</div><div><b>Players</b>15 of 15</div></div>
+      <div><b style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray2)">Bench</b><br>${b}</div></div>
+      ${_bn.error?`<div class="bn-status bad" role="alert"><b>We couldn't use that.</b> ${esc(_bn.error)}</div>`:''}
+      <button class="bn-cta" data-act="submit">Check my team</button>
+      <button class="bn-alt" data-go="1">Change bench</button><button class="bn-alt" data-go="2">Change captain</button>`;
+  }
+  root.innerHTML=h;
+}
+
+$('bn-root').addEventListener('click',e=>{
+  const t=e.target.closest('button'); if(!t) return;
+  if(t.dataset.go!==undefined){ _bn.step=+t.dataset.go; renderBench(); window.scrollTo(0,0); return; }
+  if(t.dataset.mode){ _bn.mode=t.dataset.mode; renderBench(); return; }
+  if(t.dataset.act==='skipcap'){ _bn.cap=_bn.vc=null; _bn.step=3; renderBench(); window.scrollTo(0,0); return; }
+  if(t.dataset.act==='reupload'){ goUpload(); return; }
+  if(t.dataset.act==='submit'){ submitBench(); return; }
+  if(t.dataset.i!==undefined){
+    const i=+t.dataset.i;
+    if(_bn.step===1){
+      const k=_bn.bench.indexOf(i);
+      if(k>=0) _bn.bench.splice(k,1); else if(_bn.bench.length<4) _bn.bench.push(i);
+      renderBench();
+    } else if(_bn.step===2){
+      if(_bn.mode==='cap'){ _bn.cap=i; if(_bn.vc===i) _bn.vc=null; _bn.mode='vc'; }
+      else if(i!==_bn.cap){ _bn.vc=i; }
+      renderBench();
+    }
+  }
+});
+
+async function submitBench(){
+  const R=_bn.roster, nm=i=>i===null?null:R[i].name;
+  startLoading(null);
+  try {
+    const res = await fetch('/api/squad-check',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({manual_squad:{names:R.map(r=>r.name),bench:_bn.bench.map(nm),captain:nm(_bn.cap),vice:nm(_bn.vc)}})});
+    if(!res.ok) throw new Error('Server error '+res.status);
+    const data = await res.json();
+    if(data.error) throw new Error(data.error);
+    stopLoading();
+    if(data.status!=='OK'){ _bn.error=data.message||'Please check your bench and captain.'; _bn.step=3; renderBench(); show('s-bench'); return; }
+    _P=data; renderResult(data); show('s-result');
+    try{if(window.posthog)posthog.register({gw:data.gameweek});}catch(_){}
+    const _mStarters=(data.players||[]).filter(q=>q.is_starting);
+    const _mCaptP=data.captain_id?_mStarters.find(q=>q.player_id===data.captain_id):null;
+    track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action,captain_name:_mCaptP?.web_name||null});
     track('decision_reached',{gw:data.gameweek,action:data.action,xPts:data.submitted_xi?.xPts,delta:data.delta??null});
   } catch(err){
     stopLoading();

@@ -41,7 +41,8 @@ sys.path.insert(0, str(ROOT))
 
 from fpl.engine.scanner    import scan_squad, VALID, VIEW_PITCH
 from fpl.engine.projection import build_params
-from fpl.engine.pipeline   import run_pipeline
+from fpl.engine.pipeline   import run_pipeline, resolve_squad_smart, _norm_name
+from fpl.engine.manual_squad import roster_offer, manual_scan_result, ManualSquadError
 from fpl.engine.transfer_adapter import (FplDataSource, MAX_BODY_BYTES, PLAYERS_CACHE_CONTROL,
                                          handle as handle_transfer_plan, handle_players)
 
@@ -406,19 +407,44 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             # ── PRODUCTION — actual uploaded image bytes ──────────────────────
             image_bytes = self._read_uploaded_bytes()
             n = len(image_bytes)
-            print("  [upload] %d bytes received → passing to scanner …" % n)
-
-            # Fetch bootstrap first — elements required for scanner bootstrap filter
             bootstrap  = get_bootstrap()
             params     = get_params(bootstrap)
             elements   = bootstrap.get("elements", [])
 
-            scan_result = scan_squad(image_bytes, elements)
-            status      = scan_result.get("status")
-            print("  [scanner] status=%s" % status)
+            manual = None
+            if "application/json" in self.headers.get("Content-Type", ""):
+                try:
+                    manual = json.loads(image_bytes).get("manual_squad")
+                except Exception:
+                    manual = None
+                if not isinstance(manual, dict):
+                    raise ValueError("Unrecognised JSON request")
+
+            if manual is not None:
+                # Bench / captain chosen by the user: no OCR, same resolve + pipeline below.
+                try:
+                    scan_result = manual_scan_result(manual, bootstrap)
+                except ManualSquadError as exc:
+                    return {"status": "SCAN_FAIL", "scanner_status": "PARTIAL", "view_type": "UNKNOWN",
+                            "players": [], "submitted_xi": None, "recommended_xi": None, "delta": 0.0,
+                            "action": None, "substitutions": [], "threshold": None, "gameweek": None,
+                            "captain_id": None, "vice_captain_id": None, "captain_note": "",
+                            "message": str(exc)}
+                name_to_id = {_norm_name(r["name"]): r["player_id"]
+                              for r in resolve_squad_smart(scan_result["players"], elements)[0]}
+                cn, vn = scan_result.get("captain_name"), scan_result.get("vice_captain_name")
+                scan_result["captain_id"]      = name_to_id.get(_norm_name(cn)) if cn else None
+                scan_result["vice_captain_id"] = name_to_id.get(_norm_name(vn)) if vn else None
+                status = VALID
+            else:
+                print("  [upload] %d bytes received → passing to scanner …" % n)
+                scan_result = scan_squad(image_bytes, elements)
+                status      = scan_result.get("status")
+                print("  [scanner] status=%s" % status)
 
             if status != VALID:
-                return {
+                roster = roster_offer(scan_result, bootstrap)
+                return {**({"manual_roster": roster} if roster else {}),
                     "status":          "SCAN_FAIL",
                     "scanner_status":  status,
                     "view_type":       scan_result.get("view_type", "UNKNOWN"),
@@ -435,9 +461,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     "captain_note":    "",
                     "message":         scan_result.get("message", ""),
                 }
-            # Captain / vice not yet extractable from image bytes (no OCR)
-            scan_result["captain_id"]      = None
-            scan_result["vice_captain_id"] = None
+            if manual is None:
+                # Captain / vice not yet extractable from image bytes (no OCR)
+                scan_result["captain_id"]      = None
+                scan_result["vice_captain_id"] = None
 
         # ── Common: fetch element-summaries and run full pipeline ─────────────
         # Resolve player IDs from the scan_result so we know which summaries to fetch
