@@ -26,6 +26,7 @@ import json
 import os
 import re
 import sys
+import dataclasses
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -69,12 +70,21 @@ Rules:
 - mentioned_players are named in the post but are not in the squad; they have their own data, so
   use it exactly as you would for squad players. unassessed_mentions are names in the post you
   have no data for: say plainly that you cannot assess them.
+- transfer_options (when present) is what a transfer planner found for this squad: "independent" holds its
+  best moves; "sell" holds, for a squad player the post asks about, the best replacements (each with the
+  club, price and plain side-by-side facts); "poster_moves" judges moves the poster proposed. Use it only
+  when the question is about a transfer (who to replace, what to do with a free transfer, whether a move is
+  worth it). Then name the best one or two replacements, with price and club, and say the gain in plain words
+  such as "projected to score about 1.8 more points next gameweek than keeping him". Quote gains and figures
+  exactly as given; never call it certain. Mention the assumptions (free transfers, bank) in a few words only
+  when they matter. If an item has an "assumption" note, say plainly which player you took the name to be.
+  Players inside transfer_options are assessable even though they are not in the squad.
 - If evidence_level is players_only, the starting XI and bench are unknown: do not assume
   who starts or sits.
 - Never mention SquadCheck, never name any tool or product, never include links.
 - Answer every part of the question the data supports. For any part it does not support (for
-  example a player who is not in the squad data), say plainly that you cannot assess it from what
-  you have. Do not guess about it, and do not compare or imply anything about it beyond what the
+  example a player who is neither in the squad data nor in transfer_options), say plainly that you cannot
+  assess it from what you have. Do not guess about it, and do not compare or imply anything about it beyond what the
   post itself says.
 
 Structure of the reply:
@@ -170,6 +180,7 @@ class Analysis:
     mentions: tuple = ()                  # Mention objects, for the operator; never sent to the LLM
     needs_selection: bool = False         # ambiguous mentions are waiting for an operator pick
     internal: bool = True
+    transfers: Optional[dict] = None      # Transfer Planner output for the operator; also sent to the LLM
 
     def __post_init__(self):
         if self.needs_selection and not self.human_required:
@@ -184,11 +195,13 @@ class Analysis:
             raise ValueError("A draft reply needs squad evidence")
 
 
-def analyse(adapter, conversation, data, scan=scan_squad, llm=None, picks=None, skip_ambiguous=False):
+def analyse(adapter, conversation, data, scan=scan_squad, llm=None, picks=None, skip_ambiguous=False, transfer_view=None):
     """
     Never raises for retrieval, scanner or LLM trouble; those hand the post to the human.
     `picks` is {mention text: player id or None}; `skip_ambiguous` continues without
     resolving ambiguous mentions (they are then reported to the LLM as not assessable).
+    `transfer_view(squad_ids, text, mentions, bootstrap)` returns Transfer Planner output (or None);
+    when omitted, no transfer evidence is produced.
     """
     llm = llm or AnthropicLLM()
 
@@ -223,24 +236,34 @@ def analyse(adapter, conversation, data, scan=scan_squad, llm=None, picks=None, 
         mentions = apply_picks(mentions, picks or {})
     except PickError as exc:
         return human(f"Invalid pick: {exc}", status, evidence, level, mentions)
+    transfers = None
+    if transfer_view is not None:
+        try:
+            transfers = transfer_view(sorted(squad_ids), f"{conversation.title}\n{conversation.body}", mentions, bootstrap)
+        except Exception:
+            transfers = None
     waiting = pending(mentions)
     if waiting and not skip_ambiguous:
         names = ", ".join(m.text for m in waiting)
         return Analysis(conversation, status, level, evidence, None, True,
                         f"Mentions need selection: {names}. No draft generated.",
-                        mentions, needs_selection=True)
+                        mentions, needs_selection=True, transfers=transfers)
     evidence = _with_mentions(evidence, mentions, bootstrap, data, squad_ids)
 
     try:
-        reply, why = _draft(llm, conversation, evidence)
+        reply, why = _draft(llm, conversation, evidence, transfers)
     except LLMUnavailable as exc:
-        return human(f"No draft: {exc}.", status, evidence, level, mentions)
+        return _with_transfers(human(f"No draft: {exc}.", status, evidence, level, mentions), transfers)
     except Exception as exc:
-        return human(f"No draft: LLM call failed ({type(exc).__name__}: {_safe_message(exc)}).",
-                     status, evidence, level, mentions)
+        return _with_transfers(human(f"No draft: LLM call failed ({type(exc).__name__}: {_safe_message(exc)}).",
+                                     status, evidence, level, mentions), transfers)
     if reply is None:
-        return human(why, status, evidence, level, mentions)
-    return Analysis(conversation, status, level, evidence, reply, False, "", mentions)
+        return _with_transfers(human(why, status, evidence, level, mentions), transfers)
+    return Analysis(conversation, status, level, evidence, reply, False, "", mentions, transfers=transfers)
+
+
+def _with_transfers(analysis, transfers):
+    return dataclasses.replace(analysis, transfers=transfers) if transfers else analysis
 
 
 _SECRET_ENV = ("ANTHROPIC_API_KEY", "GOOGLE_VISION_API_KEY")
@@ -474,13 +497,14 @@ def _project_extra(player_ids, bootstrap, data):
 
 # ── Draft ─────────────────────────────────────────────────────────────────────
 
-def _draft(llm, conversation, evidence):
+def _draft(llm, conversation, evidence, transfers=None):
     """Returns (reply, None) when usable, else (None, reason a human needs to read)."""
     user = json.dumps({
         "post": {"title": conversation.title, "body": conversation.body},
         "evidence_level": evidence["level"],
         "evidence": evidence,
         "comparisons": _comparisons(evidence, f"{conversation.title}\n{conversation.body}"),
+        **({"transfer_options": transfers} if transfers else {}),
     }, default=str, ensure_ascii=False)
     response = llm(_SYSTEM, user)
 
@@ -569,6 +593,7 @@ def render(analysis):
         lines += ["", "Mentioned players (not in the squad):"]
         for m in analysis.mentions:
             lines += _render_mention(m, projections)
+    lines += render_transfers(analysis.transfers)
     lines.append("")
     if analysis.needs_selection:
         waiting = pending(analysis.mentions)
@@ -582,6 +607,35 @@ def render(analysis):
         lines += ["DRAFT (edit before posting):", analysis.draft_reply]
     lines += ["", f"Reply here: {c.url}"]       # last line, so a tail of the output always has it
     return "\n".join(lines)
+
+
+def _opt_line(o):
+    gain = o.get("projected_gain_next_gameweek")
+    return "  %s (%s, £%.1fm)  projected %s next gameweek%s" % (
+        o["buy"]["name"], o["buy"]["club"], o["buy"]["price_m"],
+        ("%+.1f pts vs holding" % gain) if gain is not None else "gain n/a",
+        ("; later weeks %+.1f" % o["projected_gain_later_weeks"]) if o.get("projected_gain_later_weeks") is not None else "")
+
+
+def render_transfers(t):
+    """The Transfer Planner output as plain lines for the operator."""
+    if not t:
+        return []
+    lines = ["", "Transfer view:", f"  {t['assumptions']}"]
+    for s in t.get("sell", []):
+        lines.append(f"  Replacing {s['sold']['name']} ({s['sold']['club']}, £{s['sold']['price_m']:.1f}m):")
+        if s.get("assumption"):
+            lines.append(f"    note: {s['assumption']}")
+        lines += ["  " + _opt_line(o) for o in s["options"]] or ["    no legal replacement found"]
+    for o in t.get("poster_moves", []):
+        lines.append(f"  Poster's move {o['sell']['name']} → " + _opt_line(o).strip())
+    ind = t.get("independent") or {}
+    lines.append("  Planner's best moves for this squad (independent of the question):")
+    for i, plan in enumerate(ind.get("plans", []), 1):
+        moves = ", ".join(f"{m['sell']['name']} → {m['buy']['name']}" for m in plan["moves"])
+        gain = plan.get("projected_gain_next_gameweek")
+        lines.append(f"    {i}. {moves}  ({('%+.1f pts' % gain) if gain is not None else 'n/a'} vs holding)")
+    return lines
 
 
 def _parse_args(argv):
@@ -618,7 +672,8 @@ def main(argv):
     if target is None:
         print("Post not found in the current feed.")
         return 1
-    result = analyse(adapter, target, FplApiData(), picks=picks, skip_ambiguous=skip_ambiguous)
+    from .transfers import live_view
+    result = analyse(adapter, target, FplApiData(), picks=picks, skip_ambiguous=skip_ambiguous, transfer_view=live_view)
     print(render(result))
     return 3 if result.needs_selection else 0
 
