@@ -12,7 +12,8 @@ from .adapter import RedditRmtAdapter, SourceUnavailable
 from .models import (CommunityPolicy, Conversation, EligibilityConfig, Opportunity, Platform,
                      Source, assess, rank)
 
-MAX_FEED = 10
+MAX_FEED = 10        # what the command line shows
+FEED_CAP = 100       # the most a caller may ask for (the RSS page holds at most 100 posts)
 
 SOURCE = Source(
     source_id="reddit-fplratemyteam",
@@ -30,10 +31,13 @@ class FeedItem:
     conversation: Conversation
 
 
-def build_feed(adapter, now, limit=MAX_FEED, config=EligibilityConfig()):
-    """Eligible posts ranked by recency then comments, at most `limit` (1-10)."""
-    if not 1 <= limit <= MAX_FEED:
-        raise ValueError(f"limit must be between 1 and {MAX_FEED}")
+FEED_CONFIG = EligibilityConfig(max_age_days=7.0)     # the feed shows posts up to a week old
+
+
+def build_feed(adapter, now, limit=MAX_FEED, config=FEED_CONFIG):
+    """Eligible posts (image, at most a week old) ranked by recency then comments, at most `limit` (1-100; default 10)."""
+    if not 1 <= limit <= FEED_CAP:
+        raise ValueError(f"limit must be between 1 and {FEED_CAP}")
     by_id = {}
     for conversation in adapter.fetch_posts():
         assessment = assess(adapter.source, conversation, now, config)

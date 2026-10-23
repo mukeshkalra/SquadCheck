@@ -20,6 +20,8 @@ from .models import Conversation, MediaRef, Platform, Source
 USER_AGENT = "SquadCheckHustler/0.1 (read-only research)"
 _ATOM = "{http://www.w3.org/2005/Atom}"
 _IMAGE_HOSTS = {"i.redd.it"}
+_ID_RE = re.compile(r"[a-z0-9]{5,8}")
+_POST_LINK_RE = re.compile(r"/comments/([a-z0-9]{5,8})(?:/|$)", re.IGNORECASE)
 _MAX_IMAGE_BYTES = 10 * 1024 * 1024
 _LINK_RE = re.compile(r'<a href="([^"]+)">\[link\]</a>')
 _BODY_RE = re.compile(r'<div class="md">(.*?)</div>', re.S)
@@ -88,6 +90,27 @@ class RedditRmtAdapter(SourceAdapter):
                 posts.append(post)
         return posts
 
+    def fetch_post(self, post_id):
+        """
+        One post by id, whatever its age (the new-posts feed only reaches back a few days). The post is the
+        entry with id t3_<id>; the rest of the page's feed is comments. Raises SourceUnavailable when Reddit
+        cannot be read or the post is not in this source's subreddit, and LookupError when it does not exist.
+        """
+        if not _ID_RE.fullmatch(post_id or ""):
+            raise ValueError(f"Not a Reddit post id: {post_id!r}")
+        url = f"https://www.reddit.com/r/{self.source.community}/comments/{post_id}/.rss?limit=1"
+        try:
+            root = ET.fromstring(self._get(url))
+        except ET.ParseError as exc:
+            raise SourceUnavailable("Reddit did not return a readable post") from exc
+        for entry in root.iter(f"{_ATOM}entry"):
+            post = self._parse_entry(entry)
+            if post and post.post_id == post_id:
+                if f"/r/{self.source.community.lower()}/" not in post.url.lower():
+                    raise SourceUnavailable(f"That post is not in r/{self.source.community}")
+                return post
+        raise LookupError(f"No post {post_id} found in r/{self.source.community}")
+
     def _parse_entry(self, entry):
         raw_id = entry.findtext(f"{_ATOM}id") or ""
         link = entry.find(f"{_ATOM}link")
@@ -121,6 +144,15 @@ class RedditRmtAdapter(SourceAdapter):
         if len(data) > _MAX_IMAGE_BYTES:
             raise SourceUnavailable("Image exceeds the 10 MB limit")
         return data
+
+
+def parse_post_id(text):
+    """A post id from a bare id or any Reddit post link; None when it is neither."""
+    text = (text or "").strip()
+    if _ID_RE.fullmatch(text.lower()):
+        return text.lower()
+    m = _POST_LINK_RE.search(text)
+    return m.group(1).lower() if m else None
 
 
 def _image_media(content):

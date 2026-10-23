@@ -91,6 +91,35 @@ class TestAdapter(unittest.TestCase):
         self.assertEqual(SourceAdapter.__abstractmethods__, {"fetch_posts", "fetch_image"})
 
 
+class TestFetchPost(unittest.TestCase):
+    def test_one_post_by_id_whatever_its_age(self):
+        a, fetch = _adapter(_entry("old1abc", days=40), _entry("c1", title="a comment", raw_id="t1_c1"))
+        post = a.fetch_post("old1abc")
+        self.assertEqual((post.post_id, post.title), ("old1abc", "Any thoughts??"))
+        self.assertIn("/r/FPLRateMyTeam/comments/old1abc/", fetch.calls[0][0])
+
+    def test_a_missing_post_and_a_bad_id_are_reported(self):
+        a, _ = _adapter(_entry("other", days=1))
+        with self.assertRaises(LookupError):
+            a.fetch_post("nope12")
+        with self.assertRaises(ValueError):
+            a.fetch_post("not an id!")
+
+    def test_a_post_from_another_subreddit_is_refused(self):
+        e = _entry("abc12", days=1).replace("/r/FPLRateMyTeam/", "/r/fantasypremierleague/")
+        a, _ = _adapter(e)
+        with self.assertRaises(SourceUnavailable):
+            a.fetch_post("abc12")
+
+    def test_ids_are_read_from_a_bare_id_or_any_post_link(self):
+        from fpl.hustler.adapter import parse_post_id
+        self.assertEqual(parse_post_id(" 1XD97HM "), "1xd97hm")
+        self.assertEqual(parse_post_id("https://www.reddit.com/r/FPLRateMyTeam/comments/1xd97hm/kostulas_or_barnes/"), "1xd97hm")
+        self.assertEqual(parse_post_id("https://redd.it/1xd97hm"), None)
+        self.assertIsNone(parse_post_id("hello world"))
+        self.assertIsNone(parse_post_id(""))
+
+
 class TestFetchImage(unittest.TestCase):
     def test_downloads_the_direct_image_only_when_asked(self):
         fetch = FakeFetch(_feed_xml(_entry("abc")))
@@ -125,19 +154,20 @@ class TestFeed(unittest.TestCase):
         items = feed.build_feed(a, NOW)
         self.assertEqual([i.conversation.post_id for i in items], ["new"])
 
-    def test_fifteen_day_boundary(self):
-        a, _ = _adapter(_entry("in", days=14.9), _entry("out", days=15.1))
+    def test_seven_day_boundary(self):
+        a, _ = _adapter(_entry("in", days=6.9), _entry("out", days=7.1))
         self.assertEqual([i.conversation.post_id for i in feed.build_feed(a, NOW)], ["in"])
 
     def test_newest_first(self):
-        a, _ = _adapter(_entry("b", days=3), _entry("c", days=0.5), _entry("a", days=9))
+        a, _ = _adapter(_entry("b", days=3), _entry("c", days=0.5), _entry("a", days=6))
         self.assertEqual([i.conversation.post_id for i in feed.build_feed(a, NOW)], ["c", "b", "a"])
 
     def test_caps_at_limit_and_validates_it(self):
         a, _ = _adapter(*[_entry(f"p{i}", days=i / 10) for i in range(15)])
         self.assertEqual(len(feed.build_feed(a, NOW)), 10)
         self.assertEqual(len(feed.build_feed(a, NOW, limit=5)), 5)
-        for bad in (0, 11):
+        self.assertEqual(len(feed.build_feed(a, NOW, limit=50)), 15)      # older posts are reachable
+        for bad in (0, 101):
             with self.assertRaises(ValueError):
                 feed.build_feed(a, NOW, limit=bad)
 
