@@ -227,6 +227,47 @@ class TestCroppedNoBenchMarker(unittest.TestCase):
         self.assertIn("expected 11", r["message"])
 
 
+class TestSameNameInOneSquad(unittest.TestCase):
+    """Two different players who share a name (two Palmers) are both kept; one block repeated by OCR is not."""
+    NAMES = [n for _, row in _CROPPED_ROWS for n, _ in row]
+
+    def _rows_with_bench_konsa(self):
+        rows = [(y, list(row)) for y, row in _CROPPED_ROWS]
+        rows[-1][1][3] = ("Konsa", "ARS ( A )")            # a second Konsa on the bench
+        return rows
+
+    def test_a_second_player_with_the_same_name_is_kept_and_flagged(self):
+        r = _dispatch(_cropped_blocks(self._rows_with_bench_konsa()), _make_elements(*self.NAMES))
+        self.assertEqual(len(r["players"]), 15)
+        self.assertEqual(sum(1 for p in r["players"] if p["name"] == "Konsa"), 2)
+        self.assertEqual(r["status"], "AMBIGUOUS")
+        self.assertIn("Duplicate names", r["message"])
+
+    def test_the_same_block_repeated_at_the_same_spot_is_still_one_player(self):
+        blocks = _cropped_blocks()
+        konsa = next(b for b in blocks if b["text"] == "Konsa")
+        blocks.append(dict(konsa))
+        blocks.append({**konsa, "x": konsa["x"] + 0.005, "y": konsa["y"] + 0.004})   # OCR jitter
+        r = _dispatch(blocks, _make_elements(*self.NAMES))
+        self.assertEqual(r["status"], "VALID", r.get("message"))
+        self.assertEqual(len(r["players"]), 15)
+
+    def test_list_view_keeps_two_rows_with_the_same_name(self):
+        from fpl.engine.scanner import _parse_list_view
+        rows = ["Substitutes"] * 0
+        blocks, y = [], 0.9
+        for n in ["Tzolakis", "Vuskovic", "Konsa", "Calafiori", "Semenyo", "Schade", "Saka", "Groß", "Rogers",
+                  "Haaland", "João Pedro", "Leno", "Kostoulas", "Thomas", "Konsa"]:
+            blocks.append({"text": n, "x": 0.1, "y": y, "w": 0.2, "h": 0.01})
+            y -= 0.05
+        buf = io.StringIO(); old = sys.stderr; sys.stderr = buf
+        try:
+            r = _parse_list_view(blocks, _make_elements(*self.NAMES))
+        finally:
+            sys.stderr = old
+        self.assertEqual(sum(1 for p in r["players"] if p["name"] == "Konsa"), 2)
+
+
 class TestUnknownViewFallsBackToGeneralParser(unittest.TestCase):
     NAMES = [n for _, row in _CROPPED_ROWS for n, _ in row]
 

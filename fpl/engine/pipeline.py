@@ -211,7 +211,10 @@ _SQUAD_POS = {1: 2, 2: 5, 3: 5, 4: 3}
 def resolve_squad_smart(
     scan_players: list,
     elements:     list,
-    overrides:    dict = None,   # {norm_name: player_id} — user's explicit choices
+    overrides:    dict = None,   # {norm_name: player_id} — user's explicit choices; "norm_name#2" targets the
+                                 # second scanned entry with that name (two different players can share a name)
+    strict:       bool = False,  # True: a name matching several players is always returned as ambiguous; squad
+                                 # rules (position slots, club limit) are not used to pick one for the user
 ) -> tuple:
     """
     Two-pass constraint-aware resolution.
@@ -247,12 +250,16 @@ def resolve_squad_smart(
     pending      = []   # (sp, candidates_list)
 
     # ── Pass 1: resolve unambiguous names ───────────────────────────────────
-    for sp in scan_players:
+    seen_names = {}
+    for i, sp in enumerate(scan_players):
         norm = _norm_name(sp["name"])
+        seen_names[norm] = occ = seen_names.get(norm, 0) + 1
+        where = {"index": i, "occurrence": occ}      # which scanned entry this is, so repeats can be told apart
+        override_key = "%s#%d" % (norm, occ) if "%s#%d" % (norm, occ) in overrides else norm
 
         # User-supplied override takes absolute precedence
-        if norm in overrides:
-            pid = overrides[norm]
+        if override_key in overrides:
+            pid = overrides[override_key]
             e   = elem_by_id.get(pid)
             if e:
                 pos = e["element_type"]
@@ -260,7 +267,7 @@ def resolve_squad_smart(
                 club_filled[e["team"]] = club_filled.get(e["team"], 0) + 1
                 resolved.append({
                     "name": sp["name"], "position": pos,
-                    "is_starting": sp["is_starting"], "player_id": pid,
+                    "is_starting": sp["is_starting"], "player_id": pid, **where,
                 })
                 continue
 
@@ -273,10 +280,10 @@ def resolve_squad_smart(
             club_filled[e["team"]] = club_filled.get(e["team"], 0) + 1
             resolved.append({
                 "name": sp["name"], "position": pos,
-                "is_starting": sp["is_starting"], "player_id": e["id"],
+                "is_starting": sp["is_starting"], "player_id": e["id"], **where,
             })
         else:
-            pending.append((sp, candidates))
+            pending.append((sp, candidates, where))
 
     # ── Pass 2: apply squad constraints ─────────────────────────────────────
     pos_remaining  = {pos: _SQUAD_POS[pos] - pos_filled.get(pos, 0)
@@ -285,14 +292,14 @@ def resolve_squad_smart(
     ambiguous  = []
     unresolved = []
 
-    for sp, candidates in pending:
+    for sp, candidates, where in pending:
         if not candidates:
             unresolved.append({"name": sp["name"], "is_starting": sp["is_starting"],
-                                "player_id": None})
+                                "player_id": None, **where})
             continue
 
         # Filter: position still needed AND club not maxed
-        filtered = [
+        filtered = list(candidates) if strict else [
             e for e in candidates
             if pos_remaining.get(e["element_type"], 0) > 0
             and club_filled.get(e["team"], 0) < 3
@@ -305,17 +312,18 @@ def resolve_squad_smart(
             club_filled[e["team"]] = club_filled.get(e["team"], 0) + 1
             resolved.append({
                 "name": sp["name"], "position": pos,
-                "is_starting": sp["is_starting"], "player_id": e["id"],
+                "is_starting": sp["is_starting"], "player_id": e["id"], **where,
             })
         elif len(filtered) == 0:
             unresolved.append({"name": sp["name"], "is_starting": sp["is_starting"],
-                                "player_id": None})
+                                "player_id": None, **where})
         else:
             # Still ambiguous — ask the user
             POS_LABEL = {1: "GKP", 2: "DEF", 3: "MID", 4: "FWD"}
             ambiguous.append({
                 "name":       sp["name"],
                 "is_starting": sp["is_starting"],
+                **where,
                 "candidates": [
                     {
                         "player_id": e["id"],
@@ -459,8 +467,11 @@ def _build_payload(scan_result, projections, bench_result, threshold,
 
     subs = bench_result["substitutions"]
     if action == "SWAP" and subs:
+        label = {1: "GKP", 2: "DEF", 3: "MID", 4: "FWD"}
         swap_desc = "; ".join(
             "%s out → %s in" % (s["out"]["web_name"], s["in"]["web_name"])
+            + ("" if s.get("same_position", True) else
+               " (%s → %s)" % (label.get(s["out"]["position"], "?"), label.get(s["in"]["position"], "?")))
             for s in subs
         )
         message = "Swap recommended (+%.1f xPts): %s" % (delta, swap_desc)

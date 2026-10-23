@@ -80,6 +80,28 @@ def _player_summary(pid: int, by_id: dict) -> dict:
     }
 
 
+def _pair_substitutions(out_ids: list, in_ids: list, by_id: dict) -> list:
+    """
+    Pair each player leaving the XI with one entering it. Same position pairs first (a goalkeeper is only ever
+    swapped for a goalkeeper: an XI has exactly one), each position matched lowest-out with highest-in. What is
+    left over is a formation change (for example a midfielder out, a defender in), marked with
+    "same_position": False so it is never described as a like-for-like swap.
+    """
+    pairs, rest_out, rest_in = [], [], []
+    for pos in (1, 2, 3, 4):
+        outs = [p for p in out_ids if by_id[p]["position"] == pos]
+        ins  = [p for p in in_ids  if by_id[p]["position"] == pos]
+        n = min(len(outs), len(ins))
+        pairs += [(o, i, True) for o, i in zip(outs[:n], ins[:n])]
+        rest_out += outs[n:]
+        rest_in  += ins[n:]
+    rest_out.sort(key=lambda p: by_id[p]["xPts"])
+    rest_in.sort(key=lambda p: -by_id[p]["xPts"])
+    pairs += [(o, i, False) for o, i in zip(rest_out, rest_in)]
+    return [{"out": _player_summary(o, by_id), "in": _player_summary(i, by_id), "same_position": same}
+            for o, i, same in pairs]
+
+
 def _xi_summary(player_ids: list, by_id: dict) -> dict:
     return {
         "player_ids": list(player_ids),
@@ -262,10 +284,7 @@ def optimise_bench(
     out_ids  = sorted(sub_set  - best_set, key=lambda p:  by_id[p]["xPts"])
     in_ids   = sorted(best_set - sub_set,  key=lambda p: -by_id[p]["xPts"])
 
-    substitutions = [
-        {"out": _player_summary(o, by_id), "in": _player_summary(i, by_id)}
-        for o, i in zip(out_ids, in_ids)
-    ]
+    substitutions = _pair_substitutions(out_ids, in_ids, by_id)
 
     return {
         "action":         action,

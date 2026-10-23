@@ -651,16 +651,15 @@ def _parse_pitch_view(blocks: list, elements: list) -> dict:
     gap = _SEPARATOR_GAP
 
     # ── Step 4: collect candidates that pass name heuristics ─────────────────
-    seen_candidates: set = set()
+    seen_candidates = _Seen()
     candidates = []
     for b in blocks:
         name = _extract_player_name(b["text"])
         if not name or not _is_player_name(name):
             continue
-        key = name.lower()
-        if key in seen_candidates:
+        if seen_candidates.has(name, b):
             continue
-        seen_candidates.add(key)
+        seen_candidates.add(name, b)
         candidates.append((b, name))
 
     # ── Bootstrap filter: drop noise, resolve truncations ────────────────────
@@ -683,20 +682,19 @@ def _parse_pitch_view(blocks: list, elements: list) -> dict:
     # else: gap stays at _SEPARATOR_GAP (fallback for images with only starters visible)
 
     # ── Step 5: collect players; bench-label position is only a cross-check ───
-    seen: set = set()
+    seen = _Seen()
     players_out = []
     player_blocks = []
     marker_flags = []
 
     for b, name in candidates:
-        key = name.lower()
-        if key in seen:
+        if seen.has(name, b):
             continue
         if not bench_labels or abs(b["y"] - separator_y) <= gap:
             flag = None                      # no marker evidence for this name
         else:
             flag = b["y"] > separator_y
-        seen.add(key)
+        seen.add(name, b)
         players_out.append({"name": name, "is_starting": True})
         player_blocks.append(b)
         marker_flags.append(flag)
@@ -731,6 +729,30 @@ _LIST_SECTION_TO_POS = {
     "forwards":    4,
 }
 _LIST_TAG_TO_POS = {"GKP": 1, "DEF": 2, "MID": 3, "FWD": 4}
+
+
+class _Seen:
+    """
+    Names already collected, with where they were seen. The same name at the same spot is OCR repeating a
+    block and is dropped; the same name at a clearly different spot is a second player who happens to share
+    the name (two Palmers in one squad) and is kept, so the squad is not silently one short.
+    """
+    _DY, _DX = 0.012, 0.03          # normalised image units
+
+    def __init__(self):
+        self._kept = []
+
+    @staticmethod
+    def _cx(b):
+        return b["x"] + b.get("w", 0) / 2
+
+    def has(self, name, block):
+        key = name.lower()
+        return any(k == key and abs(b["y"] - block["y"]) < self._DY and abs(self._cx(b) - self._cx(block)) < self._DX
+                   for k, b in self._kept)
+
+    def add(self, name, block):
+        self._kept.append((name.lower(), block))
 
 
 def _pos_from_combined_token(text: str):
@@ -850,7 +872,7 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
 
     is_bench = False
     saw_bench_marker = False
-    seen: set = set()
+    seen = _Seen()
     players_out = []
 
     for b in sorted_blocks:
@@ -876,8 +898,8 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
             parts = extracted.split()
             if len(parts) >= 2:
                 name = " ".join(parts[:-1])
-                if name and _is_player_name(name) and name.lower() not in seen:
-                    seen.add(name.lower())
+                if name and _is_player_name(name) and not seen.has(name, b):
+                    seen.add(name, b)
                     players_out.append({"name": name, "is_starting": not is_bench})
                     player_name_blocks.append(b)
             continue
@@ -889,10 +911,10 @@ def _parse_list_view(blocks: list, elements: list) -> dict:
         name = _extract_player_name(t)
         if not name or not _is_player_name(name):
             continue
-        if name.lower() in seen:
+        if seen.has(name, b):
             continue
 
-        seen.add(name.lower())
+        seen.add(name, b)
         players_out.append({"name": name, "is_starting": not is_bench})
         player_name_blocks.append(b)
 

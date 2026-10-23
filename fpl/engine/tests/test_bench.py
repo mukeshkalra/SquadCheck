@@ -585,6 +585,49 @@ class TestEdgeCases(unittest.TestCase):
 # RUNNER
 # ─────────────────────────────────────────────────────────────────────────────
 
+class TestSubstitutionPairing(unittest.TestCase):
+    """Players are paired by position, never a goalkeeper with an outfielder (seen on a real squad)."""
+
+    def _squad_1xd8qzd(self):
+        rows = [  # id, pos, xPts, name, in XI
+            (1, 1, 3.4, "Verbruggen", True), (2, 1, 3.5, "Kinsky", False),
+            (3, 2, 6.1, "Calafiori", True), (4, 2, 5.0, "Konsa", True), (5, 2, 4.9, "N.Williams", True),
+            (6, 2, 5.3, "Ajer", False), (7, 2, 4.2, "Davis", False),
+            (8, 3, 5.4, "Mbeumo", True), (9, 3, 5.0, "Tavernier", True), (10, 3, 4.5, "Rogers", True),
+            (11, 3, 4.1, "Palmer", True), (12, 3, 4.4, "Gross", False),
+            (13, 4, 5.9, "Haaland", True), (14, 4, 5.4, "Calvert-Lewin", True), (15, 4, 5.2, "Joao Pedro", True),
+        ]
+        projections = [_p(i, pos, x, web_name=n) for i, pos, x, n, _ in rows]
+        return projections, [i for i, _, _, _, xi in rows if xi]
+
+    def test_the_real_squad_pairs_goalkeeper_with_goalkeeper(self):
+        projections, xi = self._squad_1xd8qzd()
+        r = optimise_bench(projections, xi)
+        pairs = {(s["out"]["web_name"], s["in"]["web_name"]): s["same_position"] for s in r["substitutions"]}
+        self.assertEqual(pairs, {("Verbruggen", "Kinsky"): True, ("Palmer", "Ajer"): False})
+
+    def test_a_goalkeeper_is_never_paired_with_an_outfielder(self):
+        projections, xi = self._squad_1xd8qzd()
+        for s in optimise_bench(projections, xi)["substitutions"]:
+            self.assertEqual(s["out"]["position"] == 1, s["in"]["position"] == 1)
+
+    def test_the_message_marks_a_formation_change_but_not_a_like_for_like_swap(self):
+        from fpl.engine.pipeline import _build_payload
+        subs = [{"out": {"web_name": "Verbruggen", "position": 1}, "in": {"web_name": "Kinsky", "position": 1}, "same_position": True},
+                {"out": {"web_name": "Palmer", "position": 3}, "in": {"web_name": "Ajer", "position": 2}, "same_position": False}]
+        br = {"action": "SWAP", "delta": 1.3, "substitutions": subs, "submitted_xi": [], "recommended_xi": []}
+        message = _build_payload({"status": "VALID", "players": []}, [], br, 0.5, {}, {}, 8, None, None)["message"]
+        self.assertEqual(message, "Swap recommended (+1.3 xPts): Verbruggen out → Kinsky in; Palmer out → Ajer in (MID → DEF)")
+
+    def test_like_for_like_swaps_are_marked_same_position(self):
+        r = optimise_bench(_squad(GKP2=9.0), _BASE_XI, threshold=0.5)
+        self.assertEqual(r["action"], "SWAP")
+        self.assertEqual(len(r["substitutions"]), 1)
+        s = r["substitutions"][0]
+        self.assertTrue(s["same_position"])
+        self.assertEqual((s["out"]["position"], s["in"]["position"]), (1, 1))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
 
