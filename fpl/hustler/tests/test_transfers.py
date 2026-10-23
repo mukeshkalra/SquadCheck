@@ -145,5 +145,90 @@ class TestWiring(unittest.TestCase):
         self.assertEqual(render_transfers(None), [])
 
 
+def move_answer(reply, recommends_move):
+    return json.dumps({"can_answer": True, "recommends_move": recommends_move, "reply": reply, "reason": "ok"})
+
+
+def with_gains(first, set_gain=None):
+    """SAMPLE with the single-move gain set, and optionally a two-move plan gain."""
+    view = json.loads(json.dumps(SAMPLE))
+    view["sell"][0]["options"][0]["projected_gain_next_gameweek"] = first
+    view["independent"]["plans"][0]["projected_gain_next_gameweek"] = first
+    if set_gain is not None:
+        view["independent"]["plans"].append({"moves": [
+            {"sell": {"name": "Beta"}, "buy": {"name": "Gamma"}}, {"sell": {"name": "Delta"}, "buy": {"name": "Eps"}}],
+            "projected_gain_next_gameweek": set_gain, "projected_gain_later_weeks": 0})
+    return view
+
+
+class TestMoveThresholds(unittest.TestCase):
+    def run_it(self, reply, recommends, view):
+        llm = FakeLLM(lambda p: move_answer(reply, recommends))
+        return analyse(FakeAdapter(), conv_with("Who is the best replacement for Beta?"), FakeData(), scan=FULL_SCAN, llm=llm,
+                       transfer_view=lambda *a: view)
+
+    def test_a_hold_with_no_gain_figure_passes(self):
+        result = self.run_it("I'd hold. Gamma is a small tweak at most, not worth a transfer.", False, with_gains(1.4))
+        self.assertFalse(result.human_required, result.human_reason)
+
+    def test_a_hold_that_quotes_the_gain_is_discarded(self):
+        result = self.run_it("I'd hold, it is only about 1.4 more points next gameweek.", False, with_gains(1.4))
+        self.assertTrue(result.human_required)
+        self.assertIn("advising a hold", result.human_reason)
+
+    def test_a_discarded_draft_is_shown_with_the_reason(self):
+        result = self.run_it("I'd hold, it is only about 1.4 more points next gameweek.", False, with_gains(1.4))
+        self.assertIn("Discarded draft: I'd hold, it is only about 1.4 more points", result.human_reason)
+
+    def test_other_wordings_of_a_gain_are_caught_but_not_a_plain_points_figure(self):
+        for text in ("Hold, a 1.4-point gain isn't worth it.", "Hold, gain of about 1.4 isn't worth it.",
+                     "Hold, projected to score 1.4 points more is tiny.", "Hold, roughly 1.4 extra pts."):
+            self.assertTrue(self.run_it(text, False, with_gains(1.4)).human_required, text)
+        ok = self.run_it("Hold. Gamma only got 1.4 points last week and Beta is fine.", False, with_gains(1.4))
+        self.assertFalse(ok.human_required, ok.human_reason)
+
+    def test_a_points_figure_that_is_not_a_next_week_gain_is_not_mistaken_for_one(self):
+        result = self.run_it("I'd hold. Beta has 3.6 pts and is fine.", False, with_gains(1.4))
+        self.assertFalse(result.human_required, result.human_reason)
+
+    def test_a_single_move_needs_two_points(self):
+        low = self.run_it("Swap Beta for Gamma, roughly 1.8 more points.", True, with_gains(1.8))
+        self.assertTrue(low.human_required)
+        self.assertIn("threshold", low.human_reason)
+        ok = self.run_it("Swap Beta for Gamma, roughly 2.5 more points.", True, with_gains(2.5))
+        self.assertFalse(ok.human_required, ok.human_reason)
+
+    def test_a_set_of_moves_needs_five_points(self):
+        view = with_gains(1.0, set_gain=4.5)
+        low = self.run_it("Swap Beta for Gamma and Delta for Eps, roughly 4.5 more points.", True, view)
+        self.assertTrue(low.human_required)
+        view = with_gains(1.0, set_gain=5.5)
+        ok = self.run_it("Swap Beta for Gamma and Delta for Eps, roughly 5.5 more points.", True, view)
+        self.assertFalse(ok.human_required, ok.human_reason)
+
+    def test_a_recommended_move_must_name_a_planner_replacement(self):
+        result = self.run_it("Swap Beta for someone else, roughly 3.0 more points.", True, with_gains(3.0))
+        self.assertTrue(result.human_required)
+
+    def test_without_the_flag_or_the_view_the_gate_is_skipped(self):
+        legacy = FakeLLM(lambda p: answer("Swap Beta for Gamma at 5.4m; projected about 1.8 more points next gameweek."))
+        result = analyse(FakeAdapter(), conv_with("x"), FakeData(), scan=FULL_SCAN, llm=legacy, transfer_view=lambda *a: SAMPLE)
+        self.assertFalse(result.human_required, result.human_reason)
+        result = self.run_it("Keep him.", True, None)
+        self.assertFalse(result.human_required, result.human_reason)
+
+    def test_a_reply_over_the_word_limit_is_discarded(self):
+        result = self.run_it(" ".join(["word"] * 191), False, with_gains(1.4))
+        self.assertTrue(result.human_required)
+        self.assertIn("190 words", result.human_reason)
+
+    def test_the_prompt_states_the_thresholds_and_the_fixture_first_order(self):
+        from fpl.hustler.analyse import _SYSTEM, _SCHEMA
+        self.assertIn("at least 2 points", _SYSTEM)
+        self.assertIn("at least 5", _SYSTEM)
+        self.assertIn("next fixture", _SYSTEM)
+        self.assertIn("recommends_move", _SCHEMA["required"])
+
+
 if __name__ == "__main__":
     unittest.main()

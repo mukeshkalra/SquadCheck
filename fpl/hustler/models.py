@@ -314,17 +314,15 @@ def rank(opportunities):
 def scan_evidence(scan_result):
     """
     Read an existing scanner result without changing its semantics.
-    Returns (distinct player names, xi_available, bench_available).
-    Players count even when the scanner status is not VALID; XI/bench is trusted
-    only when the scanner says VALID, since its split is validated there.
+    Returns (player names as scanned, xi_available, bench_available).
+    Every scanned entry counts, repeated names included: the scanner only merges a block OCR repeated at the
+    same spot, so a repeated name is two different players (two Palmers) and is left for the operator to resolve.
+    Players count even when the scanner status is not VALID; XI/bench is trusted when the scanner says VALID,
+    or AMBIGUOUS (repeated names, its last and only remaining check), since its split is validated first.
     """
-    names, seen = [], set()
-    for p in scan_result.get("players", []):
-        name = (p.get("name") or "").strip()
-        if name and name.lower() not in seen:
-            seen.add(name.lower())
-            names.append(name)
-    valid = scan_result.get("status") == "VALID" and len(names) == SQUAD_SIZE
+    names = [(p.get("name") or "").strip() for p in scan_result.get("players", [])]
+    names = [n for n in names if n]
+    valid = scan_result.get("status") in ("VALID", "AMBIGUOUS") and len(names) == SQUAD_SIZE
     return tuple(names), valid, valid
 
 

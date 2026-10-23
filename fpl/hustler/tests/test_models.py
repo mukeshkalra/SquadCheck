@@ -280,9 +280,14 @@ class TestScanEvidence(unittest.TestCase):
         names, xi, bench = m.scan_evidence(self._scan("VALID"))
         self.assertEqual((len(names), xi, bench), (15, True, True))
 
-    def test_duplicates_collapse_and_short_lists_stay_short(self):
+    def test_repeated_names_are_kept_and_blank_names_dropped(self):
         scan = {"status": "AMBIGUOUS", "players": [{"name": "Salah"}, {"name": " salah "}, {"name": ""}]}
-        self.assertEqual(m.scan_evidence(scan), (("Salah",), False, False))
+        self.assertEqual(m.scan_evidence(scan), (("Salah", "salah"), False, False))
+
+    def test_a_scan_ambiguous_only_by_repeated_names_still_gives_xi_and_bench(self):
+        scan = {"status": "AMBIGUOUS", "players": [{"name": "Palmer"}, {"name": "Palmer"}] + [{"name": f"P{i}"} for i in range(13)]}
+        names, xi, bench = m.scan_evidence(scan)
+        self.assertEqual((len(names), xi, bench), (15, True, True))
 
     def test_valid_status_with_fewer_than_fifteen_is_not_xi(self):
         self.assertEqual(m.scan_evidence(self._scan("VALID", 11))[1:], (False, False))

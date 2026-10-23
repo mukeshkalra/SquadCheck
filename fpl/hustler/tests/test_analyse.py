@@ -279,7 +279,7 @@ class TestDraft(unittest.TestCase):
         self.assertEqual(payload["evidence_level"], "players_only")
         self.assertEqual(len(payload["evidence"]["players"]), 15)
         for rule in ("ONLY the supplied data", "Never mention SquadCheck", "never include links",
-                     "players_only", "can_answer", "190 words"):
+                     "players_only", "can_answer", "150 words"):
             self.assertIn(rule, system)
 
     def test_prompt_forbids_expanding_abbreviations_and_outside_facts(self):
@@ -355,7 +355,7 @@ class TestAnthropicRequest(unittest.TestCase):
         self.assertEqual(cfg["effort"], "low")
         self.assertEqual(cfg["format"]["type"], "json_schema")
         schema = cfg["format"]["schema"]
-        self.assertEqual(set(schema["required"]), {"can_answer", "reply", "reason"})
+        self.assertEqual(set(schema["required"]), {"can_answer", "recommends_move", "reply", "reason"})
         self.assertFalse(schema["additionalProperties"])
         self.assertNotIn("thinking", req)            # thinking settings left to effort
         self.assertNotIn("temperature", req)

@@ -31,12 +31,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from fpl.engine.pipeline import _build_payload, _norm_name, resolve_squad_smart, run_pipeline
+from fpl.engine.pipeline import _build_payload, _find_all_matches, _norm_name, resolve_squad_smart, run_pipeline
 from fpl.engine.projection import compute_xpts
 from fpl.engine.scanner import scan_squad
 
 from .adapter import RedditRmtAdapter, SourceUnavailable
-from .mentions import MentionStatus, PickError, apply_picks, find_mentions, key, parse_pick, pending
+from .mentions import Candidate, MentionStatus, PickError, apply_picks, find_mentions, key, parse_pick, pending
 from .models import (SQUAD_SIZE, CommunityPolicy, Conversation, EvidenceLevel, scan_evidence)
 
 _ROOT = Path(__file__).resolve().parent.parent.parent
@@ -74,11 +74,18 @@ Rules:
   best moves; "sell" holds, for a squad player the post asks about, the best replacements (each with the
   club, price and plain side-by-side facts); "poster_moves" judges moves the poster proposed. Use it only
   when the question is about a transfer (who to replace, what to do with a free transfer, whether a move is
-  worth it). Then name the best one or two replacements, with price and club, and say the gain in plain words
-  such as "projected to score about 1.8 more points next gameweek than keeping him". Quote gains and figures
-  exactly as given; never call it certain. Mention the assumptions (free transfers, bank) in a few words only
-  when they matter. If an item has an "assumption" note, say plainly which player you took the name to be.
-  Players inside transfer_options are assessable even though they are not in the squad.
+  worth it). Players inside transfer_options are assessable even though they are not in the squad.
+  Rules for transfers:
+  * Only recommend a move whose own projected gain is at least 2 points, or a set of moves that together gain
+    at least 5. Anything smaller: advise holding, with no gain figure at all. You may name the best small tweak
+    as optional, without a gain.
+  * When you do recommend a move, name the best one or two replacements with price and club, and say the gain in
+    plain words such as "roughly 3 more points next gameweek". Quote it exactly as given; never call it certain.
+  * Justify a move with the next fixture first (opponent, home or away, difficulty) and the player's form second;
+    price and minutes are context. If the replacement's fixture is difficulty 4 or 5, or form is the only point
+    in his favour, say it is marginal rather than an upgrade. If fixture and form point different ways, say so.
+  * Mention the assumptions (free transfers, bank) in a few words only when they matter. If an item has an
+    "assumption" note, say plainly which player you took the name to be.
 - If evidence_level is players_only, the starting XI and bench are unknown: do not assume
   who starts or sits.
 - Never mention SquadCheck, never name any tool or product, never include links.
@@ -87,8 +94,12 @@ Rules:
   assess it from what you have. Do not guess about it, and do not compare or imply anything about it beyond what the
   post itself says.
 
+Voice: write like a regular on r/FantasyPL, not a report. Plain, direct, short sentences. Give at most two or
+three facts per player and do not list every player you are keeping; "the rest looks fine" is enough. No
+openers such as "Mostly good, but I'd tweak it", no headings, and no filler.
+
 Structure of the reply:
-1. Start with the answer to the main question. No preamble and no disclaimer first.
+1. Start with the answer to the main question, in one line. No preamble and no disclaimer first.
 2. Then the facts that support it, covering each question the post asks, in the order it asks them.
 3. You may add one short general judgement (for example the risk of owning several players from
    one club) only if you label it as a judgement and it states no numbers or facts about players.
@@ -97,7 +108,9 @@ Structure of the reply:
 Return a JSON object with:
 - can_answer: true if the data lets you usefully address at least part of the question; false only
   if none of it can be addressed from the data, or the post is not asking about the squad.
-- reply: the draft reply, about 190 words or fewer; an empty string when can_answer is false.
+- recommends_move: true only if the reply advises the poster to make a transfer or swap; false if it
+  advises holding or is not about transfers.
+- reply: the draft reply, 150 words or fewer; an empty string when can_answer is false.
 - reason: one short sentence stating what you covered and what you could not."""
 
 
@@ -107,10 +120,11 @@ _SCHEMA = {
     "type": "object",
     "properties": {
         "can_answer": {"type": "boolean"},
+        "recommends_move": {"type": "boolean"},
         "reply": {"type": "string"},
         "reason": {"type": "string"},
     },
-    "required": ["can_answer", "reply", "reason"],
+    "required": ["can_answer", "recommends_move", "reply", "reason"],
     "additionalProperties": False,
 }
 
@@ -181,6 +195,7 @@ class Analysis:
     needs_selection: bool = False         # ambiguous mentions are waiting for an operator pick
     internal: bool = True
     transfers: Optional[dict] = None      # Transfer Planner output for the operator; also sent to the LLM
+    squad_choices: tuple = ()             # squad names that match several players: ({"name", "candidates"},), operator must pick
 
     def __post_init__(self):
         if self.needs_selection and not self.human_required:
@@ -193,6 +208,45 @@ class Analysis:
             raise ValueError("human_required needs a reason")
         if self.draft_reply is not None and self.squad_evidence is None:
             raise ValueError("A draft reply needs squad evidence")
+
+
+SQUAD_PICK = "squad:"       # prefix for picks that name a squad player, to keep them apart from mention picks
+
+
+class SquadChoice(Exception):
+    """One or more names in the squad match several players; the operator must choose. Nothing is guessed."""
+    def __init__(self, choices):
+        super().__init__("squad players need selection")
+        self.choices = tuple(choices)
+
+
+def _split_picks(picks):
+    squad, mention = {}, {}
+    for text, pid in (picks or {}).items():
+        if text.startswith(SQUAD_PICK):
+            squad[text[len(SQUAD_PICK):].strip()] = pid
+        else:
+            mention[text] = pid
+    return squad, mention
+
+
+def _squad_overrides(squad_picks, elements):
+    """
+    {override key: player id}. A pick key is the scanned name, or "name#2" for the second entry that carries a
+    name shared by two squad players. A pick must be a real player whose name matches what was scanned.
+    """
+    out = {}
+    for key_text, pid in squad_picks.items():
+        name, sep, n = key_text.rpartition("#")
+        if not (sep and n.isdigit() and name.strip()):
+            name, n = key_text, None
+        name = name.strip()
+        if pid is None:
+            raise PickError(f'squad pick "{key_text}": a squad player cannot be skipped, choose one of the candidates')
+        if pid not in {e["id"] for e in _find_all_matches(name, elements)}:
+            raise PickError(f'squad pick "{key_text}": {pid} is not a player matching that name')
+        out[f"{_norm_name(name)}#{int(n)}" if n else _norm_name(name)] = pid
+    return out
 
 
 def analyse(adapter, conversation, data, scan=scan_squad, llm=None, picks=None, skip_ambiguous=False, transfer_view=None):
@@ -219,8 +273,16 @@ def analyse(adapter, conversation, data, scan=scan_squad, llm=None, picks=None, 
         return human(f"Scanner failed to run: {type(exc).__name__}: {exc}")
     status = scan_result.get("status")
 
+    squad_picks, picks = _split_picks(picks)
     try:
-        evidence, reason = _build_evidence(scan_result, bootstrap, data)
+        evidence, reason = _build_evidence(scan_result, bootstrap, data, _squad_overrides(squad_picks, bootstrap.get("elements", [])))
+    except PickError as exc:
+        return human(f"Invalid pick: {exc}", status)
+    except SquadChoice as exc:
+        names = ", ".join(c["label"] for c in exc.choices)
+        return Analysis(conversation, status, EvidenceLevel.INSUFFICIENT, None, None, True,
+                        f"Squad players need selection: {names}. No draft generated.", (),
+                        needs_selection=True, squad_choices=exc.choices)
     except Exception as exc:
         return human(f"Squad analysis failed: {type(exc).__name__}: {exc}", status)
     if evidence is None:
@@ -361,35 +423,59 @@ def _comparisons(evidence, post_text):
     return out
 
 
-def _build_evidence(scan_result, bootstrap, data):
+def _build_evidence(scan_result, bootstrap, data, overrides=None):
     """Returns (evidence, None) or (None, reason). Reuses the scanner, resolver and engine."""
     names, xi_known, _ = scan_evidence(scan_result)
     if len(names) != SQUAD_SIZE:
         return None, f"Only {len(names)} of {SQUAD_SIZE} players could be identified"
 
     elements = bootstrap.get("elements", [])
-    seen, players = set(), []
-    for p in scan_result["players"]:
-        key = (p.get("name") or "").strip().lower()
-        if key and key not in seen:
-            seen.add(key)
-            players.append({**p, "is_starting": bool(p.get("is_starting"))})   # resolver needs the key
-    resolved, ambiguous, unresolved = resolve_squad_smart(players, elements)
-    if ambiguous or unresolved:
-        bad = ", ".join(x["name"] for x in ambiguous + unresolved)
+    # Every scanned entry is kept, repeated names included: two entries with one name are two different players.
+    players = [{**p, "is_starting": bool(p.get("is_starting"))} for p in scan_result["players"] if (p.get("name") or "").strip()]
+    resolved, ambiguous, unresolved = resolve_squad_smart(players, elements, overrides, strict=True)
+    if ambiguous:
+        by_id = {e["id"]: e for e in elements}
+        teams = {t["id"]: t.get("short_name", "") for t in bootstrap.get("teams", [])}
+        pos = {1: "GKP", 2: "DEF", 3: "MID", 4: "FWD"}
+        scanned = [_norm_name(p["name"]) for p in players]
+        choices = []
+        for x in ambiguous:
+            total = scanned.count(_norm_name(x["name"]))
+            choices.append({
+                "name": x["name"], "key": x["name"] if total == 1 else f"{x['name']}#{x['occurrence']}",
+                "label": x["name"] if total == 1 else f"{x['name']} (entry {x['occurrence']} of {total} in the squad)",
+                "candidates": tuple(
+                    Candidate(c["player_id"], f"{by_id[c['player_id']].get('first_name', '')} {by_id[c['player_id']].get('second_name', '')}".strip(),
+                              by_id[c["player_id"]].get("web_name", ""), teams.get(by_id[c["player_id"]].get("team"), ""),
+                              pos.get(by_id[c["player_id"]].get("element_type"), "?")) for c in x["candidates"])})
+        raise SquadChoice(choices)
+    if unresolved:
+        bad = ", ".join(x["name"] for x in unresolved)
         return None, f"Could not reliably identify: {bad}"
     ids = [r["player_id"] for r in resolved]
     if len(set(ids)) != SQUAD_SIZE:
-        return None, "Identified players are not 15 distinct FPL players"
+        twice = sorted({r["name"] for r in resolved if ids.count(r["player_id"]) > 1})
+        return None, ("Identified players are not 15 distinct FPL players" +
+                      (f" (the same player was chosen for more than one entry: {', '.join(twice)})" if twice else ""))
 
     summaries = data.summaries(ids)
     params = data.params(bootstrap)
-    pos_by_name = {_norm_name(r["name"]): r["position"] for r in resolved}
+    by_index = {r["index"]: r for r in resolved}
+    by_id_all = {e["id"]: e for e in elements}
+
+    def _pipeline_player(i, p):
+        r = by_index[i]
+        out = {**p, "position": r["position"]}
+        if len(_find_all_matches(p["name"], elements)) > 1:
+            # A name shared by several players: hand the pipeline the exact full name of the chosen one, so it never
+            # falls back on its own guess (the most starts) for who this is.
+            e = by_id_all[r["player_id"]]
+            out["name"] = f"{e.get('first_name', '')} {e.get('second_name', '')}".strip() or p["name"]
+        return out
 
     if xi_known:
-        full_scan = {**scan_result, "players": [
-            {**p, "position": pos_by_name.get(_norm_name(p["name"]), p.get("position"))}
-            for p in scan_result["players"]]}
+        full_scan = {**scan_result, "status": "VALID",
+                     "players": [_pipeline_player(i, p) for i, p in enumerate(players)]}
         payload = run_pipeline(full_scan, bootstrap, summaries, params, _THRESHOLD)
         if payload.get("status") == "OK":
             return {
@@ -522,7 +608,8 @@ def _draft(llm, conversation, evidence, transfers=None):
     except ValueError:
         return None, "No draft: the LLM did not return valid JSON."
     if not (isinstance(answer, dict) and isinstance(answer.get("can_answer"), bool)
-            and isinstance(answer.get("reply"), str) and isinstance(answer.get("reason"), str)):
+            and isinstance(answer.get("reply"), str) and isinstance(answer.get("reason"), str)
+            and isinstance(answer.get("recommends_move", False), bool)):
         return None, "No draft: the LLM JSON did not match the expected shape."
 
     if not answer["can_answer"]:
@@ -532,14 +619,79 @@ def _draft(llm, conversation, evidence, transfers=None):
         return None, "No draft: the LLM said it could answer but returned an empty reply."
     broken = _DRAFT_RULES.violations(reply)
     if broken:
-        return None, "Draft discarded: " + "; ".join(broken) + "."
+        return None, _discarded("; ".join(broken), reply)
     ungrounded = _ungrounded_numbers(reply, user)
     if ungrounded:
-        return None, "Draft discarded: numbers not found in the evidence or post: " + ", ".join(ungrounded) + "."
+        return None, _discarded("numbers not found in the evidence or post: " + ", ".join(ungrounded), reply)
+    if len(reply.split()) > MAX_REPLY_WORDS:
+        return None, _discarded("longer than %d words" % MAX_REPLY_WORDS, reply)
+    problem = _transfer_rule_problem(reply, transfers, answer.get("recommends_move"))
+    if problem:
+        return None, _discarded(problem, reply)
     return reply, None
 
 
 _NUMBER = re.compile(r"\d+(?:\.\d+)?")
+
+
+def _discarded(why, reply):
+    """The reason a human reads, with the rejected draft kept so they can see what was wrong."""
+    return "Draft discarded: %s. Discarded draft: %s" % (why, reply)
+
+MAX_REPLY_WORDS = 190
+MIN_MOVE_GAIN = 2.0       # a single recommended move must gain at least this next gameweek
+MIN_SET_GAIN = 5.0        # or a set of moves together at least this
+_NUM = r"(\d+(?:\.\d+)?)"
+_GAIN_PHRASES = (      # how a projected gain is worded, not any "N points" (a player's total or last score is not a gain)
+    re.compile(_NUM + r"[\s-]*(?:more|extra|additional|better)\s+(?:\w+\s+)?(?:points?|pts)\b", re.IGNORECASE),
+    re.compile(r"\b(?:gain|boost|upgrade|improvement|swing)\s+of\s+(?:about\s+|roughly\s+|around\s+)?" + _NUM, re.IGNORECASE),
+    re.compile(_NUM + r"[\s-]*points?\s+(?:gain|boost|upgrade|improvement|swing)\b", re.IGNORECASE),
+    re.compile(r"\bprojected\b[^.\n]{0,40}?" + _NUM + r"\s*(?:points?|pts)\b", re.IGNORECASE),
+)
+
+
+def _gain(item):
+    return (item or {}).get("projected_gain_next_gameweek") or 0.0
+
+
+def _all_gains(transfers):
+    options = [o for s in transfers.get("sell", []) for o in s.get("options", [])] + list(transfers.get("poster_moves", []))
+    plans = (transfers.get("independent") or {}).get("plans", [])
+    return [_gain(x) for x in options + plans]
+
+
+def _quotes_a_gain(reply, transfers):
+    gains = _all_gains(transfers)
+    for pattern in _GAIN_PHRASES:
+        for m in pattern.finditer(reply):
+            places = len(m.group(1).split(".")[1]) if "." in m.group(1) else 0
+            if any(g > 0 and round(g, places) == float(m.group(1)) for g in gains):
+                return True
+    return False
+
+
+def _recommends_a_qualifying_move(reply, transfers):
+    text = reply.lower()
+    named = lambda move: (move.get("buy") or {}).get("name", "").lower() in text and (move.get("buy") or {}).get("name")
+    options = [o for s in transfers.get("sell", []) for o in s.get("options", [])] + list(transfers.get("poster_moves", []))
+    if any(named(o) and _gain(o) >= MIN_MOVE_GAIN for o in options):
+        return True
+    for plan in (transfers.get("independent") or {}).get("plans", []):
+        moves = plan.get("moves", [])
+        if moves and all(named(m) for m in moves) and _gain(plan) >= (MIN_MOVE_GAIN if len(moves) == 1 else MIN_SET_GAIN):
+            return True
+    return False
+
+
+def _transfer_rule_problem(reply, transfers, recommends_move):
+    """Hold replies carry no gain figure; a recommended move must clear the thresholds. Skipped without transfer data."""
+    if not transfers or recommends_move is None:
+        return None
+    if recommends_move is False and _quotes_a_gain(reply, transfers):
+        return "quotes a projected gain while advising a hold"
+    if recommends_move is True and not _recommends_a_qualifying_move(reply, transfers):
+        return "recommends a move below the %g-point (single) or %g-point (set) threshold" % (MIN_MOVE_GAIN, MIN_SET_GAIN)
+    return None
 
 
 def _ungrounded_numbers(reply, source_text):
@@ -595,7 +747,14 @@ def render(analysis):
             lines += _render_mention(m, projections)
     lines += render_transfers(analysis.transfers)
     lines.append("")
-    if analysis.needs_selection:
+    if analysis.squad_choices:
+        lines += ["Squad players that match several players (choose one for each):"]
+        for ch in analysis.squad_choices:
+            lines.append(f'  "{ch["label"]}": ' + "; ".join(f"{c.player_id} = {c.label()}" for c in ch["candidates"]))
+        picks = " ".join(f'--pick "{SQUAD_PICK}{ch["key"]}=<id>"' for ch in analysis.squad_choices)
+        lines += [f"NEEDS SELECTION: {len(analysis.squad_choices)} squad player(s). No draft generated.",
+                  f"Re-run with: python3 -m fpl.hustler.analyse {c.post_id} {picks}"]
+    elif analysis.needs_selection:
         waiting = pending(analysis.mentions)
         picks = " ".join(f'--pick "{m.text}=<id>"' for m in waiting)
         lines += [f"NEEDS SELECTION: {len(waiting)} ambiguous mention(s). No draft generated.",
