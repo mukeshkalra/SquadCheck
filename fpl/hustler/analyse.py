@@ -76,8 +76,8 @@ Rules:
   when the question is about a transfer (who to replace, what to do with a free transfer, whether a move is
   worth it). Players inside transfer_options are assessable even though they are not in the squad.
   Rules for transfers:
-  * Only recommend a move whose own projected gain is at least 2 points, or a set of moves that together gain
-    at least 5. Anything smaller: advise holding, with no gain figure at all. You may name the best small tweak
+  * Only recommend a move whose own projected gain is at least 1 point, or a set of moves that together gain
+    at least 3. Anything smaller: advise holding, with no gain figure at all. You may name the best small tweak
     as optional, without a gain.
   * When you do recommend a move, name the best one or two replacements with price and club, and say the gain in
     plain words such as "roughly 3 more points next gameweek". Quote it exactly as given; never call it certain.
@@ -639,8 +639,8 @@ def _discarded(why, reply):
     return "Draft discarded: %s. Discarded draft: %s" % (why, reply)
 
 MAX_REPLY_WORDS = 190
-MIN_MOVE_GAIN = 2.0       # a single recommended move must gain at least this next gameweek
-MIN_SET_GAIN = 5.0        # or a set of moves together at least this
+MIN_MOVE_GAIN = 1.0       # a single recommended move must gain at least this next gameweek
+MIN_SET_GAIN = 3.0        # or a set of moves together at least this
 _NUM = r"(\d+(?:\.\d+)?)"
 _GAIN_PHRASES = (      # how a projected gain is worded, not any "N points" (a player's total or last score is not a gain)
     re.compile(_NUM + r"[\s-]*(?:more|extra|additional|better)\s+(?:\w+\s+)?(?:points?|pts)\b", re.IGNORECASE),

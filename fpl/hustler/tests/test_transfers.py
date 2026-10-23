@@ -191,19 +191,19 @@ class TestMoveThresholds(unittest.TestCase):
         result = self.run_it("I'd hold. Beta has 3.6 pts and is fine.", False, with_gains(1.4))
         self.assertFalse(result.human_required, result.human_reason)
 
-    def test_a_single_move_needs_two_points(self):
-        low = self.run_it("Swap Beta for Gamma, roughly 1.8 more points.", True, with_gains(1.8))
+    def test_a_single_move_needs_one_point(self):
+        low = self.run_it("Swap Beta for Gamma, roughly 0.8 more points.", True, with_gains(0.8))
         self.assertTrue(low.human_required)
         self.assertIn("threshold", low.human_reason)
-        ok = self.run_it("Swap Beta for Gamma, roughly 2.5 more points.", True, with_gains(2.5))
+        ok = self.run_it("Swap Beta for Gamma, roughly 1.5 more points.", True, with_gains(1.5))
         self.assertFalse(ok.human_required, ok.human_reason)
 
-    def test_a_set_of_moves_needs_five_points(self):
-        view = with_gains(1.0, set_gain=4.5)
-        low = self.run_it("Swap Beta for Gamma and Delta for Eps, roughly 4.5 more points.", True, view)
+    def test_a_set_of_moves_needs_three_points(self):
+        view = with_gains(0.5, set_gain=2.5)
+        low = self.run_it("Swap Beta for Gamma and Delta for Eps, roughly 2.5 more points.", True, view)
         self.assertTrue(low.human_required)
-        view = with_gains(1.0, set_gain=5.5)
-        ok = self.run_it("Swap Beta for Gamma and Delta for Eps, roughly 5.5 more points.", True, view)
+        view = with_gains(0.5, set_gain=3.5)
+        ok = self.run_it("Swap Beta for Gamma and Delta for Eps, roughly 3.5 more points.", True, view)
         self.assertFalse(ok.human_required, ok.human_reason)
 
     def test_a_recommended_move_must_name_a_planner_replacement(self):
@@ -224,8 +224,8 @@ class TestMoveThresholds(unittest.TestCase):
 
     def test_the_prompt_states_the_thresholds_and_the_fixture_first_order(self):
         from fpl.hustler.analyse import _SYSTEM, _SCHEMA
-        self.assertIn("at least 2 points", _SYSTEM)
-        self.assertIn("at least 5", _SYSTEM)
+        self.assertIn("at least 1 point", _SYSTEM)
+        self.assertIn("at least 3", _SYSTEM)
         self.assertIn("next fixture", _SYSTEM)
         self.assertIn("recommends_move", _SCHEMA["required"])
 
