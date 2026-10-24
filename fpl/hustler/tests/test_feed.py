@@ -220,3 +220,12 @@ class TestSafety(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestSources(unittest.TestCase):
+    def test_both_subreddits_are_configured_with_the_same_policy(self):
+        from fpl.hustler.feed import ASK_SOURCE, SOURCE, SOURCES, source_for
+        self.assertEqual([s.community for s in SOURCES], ["FPLRateMyTeam", "AskFPLManagers"])
+        self.assertEqual(ASK_SOURCE.policy, SOURCE.policy)
+        self.assertIs(source_for("askfplmanagers"), ASK_SOURCE)
+        self.assertIs(source_for(None), SOURCE)

@@ -24,6 +24,22 @@ SOURCE = Source(
     notes="Every post is a rate-my-team request; read via public RSS.",
 )
 
+ASK_SOURCE = Source(
+    source_id="reddit-askfplmanagers",
+    platform=Platform.REDDIT,
+    community="AskFPLManagers",
+    url="https://www.reddit.com/r/AskFPLManagers/",
+    policy=CommunityPolicy(),
+    notes="Mostly squad-screenshot questions; same handling as r/FPLRateMyTeam. Posts without a squad image are skipped.",
+)
+
+SOURCES = (SOURCE, ASK_SOURCE)
+
+
+def source_for(community):
+    """The configured source for a subreddit name (case-insensitive); the first source when unknown or empty."""
+    return next((s for s in SOURCES if s.community.lower() == (community or "").lower()), SOURCES[0])
+
 
 @dataclass(frozen=True)
 class FeedItem:
