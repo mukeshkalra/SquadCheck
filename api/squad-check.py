@@ -15,6 +15,7 @@ Security
 
 import sys
 import io
+import gzip
 import cgi
 import os
 import json
@@ -53,9 +54,13 @@ _FX_RETRY  = 60    # seconds to wait before retrying a failed fixtures fetch
 # ── FPL API helpers ───────────────────────────────────────────────────────────
 
 def _fetch(url: str, timeout: float = 15) -> dict:
-    req = urllib.request.Request(url, headers=_HEADERS)
+    # Ask for gzip: the bootstrap is ~1.8 MB plain but ~0.17 MB gzipped (the plain download timed out when FPL was slow)
+    req = urllib.request.Request(url, headers={**_HEADERS, "Accept-Encoding": "gzip"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read())
+        raw = r.read()
+        if (r.headers.get("Content-Encoding") or "").lower() == "gzip":
+            raw = gzip.decompress(raw)
+        return json.loads(raw)
 
 
 def _bootstrap() -> dict:

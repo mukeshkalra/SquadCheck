@@ -152,6 +152,17 @@ class TestFailuresDoNotCrash(unittest.TestCase):
         self.assertIn("vision down", result.human_reason)
         self.assertEqual(llm.calls, [])
 
+    def test_bootstrap_timeout_is_not_reported_as_scanner_failure(self):
+        class Slow(FakeData):
+            def bootstrap(self):
+                raise TimeoutError("The read operation timed out")
+        llm = FakeLLM(grounded)
+        result = analyse(FakeAdapter(), CONV, Slow(), scan=FULL_SCAN, llm=llm)
+        self.assertTrue(result.human_required)
+        self.assertIn("FPL data unavailable", result.human_reason)
+        self.assertNotIn("Scanner failed", result.human_reason)
+        self.assertEqual(llm.calls, [])
+
     def test_scanner_unsupported(self):
         result, _ = run(scan=lambda i, e: {"status": "UNSUPPORTED", "players": [], "message": "no"})
         self.assertTrue(result.human_required)

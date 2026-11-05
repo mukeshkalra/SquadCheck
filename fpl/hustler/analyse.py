@@ -268,6 +268,9 @@ def analyse(adapter, conversation, data, scan=scan_squad, llm=None, picks=None, 
         return human(f"Could not retrieve the image: {exc}")
     try:
         bootstrap = data.bootstrap()
+    except Exception as exc:
+        return human(f"FPL data unavailable (try again shortly): {type(exc).__name__}: {exc}")
+    try:
         scan_result = scan(image, bootstrap.get("elements", []))
     except Exception as exc:
         return human(f"Scanner failed to run: {type(exc).__name__}: {exc}")
