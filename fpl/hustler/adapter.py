@@ -41,7 +41,9 @@ def http_get(url, headers):
         with urllib.request.urlopen(request, timeout=20) as response:
             return response.read(_MAX_IMAGE_BYTES + 1)
     except urllib.error.HTTPError as exc:
-        raise SourceUnavailable(f"HTTP {exc.code} from {urllib.parse.urlparse(url).netloc}") from exc
+        wait = exc.headers.get("Retry-After") if exc.code == 429 and exc.headers else None
+        raise SourceUnavailable(f"HTTP {exc.code} from {urllib.parse.urlparse(url).netloc}"
+                                + (f" (Reddit asks to wait {wait}s)" if wait else "")) from exc
     except urllib.error.URLError as exc:
         raise SourceUnavailable(f"Could not reach {urllib.parse.urlparse(url).netloc}: {exc.reason}") from exc
 
