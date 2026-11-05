@@ -92,11 +92,20 @@ _ALL_CAPS_TOKEN = re.compile(r'^[A-Z]{2,}$')   # team codes, sponsors
 
 # ── Bootstrap name helpers ────────────────────────────────────────────────────
 
+# OCR sometimes returns Greek/Cyrillic letters that look like Latin ones ("Pau" read as "Ραυ").
+# Map the lookalikes (lowercase, applied after .lower()) so those names still match; without this
+# they were stripped to nothing and the player went missing.
+_LOOKALIKES = str.maketrans({
+    "α": "a", "ο": "o", "ρ": "p", "υ": "u", "ν": "v", "ε": "e", "ι": "i", "κ": "k", "τ": "t", "χ": "x",
+    "а": "a", "е": "e", "о": "o", "р": "p", "с": "c", "у": "y", "х": "x", "і": "i", "ј": "j",
+})
+
+
 def _norm_name(name: str) -> str:
-    """NFKD → strip combining marks → lowercase → a-z only."""
+    """NFKD → strip combining marks → lowercase → Latin lookalikes → a-z only."""
     nfkd = unicodedata.normalize("NFKD", name)
     no_marks = "".join(c for c in nfkd if unicodedata.category(c) != "Mn")
-    return re.sub(r"[^a-z]", "", no_marks.lower())
+    return re.sub(r"[^a-z]", "", no_marks.lower().translate(_LOOKALIKES))
 
 
 def _bootstrap_known(elements: list) -> dict:

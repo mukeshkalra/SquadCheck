@@ -794,6 +794,20 @@ class TestPayloadAuditFields(unittest.TestCase):
                 "player %s missing inputs.is_home" % p.get("web_name"))
 
 
+class TestOcrLookalikeLetters(unittest.TestCase):
+    """OCR returned Greek 'Ραυ' for the FPL name 'Pau'; it was stripped to nothing and the player went missing."""
+
+    def test_greek_lookalikes_normalise_to_latin(self):
+        from fpl.engine.scanner import _norm_name
+        self.assertEqual(_norm_name("\u03a1\u03b1\u03c5"), "pau")      # Ρας... "Ραυ"
+        self.assertEqual(_norm_name("Pau"), "pau")
+
+    def test_lookalike_name_resolves_to_the_player(self):
+        from fpl.engine.pipeline import _find_id
+        els = [{"id": 34, "web_name": "Pau", "second_name": "Torres", "first_name": "Pau", "element_type": 2, "team": 2}]
+        self.assertEqual(_find_id("\u03a1\u03b1\u03c5", els), (34, 2))
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # RUNNER
 # ─────────────────────────────────────────────────────────────────────────────
