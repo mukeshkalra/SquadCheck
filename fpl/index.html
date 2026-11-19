@@ -746,6 +746,65 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .proj-back{display:inline-flex;align-items:center;gap:6px;margin:16px 16px 0;padding:6px 0;background:transparent;border:0;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--gray)}
 .proj-back:hover{color:var(--white)}
 .proj-sub{font-size:13px;color:var(--gray);margin:-2px 0 4px}
+/* ── HOME (hm-*) ─────────────────────────────────────────────────────────── */
+.hm{padding:14px 18px 40px;max-width:1040px;margin:0 auto}
+.hm-hero{padding-block:8px 26px;max-width:520px}
+.hm-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--lime)}
+.hm-dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px var(--lime-t)}
+.hm-h1{font-size:clamp(34px,10vw,58px);font-weight:900;line-height:1.03;letter-spacing:-.035em;margin:14px 0 0;text-wrap:balance}
+.hm-h1 em{font-style:normal;color:var(--lime)}
+.hm-lead{font-size:17px;color:#C9C9D0;margin:14px 0 22px;max-width:26em}
+.hm .up-cta{margin-top:0}
+.hm .up-trust{margin-top:14px}
+.hm .shot-reveal{margin-top:12px}
+.hm-peek{margin-top:22px;background:linear-gradient(180deg,#15151a,var(--d2));border:1px solid var(--border2);border-radius:20px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.hm-peek-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:2px 2px 10px}
+.hm-peek-t{display:flex;align-items:baseline;gap:8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);font-weight:700}
+.hm-peek-n{font:500 26px/1 'DM Mono',ui-monospace,monospace;color:var(--lime);letter-spacing:-.03em;text-transform:none}
+.hm-prow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--d3);border:1px solid var(--border);border-radius:11px;padding:8px 10px;margin-top:6px}
+.hm-prow .hm-ic{width:30px;height:30px;border-radius:9px;font-size:12px}
+.hm-k{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);font-weight:600;line-height:1.2}
+.hm-v{font-weight:700;font-size:14.5px;overflow-wrap:anywhere;line-height:1.25}
+.hm-g{font:500 13px 'DM Mono',ui-monospace,monospace;color:var(--lime);white-space:nowrap}
+.hm-g.q2{color:var(--amber)}
+.hm-ex{flex:none;font:500 10px 'DM Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(255,181,71,.4);background:rgba(255,181,71,.1);padding:3px 7px;border-radius:6px}
+.hm-sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:8px 0 14px;flex-wrap:wrap}
+.hm-sec-h h2{font-size:clamp(22px,6vw,30px);font-weight:900;letter-spacing:-.025em;text-wrap:balance;margin:0}
+.hm-cards{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.hm-card{display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg,#15151a,var(--d2));border:1px solid var(--border2);border-radius:20px;padding:18px}
+.hm-q{display:flex;gap:12px;align-items:center}
+.hm-q h3{font-size:20px;font-weight:800;letter-spacing:-.015em;line-height:1.15;margin:0}
+.hm-ic{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font:700 14px 'Outfit',sans-serif;background:var(--d4)}
+.hm-ic.c{background:rgba(255,107,74,.16);color:var(--coral)}
+.hm-ic.b{background:rgba(74,158,255,.18);color:var(--blue)}
+.hm-ic.t{background:rgba(61,204,110,.16);color:var(--green)}
+.hm-ic.k{background:rgba(255,181,71,.16);color:var(--amber)}
+.hm-ans{font-size:14.5px;color:#C9C9D0;margin:0}
+.hm-out{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--d3);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.hm-out>div{min-width:0}
+.hm-out .hm-v{font-size:16px}
+.hm-out .hm-g{font-size:14px}
+.hm-mine{align-self:flex-start;cursor:pointer;padding:4px 0;color:var(--white);font-weight:700;font-size:14px;text-decoration:underline;text-decoration-color:var(--lime);text-underline-offset:4px}
+.hm-mine::after{content:" →";color:var(--lime)}
+.hm-freeb{margin-block:36px;display:flex;gap:18px;align-items:center;background:var(--lime-t);border:1.5px solid var(--lime-b);border-radius:20px;padding:20px}
+.hm-zero{font-size:52px;font-weight:900;letter-spacing:-.04em;color:var(--lime);line-height:1}
+.hm-freeb h2{font-size:20px;font-weight:900;letter-spacing:-.01em;text-wrap:balance;line-height:1.2;margin:0}
+.hm-freeb p{color:#C9C9D0;font-size:14.5px;margin:2px 0 0}
+.hm-final{text-align:center;padding-block:6px 20px;max-width:480px;margin:0 auto}
+.hm-final h2{font-size:clamp(26px,7vw,36px);font-weight:900;letter-spacing:-.025em;text-wrap:balance;margin:0 0 18px}
+.hm-method{display:inline-block;margin-top:16px;color:var(--gray);font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.hm-foot{border-top:1px solid var(--border);padding:18px 0 96px;margin:0;font-size:12px;color:var(--gray)}
+.hm-sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(10,10,12,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--border2);transform:translateY(110%);transition:transform .25s ease;visibility:hidden}
+.hm-sticky.on{transform:none;visibility:visible}
+.hm-sticky .up-cta{margin:0}
+@media(prefers-reduced-motion:reduce){.hm-sticky{transition:none}}
+@media(min-width:860px){
+  .hm-hero{max-width:none;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center;padding-block:36px 48px}
+  .hm-peek{margin-top:0}
+  .hm-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .hm-sticky{display:none!important}
+  .hm-foot{padding-bottom:24px}
+}
 </style>
 </head>
 <body>
@@ -763,136 +822,100 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
 <!-- ══════════════════════ UPLOAD ══════════════════════ -->
 <section id="s-upload" class="screen active">
-<div class="up-wrap">
+<div class="hm">
 
-  <div class="live-pill">
-    <span class="live-dot"></span>
-    <span class="live-text">FPL &nbsp;·&nbsp; Free</span>
-  </div>
-
-  <h1 class="up-h1">How's your squad<br><em>looking this GW?</em></h1>
-  <p class="up-sub">Your FPL points forecast, captain pick and bench swap — in seconds. Plus a free Transfer Planner for your next move.</p>
-
-  <input type="file" id="file-input" accept="image/*" aria-label="Upload FPL squad screenshot">
-  <label class="up-cta" for="file-input">
-    <svg class="up-cta-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-      <path d="M9 2v9M5.5 5.5L9 2l3.5 3.5" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M3 13.5v1A1.5 1.5 0 004.5 16h9a1.5 1.5 0 001.5-1.5v-1" stroke="#000" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
-    Check my team's points — Free
-  </label>
-
-  <p class="up-trust">
-    <span>✓ Free</span>
-    <span class="up-trust-sep"></span>
-    <span>✓ No login</span>
-    <span class="up-trust-sep"></span>
-    <span>✓ No FPL ID</span>
-  </p>
-
-  <div class="up-hint">
-    <p class="up-hint-main">Just send us your team.</p>
-    <p class="up-hint-sub">Pitch View · whole pitch and all 4 subs visible</p>
-    <details class="shot-reveal">
-      <summary>What screenshot? ↓</summary>
-      <div class="shot-reveal-body">
-        <img src="/fpl/test_images/pitch-view-example-v2.png"
-             alt="FPL squad Pitch View screenshot — all 15 players visible including 4 substitutes"
-             class="shot-reveal-img"
-             loading="lazy">
-        <p class="shot-reveal-note">Open the FPL app → your Squad tab → Pitch View. Screenshot when the whole pitch and all 4 substitutes are on screen.</p>
-      </div>
-    </details>
-  </div>
-
-  <div class="ft-wrap" id="features">
-    <p class="ft-eyebrow">What you get</p>
-    <div class="ft-grid">
-      <a class="ft-tile" href="#ex-hero"><span class="ft-tile-no">1</span><span class="ft-tile-t">Projection</span><span class="ft-tile-d">Projected points for your XI this gameweek, player by player.</span></a>
-      <a class="ft-tile ft-plan" href="#ex-plan"><span class="ft-tile-no">2</span><span class="ft-tile-t">Free Transfer Planner<span class="ft-new">New</span></span><span class="ft-tile-d">Should you use your free transfer? Pick a game plan and see ranked ideas for the next gameweek, with any points hit counted. It opens from your results after you check your team.</span></a>
-      <a class="ft-tile" href="#ex-bench"><span class="ft-tile-no">3</span><span class="ft-tile-t">Bench advice</span><span class="ft-tile-d">The best legal swap between your XI and your bench.</span></a>
-      <a class="ft-tile" href="#ex-captain"><span class="ft-tile-no">4</span><span class="ft-tile-t">Captain's call</span><span class="ft-tile-d">Who to give the armband, compared with your current pick.</span></a>
-    </div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════ EXAMPLE RESULT ══════════════════════ -->
-<div class="ex-wrap">
-
-  <div class="ex-eyebrow-row">
-    <span class="ex-eyebrow">Example Result</span>
-  </div>
-
-  <div class="ex-hero" id="ex-hero">
+  <div class="hm-hero" id="hm-top">
     <div>
-      <div class="ex-pts-num">80</div>
-      <div class="ex-pts-label">pts projected for your current XI</div>
-    </div>
-    <div class="ex-hold">
-      <div class="ex-hold-badge">HOLD ✓</div>
-    </div>
-  </div>
-  <p class="ex-upside">Your squad looks good. There's ~9 pts of upside.</p>
+      <div class="hm-eyebrow"><span class="hm-dot"></span>Free FPL gameweek planner</div>
+      <h1 class="hm-h1">Transfers, chips, bench, captain. <em>Sorted every gameweek.</em></h1>
+      <p class="hm-lead">Beat your mini-league before the deadline.</p>
 
-  <div class="ex-calls">
-    <div class="ex-call" id="ex-captain">
-      <img class="ex-call-photo"
-           src="/fpl/test_images/player-haaland.png"
-           alt="Haaland">
-      <div class="ex-call-body">
-        <div class="ex-call-header">
-          <span class="ex-call-type">Captain Call</span>
-          <span class="ex-call-gain">+6 pts</span>
+      <input type="file" id="file-input" accept="image/*" aria-label="Upload FPL squad screenshot">
+      <label class="up-cta hm-cta" for="file-input" id="hm-main-cta">
+        <svg class="up-cta-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M9 2v9M5.5 5.5L9 2l3.5 3.5" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 13.5v1A1.5 1.5 0 004.5 16h9a1.5 1.5 0 001.5-1.5v-1" stroke="#000" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Upload your squad screenshot — Free
+      </label>
+      <p class="up-trust">
+        <span>✓ Free</span><span class="up-trust-sep"></span><span>✓ No login</span><span class="up-trust-sep"></span><span>✓ No FPL ID</span>
+      </p>
+      <details class="shot-reveal">
+        <summary>What screenshot? ↓</summary>
+        <div class="shot-reveal-body">
+          <img src="/fpl/test_images/pitch-view-example-v2.png"
+               alt="FPL squad Pitch View screenshot — all 15 players visible including 4 substitutes"
+               class="shot-reveal-img" loading="lazy">
+          <p class="shot-reveal-note">Open the FPL app → your Squad tab → Pitch View. Screenshot when the whole pitch and all 4 substitutes are on screen.</p>
         </div>
-        <div class="ex-call-name">Haaland</div>
-        <p class="ex-call-note">Switch the armband vs your current captain.</p>
-      </div>
+      </details>
     </div>
-    <div class="ex-call" id="ex-bench">
-      <img class="ex-call-photo"
-           src="/fpl/test_images/player-rogers.png"
-           alt="Rogers">
-      <div class="ex-call-body">
-        <div class="ex-call-header">
-          <span class="ex-call-type">Bench Call</span>
-          <span class="ex-call-gain">+3 pts</span>
-        </div>
-        <div class="ex-call-name">Rogers</div>
-        <p class="ex-call-note">Start him over your current bench option.</p>
-      </div>
+
+    <div class="hm-peek" aria-label="Example of what you get">
+      <div class="hm-peek-h"><span class="hm-peek-t">Example forecast <span class="hm-peek-n">71.6 pts</span></span><span class="hm-ex">Example</span></div>
+      <div class="hm-prow"><span class="hm-ic t">T</span><div><div class="hm-k">Transfer</div><div class="hm-v">Gordon → Saka</div></div><span class="hm-g">+2.4</span></div>
+      <div class="hm-prow"><span class="hm-ic k">★</span><div><div class="hm-k">Chip</div><div class="hm-v">Hold this week</div></div><span class="hm-g q2">Wait</span></div>
+      <div class="hm-prow"><span class="hm-ic b">B</span><div><div class="hm-k">Bench swap</div><div class="hm-v">Muñoz ⇄ Ream</div></div><span class="hm-g">+3.1</span></div>
+      <div class="hm-prow"><span class="hm-ic c">C</span><div><div class="hm-k">Captain</div><div class="hm-v">Haaland</div></div><span class="hm-g">6.4</span></div>
     </div>
   </div>
 
-  <div class="ex-plan" id="ex-plan">
-    <div class="ex-plan-eg">Example only · made-up numbers · not real planner output</div>
-    <div class="ex-plan-q">Should you use your free transfer?</div>
-    <div class="ex-plan-move">Swap Defender A for Defender B</div>
-    <div class="ex-plan-gain">+1.2 pts next gameweek (example number) · uses your free transfer, no hit</div>
-    <p class="ex-plan-note">Illustration with example numbers, not your squad. The planner ranks ideas by points gained next gameweek after any hit, and shows a separate, provisional three-gameweek outlook. Your results page opens the planner once your team has been checked.</p>
-  </div>
+  <section aria-labelledby="hm-qh">
+    <div class="hm-sec-h"><h2 id="hm-qh">Four calls that move your points</h2><span class="hm-ex">Example output · made-up numbers</span></div>
+    <div class="hm-cards">
+      <article class="hm-card">
+        <div class="hm-q"><span class="hm-ic t">T</span><h3>Who do I buy?</h3></div>
+        <p class="hm-ans">Ranked transfer ideas with the reasoning, using your free transfers and bank.</p>
+        <div class="hm-out"><div><div class="hm-k">Transfer plan</div><div class="hm-v">Gordon → Saka</div></div><span class="hm-g">+2.4 pts</span></div>
+        <label class="hm-mine" for="file-input">Get mine</label>
+      </article>
+      <article class="hm-card">
+        <div class="hm-q"><span class="hm-ic k">★</span><h3>When do I use a chip?</h3></div>
+        <p class="hm-ans">Triple Captain, Bench Boost, Free Hit and Wildcard. Play now or hold, with the checks shown.</p>
+        <div class="hm-out"><div><div class="hm-k">Chip strategy</div><div class="hm-v">Hold this week</div></div><span class="hm-g q2">Wait</span></div>
+        <label class="hm-mine" for="file-input">Get mine</label>
+      </article>
+      <article class="hm-card">
+        <div class="hm-q"><span class="hm-ic b">B</span><h3>Who sits on my bench?</h3></div>
+        <p class="hm-ans">The swap that adds the most points, with the formation kept legal.</p>
+        <div class="hm-out"><div><div class="hm-k">Bench swap</div><div class="hm-v">Muñoz ⇄ Ream</div></div><span class="hm-g">+3.1 pts</span></div>
+        <label class="hm-mine" for="file-input">Get mine</label>
+      </article>
+      <article class="hm-card">
+        <div class="hm-q"><span class="hm-ic c">C</span><h3>Who do I captain?</h3></div>
+        <p class="hm-ans">The highest projected score among players likely to play, doubled.</p>
+        <div class="hm-out"><div><div class="hm-k">Captain</div><div class="hm-v">Haaland</div></div><span class="hm-g">6.4 xPts</span></div>
+        <label class="hm-mine" for="file-input">Get mine</label>
+      </article>
+    </div>
+  </section>
 
-  <a href="/fpl/model.html" class="ex-method">
-    <div class="ex-method-title">How we calculate your score →</div>
-    <div class="ex-method-sub">Data · xG · methodology</div>
-  </a>
+  <section class="hm-freeb" aria-label="Free">
+    <div class="hm-zero">£0</div>
+    <div><h2>Free. No login. No card.</h2><p>Every forecast, every gameweek.</p></div>
+  </section>
 
-  <div class="ex-cta-wrap">
-    <label class="up-cta" for="file-input">Check my team's points — Free</label>
-  </div>
+  <section class="hm-final" id="hm-end">
+    <h2>Check your squad before the deadline.</h2>
+    <label class="up-cta hm-cta" for="file-input">Upload your squad screenshot — Free</label>
+    <a href="/fpl/model.html" class="ex-method hm-method">See how the forecast works →</a>
+  </section>
 
+  <p class="hm-foot">Not affiliated with the Premier League or FPL.</p>
 </div>
 
-<!-- scroll hint — only visible while on upload screen, fades on scroll -->
-<div class="scroll-hint" id="scroll-hint" aria-hidden="true">
-  <span class="scroll-hint-label">Example below</span>
-  <div class="scroll-hint-arrow">
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-      <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-</div>
-
+<div class="hm-sticky" id="hm-stk"><label class="up-cta hm-cta" for="file-input">Get my free forecast</label></div>
+<script>
+(function(){
+  var stk=document.getElementById('hm-stk'),top=document.getElementById('hm-main-cta'),end=document.getElementById('hm-end'),out=false,inEnd=false;
+  function upd(){stk.classList.toggle('on',out&&!inEnd)}
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(e){out=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;upd()}).observe(top);
+    new IntersectionObserver(function(e){inEnd=e[0].isIntersecting;upd()}).observe(end);
+  }
+})();
+</script>
 </section>
 
 <!-- ══════════════════════ LOADING ══════════════════════ -->
@@ -1141,7 +1164,7 @@ document.addEventListener('click',e=>{
   const tile=e.target.closest&&e.target.closest('.ft-tile');
   if(tile){track('home_tile_clicked',{tile:(tile.getAttribute('href')||'').replace('#ex-','')});return;}
   const cta=e.target.closest&&e.target.closest('label.up-cta');
-  if(cta){track('upload_cta_clicked',{where:cta.closest('.ex-cta-wrap')?'examples':'hero'});return;}
+  if(cta){track('upload_cta_clicked',{where:cta.closest('.hm-final,.hm-sticky')?'examples':'hero'});return;}
   if(e.target.closest&&e.target.closest('a.ex-method'))track('methodology_link_clicked',{from:'examples'});
 });
 
