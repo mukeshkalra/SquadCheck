@@ -51,21 +51,39 @@ class TestHomeContent(unittest.TestCase):
 
     def test_no_features_that_are_not_built(self):
         t = text(UP).lower()
-        for claim in ("team name or fpl id", "reminder", "email you", "mini-league table"):
-            self.assertNotIn(claim, t)
-        self.assertNotIn('id="q"', UP)       # no ID/name search input until that flow exists
+        for claim in ("team name", "reminder", "email you", "mini-league table"):
+            self.assertNotIn(claim, t)      # there is no public team-name search, so it is not offered
 
     def test_free_no_login_no_card(self):
         self.assertIn("Free. No login. No card.", text(UP))
-        self.assertIn("No FPL ID", text(UP))
+        self.assertIn("No login", text(UP))
+
+
+class TestFplIdEntry(unittest.TestCase):
+    def test_id_form_exists_and_is_numeric(self):
+        self.assertIn('id="hm-form"', UP)
+        self.assertRegex(UP, r'<input id="hm-id"[^>]*inputmode="numeric"')
+        self.assertIn("Where do I find my FPL ID?", UP)
+
+    def test_every_other_cta_focuses_the_id_box(self):
+        self.assertEqual(UP.count('data-hm="focus"'), 6)       # four cards, final, sticky
+
+    def test_submit_goes_through_the_existing_manual_squad_path(self):
+        self.assertIn("fetch('/api/fpl-team'", HTML)
+        self.assertIn("body:JSON.stringify({manual_squad:t.manual_squad})", HTML)
+
+    def test_results_show_where_the_team_came_from(self):
+        self.assertIn('id="r-source"', HTML)
+        self.assertIn("renderSource", HTML)
+
+    def test_screenshot_upload_clears_the_id_source(self):
+        self.assertIn("_fplSource=null;\n  track('screenshot_uploaded'", HTML)
 
 
 class TestUploadStillWorks(unittest.TestCase):
-    def test_single_file_input_and_all_ctas_use_it(self):
+    def test_single_file_input_and_upload_link(self):
         self.assertEqual(HTML.count('id="file-input"'), 1)
-        labels = re.findall(r'<label class="[^"]*" for="file-input"', UP)
-        self.assertGreaterEqual(len(labels), 7)       # hero, four cards, final, sticky
-        self.assertNotIn('for="q"', UP)
+        self.assertEqual(len(re.findall(r'<label class="hm-up" for="file-input"', UP)), 1)
 
     def test_screenshot_help_is_kept(self):
         self.assertIn("What screenshot?", UP)

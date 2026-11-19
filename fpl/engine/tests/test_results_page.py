@@ -158,10 +158,11 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(HTML.count("location.href = '/fpl/planner.html'"), 1)            # one entry point, in openPlanner()
         self.assertEqual(re.findall(r"""href=["'][^"']*planner""", HTML), [])               # no plain link that would skip the handover
 
-    def test_the_no_login_trust_line_is_unchanged(self):
+    def test_the_no_login_trust_line(self):
+        # "No FPL ID" was dropped on purpose: the home page now accepts an FPL ID as well as a screenshot.
         up = self.section("s-upload")
         self.assertIn("<span>✓ No login</span>", up)
-        self.assertIn("<span>✓ No FPL ID</span>", up)
+        self.assertNotIn("No FPL ID", up)
         self.assertIn("<span>✓ Free</span>", up)
 
     def test_existing_analytics_events_are_kept_and_new_ones_registered(self):

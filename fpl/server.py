@@ -46,6 +46,7 @@ from fpl.engine.manual_squad import roster_offer, manual_scan_result, ManualSqua
 from fpl.engine.transfer_adapter import (FplDataSource, MAX_BODY_BYTES, PLAYERS_CACHE_CONTROL,
                                          handle as handle_transfer_plan, handle_players)
 from fpl.engine.chips_adapter import handle as handle_chips
+from fpl.engine.fpl_team import handle as handle_fpl_team
 
 # ── FPL API ───────────────────────────────────────────────────────────────────
 _BS_URL  = "https://fantasy.premierleague.com/api/bootstrap-static/"
@@ -294,6 +295,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if self.path.rstrip("/") == "/api/chips":
             self._chips()
             return
+        if self.path.rstrip("/") == "/api/fpl-team":
+            self._fpl_team()
+            return
         if self.path.rstrip("/") != "/api/squad-check":
             self.send_error(404)
             return
@@ -335,6 +339,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
         print("  transfer-plan  http=%s  status=%s" % (status, payload.get("status")))
+
+    def _fpl_team(self):
+        """Same handler as api/fpl-team.py."""
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        if length > MAX_BODY_BYTES:
+            status, payload = 413, {"status": "BAD_REQUEST", "error": "Request body too large", "details": []}
+        else:
+            status, payload = handle_fpl_team(self.rfile.read(length), _TRANSFER_SOURCE)
+        body = json.dumps(payload, ensure_ascii=False).encode()
+        self.send_response(status)
+        self._cors()
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+        print("  fpl-team  http=%s  status=%s" % (status, payload.get("status")))
 
     def _chips(self):
         """Same handler as api/chips.py; shares the transfer-plan source (one bootstrap cache)."""

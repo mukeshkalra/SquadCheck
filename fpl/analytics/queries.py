@@ -45,6 +45,7 @@ _EXPECTED_EVENTS = {
     "add_to_home_screen",
     # chip check on the results page
     "chips_check_clicked", "chips_check_failed", "chips_result_shown",
+    "fpl_id_submitted", "fpl_id_failed",
     # bench / captain step (squad read, XI and bench not)
     "bench_step_shown", "bench_step_progress", "bench_step_invalid", "bench_step_captain_skipped",
     "bench_step_reupload_clicked", "bench_step_submitted", "bench_step_failed", "bench_step_completed",
