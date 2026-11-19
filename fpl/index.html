@@ -755,6 +755,15 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hm-h1 em{font-style:normal;color:var(--lime)}
 .hm-lead{font-size:17px;color:#C9C9D0;margin:14px 0 22px;max-width:26em}
 .hm .up-cta{margin-top:0}
+.hm-field{display:flex;align-items:center;gap:10px;background:var(--d2);border:1.5px solid var(--border2);border-radius:14px;padding:0 16px;margin-bottom:10px}
+.hm-field:focus-within{border-color:var(--lime);box-shadow:0 0 0 4px var(--lime-t)}
+.hm-field svg{flex:none;color:var(--gray)}
+.hm-field input{flex:1;min-width:0;background:none;border:0;outline:none;padding:16px 0;font:inherit;font-size:16.5px;color:var(--white)}
+.hm-msg{margin:10px 0 0;font-size:13px;color:var(--amber);min-height:18px}
+.hm-idhelp{margin-top:8px;font-size:13px;color:var(--gray)}.hm-idhelp summary{cursor:pointer;padding:4px 0}.hm-idhelp p{margin:6px 0 0;line-height:1.5}
+.hm-alt{margin:12px 0 0;text-align:center;font-size:14px;color:var(--gray)}
+.hm-up{cursor:pointer;color:var(--white);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+button.hm-mine{background:none;border-top:0;border-left:0;border-right:0;font-family:inherit}
 .hm .up-trust{margin-top:14px}
 .hm .shot-reveal{margin-top:12px}
 .hm-peek{margin-top:22px;background:linear-gradient(180deg,#15151a,var(--d2));border:1px solid var(--border2);border-radius:20px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
@@ -830,16 +839,21 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
       <h1 class="hm-h1">Transfers, chips, bench, captain. <em>Sorted every gameweek.</em></h1>
       <p class="hm-lead">Beat your mini-league before the deadline.</p>
 
+      <form class="hm-go" id="hm-form" autocomplete="off" novalidate>
+        <label class="hm-field" for="hm-id">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <input id="hm-id" type="text" inputmode="numeric" pattern="[0-9]*" autocapitalize="off" spellcheck="false" maxlength="9" placeholder="Your FPL ID, e.g. 1234567" aria-describedby="hm-msg">
+        </label>
+        <button class="up-cta hm-cta" type="submit" id="hm-main-cta">Get my forecast — Free</button>
+        <p class="hm-msg" id="hm-msg" role="status" aria-live="polite"></p>
+        <details class="hm-idhelp"><summary>Where do I find my FPL ID? ↓</summary>
+          <p>On the FPL website, open Points and look at the web address: the number after <b>/entry/</b> is your ID.</p>
+        </details>
+      </form>
       <input type="file" id="file-input" accept="image/*" aria-label="Upload FPL squad screenshot">
-      <label class="up-cta hm-cta" for="file-input" id="hm-main-cta">
-        <svg class="up-cta-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-          <path d="M9 2v9M5.5 5.5L9 2l3.5 3.5" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3 13.5v1A1.5 1.5 0 004.5 16h9a1.5 1.5 0 001.5-1.5v-1" stroke="#000" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-        Upload your squad screenshot — Free
-      </label>
+      <p class="hm-alt">No ID handy? <label class="hm-up" for="file-input">Upload a screenshot</label></p>
       <p class="up-trust">
-        <span>✓ Free</span><span class="up-trust-sep"></span><span>✓ No login</span><span class="up-trust-sep"></span><span>✓ No FPL ID</span>
+        <span>✓ Free</span><span class="up-trust-sep"></span><span>✓ No login</span><span class="up-trust-sep"></span><span>✓ Nothing saved</span>
       </p>
       <details class="shot-reveal">
         <summary>What screenshot? ↓</summary>
@@ -868,25 +882,25 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
         <div class="hm-q"><span class="hm-ic t">T</span><h3>Who do I buy?</h3></div>
         <p class="hm-ans">Ranked transfer ideas with the reasoning, using your free transfers and bank.</p>
         <div class="hm-out"><div><div class="hm-k">Transfer plan</div><div class="hm-v">Gordon → Saka</div></div><span class="hm-g">+2.4 pts</span></div>
-        <label class="hm-mine" for="file-input">Get mine</label>
+        <button type="button" class="hm-mine" data-hm="focus">Get mine</button>
       </article>
       <article class="hm-card">
         <div class="hm-q"><span class="hm-ic k">★</span><h3>When do I use a chip?</h3></div>
         <p class="hm-ans">Triple Captain, Bench Boost, Free Hit and Wildcard. Play now or hold, with the checks shown.</p>
         <div class="hm-out"><div><div class="hm-k">Chip strategy</div><div class="hm-v">Hold this week</div></div><span class="hm-g q2">Wait</span></div>
-        <label class="hm-mine" for="file-input">Get mine</label>
+        <button type="button" class="hm-mine" data-hm="focus">Get mine</button>
       </article>
       <article class="hm-card">
         <div class="hm-q"><span class="hm-ic b">B</span><h3>Who sits on my bench?</h3></div>
         <p class="hm-ans">The swap that adds the most points, with the formation kept legal.</p>
         <div class="hm-out"><div><div class="hm-k">Bench swap</div><div class="hm-v">Muñoz ⇄ Ream</div></div><span class="hm-g">+3.1 pts</span></div>
-        <label class="hm-mine" for="file-input">Get mine</label>
+        <button type="button" class="hm-mine" data-hm="focus">Get mine</button>
       </article>
       <article class="hm-card">
         <div class="hm-q"><span class="hm-ic c">C</span><h3>Who do I captain?</h3></div>
         <p class="hm-ans">The highest projected score among players likely to play, doubled.</p>
         <div class="hm-out"><div><div class="hm-k">Captain</div><div class="hm-v">Haaland</div></div><span class="hm-g">6.4 xPts</span></div>
-        <label class="hm-mine" for="file-input">Get mine</label>
+        <button type="button" class="hm-mine" data-hm="focus">Get mine</button>
       </article>
     </div>
   </section>
@@ -898,16 +912,18 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
   <section class="hm-final" id="hm-end">
     <h2>Check your squad before the deadline.</h2>
-    <label class="up-cta hm-cta" for="file-input">Upload your squad screenshot — Free</label>
+    <button type="button" class="up-cta hm-cta" data-hm="focus">Get my forecast — Free</button>
     <a href="/fpl/model.html" class="ex-method hm-method">See how the forecast works →</a>
   </section>
 
   <p class="hm-foot">Not affiliated with the Premier League or FPL.</p>
 </div>
 
-<div class="hm-sticky" id="hm-stk"><label class="up-cta hm-cta" for="file-input">Get my free forecast</label></div>
+<div class="hm-sticky" id="hm-stk"><button type="button" class="up-cta hm-cta" data-hm="focus">Get my free forecast</button></div>
 <script>
 (function(){
+  var idf=document.getElementById('hm-id');
+  Array.prototype.forEach.call(document.querySelectorAll('[data-hm=focus]'),function(b){b.addEventListener('click',function(){idf.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){idf.focus()},350)})});
   var stk=document.getElementById('hm-stk'),top=document.getElementById('hm-main-cta'),end=document.getElementById('hm-end'),out=false,inEnd=false;
   function upd(){stk.classList.toggle('on',out&&!inEnd)}
   if('IntersectionObserver' in window){
@@ -989,6 +1005,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   <!-- YOUR CALLS: planner entry, then Bench and Captain as tap-to-open tiles -->
   <div class="rblk" id="blk-calls">
     <div class="rb-hd"><span class="rb-t">Your calls this week</span></div>
+    <div id="r-source"></div>
     <div id="r-planner"></div>
     <div id="r-chips"></div>
     <div class="ct-row" id="r-calls">
@@ -1258,6 +1275,7 @@ function showError(status, message) {
 $('file-input').addEventListener('change', async function(){
   if(!this.files?.length) return;
   const f = this.files[0];
+  _fplSource=null;
   track('screenshot_uploaded', {file_size_kb: Math.round(f.size/1024), file_type: f.type});
   startLoading(null);
   const fd = new FormData();
@@ -1330,7 +1348,7 @@ $('file-input').addEventListener('change', async function(){
 function renderResult(p) {
   _fcTracked = false;
   // Wrap each section individually so a crash names the exact function
-  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderPlanner, renderChips, renderCalls, renderFinalCall];
+  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderSource, renderPlanner, renderChips, renderCalls, renderFinalCall];
   for (const fn of steps) {
     try { fn(p); }
     catch(e) {
@@ -1427,6 +1445,42 @@ function renderPlanner(p){
 </div>`;
   if(!h.ok) track('planner_cta_unavailable',{gw:p?.gameweek??null});
 }
+/* ── FPL ID entry: POST /api/fpl-team, then the same manual_squad path as the bench step ── */
+let _fplSource=null;
+function renderSource(p){
+  const el=$('r-source'); if(!el) return;
+  el.innerHTML=_fplSource?`<p class="pl-p" style="margin:12px 16px 0">${esc(_fplSource.team_name||'Your team')} · ${esc(_fplSource.note)}</p>`:'';
+}
+async function loadFromFplId(raw){
+  const msg=$('hm-msg'); const v=String(raw||'').trim();
+  if(!/^[0-9]{1,9}$/.test(v)){ msg.textContent='Enter your FPL ID: numbers only, for example 1234567.'; track('fpl_id_failed',{reason:'format'}); return; }
+  msg.textContent=''; track('fpl_id_submitted',{});
+  startLoading(null);
+  try{
+    const r1=await fetch('/api/fpl-team',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fpl_id:parseInt(v,10)})});
+    const t=await r1.json();
+    if(!r1.ok||t.status!=='OK'){ stopLoading(); show('s-upload'); $('hm-msg').textContent=t.error||'We could not load that team. Try again, or upload a screenshot.'; track('fpl_id_failed',{reason:'lookup',http:r1.status}); return; }
+    const r2=await fetch('/api/squad-check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({manual_squad:t.manual_squad})});
+    if(!r2.ok) throw new Error('Server error '+r2.status);
+    const data=await r2.json();
+    if(data.error) throw new Error(data.error);
+    stopLoading();
+    if(data.status!=='OK'){ show('s-upload'); $('hm-msg').textContent=data.message||'We could not build a forecast for that team. Try uploading a screenshot.'; track('fpl_id_failed',{reason:'forecast'}); return; }
+    _fplSource={team_name:t.team_name,note:t.note,bank_m:t.bank_m};
+    _P=data; renderResult(data); show('s-result');
+    try{if(window.posthog)posthog.register({gw:data.gameweek});}catch(_){}
+    const st=(data.players||[]).filter(q=>q.is_starting);
+    const cp=data.captain_id?st.find(q=>q.player_id===data.captain_id):null;
+    track('scan_valid',{gw:data.gameweek,player_count:(data.players||[]).length,captain_name:cp?.web_name||null,via_fpl_id:true});
+    track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action,captain_name:cp?.web_name||null,via_fpl_id:true});
+  }catch(err){
+    stopLoading(); show('s-upload');
+    $('hm-msg').textContent='Something went wrong loading that team. Try again, or upload a screenshot.';
+    track('fpl_id_failed',{reason:'error'});
+  }
+}
+document.addEventListener('submit',function(e){ if(e.target&&e.target.id==='hm-form'){ e.preventDefault(); loadFromFplId($('hm-id').value); } });
+
 /* ── CHIPS: which chip to play this gameweek (POST /api/chips) ─────────── */
 const _CHIP_NAMES={'3xc':'Triple Captain','bboost':'Bench Boost','freehit':'Free Hit','wildcard':'Wildcard'};
 const _CHIP_STATUS={PLAY_NOW:'PLAY NOW',NOT_YET:'NOT YET',USE_BY:'USE BY NOW',CONSIDER:'CONSIDER',NOT_AVAILABLE:'NOT AVAILABLE'};
@@ -1439,7 +1493,7 @@ function renderChips(p){
   <p class="pl-p">Tick the chips you still have. We check each one against this gameweek only.</p>
   <div class="chip-opts">${Object.keys(_CHIP_NAMES).map(k=>`<label class="chip-opt"><input type="checkbox" value="${k}" checked> ${_CHIP_NAMES[k]}</label>`).join('')}</div>
   <div class="chip-row"><label>Free transfers <select id="chip-ft">${[0,1,2,3,4,5].map(n=>`<option ${n===1?'selected':''}>${n}</option>`).join('')}</select></label>
-  <label>Bank £m <input id="chip-bank" type="number" step="0.1" min="0" max="100" value="0.0" inputmode="decimal"></label></div>
+  <label>Bank £m <input id="chip-bank" type="number" step="0.1" min="0" max="100" value="${(_fplSource&&_fplSource.bank_m!=null?_fplSource.bank_m:0).toFixed(1)}" inputmode="decimal"></label></div>
   <button class="share-btn" style="margin-bottom:0" onclick="checkChips()">Check my chips <span aria-hidden="true">→</span></button>
   <div id="chip-out" aria-live="polite"></div>
 </div>`;
