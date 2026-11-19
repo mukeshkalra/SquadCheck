@@ -22,7 +22,7 @@ CONDITIONAL = frozenset({
     "bench_step_shown", "bench_step_progress", "bench_step_invalid", "bench_step_captain_skipped",
     "bench_step_reupload_clicked", "bench_step_submitted", "bench_step_failed", "bench_step_completed",
     "planner_cta_unavailable", "planner_handover_failed", "planner_plans_failed", "planner_tweak_failed",
-    "planner_error",
+    "planner_error", "chips_check_failed",
 })
 
 BEHAVIOURAL = frozenset({
@@ -40,6 +40,7 @@ BEHAVIOURAL = frozenset({
     "planner_tweak_opened", "planner_tweak_run", "planner_tweak_result", "planner_tweak_used",
     "planner_save_prompt_opened", "planner_save_prompt_accepted", "planner_share_card_previewed",
     "planner_share_card_copied",
+    "chips_check_clicked", "chips_result_shown",
     "result_tile_toggled", "results_restored", "results_restore_failed", "planner_back_to_results",
     "planner_feedback_loved", "planner_feedback_useful", "planner_feedback_ok", "planner_feedback_bad",
 })

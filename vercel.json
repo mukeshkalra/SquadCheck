@@ -9,6 +9,7 @@
     }
   ],
   "functions": {
-    "api/transfer-plan.py": { "maxDuration": 60 }
+    "api/transfer-plan.py": { "maxDuration": 60 },
+    "api/chips.py": { "maxDuration": 60 }
   }
 }
