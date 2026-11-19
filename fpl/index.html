@@ -733,6 +733,12 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .cp .sec{padding-top:12px}
 .ct-hint{font-size:12px;color:var(--gray);text-align:center;margin:8px 16px 0}
 @media (prefers-reduced-motion:reduce){.cp,.ct,.ct-chev{transition:none}}
+.chip-opts{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 12px}.chip-opt{font-size:13.5px;display:flex;gap:6px;align-items:center}
+.chip-row{display:flex;flex-wrap:wrap;gap:10px 16px;margin:0 0 14px;font-size:13.5px}.chip-row input,.chip-row select{margin-left:6px;width:72px;padding:6px;border-radius:8px;border:1px solid var(--lime-b);background:var(--d2);color:inherit}
+#chip-out{margin-top:14px}.chip-head{font-size:17px;font-weight:900;margin:0 0 10px}
+.chip-c{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;margin:0 0 10px}.chip-c.go{border-color:var(--lime-b)}
+.chip-t{display:flex;justify-content:space-between;gap:8px}.chip-s{font-size:11px;letter-spacing:.06em;font-weight:800}
+.chip-l{font-size:13.5px;margin:6px 0}.chip-k{font-size:12.5px;margin:2px 0;color:var(--gray)}.chip-k.no{color:#ffb454}.chip-n{font-size:12.5px;margin:6px 0 0}
 .pl-card{margin:12px 16px 0;padding:16px;border:1.5px solid var(--lime-b);border-radius:var(--r-lg);background:linear-gradient(150deg,var(--lime-t),rgba(10,10,12,0) 75%),var(--d2)}
 .pl-h{font-size:20px;font-weight:900;letter-spacing:-.02em;line-height:1.15}
 .pl-p{font-size:13.5px;color:var(--gray);margin:6px 0 14px}
@@ -961,6 +967,7 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
   <div class="rblk" id="blk-calls">
     <div class="rb-hd"><span class="rb-t">Your calls this week</span></div>
     <div id="r-planner"></div>
+    <div id="r-chips"></div>
     <div class="ct-row" id="r-calls">
       <button type="button" class="ct" id="ct-bench" aria-expanded="false" aria-controls="cp-bench" onclick="toggleCall('bench')">
         <span class="ct-k">Bench swap</span><span class="ct-v" id="ct-bench-v"></span><span class="ct-d" id="ct-bench-d"></span><span class="ct-chev" aria-hidden="true"></span>
@@ -1300,7 +1307,7 @@ $('file-input').addEventListener('change', async function(){
 function renderResult(p) {
   _fcTracked = false;
   // Wrap each section individually so a crash names the exact function
-  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderPlanner, renderCalls, renderFinalCall];
+  const steps = [renderHero, renderPlayers, renderAwesome, renderCaptain, renderAttention, renderPlanner, renderChips, renderCalls, renderFinalCall];
   for (const fn of steps) {
     try { fn(p); }
     catch(e) {
@@ -1396,6 +1403,53 @@ function renderPlanner(p){
   <p class="pl-warn" id="pl-note" role="alert" style="display:none;margin-top:10px"></p>
 </div>`;
   if(!h.ok) track('planner_cta_unavailable',{gw:p?.gameweek??null});
+}
+/* ── CHIPS: which chip to play this gameweek (POST /api/chips) ─────────── */
+const _CHIP_NAMES={'3xc':'Triple Captain','bboost':'Bench Boost','freehit':'Free Hit','wildcard':'Wildcard'};
+const _CHIP_STATUS={PLAY_NOW:'PLAY NOW',NOT_YET:'NOT YET',USE_BY:'USE BY NOW',CONSIDER:'CONSIDER',NOT_AVAILABLE:'NOT AVAILABLE'};
+function renderChips(p){
+  const el=$('r-chips'); if(!el) return;
+  const h=plannerHandoff(p);
+  if(!h.ok){ el.innerHTML=''; return; }
+  el.innerHTML=`<div class="pl-card" id="chip-card">
+  <p class="pl-h">Which chip should you play?</p>
+  <p class="pl-p">Tick the chips you still have. We check each one against this gameweek only.</p>
+  <div class="chip-opts">${Object.keys(_CHIP_NAMES).map(k=>`<label class="chip-opt"><input type="checkbox" value="${k}" checked> ${_CHIP_NAMES[k]}</label>`).join('')}</div>
+  <div class="chip-row"><label>Free transfers <select id="chip-ft">${[0,1,2,3,4,5].map(n=>`<option ${n===1?'selected':''}>${n}</option>`).join('')}</select></label>
+  <label>Bank £m <input id="chip-bank" type="number" step="0.1" min="0" max="100" value="0.0" inputmode="decimal"></label></div>
+  <button class="share-btn" style="margin-bottom:0" onclick="checkChips()">Check my chips <span aria-hidden="true">→</span></button>
+  <div id="chip-out" aria-live="polite"></div>
+</div>`;
+}
+async function checkChips(){
+  const out=$('chip-out'); const h=plannerHandoff(_P);
+  if(!out||!h.ok) return;
+  const chips=[...document.querySelectorAll('#chip-card .chip-opt input:checked')].map(i=>i.value);
+  const bank=parseFloat($('chip-bank').value), ft=parseInt($('chip-ft').value,10);
+  if(!(bank>=0&&bank<=100)||Math.abs(bank*10-Math.round(bank*10))>1e-6){ out.innerHTML='<p class="pl-warn" role="alert">Bank must be a number in steps of 0.1, for example 0.5.</p>'; return; }
+  const starters=(_P.players||[]).filter(q=>q.is_starting).map(q=>q.player_id);
+  const body={squad_ids:h.data.squad_ids,bank_m:Math.round(bank*10)/10,free_transfers:ft,chips_available:chips};
+  if(starters.length===11) body.starter_ids=starters;
+  out.innerHTML='<p class="pl-p">Checking…</p>';
+  track('chips_check_clicked',{gw:_P?.gameweek??null,n:chips.length});
+  try{
+    const res=await fetch('/api/chips',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await res.json();
+    if(!res.ok){ out.innerHTML=`<p class="pl-warn" role="alert">${esc(d.error||'Chip check failed. Try again.')}</p>`; track('chips_check_failed',{http:res.status}); return; }
+    out.innerHTML=chipHtml(d);
+    track('chips_result_shown',{gw:d.gameweek,headline:d.headline?.status,chip:d.headline?.chip||null,degraded:d.status==='DEGRADED'});
+  }catch(_){ out.innerHTML='<p class="pl-warn" role="alert">Could not reach the chip checker. Try again in a moment.</p>'; track('chips_check_failed',{http:0}); }
+}
+function chipHtml(d){
+  const head=d.headline||{};
+  const rows=(d.chips||[]).map(c=>`<div class="chip-c ${c.status==='PLAY_NOW'||c.status==='USE_BY'?'go':''}">
+    <div class="chip-t"><b>${esc(_CHIP_NAMES[c.chip]||c.chip)}</b><span class="chip-s">${esc(_CHIP_STATUS[c.status]||c.status)}</span></div>
+    <p class="chip-l">${esc(c.line||'')}</p>
+    ${(c.checks||[]).map(k=>`<p class="chip-k ${k.ok?'ok':'no'}">${k.ok?'✓':'!'} ${esc(k.text)}</p>`).join('')}
+    ${c.note?`<p class="chip-n">${esc(c.note)}</p>`:''}</div>`).join('');
+  const warn=(d.warnings||[]).map(w=>`<p class="pl-warn">${esc(w)}</p>`).join('');
+  const deg=d.status==='DEGRADED'?'<p class="pl-warn">Some FPL data was unavailable, so treat this as less certain.</p>':'';
+  return `<p class="chip-head">${esc(head.text||'')}</p>${deg}${warn}${rows}<p class="pl-p">Thresholds are provisional and we recheck every gameweek.</p>`;
 }
 function openPlanner(){
   const note = msg => { const el=$('pl-note'); if(el){ el.textContent=msg; el.style.display='block'; } };
@@ -1775,7 +1829,7 @@ function selectCaptain(playerId){
   // Auto-set VC to second-highest xPts starter that isn't the captain
   const starts = (_P.players||[]).filter(q=>q.is_starting);
   const sorted = [...starts].sort((a,b)=>b.xPts-a.xPts);
-  const vc = sorted.find(q=>q.player_id!==playerId);
+  const vc = sorted.find(q=>q.player_id!==playerId&&q.available!==false) || sorted.find(q=>q.player_id!==playerId);
   _P.vice_captain_id = vc ? vc.player_id : null;
   renderHero(_P);
   renderPlayers(_P);
@@ -1790,8 +1844,9 @@ function renderCaptain(p){
   if(!starts.length){$('r-captain').innerHTML='';_callSum.capt={v:'Not available',d:'No starting XI'};return;}
 
   const sorted=[...starts].sort((a,b)=>b.xPts-a.xPts);
-  const best=sorted[0];                                          // highest xPts
-  const alts=sorted.slice(1,3);
+  // Server picks the captain: highest xPts among starters with a 75%+ chance of playing (pick_captains).
+  const best=(p.captain_pick_id&&starts.find(q=>q.player_id===p.captain_pick_id))||sorted[0];
+  const alts=sorted.filter(q=>q.player_id!==best.player_id&&q.available!==false).slice(0,2);
   const detected=p.captain_id?starts.find(q=>q.player_id===p.captain_id):null;
 
   // No captain selected yet — show selector

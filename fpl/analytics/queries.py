@@ -43,6 +43,8 @@ _EXPECTED_EVENTS = {
     "action_changed_xi", "action_kept_xi", "action_deciding_xi",
     "feedback_reason", "share_native_image", "share_native", "share_download",
     "add_to_home_screen",
+    # chip check on the results page
+    "chips_check_clicked", "chips_check_failed", "chips_result_shown",
     # bench / captain step (squad read, XI and bench not)
     "bench_step_shown", "bench_step_progress", "bench_step_invalid", "bench_step_captain_skipped",
     "bench_step_reupload_clicked", "bench_step_submitted", "bench_step_failed", "bench_step_completed",

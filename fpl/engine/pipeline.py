@@ -44,6 +44,7 @@ from .scanner  import VALID as _SCAN_VALID, _norm_name
 from .projection import compute_xpts
 from .bench    import optimise_bench
 from .insight  import player_insight
+from .availability import chance_of_playing, is_available, pick_captains
 
 # Pipeline-level status codes (distinct from scanner status codes)
 OK            = "OK"
@@ -523,6 +524,14 @@ def _build_payload(scan_result, projections, bench_result, threshold,
             },
         })
 
+    # Availability (75% rule) and the captain pick it produces; one source of truth for the page
+    for _p in players_out:
+        _api = _p["player_api"]
+        _p["chance_of_playing"] = chance_of_playing(_api.get("status"), _api.get("cop_next"))
+        _p["available"] = is_available(_api.get("status"), _api.get("cop_next"), _p["confidence"])
+    _cap = pick_captains([dict(p, status=p["player_api"].get("status"), cop_next=p["player_api"].get("cop_next"))
+                          for p in players_out])
+
     # Add one insight per player for result-screen display
     _starters = [p for p in players_out if p["is_starting"]]
     _top_id   = max(_starters, key=lambda p: p["xPts"])["player_id"] if _starters else None
@@ -539,6 +548,9 @@ def _build_payload(scan_result, projections, bench_result, threshold,
         "gameweek":        gameweek,          # int | None
         "captain_id":      captain_id,        # injected by server when identifiable
         "vice_captain_id": vice_captain_id,   # injected by server when identifiable
+        "captain_pick_id":       _cap["captain_id"],   # highest-xPts available starter (75% rule)
+        "vice_pick_id":          _cap["vice_id"],
+        "captain_pick_fallback": _cap["fallback"],     # True when no starter passes the availability test
         "captain_note":    ("xPts are per-player projections. "
                             "Captain 2x multiplier is NOT applied. "
                             "Actual team score will be higher."),
