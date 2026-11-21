@@ -761,8 +761,11 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hm-field input{flex:1;min-width:0;background:none;border:0;outline:none;padding:16px 0;font:inherit;font-size:16.5px;color:var(--white)}
 .hm-msg{margin:10px 0 0;font-size:13px;color:var(--amber);min-height:18px}
 .hm-idhelp{margin-top:8px;font-size:13px;color:var(--gray)}.hm-idhelp summary{cursor:pointer;padding:4px 0}.hm-idhelp p{margin:6px 0 0;line-height:1.5}
-.hm-alt{margin:12px 0 0;text-align:center;font-size:14px;color:var(--gray)}
-.hm-up{cursor:pointer;color:var(--white);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.hm-alt{margin:16px 0 0;text-align:center;font-size:14px;color:var(--gray)}
+.hm-or{display:flex;align-items:center;gap:12px;margin:16px 0 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.hm-or::before,.hm-or::after{content:"";flex:1;height:1px;background:var(--border2)}
+.hm-up{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:var(--white);font-weight:600;font-size:16px;padding:15px 16px;border:1.5px solid var(--lime);border-radius:14px;background:var(--lime-t);margin-top:10px}
+.hm-up:hover,.hm-up:focus-visible{background:var(--lime);color:#0b0b0e;outline:none}
 button.hm-mine{background:none;border-top:0;border-left:0;border-right:0;font-family:inherit}
 .hm .up-trust{margin-top:14px}
 .hm .shot-reveal{margin-top:12px}
@@ -851,7 +854,9 @@ button.hm-mine{background:none;border-top:0;border-left:0;border-right:0;font-fa
         </details>
       </form>
       <input type="file" id="file-input" accept="image/*" aria-label="Upload FPL squad screenshot">
-      <p class="hm-alt">No ID handy? <label class="hm-up" for="file-input">Upload a screenshot</label></p>
+      <div class="hm-or" aria-hidden="true">or</div>
+      <label class="hm-up" for="file-input">📷 Upload a screenshot of your squad</label>
+      <p class="hm-alt">Can't find your ID? A screenshot works just as well, with no ID needed.</p>
       <p class="up-trust">
         <span>✓ Free</span><span class="up-trust-sep"></span><span>✓ No login</span><span class="up-trust-sep"></span><span>✓ Nothing saved</span>
       </p>
