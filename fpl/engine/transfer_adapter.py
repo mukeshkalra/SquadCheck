@@ -27,6 +27,7 @@ import logging
 import math
 import threading
 import time
+import urllib.error
 import urllib.request
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -39,7 +40,9 @@ from fpl.engine.transfer_planner import (
 _BS_URL  = "https://fantasy.premierleague.com/api/bootstrap-static/"
 _SUM_URL = "https://fantasy.premierleague.com/api/element-summary/{}/"
 _FX_URL  = "https://fantasy.premierleague.com/api/fixtures/"
-_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; SquadCheck/1.0; +https://squadcheck.club)"}
+# Same User-Agent as api/squad-check.py. In production FPL answered 403 to the version with a "+https://squadcheck.club"
+# suffix on a cold instance, while this shorter one is accepted.
+_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; SquadCheck/1.0)"}
 
 CANDIDATES_PER_POSITION = 12     # bootstrap pre-filter size per position (named players are added on top)
 SUMMARY_BUDGET_S = 12.0          # wall-clock allowance for all candidate summaries in one request
@@ -76,15 +79,33 @@ class ApiError(Exception):
         self.http_status, self.code, self.message, self.details = http_status, code, message, details or []
 
 
-def _http_fetch(url: str, timeout: float = 15):
+_RETRY_CODES = (403, 429, 500, 502, 503, 504)
+_RETRY_DELAYS = (0.6, 1.5)       # two retries after the first attempt
+_ALT_HEADERS = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"}
+
+
+def _http_fetch(url: str, timeout: float = 15, sleep: Callable = time.sleep):
     """GET + parse JSON. Asks for gzip: the FPL bootstrap is ~1.8 MB plain but ~0.17 MB gzipped, which
-    was the difference between a 1-3 s and a 30+ s download on a slow link."""
-    req = urllib.request.Request(url, headers={**_HEADERS, "Accept-Encoding": "gzip"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        raw = r.read()
-        if (r.headers.get("Content-Encoding") or "").lower() == "gzip":
-            raw = gzip.decompress(raw)
-        return json.loads(raw)
+    was the difference between a 1-3 s and a 30+ s download on a slow link.
+    FPL sometimes answers 403/429/5xx to a cold serverless instance for a few minutes (seen in production),
+    so those are retried twice with a short wait, the last retry with a browser-style User-Agent."""
+    last = None
+    for attempt in range(len(_RETRY_DELAYS) + 1):
+        headers = _ALT_HEADERS if attempt == len(_RETRY_DELAYS) else _HEADERS
+        req = urllib.request.Request(url, headers={**headers, "Accept-Encoding": "gzip"})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                raw = r.read()
+                if (r.headers.get("Content-Encoding") or "").lower() == "gzip":
+                    raw = gzip.decompress(raw)
+                return json.loads(raw)
+        except urllib.error.HTTPError as exc:
+            if exc.code not in _RETRY_CODES:
+                raise
+            last = exc
+        if attempt < len(_RETRY_DELAYS):
+            sleep(_RETRY_DELAYS[attempt])
+    raise last
 
 
 # ─────────────────────────────────────────────────────────────────────────────
