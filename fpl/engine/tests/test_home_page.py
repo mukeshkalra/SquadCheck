@@ -65,8 +65,14 @@ class TestFplIdEntry(unittest.TestCase):
         self.assertRegex(UP, r'<input id="hm-id"[^>]*inputmode="numeric"')
         self.assertIn("Where do I find my FPL ID?", UP)
 
-    def test_every_other_cta_focuses_the_id_box(self):
+    def test_every_other_cta_opens_the_file_picker(self):
         self.assertEqual(UP.count('data-hm="focus"'), 6)       # four cards, final, sticky
+        self.assertIn("fi.click()", HTML)
+
+    def test_upload_is_the_primary_action_and_id_is_secondary(self):
+        self.assertLess(UP.index('for="file-input" id="hm-main-cta"'), UP.index('id="hm-form"'))
+        self.assertIn("Use my FPL ID instead", UP)
+        self.assertIn("will not show until the next deadline passes", text(UP))
 
     def test_submit_goes_through_the_existing_manual_squad_path(self):
         self.assertIn("fetch('/api/fpl-team'", HTML)
@@ -83,7 +89,7 @@ class TestFplIdEntry(unittest.TestCase):
 class TestUploadStillWorks(unittest.TestCase):
     def test_single_file_input_and_upload_link(self):
         self.assertEqual(HTML.count('id="file-input"'), 1)
-        self.assertEqual(len(re.findall(r'<label class="hm-up" for="file-input"', UP)), 1)
+        self.assertEqual(len(re.findall(r'<label class="up-cta hm-cta" for="file-input"', UP)), 1)
 
     def test_screenshot_help_is_kept(self):
         self.assertIn("What screenshot?", UP)
