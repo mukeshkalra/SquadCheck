@@ -39,7 +39,9 @@ from fpl.engine.transfer_planner import (
 _BS_URL  = "https://fantasy.premierleague.com/api/bootstrap-static/"
 _SUM_URL = "https://fantasy.premierleague.com/api/element-summary/{}/"
 _FX_URL  = "https://fantasy.premierleague.com/api/fixtures/"
-_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; SquadCheck/1.0; +https://squadcheck.club)"}
+# Same User-Agent as api/squad-check.py. In production FPL answered 403 to the version with a "+https://squadcheck.club"
+# suffix on a cold instance, while this shorter one is accepted.
+_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; SquadCheck/1.0)"}
 
 CANDIDATES_PER_POSITION = 12     # bootstrap pre-filter size per position (named players are added on top)
 SUMMARY_BUDGET_S = 12.0          # wall-clock allowance for all candidate summaries in one request
