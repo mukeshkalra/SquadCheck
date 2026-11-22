@@ -42,9 +42,9 @@ def build_team(fpl_id: int, bootstrap: dict, fetch: Callable = _http_fetch) -> d
     except urllib.error.HTTPError as e:
         if e.code == 404:
             raise ApiError(404, "NOT_FOUND", "No FPL team found with that ID. Check the number and try again.")
-        raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now. Try again in a moment.")
+        raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now, so we can't read your team by ID. Upload a screenshot instead: it works without FPL.")
     except Exception:
-        raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now. Try again in a moment.")
+        raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now, so we can't read your team by ID. Upload a screenshot instead: it works without FPL.")
     gw = entry.get("current_event") if isinstance(entry, dict) else None
     if not isinstance(gw, int) or gw < 1:
         raise ApiError(409, "NO_PICKS_YET", "That team has no gameweek picks yet, so there is nothing to check.")
@@ -55,7 +55,7 @@ def build_team(fpl_id: int, bootstrap: dict, fetch: Callable = _http_fetch) -> d
         raise ApiError(code, "NO_PICKS_YET" if code == 409 else "UPSTREAM_ERROR",
                        "We couldn't read that team's picks from FPL. Try again, or upload a screenshot.")
     except Exception:
-        raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now. Try again in a moment.")
+        raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now, so we can't read your team by ID. Upload a screenshot instead: it works without FPL.")
 
     picks = sorted((data.get("picks") or []), key=lambda p: p.get("position", 99))
     by_id = {e.get("id"): e for e in bootstrap.get("elements", []) if isinstance(e, dict)}
@@ -92,7 +92,7 @@ def handle(body: bytes, source: FplDataSource, fetch: Callable = _http_fetch) ->
         try:
             bootstrap = source.bootstrap()
         except Exception:
-            raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now. Try again in a moment.")
+            raise ApiError(502, "UPSTREAM_ERROR", "FPL is not responding right now, so we can't read your team by ID. Upload a screenshot instead: it works without FPL.")
         return 200, build_team(fpl_id, bootstrap, fetch)
     except ApiError as err:
         return err.http_status, error_payload(err)
