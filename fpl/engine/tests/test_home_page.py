@@ -82,6 +82,10 @@ class TestFplIdEntry(unittest.TestCase):
         self.assertIn('id="r-source"', HTML)
         self.assertIn("renderSource", HTML)
 
+    def test_failed_lookup_nudges_the_upload_button(self):
+        self.assertGreaterEqual(HTML.count("nudgeUpload();"), 3)      # lookup, forecast and unexpected failures
+        self.assertIn(".hm-nudge{animation", HTML)
+
     def test_screenshot_upload_clears_the_id_source(self):
         self.assertIn("_fplSource=null;\n  track('screenshot_uploaded'", HTML)
 

@@ -767,6 +767,8 @@ button,label{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hm-idgo{display:flex;align-items:center;justify-content:center;width:100%;cursor:pointer;color:var(--white);font:inherit;font-weight:600;font-size:15px;padding:13px 16px;border:1.5px solid var(--border2);border-radius:14px;background:none}
 .hm-idgo:hover,.hm-idgo:focus-visible{border-color:var(--lime);outline:none}
 .hm-alt-top{margin:12px 0 0}
+@keyframes hm-pulse{0%{box-shadow:0 0 0 0 rgba(204,255,0,.6)}100%{box-shadow:0 0 0 18px rgba(204,255,0,0)}}
+.hm-nudge{animation:hm-pulse 1.1s ease-out 3}
 .hm-up{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:var(--white);font-weight:600;font-size:16px;padding:15px 16px;border:1.5px solid var(--lime);border-radius:14px;background:var(--lime-t);margin-top:10px}
 .hm-up:hover,.hm-up:focus-visible{background:var(--lime);color:#0b0b0e;outline:none}
 button.hm-mine{background:none;border-top:0;border-left:0;border-right:0;font-family:inherit}
@@ -1460,6 +1462,7 @@ function renderSource(p){
   const el=$('r-source'); if(!el) return;
   el.innerHTML=_fplSource?`<p class="pl-p" style="margin:12px 16px 0">${esc(_fplSource.team_name||'Your team')} · ${esc(_fplSource.note)}</p>`:'';
 }
+function nudgeUpload(){ const b=$('hm-main-cta'); if(!b) return; b.classList.remove('hm-nudge'); void b.offsetWidth; b.classList.add('hm-nudge'); try{b.scrollIntoView({behavior:'smooth',block:'center'});}catch(_){} }
 async function loadFromFplId(raw){
   const msg=$('hm-msg'); const v=String(raw||'').trim();
   if(!/^[0-9]{1,9}$/.test(v)){ msg.textContent='Enter your FPL ID: numbers only, for example 1234567.'; track('fpl_id_failed',{reason:'format'}); return; }
@@ -1468,13 +1471,13 @@ async function loadFromFplId(raw){
   try{
     const r1=await fetch('/api/fpl-team',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fpl_id:parseInt(v,10)})});
     const t=await r1.json();
-    if(!r1.ok||t.status!=='OK'){ stopLoading(); show('s-upload'); $('hm-msg').textContent=t.error||'We could not load that team. Try again, or upload a screenshot.'; track('fpl_id_failed',{reason:'lookup',http:r1.status}); return; }
+    if(!r1.ok||t.status!=='OK'){ stopLoading(); show('s-upload'); $('hm-msg').textContent=t.error||'We could not load that team. Try again, or upload a screenshot.'; nudgeUpload(); track('fpl_id_failed',{reason:'lookup',http:r1.status}); return; }
     const r2=await fetch('/api/squad-check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({manual_squad:t.manual_squad})});
     if(!r2.ok) throw new Error('Server error '+r2.status);
     const data=await r2.json();
     if(data.error) throw new Error(data.error);
     stopLoading();
-    if(data.status!=='OK'){ show('s-upload'); $('hm-msg').textContent=data.message||'We could not build a forecast for that team. Try uploading a screenshot.'; track('fpl_id_failed',{reason:'forecast'}); return; }
+    if(data.status!=='OK'){ show('s-upload'); $('hm-msg').textContent=data.message||'We could not build a forecast for that team. Try uploading a screenshot.'; nudgeUpload(); track('fpl_id_failed',{reason:'forecast'}); return; }
     _fplSource={team_name:t.team_name,note:t.note,bank_m:t.bank_m};
     _P=data; renderResult(data); show('s-result');
     try{if(window.posthog)posthog.register({gw:data.gameweek});}catch(_){}
@@ -1484,7 +1487,7 @@ async function loadFromFplId(raw){
     track('projection_viewed',{gw:data.gameweek,xPts:data.submitted_xi?.xPts,action:data.action,captain_name:cp?.web_name||null,via_fpl_id:true});
   }catch(err){
     stopLoading(); show('s-upload');
-    $('hm-msg').textContent='Something went wrong loading that team. Try again, or upload a screenshot.';
+    $('hm-msg').textContent='Something went wrong loading that team. Try again, or upload a screenshot.'; nudgeUpload();
     track('fpl_id_failed',{reason:'error'});
   }
 }
