@@ -99,6 +99,16 @@ a{color:inherit;text-decoration:none}
 .conf-text{font-size:13px;color:var(--gray);line-height:1.55;font-weight:500}
 .conf-text b{color:var(--white)}
 
+/* ── HOW EACH CALL IS MADE ── */
+.call-card{background:var(--d2);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:10px;box-shadow:var(--shadow)}
+.call-q{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--lime);margin-bottom:6px}
+.call-title{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
+.call-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.call-list li{font-size:13px;color:var(--gray);line-height:1.55;font-weight:500;padding-left:16px;position:relative}
+.call-list li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--lime-b)}
+.call-list b{color:var(--white);font-weight:700}
+.call-foot{font-size:12px;color:var(--gray2);line-height:1.6;margin:4px 0 40px}
+
 /* ── COMING SOON ── */
 .cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:40px}
 .cs-card{background:var(--d2);border:1px solid var(--border);
@@ -207,6 +217,59 @@ a{color:inherit;text-decoration:none}
 
   <div class="div"></div>
 
+  <p class="sec-hdr">How each call is made</p>
+
+  <div class="call-card">
+    <div class="call-q">Who do I buy?</div>
+    <div class="call-title">Transfers</div>
+    <ul class="call-list">
+      <li>Searches complete transfer plans for your 15 players, up to three moves, within your bank, the 3-per-club limit and the squad's position mix.</li>
+      <li><b>Doing nothing is always an option.</b> A move is only recommended if it beats holding by at least 0.5 projected points next gameweek.</li>
+      <li>Each extra transfer beyond your free ones costs a <b>4-point hit</b>, which is charged against the gain. Options are ranked by gain after hits.</li>
+      <li>Your squad's value is the best legal XI from your 15, so it doesn't depend on how you set your team.</li>
+      <li>Every option shows why it ranks where it does and what could go wrong. A three-gameweek outlook sits alongside it and is marked provisional.</li>
+      <li>Prices come from current FPL prices, so affordability is an estimate. Your actual selling price can differ.</li>
+    </ul>
+  </div>
+
+  <div class="call-card">
+    <div class="call-q">When do I use a chip?</div>
+    <div class="call-title">Chips</div>
+    <ul class="call-list">
+      <li>You tick the chips you still have. Each gets <b>play now</b>, <b>not yet</b> or <b>use by now</b>, with a checklist of the tests it passed or failed. Only one chip is headlined per gameweek: if two qualify, the bigger gain wins.</li>
+      <li><b>Bench Boost:</b> your bench has to project to at least 16 points in total.</li>
+      <li><b>Triple Captain:</b> your best captain option has to project to at least 7 points and be within 85% of the best eligible player in the league that week.</li>
+      <li><b>Free Hit:</b> only suggested when 4 or more of your starters are unavailable (3 is "consider"), and only if it beats your best transfer plan, up to three moves with hits, by at least 10 projected points.</li>
+      <li><b>Wildcard:</b> looks three gameweeks ahead, weighted 50/30/20. It needs a clear gain over your current squad (about 5%), at least 4 changes, and the gain has to hold in at least 2 of the 3 weeks.</li>
+      <li>As a chip window closes, the bar drops by a third each week for the last three gameweeks, and the final week says <b>use by</b>.</li>
+      <li>These thresholds are starting values and are still being tuned.</li>
+    </ul>
+  </div>
+
+  <div class="call-card">
+    <div class="call-q">Who sits on my bench?</div>
+    <div class="call-title">Bench</div>
+    <ul class="call-list">
+      <li>Tries every legal XI that can be made from your 15: 1 goalkeeper, 3 to 5 defenders, 2 to 5 midfielders and 1 to 3 forwards.</li>
+      <li>Picks the one with the highest projected points. The swap is only suggested if it adds at least 0.5 points over the XI you set.</li>
+      <li>Otherwise it says none is needed, and shows how much the best option would add.</li>
+    </ul>
+  </div>
+
+  <div class="call-card">
+    <div class="call-q">Who do I captain?</div>
+    <div class="call-title">Captain</div>
+    <ul class="call-list">
+      <li>The armband goes to the highest projected scorer among your starters who are likely to play: <b>a 75% or better chance of playing</b>, and not a low-confidence projection.</li>
+      <li>The captain's points count twice. The next-best available player is the vice-captain, and ties break the same way every time.</li>
+      <li>If none of your starters is likely to play, it still shows the top projected starter and says so.</li>
+    </ul>
+  </div>
+
+  <p class="call-foot">All of these are projections built from the same player forecasts above. They are expected values, not promises, and they won't always agree with your gut.</p>
+
+  <div class="div"></div>
+
   <!-- DATA SOURCE -->
   <p class="sec-hdr">The data behind it</p>
   <div class="data-card">
@@ -216,11 +279,18 @@ a{color:inherit;text-decoration:none}
       <div class="data-body">Every scan pulls fresh data from the official FPL bootstrap — player stats, fixture lists, injury flags, and form data updated in real time. No estimates, no stale spreadsheets.</div>
     </div>
   </div>
-  <div class="data-card" style="margin-bottom:40px">
+  <div class="data-card">
     <div class="data-icon">📸</div>
     <div>
       <div class="data-title">Your actual squad, not a demo</div>
       <div class="data-body">Upload your squad screenshot and the forecast is built specifically for your 15 players — your fixtures, your minutes risk, your captain. It's not a generic template.</div>
+    </div>
+  </div>
+  <div class="data-card" style="margin-bottom:40px">
+    <div class="data-icon">🔢</div>
+    <div>
+      <div class="data-title">Or use your FPL ID</div>
+      <div class="data-body">An FPL ID reads your team as of the last deadline, so transfers made since are not included. A screenshot uses exactly the squad you upload, which is better for this week's decisions.</div>
     </div>
   </div>
 
@@ -250,21 +320,9 @@ a{color:inherit;text-decoration:none}
   <div class="cs-grid">
 
     <div class="cs-card">
-      <div class="cs-icon">🃏</div>
-      <div class="cs-title">Chip strategy</div>
-      <div class="cs-body">When to play Triple Captain, Bench Boost, or Free Hit — timed to your squad and the fixture run.</div>
-    </div>
-
-    <div class="cs-card">
       <div class="cs-icon">📅</div>
       <div class="cs-title">Double GW planning</div>
       <div class="cs-body">See which of your players benefit most from double gameweeks and how to maximise the upside.</div>
-    </div>
-
-    <div class="cs-card">
-      <div class="cs-icon">🔁</div>
-      <div class="cs-title">Transfer advice</div>
-      <div class="cs-body">Identify which players in your squad to replace and who to bring in, ranked by projected gain.</div>
     </div>
 
     <div class="cs-card">
